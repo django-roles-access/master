@@ -1,0 +1,328 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Introduction &#8212; Django roles 0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorial Part 1" href="example.html" />
+    <link rel="prev" title="Welcome to Django Roles’s documentation!" href="index.html" />
+
+
+
+ 
+<script type="text/javascript" src="templatebuiltins.js"></script>
+<script type="text/javascript">
+(function($) {
+    if (!django_template_builtins) {
+       // templatebuiltins.js missing, do nothing.
+       return;
+    }
+    $(document).ready(function() {
+        // Hyperlink Django template tags and filters
+        var base = "ref/templates/builtins.html";
+        if (base == "#") {
+            // Special case for builtins.html itself
+            base = "";
+        }
+        // Tags are keywords, class '.k'
+        $("div.highlight\\-html\\+django span.k").each(function(i, elem) {
+             var tagname = $(elem).text();
+             if ($.inArray(tagname, django_template_builtins.ttags) != -1) {
+                 var fragment = tagname.replace(/_/, '-');
+                 $(elem).html("<a href='" + base + "#" + fragment + "'>" + tagname + "</a>");
+             }
+        });
+        // Filters are functions, class '.nf'
+        $("div.highlight\\-html\\+django span.nf").each(function(i, elem) {
+             var filtername = $(elem).text();
+             if ($.inArray(filtername, django_template_builtins.tfilters) != -1) {
+                 var fragment = filtername.replace(/_/, '-');
+                 $(elem).html("<a href='" + base + "#" + fragment + "'>" + filtername + "</a>");
+             }
+        });
+    });
+})(jQuery);</script>
+
+  </head><body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t6">
+    <div id="hd">
+      <h1><a href="index.html">Django roles 0.1 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="index.html">Home</a>  |
+        <a title="Table of contents" href="contents.html">Table of contents</a>  |
+        <a title="Global index" href="genindex.html">Index</a>  |
+        <a title="Module index" href="py-modindex.html">Modules</a>
+      </div>
+      <div class="nav">
+    &laquo; <a href="index.html" title="Welcome to Django Roles’s documentation!">previous</a>
+     |
+    <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a>
+   |
+    <a href="example.html" title="Tutorial Part 1">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="introduction">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="basic-concepts">
+<span id="id1"></span><h2>Basic concepts<a class="headerlink" href="#basic-concepts" title="Permalink to this headline">¶</a></h2>
+<p>Django Roles implements it’s core <em>roles</em> with
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a>. This means that
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/#module-django.contrib.auth" title="(in Django v2.2)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">django.contrib.auth</span></code></a> must be listed in <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/settings/#std:setting-INSTALLED_APPS" title="(in Django v2.2)"><code class="xref std std-setting docutils literal notranslate"><span class="pre">INSTALLED_APPS</span></code></a>.</p>
+<p>This could be an extra effort if you just want to grant a
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.User" title="(in Django v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.User</span></code></a> access to a view.
+For example in case where only a particular user must be the only one in
+access a particular view. To solve this you can create a new
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a> and named it in such a way you
+reflect this particular case.</p>
+<p>In general there are, from security point of view, two kind of applications:</p>
+<ul class="simple">
+<li><strong>Simple</strong>: This kind of sites requires user to be logged in some views.</li>
+</ul>
+<p>This is the case when &#64;login_required is used.
+* <strong>Heavy</strong>: This kind of sites requires user to be logged in almost all
+views. The use of &#64;login_required became</p>
+<blockquote>
+<div>impractical or at least tedious.</div></blockquote>
+<p>Django Roles could work in to ways depending in site’s security requirements
+as explained: simple or heave:</p>
+<ul class="simple">
+<li><strong>With function/decorator</strong>: For this cases Django Roles provides a</li>
+</ul>
+<p>decorator or function to check security.
+* <strong>With middleware</strong>: When a site requires user to be logged in almost all
+views. Django Roles offers a middleware to free</p>
+<blockquote>
+<div>you of the need of using the mentioned decorator.</div></blockquote>
+<p>For any of the cases (function/decorator or middleware) Django Roles is used
+equally.</p>
+</div>
+<div class="section" id="quick-start">
+<h2>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<p>IMPORTANT:
+The present application is designed for Django sites where the
+<em>admin interface</em> is not commonly used; or specific <em>administrators</em> users do
+their <em>special security reasons</em> task as create a new user/group or modify
+them.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There are Django sites where the <em>admin interface</em> is used as part
+of the application for the final user, or, at least, many of them. The use
+of this application for securing the site’s view access could be risky!!</p>
+</div>
+<ol class="arabic">
+<li><p class="first">Install “django-roles” from pypi:</p>
+<p>pip install django-roles</p>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Add “Roles” to your INSTALLED_APPS setting like this:</p>
+<dl class="docutils">
+<dt>INSTALLED_APPS = [</dt>
+<dd><p class="first last">…
+‘Roles’,</p>
+</dd>
+</dl>
+<p>]</p>
+</li>
+<li><p class="first">Include the polls URLconf in your project urls.py like this:</p>
+<p>path(‘roles/’, include(‘Roles.urls’)),</p>
+</li>
+<li><p class="first">Run <cite>python manage.py migrate</cite> to create the polls models.</p>
+</li>
+<li><p class="first">Start the development server and visit <a class="reference external" href="http://127.0.0.1:8000/admin/">http://127.0.0.1:8000/admin/</a></p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">By default when you install django-roles all Django sites views keeps their
+actual <em>access status*</em>. This is, if they were public, they will remain
+public. If they were restricted by some logic (like
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/default/#django.contrib.auth.decorators.login_required" title="(in Django v2.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code></a>), they will remain
+restricted by the same logic.</p>
+</div>
+</div>
+</div>
+<div class="section" id="quick-security">
+<h1>Quick security<a class="headerlink" href="#quick-security" title="Permalink to this headline">¶</a></h1>
+<p>Mainly django-roles is about setting roles access to views. This is done in
+Admin creating an <code class="xref py py-class docutils literal notranslate"><span class="pre">ViewAccess</span></code> object for each view. There are 3
+possible type of access to be set:
+* Public: Any user can access the view.
+* Authorized: Only authorized <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.User</span></code> can access</p>
+<blockquote>
+<div>the view. Is equivalent to
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/default/#django.contrib.auth.decorators.login_required" title="(in Django v2.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code></a>.</div></blockquote>
+<ul class="simple">
+<li>By roles: Only <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.User</span></code> belonging to
+<code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.Group</span></code> that has been granted access to the
+view can access the view.</li>
+</ul>
+<p>django-roles classifies Django site applications in three groups:
+* NO_SECURED: List of applications not under site security.
+* PUBLIC: List of applications mainly for public access.
+* SECURED: List of applications with secured view access by roles (
+<code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.Group</span></code>).</p>
+<p>By default if any of this 3 variables are declared in <em>settings</em> all
+applications will be assumed as public, and their views also as public.</p>
+</div>
+<div class="section" id="quick-access-configuration">
+<h1>Quick access configuration<a class="headerlink" href="#quick-access-configuration" title="Permalink to this headline">¶</a></h1>
+<p>Quick access configuration in two steps.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For a quick access configuration all application will leave as public
+(default behavior). This is no more configuration in settings than add
+Roles application.</p>
+</div>
+<p>In Admin add a new <code class="xref py py-class docutils literal notranslate"><span class="pre">ViewAccess</span></code> object:
+1. In <strong>view</strong> select the view you want to secure.
+2. In <strong>type</strong> select the type of access you want for the view.
+3. If you select <em>By role</em> access type, add to <strong>roles</strong> the</p>
+<blockquote>
+<div><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.Group</span></code> who’s members you want to grant access
+to the view.</div></blockquote>
+<p>The second step is about using <code class="xref py py-func docutils literal notranslate"><span class="pre">Role.decorators.access_by_role()</span></code> decorator
+to decorate the view you want to secure (The selected in Step 1).
+For example::</p>
+<p>In case the view is a function::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">roles.decorators</span> <span class="k">import</span> <span class="n">access_by_role</span>
+
+<span class="nd">@access_by_role</span><span class="p">()</span>
+<span class="n">myview</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+   <span class="o">...</span>
+</pre></div>
+</div>
+<p>Or in case of classes::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.utils.decorators</span> <span class="k">import</span> <span class="n">method_decorator</span>
+<span class="kn">from</span> <span class="nn">roles.decorators</span> <span class="k">import</span> <span class="n">access_by_role</span>
+
+<span class="k">class</span> <span class="nc">MyView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+
+    <span class="o">...</span>
+
+
+    <span class="nd">@method_decorator</span><span class="p">(</span><span class="n">access_by_role</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">MyView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="basic-use">
+<h2>Basic Use<a class="headerlink" href="#basic-use" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="configure-applications-access">
+<h3>1 Configure applications access<a class="headerlink" href="#configure-applications-access" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="configure-views-access">
+<h3>2 Configure views access<a class="headerlink" href="#configure-views-access" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="decorate-the-view">
+<h3>3 Decorate the view<a class="headerlink" href="#decorate-the-view" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="use-mixin">
+<h3>4 Use Mixin<a class="headerlink" href="#use-mixin" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="middleware">
+<h2>Middleware<a class="headerlink" href="#middleware" title="Permalink to this headline">¶</a></h2>
+<p>In Pro of simplicity Django Roles think in cases where all applications or views should have access. For example the
+user need to be logged-in to access the views, and you want this behavior by default. The cleanest way (the state of
+the art?) to achieve this is through the use of a middleware.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#basic-concepts">Basic concepts</a></li>
+<li><a class="reference internal" href="#quick-start">Quick start</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#quick-security">Quick security</a></li>
+<li><a class="reference internal" href="#quick-access-configuration">Quick access configuration</a><ul>
+<li><a class="reference internal" href="#basic-use">Basic Use</a><ul>
+<li><a class="reference internal" href="#configure-applications-access">1 Configure applications access</a></li>
+<li><a class="reference internal" href="#configure-views-access">2 Configure views access</a></li>
+<li><a class="reference internal" href="#decorate-the-view">3 Decorate the view</a></li>
+<li><a class="reference internal" href="#use-mixin">4 Use Mixin</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#middleware">Middleware</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to Django Roles’s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="example.html"
+                        title="next chapter">Tutorial Part 1</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/introduction.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+              <h3>Last update:</h3>
+              <p class="topless">Nov 10, 2018</p>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="index.html" title="Welcome to Django Roles’s documentation!">previous</a>
+     |
+    <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a>
+   |
+    <a href="example.html" title="Tutorial Part 1">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

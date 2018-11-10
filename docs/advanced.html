@@ -1,0 +1,201 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Levels of access to applications &#8212; Django roles 0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Notes" href="notes.html" />
+    <link rel="prev" title="Test" href="test.html" />
+
+
+
+ 
+<script type="text/javascript" src="templatebuiltins.js"></script>
+<script type="text/javascript">
+(function($) {
+    if (!django_template_builtins) {
+       // templatebuiltins.js missing, do nothing.
+       return;
+    }
+    $(document).ready(function() {
+        // Hyperlink Django template tags and filters
+        var base = "ref/templates/builtins.html";
+        if (base == "#") {
+            // Special case for builtins.html itself
+            base = "";
+        }
+        // Tags are keywords, class '.k'
+        $("div.highlight\\-html\\+django span.k").each(function(i, elem) {
+             var tagname = $(elem).text();
+             if ($.inArray(tagname, django_template_builtins.ttags) != -1) {
+                 var fragment = tagname.replace(/_/, '-');
+                 $(elem).html("<a href='" + base + "#" + fragment + "'>" + tagname + "</a>");
+             }
+        });
+        // Filters are functions, class '.nf'
+        $("div.highlight\\-html\\+django span.nf").each(function(i, elem) {
+             var filtername = $(elem).text();
+             if ($.inArray(filtername, django_template_builtins.tfilters) != -1) {
+                 var fragment = filtername.replace(/_/, '-');
+                 $(elem).html("<a href='" + base + "#" + fragment + "'>" + filtername + "</a>");
+             }
+        });
+    });
+})(jQuery);</script>
+
+  </head><body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t6">
+    <div id="hd">
+      <h1><a href="index.html">Django roles 0.1 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="index.html">Home</a>  |
+        <a title="Table of contents" href="contents.html">Table of contents</a>  |
+        <a title="Global index" href="genindex.html">Index</a>  |
+        <a title="Module index" href="py-modindex.html">Modules</a>
+      </div>
+      <div class="nav">
+    &laquo; <a href="test.html" title="Test">previous</a>
+     |
+    <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a>
+   |
+    <a href="notes.html" title="Notes">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="advanced">
+            
+  <div class="section" id="levels-of-access-to-applications">
+<h1>Levels of access to applications<a class="headerlink" href="#levels-of-access-to-applications" title="Permalink to this headline">¶</a></h1>
+<p>Mainly django-roles is about setting roles access to views. This is done in
+Admin creating an <code class="xref py py-class docutils literal notranslate"><span class="pre">ViewAccess</span></code> object for each view. There are 3
+possible type of access to be set:</p>
+<ul class="simple">
+<li>Public: Any user can access the view.</li>
+<li>Authorized: Only authorized <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.User</span></code> can access
+the view. Is equivalent to
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/default/#django.contrib.auth.decorators.login_required" title="(in Django v2.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code></a>.</li>
+<li>By roles: Only <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.User</span></code> belonging to
+<code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.Group</span></code> that has been granted access to the
+view can access the view.</li>
+</ul>
+</div>
+<div class="section" id="types-of-applications">
+<h1>Types of applications<a class="headerlink" href="#types-of-applications" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="not-secured">
+<h2>NOT_SECURED<a class="headerlink" href="#not-secured" title="Permalink to this headline">¶</a></h2>
+<p>List of applications not under site security.</p>
+<p>The concept of NOT_SECURED application is to put together all applications that
+not provide any view (no URLConf defined for the application). There are no
+views with the need to be secured or not.</p>
+<p>WARNING:
+If an application is NOT_SECURED and have views, these views will be accessed
+by everyone.</p>
+</div>
+<div class="section" id="public">
+<h2>PUBLIC<a class="headerlink" href="#public" title="Permalink to this headline">¶</a></h2>
+<p>List of applications mainly for public access.</p>
+<p>In PUBLIC applications views without an <a class="reference internal" href="reference.html#roles.models.ViewAccess" title="roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code></a>
+object associated will no require authentication (user to be logged in) and
+will have no security configured.</p>
+</div>
+<div class="section" id="secured">
+<h2>SECURED<a class="headerlink" href="#secured" title="Permalink to this headline">¶</a></h2>
+<p>When application is declared as a SECURED application, the views without
+any ViewAccess configured will require the user to be logged. In other
+words when a view has no <a class="reference internal" href="reference.html#roles.models.ViewAccess" title="roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code></a> object associated
+with it, it will behave as if it secure is <em>Authorized</em></p>
+</div>
+<div class="section" id="not-configuration">
+<h2>Not configuration<a class="headerlink" href="#not-configuration" title="Permalink to this headline">¶</a></h2>
+<p>If an application is not declared as any of the others, but there is an
+<a class="reference internal" href="reference.html#roles.models.ViewAccess" title="roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code></a> object associated for an application’s view,
+and the view is protected with decorator or middleware is being used,
+ViewAccess object will be used to restrict the access.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Levels of access to applications</a></li>
+<li><a class="reference internal" href="#types-of-applications">Types of applications</a><ul>
+<li><a class="reference internal" href="#not-secured">NOT_SECURED</a></li>
+<li><a class="reference internal" href="#public">PUBLIC</a></li>
+<li><a class="reference internal" href="#secured">SECURED</a></li>
+<li><a class="reference internal" href="#not-configuration">Not configuration</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="test.html"
+                        title="previous chapter">Test</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="notes.html"
+                        title="next chapter">Notes</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/advanced.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+              <h3>Last update:</h3>
+              <p class="topless">Nov 10, 2018</p>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="test.html" title="Test">previous</a>
+     |
+    <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a>
+   |
+    <a href="notes.html" title="Notes">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

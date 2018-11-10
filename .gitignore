@@ -1,0 +1,12 @@
+.vscode
+.coverage
+.coveragerc
+.idea
+*.pyc
+.pytest_cache
+*.egg-info
+*.pot
+*.py[co]
+.tox/
+__pycache__
+MANIFEST.in

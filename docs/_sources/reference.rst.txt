@@ -1,0 +1,21 @@
+---------
+Reference
+---------
+
+Data Model
+----------
+
+.. automodule:: roles.models
+   :members:
+
+Decorators
+----------
+
+.. automodule:: roles.decorators
+   :members:
+
+Vistas
+------
+
+.. automodule:: roles.middleware
+   :members:

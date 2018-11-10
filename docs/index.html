@@ -1,0 +1,151 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Welcome to Django Roles’s documentation! &#8212; Django roles 0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Introduction" href="introduction.html" />
+
+
+
+ 
+<script type="text/javascript" src="templatebuiltins.js"></script>
+<script type="text/javascript">
+(function($) {
+    if (!django_template_builtins) {
+       // templatebuiltins.js missing, do nothing.
+       return;
+    }
+    $(document).ready(function() {
+        // Hyperlink Django template tags and filters
+        var base = "ref/templates/builtins.html";
+        if (base == "#") {
+            // Special case for builtins.html itself
+            base = "";
+        }
+        // Tags are keywords, class '.k'
+        $("div.highlight\\-html\\+django span.k").each(function(i, elem) {
+             var tagname = $(elem).text();
+             if ($.inArray(tagname, django_template_builtins.ttags) != -1) {
+                 var fragment = tagname.replace(/_/, '-');
+                 $(elem).html("<a href='" + base + "#" + fragment + "'>" + tagname + "</a>");
+             }
+        });
+        // Filters are functions, class '.nf'
+        $("div.highlight\\-html\\+django span.nf").each(function(i, elem) {
+             var filtername = $(elem).text();
+             if ($.inArray(filtername, django_template_builtins.tfilters) != -1) {
+                 var fragment = filtername.replace(/_/, '-');
+                 $(elem).html("<a href='" + base + "#" + fragment + "'>" + filtername + "</a>");
+             }
+        });
+    });
+})(jQuery);</script>
+
+  </head><body>
+
+    <div class="document">
+  <div id="custom-doc" class="">
+    <div id="hd">
+      <h1><a href="#">Django roles 0.1 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="#">Home</a>  |
+        <a title="Table of contents" href="contents.html">Table of contents</a>  |
+        <a title="Global index" href="genindex.html">Index</a>  |
+        <a title="Module index" href="py-modindex.html">Modules</a>
+      </div>
+      <div class="nav">
+    <a title="Django roles 0.1 documentation" href="#" accesskey="U">up</a>
+   |
+    <a href="introduction.html" title="Introduction">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="index">
+            
+  <div class="section" id="welcome-to-django-roles-s-documentation">
+<h1>Welcome to Django Roles’s documentation!<a class="headerlink" href="#welcome-to-django-roles-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#basic-concepts">Basic concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#quick-start">Quick start</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html#quick-security">Quick security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html#quick-access-configuration">Quick access configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#basic-use">Basic Use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#middleware">Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Tutorial Part 1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="example.html#create-example-django-project">Create example Django project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example.html#installing-django-roles">Installing Django-Roles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#module-roles.models">Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#module-roles.decorators">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#module-roles.middleware">Vistas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="test.html">Test</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="test.html#test-site-security">Test Site Security</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Levels of access to applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html#types-of-applications">Types of applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#not-secured">NOT_SECURED</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#public">PUBLIC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#secured">SECURED</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#not-configuration">Not configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notes.html">Notes</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    <a title="Django roles 0.1 documentation" href="#" accesskey="U">up</a>
+   |
+    <a href="introduction.html" title="Introduction">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

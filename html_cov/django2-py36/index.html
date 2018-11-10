@@ -1,0 +1,3677 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Coverage report</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.index_ready);
+    </script>
+</head>
+<body class="indexfile">
+
+<div id="header">
+    <div class="content">
+        <h1>Coverage report:
+            <span class="pc_cov">25%</span>
+        </h1>
+
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+
+        <form id="filter_container">
+            <input id="filter" type="text" value="" placeholder="filter..." />
+        </form>
+    </div>
+</div>
+
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">n</span>
+        <span class="key">s</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        
+        <span class="key">c</span> &nbsp; change column sorting
+    </p>
+    </div>
+</div>
+
+<div id="index">
+    <table class="index">
+        <thead>
+            
+            <tr class="tablehead" title="Click to sort">
+                <th class="name left headerSortDown shortkey_n">Module</th>
+                <th class="shortkey_s">statements</th>
+                <th class="shortkey_m">missing</th>
+                <th class="shortkey_x">excluded</th>
+                
+                <th class="right shortkey_c">coverage</th>
+            </tr>
+        </thead>
+        
+        <tfoot>
+            <tr class="total">
+                <td class="name left">Total</td>
+                <td>55823</td>
+                <td>41991</td>
+                <td>16</td>
+                
+                <td class="right" data-ratio="13832 55823">25%</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_distutils___init___py.html">.tox/django2-py36/lib/python3.6/distutils/__init__.py</a></td>
+                <td>74</td>
+                <td>38</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="36 74">49%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest__argcomplete_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/_argcomplete.py</a></td>
+                <td>36</td>
+                <td>35</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 36">3%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest__code_code_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/_code/code.py</a></td>
+                <td>612</td>
+                <td>591</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="21 612">3%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_assertion___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/assertion/__init__.py</a></td>
+                <td>68</td>
+                <td>64</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 68">6%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_assertion_rewrite_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/assertion/rewrite.py</a></td>
+                <td>605</td>
+                <td>487</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="118 605">20%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_cacheprovider_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/cacheprovider.py</a></td>
+                <td>198</td>
+                <td>167</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="31 198">16%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_capture_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/capture.py</a></td>
+                <td>439</td>
+                <td>395</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="44 439">10%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_compat_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/compat.py</a></td>
+                <td>181</td>
+                <td>159</td>
+                <td>2</td>
+                
+                <td class="right" data-ratio="22 181">12%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_config___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/config/__init__.py</a></td>
+                <td>598</td>
+                <td>464</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="134 598">22%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_config_argparsing_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/config/argparsing.py</a></td>
+                <td>228</td>
+                <td>181</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="47 228">21%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_config_findpaths_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/config/findpaths.py</a></td>
+                <td>97</td>
+                <td>95</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 97">2%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_debugging_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/debugging.py</a></td>
+                <td>119</td>
+                <td>108</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="11 119">9%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_doctest_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/doctest.py</a></td>
+                <td>253</td>
+                <td>244</td>
+                <td>11</td>
+                
+                <td class="right" data-ratio="9 253">4%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_fixtures_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/fixtures.py</a></td>
+                <td>761</td>
+                <td>687</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="74 761">10%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_helpconfig_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/helpconfig.py</a></td>
+                <td>109</td>
+                <td>100</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="9 109">8%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_junitxml_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/junitxml.py</a></td>
+                <td>287</td>
+                <td>285</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 287">1%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_logging_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/logging.py</a></td>
+                <td>279</td>
+                <td>240</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="39 279">14%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_main_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/main.py</a></td>
+                <td>400</td>
+                <td>247</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="153 400">38%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_mark___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/mark/__init__.py</a></td>
+                <td>84</td>
+                <td>65</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="19 84">23%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_mark_structures_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/mark/structures.py</a></td>
+                <td>224</td>
+                <td>203</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="21 224">9%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_monkeypatch_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/monkeypatch.py</a></td>
+                <td>144</td>
+                <td>132</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="12 144">8%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_nodes_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/nodes.py</a></td>
+                <td>248</td>
+                <td>213</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="35 248">14%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_nose_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/nose.py</a></td>
+                <td>46</td>
+                <td>39</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="7 46">15%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_pastebin_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/pastebin.py</a></td>
+                <td>64</td>
+                <td>63</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 64">2%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_pathlib_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/pathlib.py</a></td>
+                <td>177</td>
+                <td>165</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="12 177">7%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_python_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/python.py</a></td>
+                <td>818</td>
+                <td>772</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="46 818">6%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_reports_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/reports.py</a></td>
+                <td>84</td>
+                <td>74</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 84">12%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_resultlog_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/resultlog.py</a></td>
+                <td>90</td>
+                <td>88</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 90">2%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_runner_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/runner.py</a></td>
+                <td>259</td>
+                <td>225</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="34 259">13%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_setuponly_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/setuponly.py</a></td>
+                <td>50</td>
+                <td>49</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 50">2%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_setupplan_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/setupplan.py</a></td>
+                <td>15</td>
+                <td>14</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 15">7%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_skipping_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/skipping.py</a></td>
+                <td>168</td>
+                <td>164</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 168">2%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_terminal_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/terminal.py</a></td>
+                <td>578</td>
+                <td>467</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="111 578">19%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_tmpdir_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/tmpdir.py</a></td>
+                <td>85</td>
+                <td>77</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="8 85">9%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_warning_types_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/warning_types.py</a></td>
+                <td>14</td>
+                <td>13</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 14">7%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages__pytest_warnings_py.html">.tox/django2-py36/lib/python3.6/site-packages/_pytest/warnings.py</a></td>
+                <td>79</td>
+                <td>64</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="15 79">19%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_attr_validators_py.html">.tox/django2-py36/lib/python3.6/site-packages/attr/validators.py</a></td>
+                <td>50</td>
+                <td>49</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 50">2%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_coverage_collector_py.html">.tox/django2-py36/lib/python3.6/site-packages/coverage/collector.py</a></td>
+                <td>197</td>
+                <td>191</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="6 197">3%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_coverage_control_py.html">.tox/django2-py36/lib/python3.6/site-packages/coverage/control.py</a></td>
+                <td>529</td>
+                <td>527</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 529">1%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/__init__.py</a></td>
+                <td>12</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="12 12">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_apps___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/apps/__init__.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_apps_config_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/apps/config.py</a></td>
+                <td>85</td>
+                <td>31</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="54 85">64%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_apps_registry_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/apps/registry.py</a></td>
+                <td>172</td>
+                <td>60</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="112 172">65%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_conf___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/conf/__init__.py</a></td>
+                <td>103</td>
+                <td>36</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="67 103">65%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_conf_global_settings_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/conf/global_settings.py</a></td>
+                <td>142</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="142 142">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_conf_locale___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/conf/locale/__init__.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/__init__.py</a></td>
+                <td>10</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 10">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_actions_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/actions.py</a></td>
+                <td>30</td>
+                <td>21</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="9 30">30%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_apps_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/apps.py</a></td>
+                <td>15</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="15 15">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_checks_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/checks.py</a></td>
+                <td>421</td>
+                <td>345</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="76 421">18%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_decorators_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/decorators.py</a></td>
+                <td>14</td>
+                <td>3</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="11 14">79%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_exceptions_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/exceptions.py</a></td>
+                <td>5</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 5">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_filters_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/filters.py</a></td>
+                <td>207</td>
+                <td>143</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="64 207">31%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_helpers_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/helpers.py</a></td>
+                <td>235</td>
+                <td>176</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="59 235">25%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_models_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/models.py</a></td>
+                <td>84</td>
+                <td>46</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="38 84">45%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_options_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/options.py</a></td>
+                <td>1032</td>
+                <td>804</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="228 1032">22%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_sites_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/sites.py</a></td>
+                <td>226</td>
+                <td>144</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="82 226">36%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_templatetags___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/templatetags/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_templatetags_admin_urls_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/templatetags/admin_urls.py</a></td>
+                <td>38</td>
+                <td>28</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 38">26%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_utils_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/utils.py</a></td>
+                <td>318</td>
+                <td>274</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="44 318">14%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_views___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/views/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_views_autocomplete_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/views/autocomplete.py</a></td>
+                <td>25</td>
+                <td>16</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="9 25">36%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_admin_widgets_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/admin/widgets.py</a></td>
+                <td>247</td>
+                <td>163</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="84 247">34%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_auth___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/auth/__init__.py</a></td>
+                <td>120</td>
+                <td>91</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="29 120">24%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_auth_admin_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/auth/admin.py</a></td>
+                <td>101</td>
+                <td>51</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="50 101">50%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_auth_apps_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/auth/apps.py</a></td>
+                <td>20</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="20 20">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_auth_base_user_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/auth/base_user.py</a></td>
+                <td>67</td>
+                <td>35</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="32 67">48%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_auth_checks_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/auth/checks.py</a></td>
+                <td>53</td>
+                <td>45</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="8 53">15%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_auth_decorators_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/auth/decorators.py</a></td>
+                <td>37</td>
+                <td>28</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="9 37">24%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_auth_forms_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/auth/forms.py</a></td>
+                <td>200</td>
+                <td>118</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="82 200">41%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_auth_hashers_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/auth/hashers.py</a></td>
+                <td>307</td>
+                <td>200</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="107 307">35%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_auth_management___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/auth/management/__init__.py</a></td>
+                <td>66</td>
+                <td>55</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="11 66">17%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_auth_models_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/auth/models.py</a></td>
+                <td>193</td>
+                <td>85</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="108 193">56%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_auth_password_validation_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/auth/password_validation.py</a></td>
+                <td>103</td>
+                <td>68</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="35 103">34%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_auth_signals_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/auth/signals.py</a></td>
+                <td>4</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 4">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_auth_tokens_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/auth/tokens.py</a></td>
+                <td>37</td>
+                <td>23</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="14 37">38%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_auth_validators_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/auth/validators.py</a></td>
+                <td>14</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="14 14">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_contenttypes___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/contenttypes/__init__.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_contenttypes_admin_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/contenttypes/admin.py</a></td>
+                <td>50</td>
+                <td>28</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="22 50">44%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_contenttypes_apps_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/contenttypes/apps.py</a></td>
+                <td>14</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="14 14">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_contenttypes_checks_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/contenttypes/checks.py</a></td>
+                <td>22</td>
+                <td>17</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 22">23%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_contenttypes_fields_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/contenttypes/fields.py</a></td>
+                <td>333</td>
+                <td>268</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="65 333">20%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_contenttypes_forms_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/contenttypes/forms.py</a></td>
+                <td>39</td>
+                <td>29</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 39">26%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_contenttypes_management___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/contenttypes/management/__init__.py</a></td>
+                <td>78</td>
+                <td>67</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="11 78">14%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_contenttypes_models_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/contenttypes/models.py</a></td>
+                <td>103</td>
+                <td>71</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="32 103">31%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_messages___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/messages/__init__.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_messages_api_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/messages/api.py</a></td>
+                <td>34</td>
+                <td>20</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="14 34">41%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_messages_constants_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/messages/constants.py</a></td>
+                <td>7</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="7 7">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_messages_storage___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/messages/storage/__init__.py</a></td>
+                <td>4</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="3 4">75%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_sessions___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/sessions/__init__.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_sessions_apps_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/sessions/apps.py</a></td>
+                <td>5</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 5">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_sessions_backends___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/sessions/backends/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_sessions_backends_base_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/sessions/backends/base.py</a></td>
+                <td>187</td>
+                <td>125</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="62 187">33%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_sessions_base_session_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/sessions/base_session.py</a></td>
+                <td>28</td>
+                <td>11</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="17 28">61%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_sessions_exceptions_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/sessions/exceptions.py</a></td>
+                <td>5</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 5">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_sessions_middleware_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/sessions/middleware.py</a></td>
+                <td>41</td>
+                <td>29</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="12 41">29%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_sessions_models_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/sessions/models.py</a></td>
+                <td>10</td>
+                <td>2</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="8 10">80%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_sites___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/sites/__init__.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_contrib_sites_shortcuts_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/contrib/sites/shortcuts.py</a></td>
+                <td>7</td>
+                <td>5</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 7">29%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_cache___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/cache/__init__.py</a></td>
+                <td>59</td>
+                <td>36</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="23 59">39%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_cache_backends___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/cache/backends/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_cache_backends_base_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/cache/backends/base.py</a></td>
+                <td>120</td>
+                <td>86</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="34 120">28%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_checks___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/checks/__init__.py</a></td>
+                <td>11</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="11 11">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_checks_caches_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/checks/caches.py</a></td>
+                <td>8</td>
+                <td>3</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 8">62%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_checks_database_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/checks/database.py</a></td>
+                <td>7</td>
+                <td>4</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="3 7">43%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_checks_messages_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/checks/messages.py</a></td>
+                <td>47</td>
+                <td>17</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="30 47">64%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_checks_model_checks_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/checks/model_checks.py</a></td>
+                <td>64</td>
+                <td>54</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 64">16%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_checks_registry_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/checks/registry.py</a></td>
+                <td>51</td>
+                <td>16</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="35 51">69%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_checks_security___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/checks/security/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_checks_security_base_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/checks/security/base.py</a></td>
+                <td>55</td>
+                <td>25</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="30 55">55%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_checks_security_csrf_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/checks/security/csrf.py</a></td>
+                <td>12</td>
+                <td>5</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="7 12">58%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_checks_security_sessions_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/checks/security/sessions.py</a></td>
+                <td>36</td>
+                <td>20</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="16 36">44%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_checks_templates_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/checks/templates.py</a></td>
+                <td>16</td>
+                <td>9</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="7 16">44%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_checks_urls_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/checks/urls.py</a></td>
+                <td>54</td>
+                <td>44</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 54">19%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_exceptions_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/exceptions.py</a></td>
+                <td>89</td>
+                <td>47</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="42 89">47%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_files___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/files/__init__.py</a></td>
+                <td>2</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 2">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_files_base_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/files/base.py</a></td>
+                <td>99</td>
+                <td>70</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="29 99">29%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_files_images_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/files/images.py</a></td>
+                <td>44</td>
+                <td>36</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="8 44">18%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_files_locks_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/files/locks.py</a></td>
+                <td>57</td>
+                <td>46</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="11 57">19%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_files_move_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/files/move.py</a></td>
+                <td>42</td>
+                <td>35</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="7 42">17%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_files_storage_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/files/storage.py</a></td>
+                <td>184</td>
+                <td>126</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="58 184">32%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_files_temp_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/files/temp.py</a></td>
+                <td>33</td>
+                <td>26</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="7 33">21%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_files_uploadedfile_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/files/uploadedfile.py</a></td>
+                <td>56</td>
+                <td>32</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="24 56">43%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_files_uploadhandler_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/files/uploadhandler.py</a></td>
+                <td>71</td>
+                <td>39</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="32 71">45%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_files_utils_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/files/utils.py</a></td>
+                <td>37</td>
+                <td>17</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="20 37">54%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_handlers___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/handlers/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_handlers_base_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/handlers/base.py</a></td>
+                <td>98</td>
+                <td>77</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="21 98">21%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_handlers_exception_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/handlers/exception.py</a></td>
+                <td>61</td>
+                <td>46</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="15 61">25%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_handlers_wsgi_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/handlers/wsgi.py</a></td>
+                <td>134</td>
+                <td>100</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="34 134">25%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_mail___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/mail/__init__.py</a></td>
+                <td>32</td>
+                <td>22</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 32">31%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_mail_message_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/mail/message.py</a></td>
+                <td>254</td>
+                <td>192</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="62 254">24%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_mail_utils_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/mail/utils.py</a></td>
+                <td>9</td>
+                <td>4</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 9">56%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_management___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/management/__init__.py</a></td>
+                <td>179</td>
+                <td>154</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="25 179">14%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_management_base_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/management/base.py</a></td>
+                <td>220</td>
+                <td>159</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="61 220">28%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_management_color_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/management/color.py</a></td>
+                <td>29</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="28 29">97%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_management_sql_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/management/sql.py</a></td>
+                <td>23</td>
+                <td>18</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 23">22%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_paginator_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/paginator.py</a></td>
+                <td>102</td>
+                <td>66</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="36 102">35%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_serializers___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/serializers/__init__.py</a></td>
+                <td>103</td>
+                <td>83</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="20 103">19%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_serializers_base_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/serializers/base.py</a></td>
+                <td>145</td>
+                <td>107</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="38 145">26%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_serializers_json_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/serializers/json.py</a></td>
+                <td>75</td>
+                <td>56</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="19 75">25%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_serializers_python_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/serializers/python.py</a></td>
+                <td>92</td>
+                <td>73</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="19 92">21%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_servers___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/servers/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_servers_basehttp_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/servers/basehttp.py</a></td>
+                <td>89</td>
+                <td>61</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="28 89">31%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_signals_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/signals.py</a></td>
+                <td>5</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 5">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_signing_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/signing.py</a></td>
+                <td>88</td>
+                <td>54</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="34 88">39%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_validators_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/validators.py</a></td>
+                <td>276</td>
+                <td>145</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="131 276">47%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_core_wsgi_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/core/wsgi.py</a></td>
+                <td>5</td>
+                <td>2</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="3 5">60%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/__init__.py</a></td>
+                <td>24</td>
+                <td>7</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="17 24">71%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_base___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/base/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_base_base_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/base/base.py</a></td>
+                <td>306</td>
+                <td>191</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="115 306">38%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_base_client_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/base/client.py</a></td>
+                <td>6</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 6">83%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_base_creation_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/base/creation.py</a></td>
+                <td>119</td>
+                <td>93</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="26 119">22%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_base_features_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/base/features.py</a></td>
+                <td>115</td>
+                <td>16</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="99 115">86%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_base_introspection_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/base/introspection.py</a></td>
+                <td>73</td>
+                <td>54</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="19 73">26%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_base_operations_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/base/operations.py</a></td>
+                <td>253</td>
+                <td>157</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="96 253">38%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_base_schema_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/base/schema.py</a></td>
+                <td>502</td>
+                <td>420</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="82 502">16%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_base_validation_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/base/validation.py</a></td>
+                <td>14</td>
+                <td>9</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 14">36%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_ddl_references_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/ddl_references.py</a></td>
+                <td>91</td>
+                <td>55</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="36 91">40%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_signals_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/signals.py</a></td>
+                <td>2</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 2">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_sqlite3___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/sqlite3/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_sqlite3_base_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/sqlite3/base.py</a></td>
+                <td>258</td>
+                <td>180</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="78 258">30%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_sqlite3_client_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/sqlite3/client.py</a></td>
+                <td>7</td>
+                <td>2</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 7">71%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_sqlite3_creation_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/sqlite3/creation.py</a></td>
+                <td>66</td>
+                <td>54</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="12 66">18%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_sqlite3_features_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/sqlite3/features.py</a></td>
+                <td>37</td>
+                <td>9</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="28 37">76%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_sqlite3_introspection_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/sqlite3/introspection.py</a></td>
+                <td>123</td>
+                <td>104</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="19 123">15%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_sqlite3_operations_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/sqlite3/operations.py</a></td>
+                <td>180</td>
+                <td>130</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="50 180">28%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_sqlite3_schema_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/sqlite3/schema.py</a></td>
+                <td>174</td>
+                <td>148</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="26 174">15%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_backends_utils_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/backends/utils.py</a></td>
+                <td>148</td>
+                <td>103</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="45 148">30%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/__init__.py</a></td>
+                <td>20</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="20 20">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_aggregates_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/aggregates.py</a></td>
+                <td>129</td>
+                <td>76</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="53 129">41%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_base_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/base.py</a></td>
+                <td>835</td>
+                <td>653</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="182 835">22%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_constants_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/constants.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_deletion_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/deletion.py</a></td>
+                <td>162</td>
+                <td>138</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="24 162">15%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_expressions_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/expressions.py</a></td>
+                <td>797</td>
+                <td>538</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="259 797">32%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_fields___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/fields/__init__.py</a></td>
+                <td>1214</td>
+                <td>753</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="461 1214">38%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_fields_files_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/fields/files.py</a></td>
+                <td>223</td>
+                <td>157</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="66 223">30%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_fields_mixins_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/fields/mixins.py</a></td>
+                <td>18</td>
+                <td>11</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="7 18">39%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_fields_proxy_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/fields/proxy.py</a></td>
+                <td>6</td>
+                <td>3</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="3 6">50%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_fields_related_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/fields/related.py</a></td>
+                <td>697</td>
+                <td>425</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="272 697">39%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_fields_related_descriptors_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/fields/related_descriptors.py</a></td>
+                <td>514</td>
+                <td>468</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="46 514">9%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_fields_related_lookups_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/fields/related_lookups.py</a></td>
+                <td>89</td>
+                <td>63</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="26 89">29%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_fields_reverse_related_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/fields/reverse_related.py</a></td>
+                <td>113</td>
+                <td>42</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="71 113">63%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_functions___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/functions/__init__.py</a></td>
+                <td>5</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 5">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_functions_comparison_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/functions/comparison.py</a></td>
+                <td>45</td>
+                <td>25</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="20 45">44%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_functions_datetime_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/functions/datetime.py</a></td>
+                <td>173</td>
+                <td>83</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="90 173">52%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_functions_text_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/functions/text.py</a></td>
+                <td>130</td>
+                <td>51</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="79 130">61%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_functions_window_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/functions/window.py</a></td>
+                <td>79</td>
+                <td>20</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="59 79">75%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_indexes_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/indexes.py</a></td>
+                <td>65</td>
+                <td>48</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="17 65">26%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_lookups_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/lookups.py</a></td>
+                <td>357</td>
+                <td>211</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="146 357">41%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_manager_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/manager.py</a></td>
+                <td>97</td>
+                <td>27</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="70 97">72%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_options_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/options.py</a></td>
+                <td>414</td>
+                <td>182</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="232 414">56%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_query_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/query.py</a></td>
+                <td>1009</td>
+                <td>816</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="193 1009">19%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_query_utils_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/query_utils.py</a></td>
+                <td>183</td>
+                <td>114</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="69 183">38%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_signals_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/signals.py</a></td>
+                <td>25</td>
+                <td>8</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="17 25">68%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_sql___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/sql/__init__.py</a></td>
+                <td>5</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 5">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_sql_constants_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/sql/constants.py</a></td>
+                <td>10</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 10">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_sql_datastructures_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/sql/datastructures.py</a></td>
+                <td>77</td>
+                <td>55</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="22 77">29%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_sql_query_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/sql/query.py</a></td>
+                <td>1106</td>
+                <td>904</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="202 1106">18%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_sql_subqueries_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/sql/subqueries.py</a></td>
+                <td>106</td>
+                <td>78</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="28 106">26%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_sql_where_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/sql/where.py</a></td>
+                <td>131</td>
+                <td>94</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="37 131">28%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_models_utils_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/models/utils.py</a></td>
+                <td>12</td>
+                <td>3</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="9 12">75%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_transaction_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/transaction.py</a></td>
+                <td>116</td>
+                <td>93</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="23 116">20%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_db_utils_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/db/utils.py</a></td>
+                <td>180</td>
+                <td>84</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="96 180">53%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_dispatch___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/dispatch/__init__.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_dispatch_dispatcher_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/dispatch/dispatcher.py</a></td>
+                <td>113</td>
+                <td>60</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="53 113">47%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_forms___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/forms/__init__.py</a></td>
+                <td>7</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="7 7">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_forms_boundfield_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/forms/boundfield.py</a></td>
+                <td>137</td>
+                <td>100</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="37 137">27%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_forms_fields_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/forms/fields.py</a></td>
+                <td>708</td>
+                <td>479</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="229 708">32%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_forms_forms_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/forms/forms.py</a></td>
+                <td>241</td>
+                <td>173</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="68 241">28%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_forms_formsets_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/forms/formsets.py</a></td>
+                <td>222</td>
+                <td>165</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="57 222">26%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_forms_models_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/forms/models.py</a></td>
+                <td>695</td>
+                <td>517</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="178 695">26%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_forms_renderers_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/forms/renderers.py</a></td>
+                <td>34</td>
+                <td>9</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="25 34">74%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_forms_utils_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/forms/utils.py</a></td>
+                <td>92</td>
+                <td>59</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="33 92">36%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_forms_widgets_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/forms/widgets.py</a></td>
+                <td>605</td>
+                <td>368</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="237 605">39%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_http___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/http/__init__.py</a></td>
+                <td>4</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 4">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_http_cookie_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/http/cookie.py</a></td>
+                <td>13</td>
+                <td>9</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 13">31%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_http_multipartparser_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/http/multipartparser.py</a></td>
+                <td>369</td>
+                <td>316</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="53 369">14%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_http_request_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/http/request.py</a></td>
+                <td>312</td>
+                <td>231</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="81 312">26%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_http_response_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/http/response.py</a></td>
+                <td>305</td>
+                <td>194</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="111 305">36%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_middleware___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/middleware/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_middleware_cache_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/middleware/cache.py</a></td>
+                <td>78</td>
+                <td>65</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="13 78">17%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_middleware_csrf_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/middleware/csrf.py</a></td>
+                <td>149</td>
+                <td>109</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="40 149">27%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_shortcuts_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/shortcuts.py</a></td>
+                <td>54</td>
+                <td>41</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="13 54">24%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/__init__.py</a></td>
+                <td>10</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 10">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_backends___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/backends/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_backends_base_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/backends/base.py</a></td>
+                <td>29</td>
+                <td>18</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="11 29">38%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_backends_django_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/backends/django.py</a></td>
+                <td>74</td>
+                <td>51</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="23 74">31%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_backends_jinja2_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/backends/jinja2.py</a></td>
+                <td>63</td>
+                <td>62</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 63">2%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_base_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/base.py</a></td>
+                <td>540</td>
+                <td>429</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="111 540">21%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_context_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/context.py</a></td>
+                <td>164</td>
+                <td>119</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="45 164">27%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_defaultfilters_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/defaultfilters.py</a></td>
+                <td>438</td>
+                <td>313</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="125 438">29%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_defaulttags_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/defaulttags.py</a></td>
+                <td>626</td>
+                <td>500</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="126 626">20%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_engine_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/engine.py</a></td>
+                <td>111</td>
+                <td>59</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="52 111">47%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_exceptions_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/exceptions.py</a></td>
+                <td>12</td>
+                <td>8</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 12">33%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_library_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/library.py</a></td>
+                <td>175</td>
+                <td>99</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="76 175">43%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_loader_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/loader.py</a></td>
+                <td>32</td>
+                <td>26</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="6 32">19%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_loader_tags_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/loader_tags.py</a></td>
+                <td>175</td>
+                <td>141</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="34 175">19%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_response_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/response.py</a></td>
+                <td>66</td>
+                <td>46</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="20 66">30%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_smartif_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/smartif.py</a></td>
+                <td>107</td>
+                <td>64</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="43 107">40%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_template_utils_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/template/utils.py</a></td>
+                <td>54</td>
+                <td>35</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="19 54">35%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_templatetags___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/templatetags/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_templatetags_i18n_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/templatetags/i18n.py</a></td>
+                <td>271</td>
+                <td>226</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="45 271">17%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_templatetags_static_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/templatetags/static.py</a></td>
+                <td>74</td>
+                <td>52</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="22 74">30%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_test___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/test/__init__.py</a></td>
+                <td>4</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 4">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_test_client_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/test/client.py</a></td>
+                <td>358</td>
+                <td>277</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="81 358">23%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_test_html_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/test/html.py</a></td>
+                <td>159</td>
+                <td>125</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="34 159">21%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_test_signals_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/test/signals.py</a></td>
+                <td>122</td>
+                <td>92</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="30 122">25%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_test_testcases_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/test/testcases.py</a></td>
+                <td>682</td>
+                <td>527</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="155 682">23%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_test_utils_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/test/utils.py</a></td>
+                <td>456</td>
+                <td>328</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="128 456">28%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_urls___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/urls/__init__.py</a></td>
+                <td>7</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="7 7">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_urls_base_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/urls/base.py</a></td>
+                <td>102</td>
+                <td>79</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="23 102">23%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_urls_conf_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/urls/conf.py</a></td>
+                <td>38</td>
+                <td>30</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="8 38">21%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_urls_converters_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/urls/converters.py</a></td>
+                <td>33</td>
+                <td>10</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="23 33">70%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_urls_exceptions_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/urls/exceptions.py</a></td>
+                <td>5</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 5">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_urls_resolvers_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/urls/resolvers.py</a></td>
+                <td>381</td>
+                <td>303</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="78 381">20%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_urls_utils_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/urls/utils.py</a></td>
+                <td>32</td>
+                <td>26</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="6 32">19%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils__os_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/_os.py</a></td>
+                <td>29</td>
+                <td>19</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 29">34%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_autoreload_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/autoreload.py</a></td>
+                <td>194</td>
+                <td>154</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="40 194">21%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_baseconv_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/baseconv.py</a></td>
+                <td>48</td>
+                <td>25</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="23 48">48%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_cache_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/cache.py</a></td>
+                <td>179</td>
+                <td>147</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="32 179">18%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_crypto_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/crypto.py</a></td>
+                <td>33</td>
+                <td>20</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="13 33">39%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_datastructures_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/datastructures.py</a></td>
+                <td>151</td>
+                <td>94</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="57 151">38%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_dateformat_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/dateformat.py</a></td>
+                <td>194</td>
+                <td>137</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="57 194">29%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_dateparse_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/dateparse.py</a></td>
+                <td>50</td>
+                <td>37</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="13 50">26%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_dates_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/dates.py</a></td>
+                <td>7</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="7 7">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_datetime_safe_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/datetime_safe.py</a></td>
+                <td>58</td>
+                <td>42</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="16 58">28%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_deconstruct_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/deconstruct.py</a></td>
+                <td>23</td>
+                <td>9</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="14 23">61%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_decorators_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/decorators.py</a></td>
+                <td>89</td>
+                <td>48</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="41 89">46%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_deprecation_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/deprecation.py</a></td>
+                <td>53</td>
+                <td>34</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="19 53">36%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_duration_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/duration.py</a></td>
+                <td>28</td>
+                <td>23</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 28">18%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_encoding_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/encoding.py</a></td>
+                <td>103</td>
+                <td>67</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="36 103">35%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_formats_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/formats.py</a></td>
+                <td>131</td>
+                <td>108</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="23 131">18%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_functional_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/functional.py</a></td>
+                <td>187</td>
+                <td>67</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="120 187">64%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_html_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/html.py</a></td>
+                <td>185</td>
+                <td>138</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="47 185">25%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_http_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/http.py</a></td>
+                <td>201</td>
+                <td>149</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="52 201">26%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_inspect_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/inspect.py</a></td>
+                <td>28</td>
+                <td>20</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="8 28">29%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_ipv6_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/ipv6.py</a></td>
+                <td>19</td>
+                <td>14</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 19">26%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_itercompat_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/itercompat.py</a></td>
+                <td>6</td>
+                <td>5</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 6">17%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_log_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/log.py</a></td>
+                <td>97</td>
+                <td>58</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="39 97">40%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_lorem_ipsum_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/lorem_ipsum.py</a></td>
+                <td>28</td>
+                <td>20</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="8 28">29%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_lru_cache_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/lru_cache.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_module_loading_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/module_loading.py</a></td>
+                <td>47</td>
+                <td>16</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="31 47">66%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_numberformat_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/numberformat.py</a></td>
+                <td>42</td>
+                <td>38</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 42">10%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_regex_helper_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/regex_helper.py</a></td>
+                <td>185</td>
+                <td>175</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 185">5%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_safestring_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/safestring.py</a></td>
+                <td>33</td>
+                <td>19</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="14 33">42%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_six_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/six.py</a></td>
+                <td>450</td>
+                <td>230</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="220 450">49%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_termcolors_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/termcolors.py</a></td>
+                <td>56</td>
+                <td>33</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="23 56">41%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_text_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/text.py</a></td>
+                <td>208</td>
+                <td>160</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="48 208">23%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_timesince_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/timesince.py</a></td>
+                <td>41</td>
+                <td>32</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="9 41">22%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_timezone_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/timezone.py</a></td>
+                <td>95</td>
+                <td>60</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="35 95">37%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_translation___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/translation/__init__.py</a></td>
+                <td>135</td>
+                <td>66</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="69 135">51%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_translation_trans_real_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/translation/trans_real.py</a></td>
+                <td>255</td>
+                <td>150</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="105 255">41%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_tree_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/tree.py</a></td>
+                <td>50</td>
+                <td>28</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="22 50">44%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_utils_version_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/utils/version.py</a></td>
+                <td>54</td>
+                <td>25</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="29 54">54%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_views___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/views/__init__.py</a></td>
+                <td>2</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 2">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_views_debug_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/views/debug.py</a></td>
+                <td>285</td>
+                <td>240</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="45 285">16%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_views_decorators___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/views/decorators/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_views_decorators_cache_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/views/decorators/cache.py</a></td>
+                <td>20</td>
+                <td>11</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="9 20">45%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_views_decorators_csrf_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/views/decorators/csrf.py</a></td>
+                <td>27</td>
+                <td>9</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="18 27">67%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_views_decorators_debug_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/views/decorators/debug.py</a></td>
+                <td>21</td>
+                <td>13</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="8 21">38%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_views_generic___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/django/views/generic/__init__.py</a></td>
+                <td>8</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="8 8">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_views_generic_base_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/views/generic/base.py</a></td>
+                <td>105</td>
+                <td>64</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="41 105">39%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_views_generic_dates_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/views/generic/dates.py</a></td>
+                <td>325</td>
+                <td>223</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="102 325">31%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_views_generic_detail_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/views/generic/detail.py</a></td>
+                <td>79</td>
+                <td>54</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="25 79">32%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_views_generic_edit_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/views/generic/edit.py</a></td>
+                <td>114</td>
+                <td>65</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="49 114">43%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_views_generic_list_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/views/generic/list.py</a></td>
+                <td>99</td>
+                <td>68</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="31 99">31%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_views_i18n_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/views/i18n.py</a></td>
+                <td>114</td>
+                <td>80</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="34 114">30%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_django_views_static_py.html">.tox/django2-py36/lib/python3.6/site-packages/django/views/static.py</a></td>
+                <td>60</td>
+                <td>46</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="14 60">23%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_more_itertools_more_py.html">.tox/django2-py36/lib/python3.6/site-packages/more_itertools/more.py</a></td>
+                <td>575</td>
+                <td>564</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="11 575">2%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/__init__.py</a></td>
+                <td>7</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="7 7">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_case_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/case.py</a></td>
+                <td>205</td>
+                <td>152</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="53 205">26%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_config_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/config.py</a></td>
+                <td>350</td>
+                <td>296</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="54 350">15%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_core_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/core.py</a></td>
+                <td>169</td>
+                <td>135</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="34 169">20%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_exc_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/exc.py</a></td>
+                <td>2</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 2">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_failure_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/failure.py</a></td>
+                <td>25</td>
+                <td>13</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="12 25">48%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_importer_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/importer.py</a></td>
+                <td>101</td>
+                <td>85</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="16 101">16%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_loader_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/loader.py</a></td>
+                <td>348</td>
+                <td>301</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="47 348">14%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_plugins___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/plugins/__init__.py</a></td>
+                <td>6</td>
+                <td>2</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 6">67%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_plugins_base_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/plugins/base.py</a></td>
+                <td>195</td>
+                <td>77</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="118 195">61%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_plugins_deprecated_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/plugins/deprecated.py</a></td>
+                <td>16</td>
+                <td>8</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="8 16">50%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_plugins_errorclass_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/plugins/errorclass.py</a></td>
+                <td>64</td>
+                <td>30</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="34 64">53%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_plugins_manager_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/plugins/manager.py</a></td>
+                <td>265</td>
+                <td>191</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="74 265">28%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_plugins_plugintest_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/plugins/plugintest.py</a></td>
+                <td>155</td>
+                <td>111</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="44 155">28%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_plugins_skip_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/plugins/skip.py</a></td>
+                <td>22</td>
+                <td>14</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="8 22">36%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_proxy_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/proxy.py</a></td>
+                <td>108</td>
+                <td>79</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="29 108">27%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_pyversion_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/pyversion.py</a></td>
+                <td>132</td>
+                <td>92</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="40 132">30%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_result_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/result.py</a></td>
+                <td>131</td>
+                <td>110</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="21 131">16%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_selector_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/selector.py</a></td>
+                <td>134</td>
+                <td>105</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="29 134">22%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_suite_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/suite.py</a></td>
+                <td>396</td>
+                <td>321</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="75 396">19%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_tools___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/tools/__init__.py</a></td>
+                <td>5</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 5">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_tools_nontrivial_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/tools/nontrivial.py</a></td>
+                <td>80</td>
+                <td>69</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="11 80">14%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_tools_trivial_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/tools/trivial.py</a></td>
+                <td>24</td>
+                <td>5</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="19 24">79%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_nose_util_py.html">.tox/django2-py36/lib/python3.6/site-packages/nose/util.py</a></td>
+                <td>350</td>
+                <td>293</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="57 350">16%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pkg_resources___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/pkg_resources/__init__.py</a></td>
+                <td>1516</td>
+                <td>1514</td>
+                <td>3</td>
+                
+                <td class="right" data-ratio="2 1516">1%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pkg_resources__vendor_six_py.html">.tox/django2-py36/lib/python3.6/site-packages/pkg_resources/_vendor/six.py</a></td>
+                <td>444</td>
+                <td>442</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 444">1%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pkg_resources_extern___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/pkg_resources/extern/__init__.py</a></td>
+                <td>35</td>
+                <td>32</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="3 35">9%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pluggy__tracing_py.html">.tox/django2-py36/lib/python3.6/site-packages/pluggy/_tracing.py</a></td>
+                <td>59</td>
+                <td>49</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 59">17%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pluggy_callers_py.html">.tox/django2-py36/lib/python3.6/site-packages/pluggy/callers.py</a></td>
+                <td>122</td>
+                <td>86</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="36 122">30%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pluggy_hooks_py.html">.tox/django2-py36/lib/python3.6/site-packages/pluggy/hooks.py</a></td>
+                <td>175</td>
+                <td>106</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="69 175">39%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pluggy_manager_py.html">.tox/django2-py36/lib/python3.6/site-packages/pluggy/manager.py</a></td>
+                <td>175</td>
+                <td>134</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="41 175">23%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_py__code_code_py.html">.tox/django2-py36/lib/python3.6/site-packages/py/_code/code.py</a></td>
+                <td>524</td>
+                <td>522</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 524">1%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_py__error_py.html">.tox/django2-py36/lib/python3.6/site-packages/py/_error.py</a></td>
+                <td>52</td>
+                <td>31</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="21 52">40%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_py__io___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/py/_io/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_py__io_terminalwriter_py.html">.tox/django2-py36/lib/python3.6/site-packages/py/_io/terminalwriter.py</a></td>
+                <td>266</td>
+                <td>159</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="107 266">40%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_py__path_common_py.html">.tox/django2-py36/lib/python3.6/site-packages/py/_path/common.py</a></td>
+                <td>274</td>
+                <td>184</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="90 274">33%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_py__path_local_py.html">.tox/django2-py36/lib/python3.6/site-packages/py/_path/local.py</a></td>
+                <td>675</td>
+                <td>519</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="156 675">23%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_py__vendored_packages_apipkg_py.html">.tox/django2-py36/lib/python3.6/site-packages/py/_vendored_packages/apipkg.py</a></td>
+                <td>148</td>
+                <td>129</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="19 148">13%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_py__vendored_packages_iniconfig_py.html">.tox/django2-py36/lib/python3.6/site-packages/py/_vendored_packages/iniconfig.py</a></td>
+                <td>122</td>
+                <td>121</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 122">1%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_py__xmlgen_py.html">.tox/django2-py36/lib/python3.6/site-packages/py/_xmlgen.py</a></td>
+                <td>170</td>
+                <td>168</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 170">1%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pytest_cov_compat_py.html">.tox/django2-py36/lib/python3.6/site-packages/pytest_cov/compat.py</a></td>
+                <td>19</td>
+                <td>15</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 19">21%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pytest_cov_engine_py.html">.tox/django2-py36/lib/python3.6/site-packages/pytest_cov/engine.py</a></td>
+                <td>179</td>
+                <td>166</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="13 179">7%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pytest_cov_plugin_py.html">.tox/django2-py36/lib/python3.6/site-packages/pytest_cov/plugin.py</a></td>
+                <td>165</td>
+                <td>138</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="27 165">16%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pytest_django_plugin_py.html">.tox/django2-py36/lib/python3.6/site-packages/pytest_django/plugin.py</a></td>
+                <td>359</td>
+                <td>293</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="66 359">18%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pytz___init___py.html">.tox/django2-py36/lib/python3.6/site-packages/pytz/__init__.py</a></td>
+                <td>189</td>
+                <td>118</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="71 189">38%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pytz_exceptions_py.html">.tox/django2-py36/lib/python3.6/site-packages/pytz/exceptions.py</a></td>
+                <td>6</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="6 6">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pytz_lazy_py.html">.tox/django2-py36/lib/python3.6/site-packages/pytz/lazy.py</a></td>
+                <td>100</td>
+                <td>59</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="41 100">41%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pytz_tzfile_py.html">.tox/django2-py36/lib/python3.6/site-packages/pytz/tzfile.py</a></td>
+                <td>77</td>
+                <td>66</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="11 77">14%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_pytz_tzinfo_py.html">.tox/django2-py36/lib/python3.6/site-packages/pytz/tzinfo.py</a></td>
+                <td>178</td>
+                <td>126</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="52 178">29%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_tox_django2-py36_lib_python3_6_site-packages_six_py.html">.tox/django2-py36/lib/python3.6/site-packages/six.py</a></td>
+                <td>450</td>
+                <td>448</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 450">1%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="Roles___init___py.html">Roles/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="Roles_admin_py.html">Roles/admin.py</a></td>
+                <td>14</td>
+                <td>14</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 14">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="Roles_apps_py.html">Roles/apps.py</a></td>
+                <td>3</td>
+                <td>3</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 3">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="Roles_decorators_py.html">Roles/decorators.py</a></td>
+                <td>28</td>
+                <td>28</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 28">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="Roles_models_py.html">Roles/models.py</a></td>
+                <td>18</td>
+                <td>18</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 18">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="Roles_templatetags___init___py.html">Roles/templatetags/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="Roles_templatetags_roles_tags_py.html">Roles/templatetags/roles_tags.py</a></td>
+                <td>13</td>
+                <td>13</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 13">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="Roles_urls_py.html">Roles/urls.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="Roles_utils_py.html">Roles/utils.py</a></td>
+                <td>101</td>
+                <td>101</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 101">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="Roles_views_py.html">Roles/views.py</a></td>
+                <td>12</td>
+                <td>12</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 12">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="asynchronize_py.html">asynchronize.py</a></td>
+                <td>67</td>
+                <td>67</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 67">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="conftest_py.html">conftest.py</a></td>
+                <td>12</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="11 12">92%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="roles___init___py.html">roles/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="roles_admin_py.html">roles/admin.py</a></td>
+                <td>14</td>
+                <td>6</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="8 14">57%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="roles_apps_py.html">roles/apps.py</a></td>
+                <td>3</td>
+                <td>3</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 3">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="roles_decorators_py.html">roles/decorators.py</a></td>
+                <td>28</td>
+                <td>24</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 28">14%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="roles_models_py.html">roles/models.py</a></td>
+                <td>18</td>
+                <td>4</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="14 18">78%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="roles_templatetags___init___py.html">roles/templatetags/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="roles_templatetags_roles_tags_py.html">roles/templatetags/roles_tags.py</a></td>
+                <td>13</td>
+                <td>13</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 13">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="roles_urls_py.html">roles/urls.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="roles_utils_py.html">roles/utils.py</a></td>
+                <td>101</td>
+                <td>84</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="17 101">17%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="roles_views_py.html">roles/views.py</a></td>
+                <td>12</td>
+                <td>12</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 12">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="setup_py.html">setup.py</a></td>
+                <td>6</td>
+                <td>6</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 6">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="sync-leva-roles_py.html">sync-leva-roles.py</a></td>
+                <td>55</td>
+                <td>55</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 55">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="synchronize_py.html">synchronize.py</a></td>
+                <td>67</td>
+                <td>67</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 67">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="tests___init___py.html">tests/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="tests_include_roles_url_py.html">tests/include_roles_url.py</a></td>
+                <td>4</td>
+                <td>4</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 4">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="tests_settings_py.html">tests/settings.py</a></td>
+                <td>12</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="12 12">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="tests_test_decoratos_py.html">tests/test_decoratos.py</a></td>
+                <td>185</td>
+                <td>185</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 185">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="tests_test_models_py.html">tests/test_models.py</a></td>
+                <td>3</td>
+                <td>3</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 3">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="tests_test_roles_py.html">tests/test_roles.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="tests_test_security_py.html">tests/test_security.py</a></td>
+                <td>3</td>
+                <td>3</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 3">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="tests_test_utils_py.html">tests/test_utils.py</a></td>
+                <td>121</td>
+                <td>121</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 121">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="tests_urls_py.html">tests/urls.py</a></td>
+                <td>4</td>
+                <td>4</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 4">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="tests_views_py.html">tests/views.py</a></td>
+                <td>7</td>
+                <td>7</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 7">0%</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <p id="no_rows">
+        No items found using the specified filter.
+    </p>
+</div>
+
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.1</a>,
+            created at 2018-11-01 08:33
+        </p>
+    </div>
+</div>
+
+</body>
+</html>
