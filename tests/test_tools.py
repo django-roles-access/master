@@ -223,7 +223,7 @@ class GetInstalledAppTest(unittest.TestCase):
 @modify_settings(INSTALLED_APPS={
     'append': 'roles'
 })
-@override_settings(ROOT_URLCONF='roles.tests.urls')
+@override_settings(ROOT_URLCONF='tests.urls')
 class TestCheckAccessByRoleWithSecuredApplications(TestCase):
 
     def setUp(self):
@@ -264,7 +264,7 @@ class TestCheckAccessByRoleWithSecuredApplications(TestCase):
 @modify_settings(INSTALLED_APPS={
     'append': 'roles'
 })
-@override_settings(ROOT_URLCONF='roles.tests.urls')
+@override_settings(ROOT_URLCONF='tests.urls')
 class TestCheckAccessByRoleWithPublicApplications(TestCase):
 
     def setUp(self):
@@ -303,7 +303,7 @@ class TestCheckAccessByRoleWithPublicApplications(TestCase):
 @modify_settings(INSTALLED_APPS={
     'append': 'roles'
 })
-@override_settings(ROOT_URLCONF='roles.tests.urls')
+@override_settings(ROOT_URLCONF='tests.urls')
 class TestCheckAccessByRoleWithNotSecuredApplications(TestCase):
     """
     NOT_SECURED applications should not be taken in consideration.
@@ -359,7 +359,7 @@ class TestCheckAccessByRoleWithNotSecuredApplications(TestCase):
 @modify_settings(INSTALLED_APPS={
     'append': 'roles'
 })
-@override_settings(ROOT_URLCONF='roles.tests.urls')
+@override_settings(ROOT_URLCONF='tests.urls')
 class TestCheckAccessByRoleWithoutAnySettings(TestCase):
 
     def setUp(self):

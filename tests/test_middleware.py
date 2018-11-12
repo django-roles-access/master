@@ -36,7 +36,7 @@ class MiddlewareUnitTest(unittest.TestCase):
 @modify_settings(MIDDLEWARE={
     'append': 'roles.middleware.RolesMiddleware'
 })
-@override_settings(ROOT_URLCONF='roles.tests.urls')
+@override_settings(ROOT_URLCONF='tests.urls')
 class MiddlewareIntegratedTestSecuredApp(TestCase):
 
     def setUp(self):
