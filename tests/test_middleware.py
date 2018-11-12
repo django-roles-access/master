@@ -1,5 +1,8 @@
 import unittest
-from unittest.mock import Mock, patch
+try:
+    from unittest.mock import Mock, patch
+except:
+    from mock import Mock, patch
 
 from django.conf import settings
 from django.test import TestCase, RequestFactory, \

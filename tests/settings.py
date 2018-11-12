@@ -1,4 +1,3 @@
-import django
 import os
 
 DEBUG = True
@@ -34,9 +33,3 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
     },
 ]
-#
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'miapp/media/')
-# MEDIA_URL = '/media/'
-#
-# STATIC_ROOT = os.path.join(BASE_DIR, 'miapp/static/')
-# STATIC_URL = '/static/'

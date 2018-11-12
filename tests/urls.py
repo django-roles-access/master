@@ -1,5 +1,8 @@
 from django.conf.urls import url
-from django.urls import include
+try:
+    from django.urls import include
+except:
+    from django.conf.urls import include
 
 from . import views
 

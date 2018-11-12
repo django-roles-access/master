@@ -1,9 +1,11 @@
 #: TODO TestIsolatedAccessByRoleDecorator.test_simple_preserve_attributes will
 #: TODO not pass if django.utils.decorators.method_decorator is used
 #: TODO Implements test with dummy view class
-
-from unittest.mock import Mock
 import unittest
+try:
+    from unittest.mock import Mock, patch
+except:
+    from mock import Mock, patch
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import user_passes_test, login_required, \
     permission_required

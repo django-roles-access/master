@@ -40,12 +40,10 @@ class AnalyzeSiteSecurity(TestCase):
       c The view has escape all possibilities.
 
 
-
-    Cosas a testear.
-    Si una vista utiliza login_required el test del sitio debería advertirlo,
-    si es posible, y verificar si está OK, es decir sólo se require estar
-    logueado.
-
+    Things to be tested
+    If a view use *login_required*, site test should warn this, and if
+    possible, test if it is OK. In other words, it will be OK if site test
+    detect that user need to be logged in.
     """
     pass
 
@@ -61,12 +59,7 @@ class AnalyzeSiteSecurity(TestCase):
 #
 # from roles.utils import get_applications_view_names
 # from roles.models import SecurityAccess
-#
-#
-# # TODO: Si la vista está entre las no configuradas, fallara si no solicita login. En caso de no estar
-# # TODO: declarada, debería permitir el acceso de todos si han iniciado sesion
-# # TODO: Se deberia poder declarar aplicaciones publicas de modo que pueda acceder a ellas sin haber
-# # TODO: iniciado sesion
+
 # class TestSiteSecurity(TestCase):
 #     """
 #     This test will check the security across the site (or Django project).

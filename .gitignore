@@ -8,5 +8,7 @@
 *.pot
 *.py[co]
 .tox/
+htmlcov/
+html_cov/
 __pycache__
 MANIFEST.in
