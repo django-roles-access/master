@@ -3,6 +3,7 @@ This views are used for testing.
 """
 from django.http import HttpResponse
 from django.template import Template, Context
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import TemplateView
 
@@ -20,6 +21,18 @@ def protected_view_by_role(request):
     c = Context({'user': request.user})
 
     return HttpResponse(t.render(c))
+
+
+class ProtectedView(View):
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        return HttpResponse('THis is a view processed by django-roles '
+                            'middleware. Username is {{ user.username }}')
+
+    @method_decorator(access_by_role)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ProtectedView, self).dispatch(request, *args, **kwargs)
 
 
 def middleware_view(request):

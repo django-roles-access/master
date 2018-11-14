@@ -2,6 +2,10 @@
 #: TODO not pass if django.utils.decorators.method_decorator is used
 #: TODO Implements test with dummy view class
 import unittest
+
+from django.conf import settings
+from django.test import TestCase, override_settings
+
 try:
     from unittest.mock import Mock, patch
 except:
@@ -114,3 +118,40 @@ class TestIsolatedAccessByRoleDecorator(unittest.TestCase):
                 pass
         self.assertIs(getattr(DummyClass().method, 'access_by_role', False),
                       True)
+
+
+# INTEGRATED TEST
+@override_settings(ROOT_URLCONF='tests.urls')
+class TestIntegratedAccessByRoleDecorator(TestCase):
+
+    def setUp(self):
+        settings.__setattr__('SECURED', ['roles'])
+        # User
+        self.u1, created = User.objects.get_or_create(username='test-1')
+
+    def tearDown(self):
+        settings.__delattr__('SECURED')
+
+    def test_get_access_view_function(self):
+        self.client.force_login(self.u1)
+        response = self.client.get(
+            '/role-included2/view_by_role/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_access_denied_view_function(self):
+        self.client.logout()
+        response = self.client.get(
+            '/role-included2/view_by_role/')
+        self.assertEqual(response.status_code, 403)
+
+    def test_get_access_class_view(self):
+        self.client.force_login(self.u1)
+        response = self.client.get(
+            '/role-included2/view_by_role_class/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_access_denied_class_view(self):
+        self.client.logout()
+        response = self.client.get(
+            '/role-included2/view_by_role_class/')
+        self.assertEqual(response.status_code, 403)
