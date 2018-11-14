@@ -5,9 +5,9 @@ from django.http import HttpResponse
 from django.template import Template, Context
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import TemplateView
 
 from roles.decorators import access_by_role
+from roles.mixin import RolesMixin
 
 
 @access_by_role
@@ -33,6 +33,14 @@ class ProtectedView(View):
     @method_decorator(access_by_role)
     def dispatch(self, request, *args, **kwargs):
         return super(ProtectedView, self).dispatch(request, *args, **kwargs)
+
+
+class ProtectedMixinView(RolesMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        return HttpResponse('THis is a view processed by django-roles '
+                            'middleware. Username is {{ user.username }}')
 
 
 def middleware_view(request):

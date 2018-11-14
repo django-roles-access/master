@@ -19,7 +19,5 @@ def access_by_role(view):
             return view(request, *args, **kwargs)
         raise PermissionDenied
 
-    _view.__name__ = view.__name__
-    _view.__doc__ = view.__doc__
     _view.access_by_role = True
     return _view
