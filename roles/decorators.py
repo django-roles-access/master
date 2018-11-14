@@ -3,7 +3,7 @@ from roles.tools import check_access_by_role
 # TODO: Create a ViewMixin which will implement the decorator.
 
 
-def access_by_role(func=None):
+def access_by_role(view):
     """
     Check if logged user can access the decorated function or class.
 
@@ -14,18 +14,12 @@ def access_by_role(func=None):
 
     PermissionDenied is raised if user has no access.
     """
-    def check_access(view):
-        def _view(request, *args, **kwargs):
-            if check_access_by_role(request):
-                return view(request, *args, **kwargs)
-            raise PermissionDenied
+    def _view(request, *args, **kwargs):
+        if check_access_by_role(request):
+            return view(request, *args, **kwargs)
+        raise PermissionDenied
 
-        _view.__name__ = check_access.__name__
-        _view.__dict__ = check_access.__dict__
-        _view.__doc__ = check_access.__doc__
-        _view.access_by_role = True
-        return _view
-    # Let use it: foo = access_by_role(foo)
-    if func:
-        return check_access(func)
-    return check_access
+    _view.__name__ = view.__name__
+    _view.__doc__ = view.__doc__
+    _view.access_by_role = True
+    return _view
