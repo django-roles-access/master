@@ -1,6 +1,6 @@
 from django.core.exceptions import PermissionDenied
 from roles.tools import check_access_by_role
-# TODO: Create a ViewMixin which will implement the decorator.
+# TODO: Test direct view.
 
 
 def access_by_role(view):

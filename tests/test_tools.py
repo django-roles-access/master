@@ -1,13 +1,4 @@
-"""
-The classes contained in this file:
-
-* GetInstalledApp<Test>: Are the classes used for testing
-  :func:`Role.utils.get_installed_app`.
-
-
-"""
 import unittest
-
 import pytest
 from django.conf import settings
 from django.contrib.auth import logout, login
@@ -16,12 +7,17 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.exceptions import PermissionDenied
 from django.test import RequestFactory, modify_settings, override_settings, \
     TestCase
+try:
+    from unittest.mock import Mock, patch
+except:
+    from mock import Mock, patch
 
 from roles.models import ViewAccess
 from roles.tools import get_setting_dictionary, get_view_access, \
     check_access_by_role
 
 
+# Unit Test
 @pytest.mark.django_db
 class TestGetViewAccess(unittest.TestCase):
 
@@ -146,7 +142,7 @@ class TestGetViewAccess(unittest.TestCase):
                                         'view_protected_by_role'))
 
 
-class GetInstalledAppTest(unittest.TestCase):
+class TestGetInstalledApp(unittest.TestCase):
     """
     """
 
@@ -220,6 +216,53 @@ class GetInstalledAppTest(unittest.TestCase):
         self.assertEqual(expected_dictionary, settings_dictionary)
 
 
+@patch('roles.tools.resolve')
+@patch('roles.tools.get_view_access')
+class TestCheckAccessByRole(unittest.TestCase):
+
+    def setUp(self):
+        self.request = Mock()
+
+    @patch('roles.tools.get_setting_dictionary')
+    def test_get_setting_dictionary_is_called(
+            self, mock_get_setting_dctionary, mock_get_view_access, mock_resolve
+    ):
+        check_access_by_role(self.request)
+        mock_get_setting_dctionary.assert_called()
+
+    @patch('roles.tools.get_setting_dictionary')
+    def test_get_setting_dictionary_is_called_once(
+            self, mock_get_setting_dctionary, mock_get_view_access, mock_resolve
+    ):
+        check_access_by_role(self.request)
+        mock_get_setting_dctionary.assert_called_once()
+
+    def test_get_view_access_is_called(
+            self, mock_get_view_access, mock_resolve
+    ):
+        check_access_by_role(self.request)
+        mock_get_view_access.assert_called()
+
+    def test_get_view_access_is_called_once(
+            self, mock_get_view_access, mock_resolve
+    ):
+        check_access_by_role(self.request)
+        mock_get_view_access.assert_called_once()
+
+    def test_get_view_access_is_called_with(
+            self, mock_get_view_access, mock_resolve
+    ):
+        self.request.user = Mock()
+        check_access_by_role(self.request)
+        current_url = mock_resolve.return_value
+        app_name = current_url.app_name
+        view_name = current_url.url_name
+        mock_get_view_access.assert_called_once_with(
+            self.request.user, app_name, view_name
+        )
+
+
+# Integrated tests
 @modify_settings(INSTALLED_APPS={
     'append': 'roles'
 })
