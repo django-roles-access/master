@@ -235,13 +235,13 @@ class TestCheckAccessByRole(unittest.TestCase):
             self, mock_get_setting_dctionary, mock_get_view_access, mock_resolve
     ):
         check_access_by_role(self.request)
-        mock_get_setting_dctionary.assert_called_once()
+        mock_get_setting_dctionary.assert_called()
 
     def test_get_view_access_is_called(
             self, mock_get_view_access, mock_resolve
     ):
         check_access_by_role(self.request)
-        mock_get_view_access.assert_called()
+        mock_get_view_access.assert_called_once()
 
     def test_get_view_access_is_called_once(
             self, mock_get_view_access, mock_resolve

@@ -1,15 +1,29 @@
 import unittest
-
 from django.conf import settings
 from django.test import TestCase, override_settings
+from django.contrib.auth import get_user_model
 
 try:
     from unittest.mock import Mock, patch
 except:
     from mock import Mock, patch
-from django.contrib.auth import get_user_model
+
+from tests.views import ProtectedMixinView
 
 User = get_user_model()
+
+
+# UNIT TEST
+@patch('roles.tools.ViewAccess')
+@patch('roles.tools.resolve')
+class TestUnitRolesMixin(unittest.TestCase):
+
+    def test_preserve_attributes(
+            self, mock_resolve, mock_view_access
+    ):
+        dispatched = ProtectedMixinView().dispatch
+        self.assertIs(getattr(dispatched, 'access_by_role',
+                      False), True)
 
 
 # INTEGRATED TEST
