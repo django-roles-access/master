@@ -142,7 +142,48 @@ class TestGetViewAccess(unittest.TestCase):
                                         'view_protected_by_role'))
 
 
-class TestGetInstalledApp(unittest.TestCase):
+@pytest.mark.django_db
+class TestGetViewAccessWithDirectView(unittest.TestCase):
+
+    def setUp(self):
+        # User and group
+        self.u1, created = User.objects.get_or_create(username='test-1')
+        self.g1, created = Group.objects.get_or_create(name='test-group-1')
+
+        # Request
+        self.req1 = RequestFactory().get('/direct_access_view/')
+        self.req1.user = self.u1
+
+        # Session
+        middleware = SessionMiddleware()
+        middleware.process_request(self.req1)
+        self.req1.session.save()
+
+        # ViewAccess
+        self.view_access, created = ViewAccess.objects.get_or_create(
+            view='direct_access_view')
+        self.view_access.type = 'au'
+        self.view_access.save()
+
+    def test_secured_view_without_app_name_with_authentication(self):
+        """
+        Test if a view in project urls.py is checked.
+        """
+        login(self.req1, self.u1)
+        self.assertTrue(get_view_access(self.req1.user, '',
+                                         'direct_access_view'))
+
+    def test_secured_view_without_app_name_without_authentication(self):
+        """
+        Test if a view in project urls.py is checked.
+        """
+        logout(self.req1)
+        with self.assertRaises(PermissionDenied):
+            get_view_access(self.req1.user, '',
+                            'direct_access_view')
+
+
+class TestGetDictionarySettings(unittest.TestCase):
     """
     """
 

@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.urls import resolve
+from django.db.models import Q
 
 from roles.models import ViewAccess
 
@@ -19,7 +20,8 @@ def get_view_access(user, app_name, view_name):
     """
     # Always check first if view has an access configurations
     view_access = ViewAccess.objects.filter(
-        view=u'{}:{}'.format(app_name, view_name)
+        Q(view=u'{}:{}'.format(app_name, view_name)) |
+        Q(view=view_name)
     ).first()
     if view_access:
         if view_access.type == 'pu':
