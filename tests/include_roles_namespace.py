@@ -7,7 +7,7 @@ except:
 from . import views
 
 
-app_name = 'roles-namespace'
+app_name = 'roles-app-name'
 
 urlpatterns = [
     url(r'^view_by_role/$', views.protected_view_by_role,

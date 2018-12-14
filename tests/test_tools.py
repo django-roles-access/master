@@ -20,6 +20,7 @@ from roles.tools import get_setting_dictionary, get_view_access, \
 # TODO:
 # TODO: Check Django default behavior is, if no namespace declared, app_name is
 # TODO: used as namespace.
+# TODO: Check where is missing unit test with call_once_with
 
 
 @pytest.mark.django_db
@@ -190,11 +191,17 @@ class TestNestedNameSpaces(unittest.TestCase):
         self.req1 = RequestFactory().get(
             '/nest2/nest3/view_by_role/')
         self.req1.user = self.u1
+        self.req2 = RequestFactory().get(
+            'nest1/view_protected_by_role'
+        )
+        self.req2.user = self.u1
 
         # Session
         middleware = SessionMiddleware()
         middleware.process_request(self.req1)
         self.req1.session.save()
+        middleware.process_request(self.req2)
+        self.req2.session.save()
 
         # ViewAccess
         self.view_access, created = ViewAccess.objects.get_or_create(
@@ -215,7 +222,8 @@ class TestNestedNameSpaces(unittest.TestCase):
         login(self.req1, self.u1)
         self.assertTrue(check_access_by_role(self.req1))
 
-    def test_check_secured_view_without_nested_namespace_without_authentication(self):
+    def test_check_secured_view_without_nested_namespace_without_authentication(
+            self):
         logout(self.req1)
         with self.assertRaises(PermissionDenied):
             check_access_by_role(self.req1)
@@ -500,6 +508,8 @@ class TestCheckAccessByRoleWithoutAnySettings(TestCase):
             view='roles:view_protected_by_role',
             type='au')
         login(self.req1, self.u1)
+        # import pdb
+        # pdb.set_trace()
         assert check_access_by_role(self.req1)
 
     def test_ViewAccess_denied_access_if_no_role(self):

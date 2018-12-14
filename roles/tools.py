@@ -19,6 +19,7 @@ def get_view_access(request):
     current_url = resolve(request.path_info)
     view_name = current_url.url_name
     namespace = current_url.namespace
+    print(namespace)
 
     view_access = ViewAccess.objects.filter(
         Q(view=u'{}:{}'.format(namespace, view_name)) |
