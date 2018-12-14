@@ -33,3 +33,5 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
     },
 ]
+
+ROOT_URLCONF = 'tests.urls'

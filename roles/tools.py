@@ -1,4 +1,3 @@
-#: TODO: Should be namespace an optional parameter?.
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.urls import resolve
@@ -7,22 +6,23 @@ from django.db.models import Q
 from roles.models import ViewAccess
 
 
-def get_view_access(user, app_name, view_name):
+def get_view_access(request):
     """
     Check if given an application and a view have an access configurations:
     an object of :class:`roles.models.ViewAccess`. Also check if given user
     has a role with permission to access the view.
 
-    :param user: :class:`django.contrib.auth.models.User`
-    :param app_name: The name of view's application.
-    :param view_name: Name of the view that is being accessed.
+    :param request:
     :return: True if user have access. Or raise PermissionDenied.
     """
-    # Always check first if view has an access configurations
+    user = request.user
+    current_url = resolve(request.path_info)
+    view_name = current_url.url_name
+    namespace = current_url.namespace
+
     view_access = ViewAccess.objects.filter(
-        Q(view=u'{}:{}'.format(app_name, view_name)) |
-        Q(view=view_name)
-    ).first()
+        Q(view=u'{}:{}'.format(namespace, view_name)) |
+        Q(view=view_name)).first()
     if view_access:
         if view_access.type == 'pu':
             return True
@@ -79,7 +79,6 @@ def check_access_by_role(request):
     :return: True if can access the view. False in other case.
     """
     current_url = resolve(request.path_info)
-    view_name = current_url.url_name
     app_name = current_url.app_name
     setting_dictionary = get_setting_dictionary()
 
@@ -89,7 +88,7 @@ def check_access_by_role(request):
 
     # If view has an access configuration, this takes precedence over
     # the classification of the application
-    if get_view_access(request.user, app_name, view_name):
+    if get_view_access(request):
         return True
 
     # Check for public applications

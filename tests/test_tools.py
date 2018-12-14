@@ -17,7 +17,11 @@ from roles.tools import get_setting_dictionary, get_view_access, \
     check_access_by_role
 
 
-# Unit Test
+# TODO:
+# TODO: Check Django default behavior is, if no namespace declared, app_name is
+# TODO: used as namespace.
+
+
 @pytest.mark.django_db
 class TestGetViewAccess(unittest.TestCase):
 
@@ -49,44 +53,39 @@ class TestGetViewAccess(unittest.TestCase):
         self.view_access.type = 'pu'
         self.view_access.save()
         logout(self.req1)
-        self.assertTrue(get_view_access(self.req1.user, 'roles',
-                                        'view_protected_by_role'))
+        self.assertTrue(get_view_access(self.req1))
 
     def test_secured_view_as_public_with_authorization_and_no_role(self):
         self.view_access.type = 'pu'
         self.view_access.save()
         login(self.req1, self.u1)
-        self.assertTrue(get_view_access(self.req1.user, 'roles',
-                                        'view_protected_by_role'))
+        self.assertTrue(get_view_access(self.req1))
 
     def test_secured_view_as_public_with_no_authorization_and_role(self):
         self.view_access.type = 'pu'
         self.view_access.save()
         logout(self.req1)
-        self.assertTrue(get_view_access(self.req1.user, 'roles',
-                                        'view_protected_by_role'))
+        self.assertTrue(get_view_access(self.req1))
 
     def test_secured_view_as_public_with_authorization_and_role(self):
         self.view_access.type = 'pu'
         self.view_access.save()
         self.fixture_role(self.u1, self.view_access)
         login(self.req1, self.u1)
-        self.assertTrue(get_view_access(self.req1.user, 'roles',
-                                        'view_protected_by_role'))
+        self.assertTrue(get_view_access(self.req1))
 
     def test_secured_view_as_authorized_with_no_authorization_and_no_role(self):
         self.view_access.type = 'au'
         self.view_access.save()
         logout(self.req1)
         with self.assertRaises(PermissionDenied):
-            get_view_access(self.req1.user, 'roles', 'view_protected_by_role')
+            get_view_access(self.req1)
 
     def test_secured_view_as_authorized_with_authorization_and_no_role(self):
         self.view_access.type = 'au'
         self.view_access.save()
         login(self.req1, self.u1)
-        self.assertTrue(get_view_access(self.req1.user, 'roles',
-                                        'view_protected_by_role'))
+        self.assertTrue(get_view_access(self.req1))
 
     def test_secured_view_as_authorized_with_no_authorization_and_role(self):
         self.view_access.type = 'au'
@@ -94,15 +93,14 @@ class TestGetViewAccess(unittest.TestCase):
         self.fixture_role(self.u1, self.view_access)
         logout(self.req1)
         with self.assertRaises(PermissionDenied):
-            get_view_access(self.req1.user, 'roles', 'view_protected_by_role')
+            get_view_access(self.req1)
 
     def test_secured_view_as_authorized_with_authorization_and_role(self):
         self.view_access.type = 'au'
         self.view_access.save()
         self.fixture_role(self.u1, self.view_access)
         login(self.req1, self.u1)
-        self.assertTrue(get_view_access(self.req1.user, 'roles',
-                                        'view_protected_by_role'))
+        self.assertTrue(get_view_access(self.req1))
 
     def test_secured_view_by_role_with_no_authorization_and_no_role(self):
         self.view_access.type = 'br'
@@ -111,7 +109,7 @@ class TestGetViewAccess(unittest.TestCase):
         self.view_access.save()
         logout(self.req1)
         with self.assertRaises(PermissionDenied):
-            get_view_access(self.req1.user, 'roles', 'view_protected_by_role')
+            get_view_access(self.req1)
 
     def test_secured_view_by_role_with_authorization_and_no_role(self):
         self.view_access.type = 'br'
@@ -123,7 +121,7 @@ class TestGetViewAccess(unittest.TestCase):
         logout(self.req1)
         login(self.req1, self.u1)
         with self.assertRaises(PermissionDenied):
-            get_view_access(self.req1.user, 'roles', 'view_protected_by_role')
+            get_view_access(self.req1)
 
     def test_secured_view_by_role_with_no_authorization_and_role(self):
         self.view_access.type = 'br'
@@ -131,15 +129,14 @@ class TestGetViewAccess(unittest.TestCase):
         self.fixture_role(self.u1, self.view_access)
         logout(self.req1)
         with self.assertRaises(PermissionDenied):
-            get_view_access(self.req1.user, 'roles', 'view_protected_by_role')
+            get_view_access(self.req1)
 
     def test_secured_view_by_role_with_authorization_and_role(self):
         self.view_access.type = 'br'
         self.view_access.save()
         self.fixture_role(self.u1, self.view_access)
         login(self.req1, self.u1)
-        self.assertTrue(get_view_access(self.req1.user, 'roles',
-                                        'view_protected_by_role'))
+        self.assertTrue(get_view_access(self.req1))
 
 
 @pytest.mark.django_db
@@ -170,8 +167,7 @@ class TestGetViewAccessWithDirectView(unittest.TestCase):
         Test if a view in project urls.py is checked.
         """
         login(self.req1, self.u1)
-        self.assertTrue(get_view_access(self.req1.user, '',
-                                         'direct_access_view'))
+        self.assertTrue(get_view_access(self.req1))
 
     def test_secured_view_without_app_name_without_authentication(self):
         """
@@ -179,8 +175,7 @@ class TestGetViewAccessWithDirectView(unittest.TestCase):
         """
         logout(self.req1)
         with self.assertRaises(PermissionDenied):
-            get_view_access(self.req1.user, '',
-                            'direct_access_view')
+            get_view_access(self.req1)
 
 
 @pytest.mark.django_db
@@ -193,7 +188,7 @@ class TestNestedNameSpaces(unittest.TestCase):
 
         # Request
         self.req1 = RequestFactory().get(
-            '/nest1/nest2/direct_access_view/')
+            '/nest2/nest3/view_by_role/')
         self.req1.user = self.u1
 
         # Session
@@ -203,20 +198,29 @@ class TestNestedNameSpaces(unittest.TestCase):
 
         # ViewAccess
         self.view_access, created = ViewAccess.objects.get_or_create(
-            view='nest1:nest2:direct_access_view')
+            view='nest2:nest3:view_protected_by_role')
         self.view_access.type = 'au'
         self.view_access.save()
 
     def test_secured_view_with_nested_namespace(self):
         login(self.req1, self.u1)
-        self.assertTrue(get_view_access(self.req1.user, '',
-                                        'direct_access_view'))
+        self.assertTrue(get_view_access(self.req1))
 
     def test_secured_view_without_nested_namespace_without_authentication(self):
         logout(self.req1)
         with self.assertRaises(PermissionDenied):
-            get_view_access(self.req1.user, '',
-                            'direct_access_view')
+            get_view_access(self.req1)
+
+    @override_settings(ROOT_URLCONF='tests.urls')
+    def test_check_secured_view_with_nested_namespace(self):
+        login(self.req1, self.u1)
+        self.assertTrue(check_access_by_role(self.req1))
+
+    @override_settings(ROOT_URLCONF='tests.urls')
+    def test_check_secured_view_without_nested_namespace_without_authentication(self):
+        logout(self.req1)
+        with self.assertRaises(PermissionDenied):
+            check_access_by_role(self.req1)
 
 
 class TestGetDictionarySettings(unittest.TestCase):
@@ -331,11 +335,8 @@ class TestCheckAccessByRole(unittest.TestCase):
     ):
         self.request.user = Mock()
         check_access_by_role(self.request)
-        current_url = mock_resolve.return_value
-        app_name = current_url.app_name
-        view_name = current_url.url_name
         mock_get_view_access.assert_called_once_with(
-            self.request.user, app_name, view_name
+            self.request
         )
 
 
