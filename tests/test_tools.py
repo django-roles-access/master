@@ -211,12 +211,10 @@ class TestNestedNameSpaces(unittest.TestCase):
         with self.assertRaises(PermissionDenied):
             get_view_access(self.req1)
 
-    @override_settings(ROOT_URLCONF='tests.urls')
     def test_check_secured_view_with_nested_namespace(self):
         login(self.req1, self.u1)
         self.assertTrue(check_access_by_role(self.req1))
 
-    @override_settings(ROOT_URLCONF='tests.urls')
     def test_check_secured_view_without_nested_namespace_without_authentication(self):
         logout(self.req1)
         with self.assertRaises(PermissionDenied):
@@ -341,10 +339,6 @@ class TestCheckAccessByRole(unittest.TestCase):
 
 
 # Integrated tests
-@modify_settings(INSTALLED_APPS={
-    'append': 'roles'
-})
-@override_settings(ROOT_URLCONF='tests.urls')
 class TestCheckAccessByRoleWithSecuredApplications(TestCase):
 
     def setUp(self):
@@ -382,10 +376,6 @@ class TestCheckAccessByRoleWithSecuredApplications(TestCase):
         assert check_access_by_role(self.req1)
 
 
-@modify_settings(INSTALLED_APPS={
-    'append': 'roles'
-})
-@override_settings(ROOT_URLCONF='tests.urls')
 class TestCheckAccessByRoleWithPublicApplications(TestCase):
 
     def setUp(self):
@@ -421,10 +411,6 @@ class TestCheckAccessByRoleWithPublicApplications(TestCase):
         assert check_access_by_role(self.req1)
 
 
-@modify_settings(INSTALLED_APPS={
-    'append': 'roles'
-})
-@override_settings(ROOT_URLCONF='tests.urls')
 class TestCheckAccessByRoleWithNotSecuredApplications(TestCase):
     """
     NOT_SECURED applications should not be taken in consideration.
@@ -477,10 +463,6 @@ class TestCheckAccessByRoleWithNotSecuredApplications(TestCase):
         assert check_access_by_role(self.req1)
 
 
-@modify_settings(INSTALLED_APPS={
-    'append': 'roles'
-})
-@override_settings(ROOT_URLCONF='tests.urls')
 class TestCheckAccessByRoleWithoutAnySettings(TestCase):
 
     def setUp(self):

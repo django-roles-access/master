@@ -27,7 +27,6 @@ class TestUnitRolesMixin(unittest.TestCase):
 
 
 # INTEGRATED TEST
-@override_settings(ROOT_URLCONF='tests.urls')
 class TestIntegratedRolesMixin(TestCase):
 
     def setUp(self):

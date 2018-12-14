@@ -121,7 +121,6 @@ class TestIsolatedAccessByRoleDecorator(unittest.TestCase):
 
 
 # INTEGRATED TEST
-@override_settings(ROOT_URLCONF='tests.urls')
 class TestIntegratedAccessByRoleDecorator(TestCase):
 
     def setUp(self):

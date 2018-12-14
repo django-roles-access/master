@@ -1,12 +1,5 @@
-import os
-
-DEBUG = True
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'django-roles'
-
-ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -27,11 +20,5 @@ DATABASES = {
         'NAME': ':memory:',
     }
 }
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-    },
-]
 
 ROOT_URLCONF = 'tests.urls'
