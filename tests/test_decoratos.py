@@ -14,7 +14,7 @@ from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import user_passes_test, login_required, \
     permission_required
 from django.utils.decorators import method_decorator
-from roles.decorators import access_by_role
+from django_roles.decorators import access_by_role
 
 User = get_user_model()
 

@@ -2,8 +2,8 @@
 
 from django.contrib import admin
 
-from roles.models import ViewAccess, TemplateAccess
-from roles.utils import get_view_names_choices
+from django_roles.models import ViewAccess, TemplateAccess
+from django_roles.utils import get_view_names_choices
 
 
 # Register your models here.

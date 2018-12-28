@@ -9,7 +9,7 @@ from django.test import TestCase, RequestFactory, \
     modify_settings, override_settings
 from django.contrib.auth import get_user_model
 
-from roles.middleware import RolesMiddleware
+from django_roles.middleware import RolesMiddleware
 User = get_user_model()
 
 
@@ -26,8 +26,8 @@ class MiddlewareUnitTest(unittest.TestCase):
         init_result = RolesMiddleware('response')
         assert init_result.get_response == 'response'
 
-    @patch('roles.tools.resolve')
-    @patch('roles.tools.ViewAccess')
+    @patch('django_roles.tools.resolve')
+    @patch('django_roles.tools.ViewAccess')
     def test_middleware(
             self, mock_view_acces, mock_resolve
     ):
@@ -37,7 +37,7 @@ class MiddlewareUnitTest(unittest.TestCase):
 
 # INTEGRATED TEST
 @modify_settings(MIDDLEWARE={
-    'append': 'roles.middleware.RolesMiddleware'
+    'append': 'django_roles.middleware.RolesMiddleware'
 })
 class MiddlewareIntegratedTestSecuredApp(TestCase):
 

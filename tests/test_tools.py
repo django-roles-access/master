@@ -12,8 +12,8 @@ try:
 except:
     from mock import Mock, patch
 
-from roles.models import ViewAccess
-from roles.tools import get_setting_dictionary, get_view_access, \
+from django_roles.models import ViewAccess
+from django_roles.tools import get_setting_dictionary, get_view_access, \
     check_access_by_role
 
 
@@ -191,17 +191,11 @@ class TestNestedNameSpaces(unittest.TestCase):
         self.req1 = RequestFactory().get(
             '/nest2/nest3/view_by_role/')
         self.req1.user = self.u1
-        self.req2 = RequestFactory().get(
-            'nest1/view_protected_by_role'
-        )
-        self.req2.user = self.u1
 
         # Session
         middleware = SessionMiddleware()
         middleware.process_request(self.req1)
         self.req1.session.save()
-        middleware.process_request(self.req2)
-        self.req2.session.save()
 
         # ViewAccess
         self.view_access, created = ViewAccess.objects.get_or_create(
@@ -303,21 +297,21 @@ class TestGetDictionarySettings(unittest.TestCase):
         self.assertEqual(expected_dictionary, settings_dictionary)
 
 
-@patch('roles.tools.resolve')
-@patch('roles.tools.get_view_access')
+@patch('django_roles.tools.resolve')
+@patch('django_roles.tools.get_view_access')
 class TestCheckAccessByRole(unittest.TestCase):
 
     def setUp(self):
         self.request = Mock()
 
-    @patch('roles.tools.get_setting_dictionary')
+    @patch('django_roles.tools.get_setting_dictionary')
     def test_get_setting_dictionary_is_called(
             self, mock_get_setting_dctionary, mock_get_view_access, mock_resolve
     ):
         check_access_by_role(self.request)
         mock_get_setting_dctionary.assert_called()
 
-    @patch('roles.tools.get_setting_dictionary')
+    @patch('django_roles.tools.get_setting_dictionary')
     def test_get_setting_dictionary_is_called_once(
             self, mock_get_setting_dctionary, mock_get_view_access, mock_resolve
     ):

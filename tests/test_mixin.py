@@ -14,8 +14,8 @@ User = get_user_model()
 
 
 # UNIT TEST
-@patch('roles.tools.ViewAccess')
-@patch('roles.tools.resolve')
+@patch('django_roles.tools.ViewAccess')
+@patch('django_roles.tools.resolve')
 class TestUnitRolesMixin(unittest.TestCase):
 
     def test_preserve_attributes(

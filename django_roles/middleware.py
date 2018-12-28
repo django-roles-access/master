@@ -1,6 +1,6 @@
 from django.core.exceptions import PermissionDenied
 
-from roles.tools import check_access_by_role
+from django_roles.tools import check_access_by_role
 
 
 class RolesMiddleware:

@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class RolesConfig(AppConfig):
-    name = 'roles'
+    name = 'django_roles'
     verbose_name = u'Django Roles'

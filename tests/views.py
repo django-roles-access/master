@@ -5,8 +5,8 @@ from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from roles.decorators import access_by_role
-from roles.mixin import RolesMixin
+from django_roles.decorators import access_by_role
+from django_roles.mixin import RolesMixin
 
 
 @access_by_role
