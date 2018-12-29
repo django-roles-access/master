@@ -7,6 +7,6 @@ except:
 app_name = 'roles-nested-namespace'
 
 urlpatterns = [
-    url(r'^nest3/', include('tests.include_roles_namespace',
-                            namespace='nest3')),
+    url(r'^nest2/', include('tests.include_roles_namespace',
+                            namespace='nest2_namespace')),
 ]

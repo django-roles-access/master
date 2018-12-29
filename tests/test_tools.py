@@ -42,7 +42,7 @@ class TestGetViewAccess(unittest.TestCase):
 
         # ViewAccess
         self.view_access, created = ViewAccess.objects.get_or_create(
-            view='roles:view_protected_by_role')
+            view='django_roles:view_protected_by_role')
 
     def fixture_role(self, user, view_access):
         user.groups.add(self.g1)
@@ -189,7 +189,7 @@ class TestNestedNameSpaces(unittest.TestCase):
 
         # Request
         self.req1 = RequestFactory().get(
-            '/nest2/nest3/view_by_role/')
+            '/nest1/nest2/view_by_role/')
         self.req1.user = self.u1
 
         # Session
@@ -199,7 +199,7 @@ class TestNestedNameSpaces(unittest.TestCase):
 
         # ViewAccess
         self.view_access, created = ViewAccess.objects.get_or_create(
-            view='nest2:nest3:view_protected_by_role')
+            view='nest1_namespace:nest2_namespace:view_protected_by_role')
         self.view_access.type = 'au'
         self.view_access.save()
 
@@ -344,7 +344,7 @@ class TestCheckAccessByRole(unittest.TestCase):
 class TestCheckAccessByRoleWithSecuredApplications(TestCase):
 
     def setUp(self):
-        settings.__setattr__('SECURED', ['roles'])
+        settings.__setattr__('SECURED', ['django_roles'])
         # User
         self.u1, created = User.objects.get_or_create(username='test-1')
 
@@ -381,7 +381,7 @@ class TestCheckAccessByRoleWithSecuredApplications(TestCase):
 class TestCheckAccessByRoleWithPublicApplications(TestCase):
 
     def setUp(self):
-        settings.__setattr__('PUBLIC', ['roles'])
+        settings.__setattr__('PUBLIC', ['django_roles'])
         # User and group
         self.u1, created = User.objects.get_or_create(username='test-1')
         self.g1, created = Group.objects.get_or_create(name='test-group-1')
@@ -419,7 +419,7 @@ class TestCheckAccessByRoleWithNotSecuredApplications(TestCase):
     """
 
     def setUp(self):
-        settings.__setattr__('NOT_SECURED', ['roles'])
+        settings.__setattr__('NOT_SECURED', ['django_roles'])
         # User and group
         self.u1, created = User.objects.get_or_create(username='test-1')
         self.g1, created = Group.objects.get_or_create(name='test-group-1')
@@ -459,7 +459,7 @@ class TestCheckAccessByRoleWithNotSecuredApplications(TestCase):
         request by the user, this will be ignored.
         """
         ViewAccess.objects.get_or_create(
-            view='roles:view_protected_by_role',
+            view='django_roles:view_protected_by_role',
             type='au')
         logout(self.req1)
         assert check_access_by_role(self.req1)
@@ -491,7 +491,7 @@ class TestCheckAccessByRoleWithoutAnySettings(TestCase):
 
     def test_ViewAccess_take_precedence_over_no_configuration_no_login(self):
         ViewAccess.objects.get_or_create(
-            view='roles:view_protected_by_role',
+            view='django_roles:view_protected_by_role',
             type='au')
         logout(self.req1)
         with self.assertRaises(PermissionDenied):
@@ -499,7 +499,7 @@ class TestCheckAccessByRoleWithoutAnySettings(TestCase):
 
     def test_ViewAccess_take_precedence_over_no_configuration_with_login(self):
         ViewAccess.objects.get_or_create(
-            view='roles:view_protected_by_role',
+            view='django_roles:view_protected_by_role',
             type='au')
         login(self.req1, self.u1)
         # import pdb
@@ -508,7 +508,7 @@ class TestCheckAccessByRoleWithoutAnySettings(TestCase):
 
     def test_ViewAccess_denied_access_if_no_role(self):
         view_access, created = ViewAccess.objects.get_or_create(
-            view='roles:view_protected_by_role',
+            view='django_roles:view_protected_by_role',
             type='br')
         view_access.roles.add(self.g1)
 
@@ -518,7 +518,7 @@ class TestCheckAccessByRoleWithoutAnySettings(TestCase):
 
     def test_ViewAccess_grant_access_if_role(self):
         view_access, created = ViewAccess.objects.get_or_create(
-            view='roles:view_protected_by_role',
+            view='django_roles:view_protected_by_role',
             type='br')
         view_access.roles.add(self.g1)
         view_access.save()

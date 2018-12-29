@@ -15,21 +15,13 @@ ACCESS_TYPES = (
 )
 
 
-# TODO: 1)
-# TODO: Incorporate namespace capabilities
-# TODO: 2)
-# TODO: Admin view field should be autocomplete? of all existing view without
-# TODO: configuration.
 class ViewAccess(models.Model):
     """
     Implements security by checking url_name of each declared view with the groups
     assigned to that view.
     """
-    #: Asumme view name is app:view_name
-    #: TODO: Correct next
-    #: The url_name of the View which security access is being declared. Each
-    #: url_name should have only one record, that will be: only one
-    #: declaration of access right. This is why *unique* is required.
+    #: View's name to be secured. Is possible to use namespace as part of the
+    #: view's name.
     view = models.CharField(max_length=255, unique=True)
     #:
     #:

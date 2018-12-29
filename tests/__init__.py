@@ -1,6 +1,9 @@
 #: TODO: Missing admin and apps test
 #: TODO: Missing testing with translations.
 #: TODO: Missing what should be translated?
+#: TODO: 2)
+#: TODO: Admin view field should be autocomplete? of all existing view without
+#: TODO: configuration.
 
 #: TODO: Are there any more unit test missing mock called_once_with?
 

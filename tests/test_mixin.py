@@ -30,7 +30,7 @@ class TestUnitRolesMixin(unittest.TestCase):
 class TestIntegratedRolesMixin(TestCase):
 
     def setUp(self):
-        settings.__setattr__('SECURED', ['roles'])
+        settings.__setattr__('SECURED', ['django_roles'])
         # User
         self.u1, created = User.objects.get_or_create(username='test-1')
 

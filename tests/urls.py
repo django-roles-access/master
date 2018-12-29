@@ -14,8 +14,6 @@ urlpatterns = [
         include('tests.include_roles_url')),
     url(r'^role-included2/',
         include('tests.include_roles_url', namespace='app-ns2')),
-    url(r'^nest1/', include('tests.include_roles_namespace',
-                            namespace='nest1')),
-    url(r'^nest2/', include('tests.include_nested_namespaces',
-                            namespace='nest2')),
+    url(r'^nest1/', include('tests.include_nested_namespaces',
+                            namespace='nest1_namespace')),
 ]
