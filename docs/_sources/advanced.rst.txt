@@ -1,3 +1,4 @@
+================================
 Levels of access to applications
 ================================
 
@@ -6,19 +7,22 @@ Admin creating an :class:`ViewAccess` object for each view. There are 3
 possible type of access to be set:
 
 * Public: Any user can access the view.
+
 * Authorized: Only authorized :class:`django.contrib.auth.User` can access
   the view. Is equivalent to
   :func:`django.contrib.auth.decorators.login_required`.
+
 * By roles: Only :class:`django.contrib.auth.User` belonging to
   :class:`django.contrib.auth.Group` that has been granted access to the
   view can access the view.
 
-
+=====================
 Types of applications
 =====================
 
+-----------
 NOT_SECURED
-+++++++++++
+-----------
 List of applications not under site security.
 
 The concept of NOT_SECURED application is to put together all applications that
@@ -29,27 +33,67 @@ WARNING:
 If an application is NOT_SECURED and have views, these views will be accessed
 by everyone.
 
+------
 PUBLIC
-++++++
+------
 List of applications mainly for public access.
 
 In PUBLIC applications views without an :class:`roles.models.ViewAccess`
 object associated will no require authentication (user to be logged in) and
 will have no security configured.
 
-
+-------
 SECURED
-+++++++
+-------
 When application is declared as a SECURED application, the views without
 any ViewAccess configured will require the user to be logged. In other
 words when a view has no :class:`roles.models.ViewAccess` object associated
 with it, it will behave as if it secure is *Authorized*
 
 
-
-Not configuration
-+++++++++++++++++
+=====================
+Without configuration
+=====================
 If an application is not declared as any of the others, but there is an
 :class:`roles.models.ViewAccess` object associated for an application's view,
 and the view is protected with decorator or middleware is being used,
 ViewAccess object will be used to restrict the access.
+
+
+.. _namespace_and_view_name:
+
+========================
+Namespaces and View Name
+========================
+
+When creating a :class:`roles.models.ViewAccess` object, the value of **view**
+attribute can be:
+
+* `view_name`
+* `app_name:view_name`
+* `namespace:view_name`
+* `nest_namespace:namespace:view_name`
+
+
+#TODO: Check how official doc talk about this and link.
+URLConf configuration (*urls.py*) gives the possible values. As also
+URLConf configuration is used by Django to serve Site's URL.
+
+The value of *ROOT_URLCONF* is used to know all possible views.
+
+
+
+=========
+Arguments
+=========
+
+Django-roles do not take view's arguments into consideration. This is true
+except for request argument (key in Django-roles works).
+
+As Django's URL dispatcher found a match (with or without regex to solve) the
+view is called. When the view is called is when Django-roles start to grant
+access, or not. And this is done with view name and application name (or
+namespaces), only request argument is needed.
+
+This is important if your site have a middleware that change the request.
+

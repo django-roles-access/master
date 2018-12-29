@@ -15,8 +15,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Notes" href="notes.html" />
-    <link rel="prev" title="Test" href="test.html" />
+    <link rel="next" title="Middleware" href="middleware.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" />
 
 
 
@@ -67,11 +67,11 @@
         <a title="Module index" href="py-modindex.html">Modules</a>
       </div>
       <div class="nav">
-    &laquo; <a href="test.html" title="Test">previous</a>
+    &laquo; <a href="introduction.html" title="Introduction">previous</a>
      |
     <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a>
    |
-    <a href="notes.html" title="Notes">next</a> &raquo;</div>
+    <a href="middleware.html" title="Middleware">next</a> &raquo;</div>
     </div>
 
     <div id="bd">
@@ -88,7 +88,7 @@ possible type of access to be set:</p>
 <li>Public: Any user can access the view.</li>
 <li>Authorized: Only authorized <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.User</span></code> can access
 the view. Is equivalent to
-<a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/default/#django.contrib.auth.decorators.login_required" title="(in Django v2.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code></a>.</li>
+<code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code>.</li>
 <li>By roles: Only <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.User</span></code> belonging to
 <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.Group</span></code> that has been granted access to the
 view can access the view.</li>
@@ -109,7 +109,7 @@ by everyone.</p>
 <div class="section" id="public">
 <h2>PUBLIC<a class="headerlink" href="#public" title="Permalink to this headline">¶</a></h2>
 <p>List of applications mainly for public access.</p>
-<p>In PUBLIC applications views without an <a class="reference internal" href="reference.html#roles.models.ViewAccess" title="roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code></a>
+<p>In PUBLIC applications views without an <code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code>
 object associated will no require authentication (user to be logged in) and
 will have no security configured.</p>
 </div>
@@ -117,16 +117,41 @@ will have no security configured.</p>
 <h2>SECURED<a class="headerlink" href="#secured" title="Permalink to this headline">¶</a></h2>
 <p>When application is declared as a SECURED application, the views without
 any ViewAccess configured will require the user to be logged. In other
-words when a view has no <a class="reference internal" href="reference.html#roles.models.ViewAccess" title="roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code></a> object associated
+words when a view has no <code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code> object associated
 with it, it will behave as if it secure is <em>Authorized</em></p>
 </div>
-<div class="section" id="not-configuration">
-<h2>Not configuration<a class="headerlink" href="#not-configuration" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="without-configuration">
+<h1>Without configuration<a class="headerlink" href="#without-configuration" title="Permalink to this headline">¶</a></h1>
 <p>If an application is not declared as any of the others, but there is an
-<a class="reference internal" href="reference.html#roles.models.ViewAccess" title="roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code></a> object associated for an application’s view,
+<code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code> object associated for an application’s view,
 and the view is protected with decorator or middleware is being used,
 ViewAccess object will be used to restrict the access.</p>
 </div>
+<div class="section" id="namespaces-and-view-name">
+<span id="namespace-and-view-name"></span><h1>Namespaces and View Name<a class="headerlink" href="#namespaces-and-view-name" title="Permalink to this headline">¶</a></h1>
+<p>When creating a <code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code> object, the value of <strong>view</strong>
+attribute can be:</p>
+<ul class="simple">
+<li><cite>view_name</cite></li>
+<li><cite>app_name:view_name</cite></li>
+<li><cite>namespace:view_name</cite></li>
+<li><cite>nest_namespace:namespace:view_name</cite></li>
+</ul>
+<p>#TODO: Check how official doc talk about this and link.
+URLConf configuration (<em>urls.py</em>) gives the possible values. As also
+URLConf configuration is used by Django to serve Site’s URL.</p>
+<p>The value of <em>ROOT_URLCONF</em> is used to know all possible views.</p>
+</div>
+<div class="section" id="arguments">
+<h1>Arguments<a class="headerlink" href="#arguments" title="Permalink to this headline">¶</a></h1>
+<p>Django-roles do not take view’s arguments into consideration. This is true
+except for request argument (key in Django-roles works).</p>
+<p>As Django’s URL dispatcher found a match (with or without regex to solve) the
+view is called. When the view is called is when Django-roles start to grant
+access, or not. And this is done with view name and application name (or
+namespaces), only request argument is needed.</p>
+<p>This is important if your site have a middleware that change the request.</p>
 </div>
 
 
@@ -146,17 +171,19 @@ ViewAccess object will be used to restrict the access.</p>
 <li><a class="reference internal" href="#not-secured">NOT_SECURED</a></li>
 <li><a class="reference internal" href="#public">PUBLIC</a></li>
 <li><a class="reference internal" href="#secured">SECURED</a></li>
-<li><a class="reference internal" href="#not-configuration">Not configuration</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#without-configuration">Without configuration</a></li>
+<li><a class="reference internal" href="#namespaces-and-view-name">Namespaces and View Name</a></li>
+<li><a class="reference internal" href="#arguments">Arguments</a></li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="test.html"
-                        title="previous chapter">Test</a></p>
+  <p class="topless"><a href="introduction.html"
+                        title="previous chapter">Introduction</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="notes.html"
-                        title="next chapter">Notes</a></p>
+  <p class="topless"><a href="middleware.html"
+                        title="next chapter">Middleware</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -179,7 +206,7 @@ ViewAccess object will be used to restrict the access.</p>
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Nov 10, 2018</p>
+              <p class="topless">Dec 29, 2018</p>
           </div>
         
       
@@ -187,11 +214,11 @@ ViewAccess object will be used to restrict the access.</p>
 
     <div id="ft">
       <div class="nav">
-    &laquo; <a href="test.html" title="Test">previous</a>
+    &laquo; <a href="introduction.html" title="Introduction">previous</a>
      |
     <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a>
    |
-    <a href="notes.html" title="Notes">next</a> &raquo;</div>
+    <a href="middleware.html" title="Middleware">next</a> &raquo;</div>
     </div>
   </div>
 

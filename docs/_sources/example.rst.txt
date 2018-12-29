@@ -1,9 +1,10 @@
----------------
-Tutorial Part 1
----------------
+=======
+Example
+=======
 
 .. _create-example-django-project:
 
+-----------------------------
 Create example Django project
 -----------------------------
 This tutorial will explain how to use Django-Roles. For this is necessary a
@@ -249,6 +250,7 @@ Create directory *polls/templates/polls* and add next html files:
 
 .. _example-installing-django-roles:
 
+-----------------------
 Installing Django-Roles
 -----------------------
 Download Django-Roles from PyPi with the command:::

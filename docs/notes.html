@@ -15,7 +15,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Levels of access to applications" href="advanced.html" />
+    <link rel="next" title="Example" href="example.html" />
+    <link rel="prev" title="Reference" href="reference.html" />
 
 
 
@@ -66,9 +67,11 @@
         <a title="Module index" href="py-modindex.html">Modules</a>
       </div>
       <div class="nav">
-    &laquo; <a href="advanced.html" title="Levels of access to applications">previous</a>
+    &laquo; <a href="reference.html" title="Reference">previous</a>
      |
-    <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a></div>
+    <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a>
+   |
+    <a href="example.html" title="Example">next</a> &raquo;</div>
     </div>
 
     <div id="bd">
@@ -78,6 +81,31 @@
             
   <div class="section" id="notes">
 <h1>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h1>
+<p>How Django processes a request</p>
+<p>1) Django determines the root URLconf module to use. Ordinarily, this is the
+value of the ROOT_URLCONF setting, but if the incoming HttpRequest object has a
+urlconf attribute (set by middleware), its value will be used in place of the
+ROOT_URLCONF setting.</p>
+<ol class="arabic simple" start="2">
+<li>Django loads that Python module and looks for the variable urlpatterns. This</li>
+</ol>
+<blockquote>
+<div>should be a Python list of django.urls.path() and/or django.urls.re_path()
+instances.</div></blockquote>
+<p>3) Django runs through each URL pattern, in order, and stops at the first one
+that matches the requested URL.</p>
+<p>4) Once one of the URL patterns matches, Django imports and calls the given
+view, which is a simple Python function (or a class-based view). The view gets
+passed the following arguments:
+An instance of HttpRequest.
+If the matched URL pattern returned no named groups, then the matches from the
+regular expression are provided as positional arguments.
+The keyword arguments are made up of any named parts matched by the path
+expression, overridden by any arguments specified in the optional kwargs
+argument to django.urls.path() or django.urls.re_path().</p>
+<p>5) If no URL pattern matches, or if an exception is raised during any point in
+this process, Django invokes an appropriate error-handling view. See Error
+handling below.</p>
 <p>Why is not used user_passes_test()?
 Because the callable receive the user as argument, while access by role also
 need to know the view being accessed. As pure decorator it receive the request.</p>
@@ -99,8 +127,11 @@ Django-roles lets administrate the security dynamically with ViewAccess objects.
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="advanced.html"
-                        title="previous chapter">Levels of access to applications</a></p>
+  <p class="topless"><a href="reference.html"
+                        title="previous chapter">Reference</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="example.html"
+                        title="next chapter">Example</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -123,7 +154,7 @@ Django-roles lets administrate the security dynamically with ViewAccess objects.
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Nov 10, 2018</p>
+              <p class="topless">Dec 29, 2018</p>
           </div>
         
       
@@ -131,9 +162,11 @@ Django-roles lets administrate the security dynamically with ViewAccess objects.
 
     <div id="ft">
       <div class="nav">
-    &laquo; <a href="advanced.html" title="Levels of access to applications">previous</a>
+    &laquo; <a href="reference.html" title="Reference">previous</a>
      |
-    <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a></div>
+    <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a>
+   |
+    <a href="example.html" title="Example">next</a> &raquo;</div>
     </div>
   </div>
 
