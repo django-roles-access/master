@@ -26,10 +26,8 @@ class ViewAccess(models.Model):
     #:
     #:
     type = models.CharField(max_length=2, choices=ACCESS_TYPES)
-    #: TODO: Correct next
-    #: Relation ManyToMany with :func:`django.contrib.auth.models.Group`. The
-    #: relation is ManyToMany because a View can
-    #: be accessed by more than :func:`django.contrib.auth.models.Group`.
+    #:
+    #:
     roles = models.ManyToManyField(Group)
 
     def __str__(self):
