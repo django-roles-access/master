@@ -1,13 +1,15 @@
 #: TODO TestIsolatedAccessByRoleDecorator.test_simple_preserve_attributes will
 #: TODO not pass if django.utils.decorators.method_decorator is used
 #: TODO Implements test with dummy view class
+#: TODO: Test decorator with direct view.
+#: TODO: UnitTest must be implemented using mock and checking called_once_with
 import unittest
 
 from django.conf import settings
 from django.test import TestCase, override_settings
 
 try:
-    from unittest.mock import Mock, patch
+    from unittest.mock import Mock, patch, MagicMock
 except:
     from mock import Mock, patch
 from django.contrib.auth import get_user_model, login
@@ -119,6 +121,31 @@ class TestIsolatedAccessByRoleDecorator(unittest.TestCase):
         self.assertIs(getattr(DummyClass().method, 'access_by_role', False),
                       True)
 
+    @patch('django_roles.decorators.check_access_by_role')
+    def test_decorator_call_check_access_by_role(
+            self, mock_check_access_by_role
+    ):
+        request = Mock()
+        view = MagicMock(name='_view')
+        # mock_check_access_by_role._view.side_effect = view(request)
+        mock_check_access_by_role._view.return_value = view(request)
+
+        access_by_role(view=view)
+
+        mock_check_access_by_role.assert_called()
+
+    # @patch('django_roles.decorators.check_access_by_role')
+    # def test_decorator_call_check_access_by_role_with_request(
+    #         self, mock_check_access_by_role
+    # ):
+    #     request = Mock()
+    #     view = Mock()
+    #
+    #     @access_by_role(view=view)
+    #     def func():
+    #         pass
+    #     func()
+    #     mock_check_access_by_role.assert_called_with(request)
 
 # INTEGRATED TEST
 class TestIntegratedAccessByRoleDecorator(TestCase):

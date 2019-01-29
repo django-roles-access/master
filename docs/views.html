@@ -89,6 +89,37 @@
 </div>
 <div class="section" id="use-mixin">
 <h2>4 Use Mixin<a class="headerlink" href="#use-mixin" title="Permalink to this headline">¶</a></h2>
+<p>5 Delete</p>
+</div>
+<div class="section" id="basic-concepts">
+<span id="id1"></span><h2>Basic concepts<a class="headerlink" href="#basic-concepts" title="Permalink to this headline">¶</a></h2>
+<p>Django Roles implements it’s core <em>roles</em> with
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a>. This means that
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/#module-django.contrib.auth" title="(in Django v2.2)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">django.contrib.auth</span></code></a> must be listed in <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/settings/#std:setting-INSTALLED_APPS" title="(in Django v2.2)"><code class="xref std std-setting docutils literal notranslate"><span class="pre">INSTALLED_APPS</span></code></a>.</p>
+<p>This could be an extra effort if you just want to grant a
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.User" title="(in Django v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.User</span></code></a> access to a view.
+For example in case where only a particular user must be the only one in
+access a particular view. To solve this you can create a new
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a> and named it in such a way you
+reflect this particular case.</p>
+<p>In general there are, from security point of view, two kind of applications:</p>
+<ul class="simple">
+<li><strong>Simple</strong>: This kind of sites requires user to be logged in some views.
+This is the case when &#64;login_required is used.</li>
+<li><strong>Heavy</strong>: This kind of sites requires user to be logged in almost all
+views. The use of &#64;login_required became impractical or at least tedious.</li>
+</ul>
+<p>Django Roles could work in to ways depending in site’s security requirements
+as explained: simple or heave:</p>
+<ul class="simple">
+<li><strong>With function/decorator</strong>: For this cases Django Roles provides a
+decorator or function to check security.</li>
+<li><strong>With middleware</strong>: When a site requires user to be logged in almost all
+views. Django Roles offers a middleware to free you of the need of using the
+mentioned decorator.</li>
+</ul>
+<p>For any of the cases (function/decorator or middleware) Django Roles is used
+equally.</p>
 </div>
 </div>
 
@@ -109,6 +140,7 @@
 <li><a class="reference internal" href="#configure-views-access">2 Configure views access</a></li>
 <li><a class="reference internal" href="#decorate-the-view">3 Decorate the view</a></li>
 <li><a class="reference internal" href="#use-mixin">4 Use Mixin</a></li>
+<li><a class="reference internal" href="#basic-concepts">Basic concepts</a></li>
 </ul>
 </li>
 </ul>
@@ -138,7 +170,7 @@
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Dec 29, 2018</p>
+              <p class="topless">Jan 08, 2019</p>
           </div>
         
       

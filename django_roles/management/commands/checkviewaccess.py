@@ -1,10 +1,15 @@
+#: TODO Recover applications from settings or database or user must define it?
+#: TODO: Si la vista está entre las no configuradas, fallara si no solicita
+#: TODO: login. En caso de no estar
+#: TODO: declarada, debería permitir el acceso de todos si han iniciado sesion
+#: TODO: Se deberia poder declarar aplicaciones publicas de modo que pueda
+#: TODO: acceder a ellas sin haber iniciado sesion
 """
 This test module will search for all site's urls and analyze their security
 status.
 """
 from unittest.case import TestCase
 from django.core.management.base import BaseCommand, CommandError
-
 
 
 class Command(BaseCommand):
@@ -78,7 +83,7 @@ class AnalyzeSiteSecurity(TestCase):
 
     """
     pass
-#: TODO Recover applications from settings or database or user must define it?
+
 # from unittest.case import TestCase
 # import pytest
 #
@@ -86,10 +91,6 @@ class AnalyzeSiteSecurity(TestCase):
 # from roles.models import SecurityAccess
 #
 #
-# # TODO: Si la vista está entre las no configuradas, fallara si no solicita login. En caso de no estar
-# # TODO: declarada, debería permitir el acceso de todos si han iniciado sesion
-# # TODO: Se deberia poder declarar aplicaciones publicas de modo que pueda acceder a ellas sin haber
-# # TODO: iniciado sesion
 # class TestSiteSecurity(TestCase):
 #     """
 #     This test will check the security across the site (or Django project).

@@ -15,8 +15,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Middleware" href="middleware.html" />
-    <link rel="prev" title="Introduction" href="introduction.html" />
+    <link rel="next" title="Reference" href="reference.html" />
+    <link rel="prev" title="Using Django roles middleware" href="middleware.html" />
 
 
 
@@ -67,11 +67,11 @@
         <a title="Module index" href="py-modindex.html">Modules</a>
       </div>
       <div class="nav">
-    &laquo; <a href="introduction.html" title="Introduction">previous</a>
+    &laquo; <a href="middleware.html" title="Using Django roles middleware">previous</a>
      |
     <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a>
    |
-    <a href="middleware.html" title="Middleware">next</a> &raquo;</div>
+    <a href="reference.html" title="Reference">next</a> &raquo;</div>
     </div>
 
     <div id="bd">
@@ -88,38 +88,11 @@ possible type of access to be set:</p>
 <li>Public: Any user can access the view.</li>
 <li>Authorized: Only authorized <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.User</span></code> can access
 the view. Is equivalent to
-<code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code>.</li>
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/default/#django.contrib.auth.decorators.login_required" title="(in Django v2.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code></a>.</li>
 <li>By roles: Only <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.User</span></code> belonging to
 <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.Group</span></code> that has been granted access to the
 view can access the view.</li>
 </ul>
-</div>
-<div class="section" id="types-of-applications">
-<h1>Types of applications<a class="headerlink" href="#types-of-applications" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="not-secured">
-<h2>NOT_SECURED<a class="headerlink" href="#not-secured" title="Permalink to this headline">¶</a></h2>
-<p>List of applications not under site security.</p>
-<p>The concept of NOT_SECURED application is to put together all applications that
-not provide any view (no URLConf defined for the application). There are no
-views with the need to be secured or not.</p>
-<p>WARNING:
-If an application is NOT_SECURED and have views, these views will be accessed
-by everyone.</p>
-</div>
-<div class="section" id="public">
-<h2>PUBLIC<a class="headerlink" href="#public" title="Permalink to this headline">¶</a></h2>
-<p>List of applications mainly for public access.</p>
-<p>In PUBLIC applications views without an <code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code>
-object associated will no require authentication (user to be logged in) and
-will have no security configured.</p>
-</div>
-<div class="section" id="secured">
-<h2>SECURED<a class="headerlink" href="#secured" title="Permalink to this headline">¶</a></h2>
-<p>When application is declared as a SECURED application, the views without
-any ViewAccess configured will require the user to be logged. In other
-words when a view has no <code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code> object associated
-with it, it will behave as if it secure is <em>Authorized</em></p>
-</div>
 </div>
 <div class="section" id="without-configuration">
 <h1>Without configuration<a class="headerlink" href="#without-configuration" title="Permalink to this headline">¶</a></h1>
@@ -141,7 +114,7 @@ attribute can be:</p>
 <p>#TODO: Check how official doc talk about this and link.
 URLConf configuration (<em>urls.py</em>) gives the possible values. As also
 URLConf configuration is used by Django to serve Site’s URL.</p>
-<p>The value of <em>ROOT_URLCONF</em> is used to know all possible views.</p>
+<p>???The value of <em>ROOT_URLCONF</em> is used to know all possible views.???</p>
 </div>
 <div class="section" id="arguments">
 <h1>Arguments<a class="headerlink" href="#arguments" title="Permalink to this headline">¶</a></h1>
@@ -167,23 +140,17 @@ namespaces), only request argument is needed.</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Levels of access to applications</a></li>
-<li><a class="reference internal" href="#types-of-applications">Types of applications</a><ul>
-<li><a class="reference internal" href="#not-secured">NOT_SECURED</a></li>
-<li><a class="reference internal" href="#public">PUBLIC</a></li>
-<li><a class="reference internal" href="#secured">SECURED</a></li>
-</ul>
-</li>
 <li><a class="reference internal" href="#without-configuration">Without configuration</a></li>
 <li><a class="reference internal" href="#namespaces-and-view-name">Namespaces and View Name</a></li>
 <li><a class="reference internal" href="#arguments">Arguments</a></li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="introduction.html"
-                        title="previous chapter">Introduction</a></p>
-  <h4>Next topic</h4>
   <p class="topless"><a href="middleware.html"
-                        title="next chapter">Middleware</a></p>
+                        title="previous chapter">Using Django roles middleware</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="reference.html"
+                        title="next chapter">Reference</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -206,7 +173,7 @@ namespaces), only request argument is needed.</p>
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Dec 29, 2018</p>
+              <p class="topless">Jan 08, 2019</p>
           </div>
         
       
@@ -214,11 +181,11 @@ namespaces), only request argument is needed.</p>
 
     <div id="ft">
       <div class="nav">
-    &laquo; <a href="introduction.html" title="Introduction">previous</a>
+    &laquo; <a href="middleware.html" title="Using Django roles middleware">previous</a>
      |
     <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a>
    |
-    <a href="middleware.html" title="Middleware">next</a> &raquo;</div>
+    <a href="reference.html" title="Reference">next</a> &raquo;</div>
     </div>
   </div>
 

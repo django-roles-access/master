@@ -1,3 +1,4 @@
+#: TODO: UnitTest must be implemented using mock and checking called_once_with
 """
 This test module will search for all site's urls and analyze their security
 status.
@@ -47,13 +48,6 @@ class AnalyzeSiteSecurity(TestCase):
     """
     pass
 
-
-
-
-
-
-
-#: TODO Recover applications from settings or database or user must define it?
 # from unittest.case import TestCase
 # import pytest
 #

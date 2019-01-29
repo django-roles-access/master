@@ -16,40 +16,6 @@ possible type of access to be set:
   :class:`django.contrib.auth.Group` that has been granted access to the
   view can access the view.
 
-=====================
-Types of applications
-=====================
-
------------
-NOT_SECURED
------------
-List of applications not under site security.
-
-The concept of NOT_SECURED application is to put together all applications that
-not provide any view (no URLConf defined for the application). There are no
-views with the need to be secured or not.
-
-WARNING:
-If an application is NOT_SECURED and have views, these views will be accessed
-by everyone.
-
-------
-PUBLIC
-------
-List of applications mainly for public access.
-
-In PUBLIC applications views without an :class:`roles.models.ViewAccess`
-object associated will no require authentication (user to be logged in) and
-will have no security configured.
-
--------
-SECURED
--------
-When application is declared as a SECURED application, the views without
-any ViewAccess configured will require the user to be logged. In other
-words when a view has no :class:`roles.models.ViewAccess` object associated
-with it, it will behave as if it secure is *Authorized*
-
 
 =====================
 Without configuration
@@ -60,7 +26,7 @@ and the view is protected with decorator or middleware is being used,
 ViewAccess object will be used to restrict the access.
 
 
-.. _namespace_and_view_name:
+.. _`Namespace and View Name`:
 
 ========================
 Namespaces and View Name
@@ -79,7 +45,7 @@ attribute can be:
 URLConf configuration (*urls.py*) gives the possible values. As also
 URLConf configuration is used by Django to serve Site's URL.
 
-The value of *ROOT_URLCONF* is used to know all possible views.
+???The value of *ROOT_URLCONF* is used to know all possible views.???
 
 
 

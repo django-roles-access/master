@@ -1,6 +1,5 @@
 from django.core.exceptions import PermissionDenied
 from django_roles.tools import check_access_by_role
-# TODO: Test direct view.
 
 
 def access_by_role(view):
