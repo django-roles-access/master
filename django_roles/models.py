@@ -8,18 +8,22 @@ except:
 from django.contrib.auth.models import Group
 
 
-ACCESS_TYPES = (
-    ('pu', _('Public')),
-    ('au', _('Authorized')),
-    ('br', _('By role'))
-)
-
-
 class ViewAccess(models.Model):
     """
     Implements security by checking url_name of each declared view with the groups
     assigned to that view.
     """
+
+    PUBLIC = 'pu'
+    AUTHORIZED = 'au'
+    BY_ROLE = 'br'
+
+    ACCESS_TYPES = (
+        (PUBLIC, _('Public')),
+        (AUTHORIZED, _('Authorized')),
+        (BY_ROLE, _('By role'))
+    )
+
     #: View's name to be secured. Is possible to use namespace as part of the
     #: view's name.
     view = models.CharField(max_length=255, unique=True, default=None)

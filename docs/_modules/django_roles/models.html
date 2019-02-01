@@ -84,18 +84,22 @@
 <span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="k">import</span> <span class="n">Group</span>
 
 
-<span class="n">ACCESS_TYPES</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="p">(</span><span class="s1">&#39;pu&#39;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Public&#39;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s1">&#39;au&#39;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Authorized&#39;</span><span class="p">)),</span>
-    <span class="p">(</span><span class="s1">&#39;br&#39;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;By role&#39;</span><span class="p">))</span>
-<span class="p">)</span>
-
-
 <div class="viewcode-block" id="ViewAccess"><a class="viewcode-back" href="../../reference.html#django_roles.models.ViewAccess">[docs]</a><span class="k">class</span> <span class="nc">ViewAccess</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements security by checking url_name of each declared view with the groups</span>
 <span class="sd">    assigned to that view.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">PUBLIC</span> <span class="o">=</span> <span class="s1">&#39;pu&#39;</span>
+    <span class="n">AUTHORIZED</span> <span class="o">=</span> <span class="s1">&#39;au&#39;</span>
+    <span class="n">BY_ROLE</span> <span class="o">=</span> <span class="s1">&#39;br&#39;</span>
+
+    <span class="n">ACCESS_TYPES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">PUBLIC</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Public&#39;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">AUTHORIZED</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Authorized&#39;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">BY_ROLE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;By role&#39;</span><span class="p">))</span>
+    <span class="p">)</span>
+
     <span class="c1">#: View&#39;s name to be secured. Is possible to use namespace as part of the</span>
     <span class="c1">#: view&#39;s name.</span>
     <span class="n">view</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>

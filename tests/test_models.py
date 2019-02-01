@@ -1,6 +1,6 @@
 from django.db import IntegrityError
 from django.test import TestCase
-from django_roles.models import ViewAccess
+from django_roles.models import ViewAccess, TemplateAccess
 
 
 class TestViewAccessModel(TestCase):
@@ -19,9 +19,12 @@ class TestViewAccessModel(TestCase):
     def test_count_objects(self):
         self.assertEqual(ViewAccess.objects.count(), 1)
 
-    # Verify model method
+    def test_view_attribute_is_required(self):
+        view_access = ViewAccess()
+        view_access.type = 'pu'
+        with self.assertRaises(IntegrityError):
+            view_access.save()
 
-    # Verify model attributes
     def test_view_attribute_is_unique(self):
         view_access = ViewAccess(view='namespace:view_name',
                                  type='pu')
@@ -30,12 +33,6 @@ class TestViewAccessModel(TestCase):
                                   type='au')
         with self.assertRaises(IntegrityError):
             view_access2.save()
-
-    def test_view_attribute_is_required(self):
-        view_access = ViewAccess()
-        view_access.type = 'pu'
-        with self.assertRaises(IntegrityError):
-            view_access.save()
 
     def test_type_attribute_is_required(self):
         view_access = ViewAccess()
@@ -51,3 +48,11 @@ class TestViewAccessModel(TestCase):
     #         view_access.save()
 
 
+class TestTemplateAccessModel(TestCase):
+
+    def setUp(self):
+        self.view_access = TemplateAccess(flag="a-flag")
+        self.view_access.save()
+
+    def test_string_representation(self):
+        self.assertEqual(str(self.view_access), "a-flag")
