@@ -10,6 +10,8 @@ from . import views
 urlpatterns = [
     url(r'^direct_access_view/$', views.protected_view_by_role,
         name='direct_access_view'),
+    url(r'^direct_view/$', views.direct_view,
+        name='direct_view'),
     url(r'^role-included[135]/',
         include('tests.include_roles_url')),
     url(r'^role-included2/',

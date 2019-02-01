@@ -5,14 +5,21 @@ from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from django_roles.decorators import access_by_role
+from django_roles.decorator import access_by_role
 from django_roles.mixin import RolesMixin
+
+
+def direct_view(request):
+    """
+    A simple view for testing default behavior.
+    """
+    return HttpResponse('THis is a simple view')
 
 
 @access_by_role
 def protected_view_by_role(request):
     """
-    A simple view for testing access_by_role decorator
+    A simple view for testing access_by_role decorator.
     """
     user = request.user
     return HttpResponse('THis is a view processed by django-roles '
