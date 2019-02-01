@@ -1,3 +1,5 @@
+from functools import update_wrapper
+
 from django.core.exceptions import PermissionDenied
 from django_roles.tools import check_access_by_role
 
@@ -19,4 +21,5 @@ def access_by_role(view):
         raise PermissionDenied
 
     _view.access_by_role = True
+    update_wrapper(_view, view)
     return _view

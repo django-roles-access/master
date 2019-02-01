@@ -1,18 +1,15 @@
-#: TODO TestIsolatedAccessByRoleDecorator.test_simple_preserve_attributes will
-#: TODO not pass if django.utils.decorators.method_decorator is used
-#: TODO Implements test with dummy view class
-#: TODO: Test decorator with direct view.
-#: TODO: UnitTest must be implemented using mock and checking called_once_with
 import unittest
-
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
 from django.test import TestCase, override_settings
+
+from django_roles.models import ViewAccess
 
 try:
     from unittest.mock import Mock, patch, MagicMock
 except:
     from mock import Mock, patch
-from django.contrib.auth import get_user_model, login
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import user_passes_test, login_required, \
     permission_required
 from django.utils.decorators import method_decorator
@@ -28,7 +25,11 @@ def myattr_dec(func):
     return wrapper
 
 
-class TestIsolatedAccessByRoleDecorator(unittest.TestCase):
+class TestAccessByRoleWithOtherDecorators(unittest.TestCase):
+
+    def test_view_is_decorated_with_access_by_role(self):
+        from .views import protected_view_by_role
+        self.assertTrue(protected_view_by_role.access_by_role)
 
     def test_attributes(self):
         doc = "Check if logged user can access the decorated function or class."
@@ -36,29 +37,13 @@ class TestIsolatedAccessByRoleDecorator(unittest.TestCase):
         self.assertIn(doc, access_by_role.__doc__)
         self.assertEqual(access_by_role.__dict__, {})
 
-    def test_simple_preserve_attributes(self):
-        # Sanity check myattr_dec
-        @myattr_dec
-        def func():
-            pass
-        self.assertIs(getattr(func, 'myattr', False), True)
-
+    def test_simple_preserve_attributes_with_other_decorator(self):
         @access_by_role
         def func():
             pass
         self.assertIs(getattr(func, 'access_by_role', False), True)
 
-        @method_decorator(myattr_dec)
-        # @myattr_dec  # Do not pass!!
         @access_by_role
-        def func():
-            pass
-
-        self.assertIs(getattr(func, 'myattr', False), True)
-        self.assertIs(getattr(func, 'access_by_role', False), True)
-
-        @method_decorator(access_by_role)
-        # @access_by_role  Do not pass!!
         @myattr_dec
         def func():
             pass
@@ -72,22 +57,12 @@ class TestIsolatedAccessByRoleDecorator(unittest.TestCase):
             return True
 
         @access_by_role
-        def func():
-            pass
-        self.assertIs(getattr(func, 'access_by_role', False), True)
-
         @user_passes_test(challenge)
-        @access_by_role
         def func():
             pass
         self.assertIs(getattr(func, 'access_by_role', False), True)
 
     def test_preserve_attributes_with_contrib_login_required(self):
-        @access_by_role
-        def func():
-            pass
-        self.assertIs(getattr(func, 'access_by_role', False), True)
-
         @login_required
         @access_by_role
         def func():
@@ -95,22 +70,11 @@ class TestIsolatedAccessByRoleDecorator(unittest.TestCase):
         self.assertIs(getattr(func, 'access_by_role', False), True)
 
     def test_preserve_attributes_with_contrib_permission_required(self):
-        @access_by_role
-        def func():
-            pass
-        self.assertIs(getattr(func, 'access_by_role', False), True)
-
         @permission_required(Mock())
         @access_by_role
         def func():
             pass
         self.assertIs(getattr(func, 'access_by_role', False), True)
-
-    def test_preserve_attribute_decorating_class(self):
-        @access_by_role
-        class DummyClass(object):
-            pass
-        self.assertIs(getattr(DummyClass, 'access_by_role', False), True)
 
     def test_preserve_attribute_decorating_class_method(self):
 
@@ -121,34 +85,56 @@ class TestIsolatedAccessByRoleDecorator(unittest.TestCase):
         self.assertIs(getattr(DummyClass().method, 'access_by_role', False),
                       True)
 
+
+class UnitTestAccessByRoleDecorator(unittest.TestCase):
+
     @patch('django_roles.decorators.check_access_by_role')
     def test_decorator_call_check_access_by_role(
             self, mock_check_access_by_role
     ):
+        func = Mock()
         request = Mock()
-        view = MagicMock(name='_view')
-        # mock_check_access_by_role._view.side_effect = view(request)
-        mock_check_access_by_role._view.return_value = view(request)
-
-        access_by_role(view=view)
-
+        decorated_func = access_by_role(func)
+        decorated_func(request)
         mock_check_access_by_role.assert_called()
 
-    # @patch('django_roles.decorators.check_access_by_role')
-    # def test_decorator_call_check_access_by_role_with_request(
-    #         self, mock_check_access_by_role
-    # ):
-    #     request = Mock()
-    #     view = Mock()
-    #
-    #     @access_by_role(view=view)
-    #     def func():
-    #         pass
-    #     func()
-    #     mock_check_access_by_role.assert_called_with(request)
+    @patch('django_roles.decorators.check_access_by_role')
+    def test_decorator_call_check_access_by_role_with_request(
+            self, mock_check_access_by_role
+    ):
+        func = Mock()
+        request = Mock()
+        decorated_func = access_by_role(func)
+        decorated_func(request)
+        mock_check_access_by_role.assert_called_once_with(request)
 
-# INTEGRATED TEST
-class TestIntegratedAccessByRoleDecorator(TestCase):
+    @patch('django_roles.decorators.check_access_by_role')
+    def test_decorator_return_view_if_access_by_role_return_true(
+            self, mock_check_access_by_role
+    ):
+        func = Mock()
+        request = Mock()
+        decorated_func = access_by_role(func)
+        mock_check_access_by_role.return_value = True
+        response = decorated_func(request)
+        assert response == func(request)
+
+    @patch('django_roles.decorators.check_access_by_role')
+    def test_decorator_raise_permission_denied_if_access_by_role_return_false(
+            self, mock_check_access_by_role
+    ):
+        func = Mock()
+        request = Mock()
+        decorated_func = access_by_role(func)
+        mock_check_access_by_role.return_value = False
+        with self.assertRaises(PermissionDenied):
+            decorated_func(request)
+
+
+class IntegratedTestAccessByRoleDecorator(TestCase):
+    """
+    Integrated Test using default behavior for SECURED applications.
+    """
 
     def setUp(self):
         settings.__setattr__('SECURED', ['django_roles'])
@@ -158,26 +144,59 @@ class TestIntegratedAccessByRoleDecorator(TestCase):
     def tearDown(self):
         settings.__delattr__('SECURED')
 
-    def test_get_access_view_function(self):
+    def test_get_200_status_with_view_function(self):
         self.client.force_login(self.u1)
         response = self.client.get(
             '/role-included2/view_by_role/')
         self.assertEqual(response.status_code, 200)
 
-    def test_get_access_denied_view_function(self):
+    def test_get_403_status_with_view_function(self):
         self.client.logout()
         response = self.client.get(
             '/role-included2/view_by_role/')
         self.assertEqual(response.status_code, 403)
 
-    def test_get_access_class_view(self):
+    def test_get_200_status_with_class_view(self):
         self.client.force_login(self.u1)
         response = self.client.get(
             '/role-included2/view_by_role_class/')
         self.assertEqual(response.status_code, 200)
 
-    def test_get_access_denied_class_view(self):
+    def test_get_403_status_with_class_view(self):
         self.client.logout()
         response = self.client.get(
             '/role-included2/view_by_role_class/')
         self.assertEqual(response.status_code, 403)
+
+    def test_get_200_status_with_direct_view(self):
+        """
+        A view without URLConf application
+        """
+        ViewAccess.objects.create(
+            view='direct_access_view',
+            type='au'
+        )
+        self.client.force_login(self.u1)
+        response = self.client.get(
+            '/direct_access_view/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_403_status_with_direct_view(self):
+        ViewAccess.objects.create(
+            view='direct_access_view',
+            type='au'
+        )
+        self.client.logout()
+        response = self.client.get(
+            '/direct_access_view/')
+        self.assertEqual(response.status_code, 403)
+
+    def test_default_behavior_somewhere(self):
+        """
+        Default behavior is to remain public if Django Roles si installed but
+        no more configuration or decorator is used.
+        """
+        self.client.logout()
+        response = self.client.get(
+            '/direct_view/')
+        self.assertEqual(response.status_code, 200)
