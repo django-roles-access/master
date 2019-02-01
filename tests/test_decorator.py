@@ -93,6 +93,7 @@ class UnitTestAccessByRoleDecorator(unittest.TestCase):
             self, mock_check_access_by_role
     ):
         func = Mock()
+        func.__name__ = 'func'  # Needed by Python 2.7
         request = Mock()
         decorated_func = access_by_role(func)
         decorated_func(request)
@@ -103,6 +104,7 @@ class UnitTestAccessByRoleDecorator(unittest.TestCase):
             self, mock_check_access_by_role
     ):
         func = Mock()
+        func.__name__ = 'func'  # Needed by Python 2.7
         request = Mock()
         decorated_func = access_by_role(func)
         decorated_func(request)
@@ -113,6 +115,7 @@ class UnitTestAccessByRoleDecorator(unittest.TestCase):
             self, mock_check_access_by_role
     ):
         func = Mock()
+        func.__name__ = 'func'  # Needed by Python 2.7
         request = Mock()
         decorated_func = access_by_role(func)
         mock_check_access_by_role.return_value = True
@@ -124,6 +127,7 @@ class UnitTestAccessByRoleDecorator(unittest.TestCase):
             self, mock_check_access_by_role
     ):
         func = Mock()
+        func.__name__ = 'func'  # Needed by Python 2.7
         request = Mock()
         decorated_func = access_by_role(func)
         mock_check_access_by_role.return_value = False

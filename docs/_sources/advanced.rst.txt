@@ -21,9 +21,9 @@ possible type of access to be set:
 Without configuration
 =====================
 If an application is not declared as any of the others, but there is an
-:class:`roles.models.ViewAccess` object associated for an application's view,
-and the view is protected with decorator or middleware is being used,
-ViewAccess object will be used to restrict the access.
+:class:`roles.models.ViewAccess` object associated to a view belonging to that
+application and the view is protected with decorator or middleware is being
+used ViewAccess object will be used to restrict the access.
 
 
 .. _`Namespace and View Name`:

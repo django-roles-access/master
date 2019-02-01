@@ -88,7 +88,7 @@ possible type of access to be set:</p>
 <li>Public: Any user can access the view.</li>
 <li>Authorized: Only authorized <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.User</span></code> can access
 the view. Is equivalent to
-<a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/default/#django.contrib.auth.decorators.login_required" title="(in Django v2.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code></a>.</li>
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/default/#django.contrib.auth.decorators.login_required" title="(in Django v3.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code></a>.</li>
 <li>By roles: Only <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.User</span></code> belonging to
 <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.Group</span></code> that has been granted access to the
 view can access the view.</li>
@@ -97,9 +97,9 @@ view can access the view.</li>
 <div class="section" id="without-configuration">
 <h1>Without configuration<a class="headerlink" href="#without-configuration" title="Permalink to this headline">¶</a></h1>
 <p>If an application is not declared as any of the others, but there is an
-<code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code> object associated for an application’s view,
-and the view is protected with decorator or middleware is being used,
-ViewAccess object will be used to restrict the access.</p>
+<code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code> object associated to a view belonging to that
+application and the view is protected with decorator or middleware is being
+used ViewAccess object will be used to restrict the access.</p>
 </div>
 <div class="section" id="namespaces-and-view-name">
 <span id="namespace-and-view-name"></span><h1>Namespaces and View Name<a class="headerlink" href="#namespaces-and-view-name" title="Permalink to this headline">¶</a></h1>
@@ -173,7 +173,7 @@ namespaces), only request argument is needed.</p>
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Jan 08, 2019</p>
+              <p class="topless">Feb 01, 2019</p>
           </div>
         
       
