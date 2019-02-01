@@ -22,15 +22,6 @@ def check_role(user, flag):
         for group in user.groups.all():
             if group in template_flag.roles.all():
                 return True
+        return False
     except:
         return False
-
-
-#
-# @register.filter(name='check_role')
-# def check_role(user, group_name):
-#     try:
-#         group = Group.objects.get(name=group_name)
-#         return group in user.groups.all()
-#     except:
-#         return False
