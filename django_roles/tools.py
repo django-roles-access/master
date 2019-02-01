@@ -8,11 +8,19 @@ from django_roles.models import ViewAccess
 
 def get_view_access(request):
     """
-    Check if given an application and a view have an access configurations:
-    an object of :class:`roles.models.ViewAccess`. Also check if given user
-    has a role with permission to access the view.
+    Check access if exist a ViewAccess object for the view being processed.
 
-    :param request:
+    A ViewAccess object is linked to present view when current namespace and
+    view name are the value of *view* attribute of the ViewAccess object. Can
+    be only one ViewAccess object for each namespace and view name. If no
+    namespace is used, application name is used instead as Django default
+    behavior. This also means for Django < 2.0 the attribute app_name is
+    required in URLConf (Django > 2.0 has this requirement).
+
+    If exist a ViewAccess object linked to present view, security checks are
+    done to conclude if request user have access or not. In case request user
+    do not have access, PermissionDenied is raised.
+
     :return: True if user have access. Or raise PermissionDenied.
     """
     user = request.user
@@ -85,12 +93,10 @@ def check_access_by_role(request):
     # NOT_SECURED applications are ignored
     if app_name in setting_dictionary['NOT_SECURED']:
         return True
-
     # If view has an access configuration, this takes precedence over
     # the classification of the application
     if get_view_access(request):
         return True
-
     # Check for public applications
     if app_name in setting_dictionary['PUBLIC']:
         return True

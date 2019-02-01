@@ -1,4 +1,3 @@
-#: TODO: UnitTest must be implemented using mock and checking called_once_with
 import unittest
 import pytest
 from django.conf import settings
@@ -18,10 +17,79 @@ from django_roles.tools import get_setting_dictionary, get_view_access, \
     check_access_by_role
 
 
-# TODO:
-# TODO: Check Django default behavior is, if no namespace declared, app_name is
-# TODO: used as namespace.
-# TODO: Check where is missing unit test with call_once_with
+@patch('django_roles.tools.resolve')
+@patch('django_roles.tools.ViewAccess.objects')
+class UnitTestGetViewAccess(unittest.TestCase):
+
+    def setUp(self):
+        self.request = Mock()
+        self.request.user = Mock()
+
+    def test_secured_view_as_public_with_no_authorization_and_no_role(
+            self, mock_objects, mock_resolve
+    ):
+        view_access = Mock()
+        view_access.type = 'pu'
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = view_access
+        assert get_view_access(self.request)
+
+    def test_secured_view_as_authorized_user_is_authenticated(
+            self, mock_objects, mock_resolve
+    ):
+        view_access = Mock()
+        view_access.type = 'au'
+        self.request.user.is_authenticated = True
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = view_access
+        assert get_view_access(self.request)
+
+    def test_secured_view_as_authorized_user_is_not_authenticated(
+            self, mock_objects, mock_resolve
+    ):
+        view_access = Mock()
+        view_access.type = 'au'
+        self.request.user.is_authenticated = False
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = view_access
+        with self.assertRaises(PermissionDenied):
+            get_view_access(self.request)
+
+    def test_secured_view_by_role_user_is_not_authenticated(
+            self, mock_objects, mock_resolve
+    ):
+        view_access = Mock()
+        view_access.type = 'br'
+        self.request.user.is_authenticated = False
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = view_access
+        with self.assertRaises(PermissionDenied):
+            get_view_access(self.request)
+
+    def test_secured_view_by_role_user_is_not_authenticated_not_in_group(
+            self, mock_objects, mock_resolve
+    ):
+        view_access = Mock()
+        view_access.type = 'br'
+        view_access.roles.all.return_value = ['need-access', 'fake-access']
+        self.request.user.is_authenticated = True
+        self.request.user.groups.all.return_value = []
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = view_access
+        with self.assertRaises(PermissionDenied):
+            get_view_access(self.request)
+
+    def test_secured_view_by_role_user_is_authenticated_and_in_group(
+            self, mock_objects, mock_resolve
+    ):
+        view_access = Mock()
+        view_access.type = 'br'
+        view_access.roles.all.return_value = ['need-access', 'fake-access']
+        self.request.user.is_authenticated = True
+        self.request.user.groups.all.return_value = ['fake-access']
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = view_access
+        get_view_access(self.request)
 
 
 @pytest.mark.django_db
@@ -317,13 +385,13 @@ class TestCheckAccessByRole(unittest.TestCase):
             self, mock_get_setting_dctionary, mock_get_view_access, mock_resolve
     ):
         check_access_by_role(self.request)
-        mock_get_setting_dctionary.assert_called()
+        mock_get_setting_dctionary.assert_called_once()
 
     def test_get_view_access_is_called(
             self, mock_get_view_access, mock_resolve
     ):
         check_access_by_role(self.request)
-        mock_get_view_access.assert_called_once()
+        mock_get_view_access.assert_called()
 
     def test_get_view_access_is_called_once(
             self, mock_get_view_access, mock_resolve

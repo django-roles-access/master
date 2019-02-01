@@ -1,4 +1,3 @@
-#: TODO: UnitTest must be implemented using mock and checking called_once_with
 import unittest
 from django.conf import settings
 from django.test import TestCase, override_settings
@@ -15,12 +14,10 @@ User = get_user_model()
 
 
 # UNIT TEST
-@patch('django_roles.tools.ViewAccess')
-@patch('django_roles.tools.resolve')
 class TestUnitRolesMixin(unittest.TestCase):
 
     def test_preserve_attributes(
-            self, mock_resolve, mock_view_access
+            self
     ):
         dispatched = ProtectedMixinView().dispatch
         self.assertIs(getattr(dispatched, 'access_by_role',
