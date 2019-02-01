@@ -111,7 +111,9 @@ class TestGetViewAccess(unittest.TestCase):
 
         # ViewAccess
         self.view_access, created = ViewAccess.objects.get_or_create(
-            view='django_roles:view_protected_by_role')
+            view='django_roles:view_protected_by_role',
+            type='pu'
+        )
 
     def fixture_role(self, user, view_access):
         user.groups.add(self.g1)
@@ -228,21 +230,15 @@ class TestGetViewAccessWithDirectView(unittest.TestCase):
 
         # ViewAccess
         self.view_access, created = ViewAccess.objects.get_or_create(
-            view='direct_access_view')
-        self.view_access.type = 'au'
-        self.view_access.save()
+            view='direct_access_view',
+            type='au'
+        )
 
     def test_secured_view_without_app_name_with_authentication(self):
-        """
-        Test if a view in project urls.py is checked.
-        """
         login(self.req1, self.u1)
         self.assertTrue(get_view_access(self.req1))
 
     def test_secured_view_without_app_name_without_authentication(self):
-        """
-        Test if a view in project urls.py is checked.
-        """
         logout(self.req1)
         with self.assertRaises(PermissionDenied):
             get_view_access(self.req1)
@@ -268,9 +264,9 @@ class TestNestedNameSpaces(unittest.TestCase):
 
         # ViewAccess
         self.view_access, created = ViewAccess.objects.get_or_create(
-            view='nest1_namespace:nest2_namespace:view_protected_by_role')
-        self.view_access.type = 'au'
-        self.view_access.save()
+            view='nest1_namespace:nest2_namespace:view_protected_by_role',
+            type='au'
+        )
 
     def test_secured_view_with_nested_namespace(self):
         login(self.req1, self.u1)

@@ -22,10 +22,10 @@ class ViewAccess(models.Model):
     """
     #: View's name to be secured. Is possible to use namespace as part of the
     #: view's name.
-    view = models.CharField(max_length=255, unique=True)
+    view = models.CharField(max_length=255, unique=True, default=None)
     #:
     #:
-    type = models.CharField(max_length=2, choices=ACCESS_TYPES)
+    type = models.CharField(max_length=2, choices=ACCESS_TYPES, default=None)
     #:
     #:
     roles = models.ManyToManyField(Group)
