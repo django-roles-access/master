@@ -88,7 +88,7 @@ class TestAccessByRoleWithOtherDecorators(unittest.TestCase):
 
 class UnitTestAccessByRoleDecorator(unittest.TestCase):
 
-    @patch('django_roles.decorators.check_access_by_role')
+    @patch('django_roles.decorator.check_access_by_role')
     def test_decorator_call_check_access_by_role(
             self, mock_check_access_by_role
     ):
@@ -98,7 +98,7 @@ class UnitTestAccessByRoleDecorator(unittest.TestCase):
         decorated_func(request)
         mock_check_access_by_role.assert_called()
 
-    @patch('django_roles.decorators.check_access_by_role')
+    @patch('django_roles.decorator.check_access_by_role')
     def test_decorator_call_check_access_by_role_with_request(
             self, mock_check_access_by_role
     ):
@@ -108,7 +108,7 @@ class UnitTestAccessByRoleDecorator(unittest.TestCase):
         decorated_func(request)
         mock_check_access_by_role.assert_called_once_with(request)
 
-    @patch('django_roles.decorators.check_access_by_role')
+    @patch('django_roles.decorator.check_access_by_role')
     def test_decorator_return_view_if_access_by_role_return_true(
             self, mock_check_access_by_role
     ):
@@ -119,7 +119,7 @@ class UnitTestAccessByRoleDecorator(unittest.TestCase):
         response = decorated_func(request)
         assert response == func(request)
 
-    @patch('django_roles.decorators.check_access_by_role')
+    @patch('django_roles.decorator.check_access_by_role')
     def test_decorator_raise_permission_denied_if_access_by_role_return_false(
             self, mock_check_access_by_role
     ):

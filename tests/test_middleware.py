@@ -1,6 +1,7 @@
-#: TODO: UnitTest must be implemented using mock and checking called_once_with
-
 import unittest
+
+from django.core.exceptions import PermissionDenied
+
 try:
     from unittest.mock import Mock, patch
 except:
@@ -28,13 +29,52 @@ class MiddlewareUnitTest(unittest.TestCase):
         init_result = RolesMiddleware('response')
         assert init_result.get_response == 'response'
 
-    @patch('django_roles.tools.resolve')
-    @patch('django_roles.tools.ViewAccess')
+    @patch('django_roles.middleware.check_access_by_role')
     def test_middleware(
-            self, mock_view_acces, mock_resolve
+            self, mock_check_access_by_role
     ):
         response = self.middleware(self.request)
         assert response.django_roles
+
+    @patch('django_roles.middleware.check_access_by_role')
+    def test_middleware_call_check_access_by_role(
+            self, mock_check_access_by_role
+    ):
+        self.middleware(self.request)
+        mock_check_access_by_role.assert_called()
+        mock_check_access_by_role.assert_called_once()
+
+    @patch('django_roles.middleware.check_access_by_role')
+    def test_middleware_call_check_access_by_roles_with_request(
+            self, mock_check_access_by_role
+    ):
+        self.middleware(self.request)
+        mock_check_access_by_role.assert_called_once_with(self.request)
+
+    @patch('django_roles.middleware.check_access_by_role')
+    def test_middleware_raise_permission_denied_if_not_check_access(
+            self, mock_check_access_by_role
+    ):
+        mock_check_access_by_role.return_value = False
+        with self.assertRaises(PermissionDenied):
+            self.middleware(self.request)
+
+    @patch('django_roles.middleware.check_access_by_role')
+    def test_middleware_get_response(
+            self, mock_check_access_by_role
+    ):
+        self.middleware(self.request)
+        self.middleware.get_response.assert_called_once_with(self.request)
+
+    @patch('django_roles.middleware.check_access_by_role')
+    def test_middleware_return_response_with_request(
+            self, mock_check_access_by_role
+    ):
+        def func(param):
+            return param
+        self.middleware.get_response.side_effect = func
+        response = self.middleware(self.request)
+        assert response == func(self.request)
 
 
 # INTEGRATED TEST
