@@ -1,4 +1,6 @@
-from unittest import mock, TestCase as UnitTestCase
+from unittest import TestCase as UnitTestCase
+from unittest.mock import patch, Mock
+
 from django.template import Template, Context
 from django.test import TestCase, RequestFactory
 from django.contrib.auth import get_user_model
@@ -13,15 +15,33 @@ User = get_user_model()
 class UnitTestRolesTags(UnitTestCase):
 
     def test_roles_tags_show_content_for_superuser(self):
-        user = mock.Mock()
+        user = Mock()
         user.is_superuser = True
-        assert check_role(user=user, flag='fake-flag')
+        self.assertTrue(check_role(user=user, flag='fake-flag'))
 
-    def test_roles_tags_show_content_for_existing_flag_and_user_in_roles(self):
-        # Use model mocking.
-        user = mock.Mock()
-        user.is_superuser = True
-        assert check_role(user=user, flag='fake-flag')
+    @patch('django_roles.templatetags.roles_tags.TemplateAccess.objects')
+    def test_roles_tags_show_content_for_flag_and_user_in_roles(
+            self, mock_ta_objects
+    ):
+        user = Mock()
+        user.is_superuser = False
+        user.groups.all.return_value = ['fake-group']
+        template_flag = Mock()
+        template_flag.roles.all.return_value = ['fake-group', 'other-group']
+        mock_ta_objects.get.return_value = template_flag
+        self.assertTrue(check_role(user=user, flag='fake-flag'))
+
+    @patch('django_roles.templatetags.roles_tags.TemplateAccess.objects')
+    def test_roles_tags_not_show_content_for_flag_and_user_not_in_roles(
+            self, mock_ta_objects
+    ):
+        user = Mock()
+        user.is_superuser = False
+        user.groups.all.return_value = ['no-group']
+        template_flag = Mock()
+        template_flag.roles.all.return_value = ['fake-group', 'other-group']
+        mock_ta_objects.get.return_value = template_flag
+        self.assertFalse(check_role(user=user, flag='fake-flag'))
 
 
 class IntegratedTestRolesTags(TestCase):
@@ -40,8 +60,18 @@ class IntegratedTestRolesTags(TestCase):
         template_acces, created = TemplateAccess.objects.get_or_create(
             flag='test-flag')
         template_acces.roles.add(self.group)
+        template_acces.save()
         self.user.groups.add(self.group)
         self.user.save()
+        rendered = self.TEMPLATE.render(Context({'request': self.request}))
+        self.assertIn('checked access', rendered)
+
+    def test_template_tag_show_content_if_superuser(self):
+        template_acces, created = TemplateAccess.objects.get_or_create(
+            flag='test-flag')
+        template_acces.roles.add(self.group)
+        template_acces.save()
+        self.user.is_superuser = True
         rendered = self.TEMPLATE.render(Context({'request': self.request}))
         self.assertIn('checked access', rendered)
 
@@ -53,6 +83,7 @@ class IntegratedTestRolesTags(TestCase):
         template_acces, created = TemplateAccess.objects.get_or_create(
             flag='test-flag')
         template_acces.roles.add(self.group)
+        template_acces.save()
         self.user.groups.remove(self.group)
         self.user.save()
         rendered = self.TEMPLATE.render(Context({'request': self.request}))
