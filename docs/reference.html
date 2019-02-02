@@ -86,7 +86,11 @@
 <dl class="class">
 <dt id="django_roles.models.TemplateAccess">
 <em class="property">class </em><code class="descclassname">django_roles.models.</code><code class="descname">TemplateAccess</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/django_roles/models.html#TemplateAccess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#django_roles.models.TemplateAccess" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="exception">
+<dd><p>Implements security at template level.</p>
+<p>This model let administrator to add or remove Groups (roles) from <em>roles</em>
+attribute. In templates, users belonging to any added group will pass the
+check.</p>
+<dl class="exception">
 <dt id="django_roles.models.TemplateAccess.DoesNotExist">
 <em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#django_roles.models.TemplateAccess.DoesNotExist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -128,12 +132,14 @@ assigned to that view.</p>
 <dl class="attribute">
 <dt id="django_roles.models.ViewAccess.roles">
 <code class="descname">roles</code><a class="headerlink" href="#django_roles.models.ViewAccess.roles" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>One or more roles (<code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group()</span></code>) with access.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="django_roles.models.ViewAccess.type">
 <code class="descname">type</code><a class="headerlink" href="#django_roles.models.ViewAccess.type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The type of access as defined by ACCESS_TYPES</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="django_roles.models.ViewAccess.view">

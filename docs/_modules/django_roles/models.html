@@ -100,27 +100,42 @@
 
     <span class="c1">#: View&#39;s name to be secured. Is possible to use namespace as part of the</span>
     <span class="c1">#: view&#39;s name.</span>
-    <span class="n">view</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-    <span class="c1">#:</span>
-    <span class="c1">#:</span>
-    <span class="nb">type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">ACCESS_TYPES</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-    <span class="c1">#:</span>
-    <span class="c1">#:</span>
-    <span class="n">roles</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Group</span><span class="p">)</span>
+    <span class="n">view</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;View name to be secured: &#39;</span>
+                                        <span class="sa">u</span><span class="s1">&#39;&lt;em&gt;namespace:view_name&lt;/em&gt;&#39;</span><span class="p">))</span>
+    <span class="c1">#: The type of access as defined by ACCESS_TYPES</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">ACCESS_TYPES</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Type of access for the view. &#39;</span>
+                                        <span class="sa">u</span><span class="s1">&#39;Select from available options.&#39;</span><span class="p">))</span>
+    <span class="c1">#: One or more roles (:func:`django.contrib.auth.models.Group`) with access.</span>
+    <span class="n">roles</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Group</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span>
+                                   <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Select the groups (roles) with view &#39;</span>
+                                     <span class="sa">u</span><span class="s1">&#39;access if access type = By role.&#39;</span><span class="p">),</span>
+                                   <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;view_access&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span></div>
 
 
-<span class="c1">#: TODO: Complete and create documentation</span>
 <div class="viewcode-block" id="TemplateAccess"><a class="viewcode-back" href="../../reference.html#django_roles.models.TemplateAccess">[docs]</a><span class="k">class</span> <span class="nc">TemplateAccess</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements security at template level.</span>
 
+<span class="sd">    This model let administrator to add or remove Groups (roles) from *roles*</span>
+<span class="sd">    attribute. In templates, users belonging to any added group will pass the</span>
+<span class="sd">    check.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#: Template&#39;s flag for restriction by role.</span>
-    <span class="n">flag</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">flag</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Flag is used with template tag &#39;</span>
+                                        <span class="sa">u</span><span class="s1">&#39;check_role to restrict access in &#39;</span>
+                                        <span class="sa">u</span><span class="s1">&#39;templates.&#39;</span><span class="p">))</span>
     <span class="c1">#: One or more roles (:func:`django.contrib.auth.models.Group`) with access.</span>
-    <span class="n">roles</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Group</span><span class="p">)</span>
+    <span class="n">roles</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Group</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span>
+                                   <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Select the groups (roles) with access &#39;</span>
+                                     <span class="sa">u</span><span class="s1">&#39;with check_role template tag and &#39;</span>
+                                     <span class="sa">u</span><span class="s1">&#39;flag.&#39;</span><span class="p">),</span>
+                                   <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;template_access&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag</span></div>
