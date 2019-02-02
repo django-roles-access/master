@@ -13,7 +13,7 @@ Data Model
 Decorators
 ----------
 
-.. automodule:: django_roles.decorators
+.. automodule:: django_roles.decorator
    :members:
 
 ----------

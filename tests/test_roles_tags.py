@@ -1,10 +1,15 @@
 from unittest import TestCase as UnitTestCase
-from unittest.mock import patch, Mock
 
 from django.template import Template, Context
 from django.test import TestCase, RequestFactory
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
+
+
+try:
+    from unittest.mock import Mock, patch
+except:
+    from mock import Mock, patch
 
 from django_roles.models import TemplateAccess
 from django_roles.templatetags.roles_tags import check_role

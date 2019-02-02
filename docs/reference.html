@@ -145,8 +145,19 @@ view’s name.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="decorators">
-<h2>Decorators<a class="headerlink" href="#decorators" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-django_roles.decorator">
+<span id="decorators"></span><h2>Decorators<a class="headerlink" href="#module-django_roles.decorator" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="django_roles.decorator.access_by_role">
+<code class="descclassname">django_roles.decorator.</code><code class="descname">access_by_role</code><span class="sig-paren">(</span><em>view</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/django_roles/decorator.html#access_by_role"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#django_roles.decorator.access_by_role" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if logged user can access the decorated function or class.</p>
+<p>A user (<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.User" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.User</span></code></a>) can access the decorated
+function or class when it belong to a
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a> with access given by an object of
+type <code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code>.</p>
+<p>PermissionDenied is raised if user has no access.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="module-django_roles.middleware">
 <span id="middleware"></span><h2>Middleware<a class="headerlink" href="#module-django_roles.middleware" title="Permalink to this headline">¶</a></h2>
@@ -167,7 +178,7 @@ view’s name.</p>
   <ul>
 <li><a class="reference internal" href="#">Reference</a><ul>
 <li><a class="reference internal" href="#module-django_roles.models">Data Model</a></li>
-<li><a class="reference internal" href="#decorators">Decorators</a></li>
+<li><a class="reference internal" href="#module-django_roles.decorator">Decorators</a></li>
 <li><a class="reference internal" href="#module-django_roles.middleware">Middleware</a></li>
 </ul>
 </li>
