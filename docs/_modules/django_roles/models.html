@@ -77,10 +77,8 @@
 <span></span><span class="c1"># encoding=&#39;utf-8&#39;</span>
 
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">django.utils.text</span> <span class="k">import</span> <span class="n">gettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
-<span class="k">except</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="k">import</span> <span class="n">gettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="k">import</span> <span class="n">ugettext</span> <span class="k">as</span> <span class="n">_</span>
+
 <span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="k">import</span> <span class="n">Group</span>
 
 
@@ -152,7 +150,7 @@
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Feb 01, 2019</p>
+              <p class="topless">Feb 02, 2019</p>
           </div>
         
       

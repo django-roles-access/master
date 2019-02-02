@@ -14,3 +14,11 @@
 
 #: TODO: cuidado si un middleware anterior cambia el request.
 #: TODO: What happen if a middleware set an *urlconf* attribute in HttpRequest?
+
+#: TODO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#: TODO: Missing documentation about TemplateAccess!!!!!
+#: TODO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+#: TODO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#: TODO: Give at least Spanish translation.!!!!!!
+#: TODO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
