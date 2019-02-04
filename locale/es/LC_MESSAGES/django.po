@@ -1,0 +1,57 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-02-04 12:51-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: django_roles/models.py:20
+msgid "Public"
+msgstr "Público"
+
+#: django_roles/models.py:21
+msgid "Authorized"
+msgstr "Autorizado"
+
+#: django_roles/models.py:22
+msgid "By role"
+msgstr "Por rol"
+
+#: django_roles/models.py:28 tests/test_models.py:16
+msgid "View name to be secured: <em>namespace:view_name</em>"
+msgstr "Vista a ser asegurada: <em>nombredeespacios:nombre_vista</em>"
+
+#: django_roles/models.py:32 tests/test_models.py:22
+msgid "Type of access for the view. Select from available options."
+msgstr "Tipo de acceso para la vista. Seleccione de las opciones disponibles."
+
+#: django_roles/models.py:36 tests/test_models.py:28
+msgid "Select the groups (roles) with view access if access type = By role."
+msgstr "Seleccione grupos (roles) con acceso a la vista si el tipo = Por rol."
+
+#: django_roles/models.py:54 tests/test_models.py:82
+msgid ""
+"Flag is used with template tag check_role to restrict access in templates."
+msgstr ""
+"Flag es usado junto con el marcador check_role para restringir el acceso en "
+"plantillas."
+
+#: django_roles/models.py:59 tests/test_models.py:102
+msgid ""
+"Select the groups (roles) with access with check_role template tag and flag."
+msgstr ""
+"Seleccione grupos (roles) con acceso a través del marcador de "
+"plantilla check_role y el flag."
