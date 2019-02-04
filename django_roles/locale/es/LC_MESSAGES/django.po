@@ -1,16 +1,16 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Vicente Ramos García (vramosga@gmail.com), 2019.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.2\n"
+"Project-Id-Version: 0.3\n"
 "Report-Msgid-Bugs-To: vramosga@gmail.com\n"
-"POT-Creation-Date: 2019-02-04 13:57-0600\n"
+"POT-Creation-Date: 2019-02-04 14:49-0600\n"
 "PO-Revision-Date: 2019-02-04 17:30-0600\n"
-"Last-Translator: Vicente Ramos Garcia (vramosga@gmail.com)\n"
+"Last-Translator: Vicente Ramos García (vramosga@gmail.com)\n"
 "Language-Team: N/A\n"
 "Language: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -18,40 +18,72 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: django_roles/models.py:20
+#: django_roles/models.py:22
 msgid "Public"
 msgstr "Público"
 
-#: django_roles/models.py:21
+#: django_roles/models.py:23
 msgid "Authorized"
 msgstr "Autorizado"
 
-#: django_roles/models.py:22
+#: django_roles/models.py:24
 msgid "By role"
 msgstr "Por rol"
 
-#: django_roles/models.py:28 tests/test_models.py:16
+#: django_roles/models.py:30 tests/test_models.py:16
 msgid "View name to be secured: <em>namespace:view_name</em>"
 msgstr "Vista a ser asegurada: <em>nombredeespacios:nombre_vista</em>"
 
-#: django_roles/models.py:32 tests/test_models.py:22
+#: django_roles/models.py:32
+msgid "View"
+msgstr "Vista"
+
+#: django_roles/models.py:35 tests/test_models.py:22
 msgid "Type of access for the view. Select from available options."
 msgstr "Tipo de acceso para la vista. Seleccione de las opciones disponibles."
 
-#: django_roles/models.py:36 tests/test_models.py:28
+#: django_roles/models.py:37
+msgid "Type"
+msgstr "Tipo"
+
+#: django_roles/models.py:40 tests/test_models.py:28
 msgid "Select the groups (roles) with view access if access type = By role."
 msgstr "Seleccione grupos (roles) con acceso a la vista si el tipo = Por rol."
 
-#: django_roles/models.py:54 tests/test_models.py:82
+#: django_roles/models.py:43 django_roles/models.py:73
+msgid "Roles"
+msgstr "Roles"
+
+#: django_roles/models.py:46
+msgid "View access"
+msgstr "Acceso a vista"
+
+#: django_roles/models.py:47
+msgid "Views access"
+msgstr "Accessos a vistas"
+
+#: django_roles/models.py:63 tests/test_models.py:82
 msgid ""
 "Flag is used with template tag check_role to restrict access in templates."
 msgstr ""
-"Flag es usado junto con el marcador check_role para restringir el acceso en "
-"plantillas."
+"Bandera es usado junto con el marcador check_role para restringir el acceso "
+"en plantillas."
 
-#: django_roles/models.py:59 tests/test_models.py:102
+#: django_roles/models.py:66
+msgid "Flag"
+msgstr "Bandera"
+
+#: django_roles/models.py:69 tests/test_models.py:102
 msgid ""
 "Select the groups (roles) with access with check_role template tag and flag."
 msgstr ""
 "Seleccione grupos (roles) con acceso a través del marcador de plantilla "
-"check_role y el flag."
+"check_role y la bandera."
+
+#: django_roles/models.py:76
+msgid "Template access"
+msgstr "Acceso a plantilla"
+
+#: django_roles/models.py:77
+msgid "Templates access"
+msgstr "Accesos a plantillas"

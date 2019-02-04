@@ -115,3 +115,6 @@ class TestTemplateAccessModel(TestCase):
         template_access_2 = TemplateAccess(flag='fake-flag')
         with self.assertRaises(IntegrityError):
             template_access_2.save()
+
+# TODO: Check verbose attribute name
+# TODO: Check verbose name for models
