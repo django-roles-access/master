@@ -21,4 +21,6 @@
 
 #: TODO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #: TODO: Give at least Spanish translation.!!!!!!
+#: TODO: Try: export DJANGO_SETTINGS_MODULE=tests.settings
+#: TODO: Try: django-admin check
 #: TODO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
