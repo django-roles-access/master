@@ -25,7 +25,8 @@ class Command(BaseCommand):
         This method implements the manage.py command
         """
         url = import_module(settings.ROOT_URLCONF).urlpatterns
-        walk_site_url(url)
+        list = walk_site_url(url)
+        print(list)
 
         self.stdout.write(self.style.SUCCESS('Check Site Views access '
                                              'configuration.'))
