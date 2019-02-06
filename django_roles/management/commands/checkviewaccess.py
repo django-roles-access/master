@@ -3,33 +3,15 @@
 This test module will search for all site's urls and analyze their security
 status.
 """
-from unittest.case import TestCase
+from importlib import import_module
 from django.core.management.base import BaseCommand, CommandError
-try:
-    from django.urls.resolvers import URLResolver
-except:
-    from django.core.urlresolvers import RegexURLResolver
+from django.conf import settings
 
-
-def walk_url_conf(urlpatterns):
-    for element in urlpatterns:
-        django_version = False
-        try:
-            django_version = isinstance(element, URLResolver)
-        except:
-            django_version = isinstance(element, RegexURLResolver)
-        if django_version:
-            walk_url_conf(element.url_patterns)
-        else:
-            print(element.name)
-            print(element.regex.pattern)
-            print(element.callback)
-            if hasattr(element.callback, 'access_by_role'):
-                print("Protected View")
+from django_roles.utils import walk_site_url
 
 
 class Command(BaseCommand):
-    help = 'Manage command apptask'
+    help = 'Manage command checkviewaccess'
 
     # def add_arguments(self, parser):
     #     """
@@ -42,67 +24,12 @@ class Command(BaseCommand):
         """
         This method implements the manage.py command
         """
-        from django.conf import settings
-        from importlib import import_module
         url = import_module(settings.ROOT_URLCONF).urlpatterns
-        walk_url_conf(url)
-        # for element_id in options['ids']:
-        #     try:
-        #         my_data = MyData.objects.get(id=element_id)
-        #     except MyData.DoesNotExist:
-        #         raise CommandError('Poll "%s" does not exist' % poll_id)
-        #
-        #     my_data.some_attribute = False
-        #     my_data.save()
+        walk_site_url(url)
 
-        # Use this way to print output.
         self.stdout.write(self.style.SUCCESS('Check Site Views access '
                                              'configuration.'))
 
-
-class AnalyzeSiteSecurity(TestCase):
-    """
-    The main class for analyzing site security.
-
-    In this context *site security* means:
-    * All site's urls have been recover and analyzed.
-    * The uls analyze is: for the called view:
-      a Recover view's security from :class:`roles.models.SecurityAccess`.
-      b If there is no object related with the view:
-        + Check for application configuration:
-          a If application si **public**. Is OK.
-          b If application is **no public**: TEST if login is required for the
-            view. In **no public** application the default behavior is to
-            require login if there is no :class:`roles.models.SecurityAccess`
-            object related with the view (to minimize administrative tasks).
-      c If there is an SecurityAccess object for the view:
-        + TEST: The access to the view must be protected as object instruct.
-
-    The tests to be done are:
-    1 TEST if login is required for a view without related
-      :class:`roles.models.SecurityAccess` object and belonging to a NOT
-      PUBLIC application.
-    2 TEST if the access configured for the view is correct against the
-    information found in :class:`roles.models.SecurityAccess` object.
-
-    Expected result
-    ~~~~~~~~~~~~~~~
-
-    * Fail: When between all possible site's url, there is one or more views
-      that:
-      a Or Fail TEST 1
-      b Or Fail TEST 2
-      c The view has escape all possibilities.
-
-
-
-    Cosas a testear.
-    Si una vista utiliza login_required el test del sitio debería advertirlo,
-    si es posible, y verificar si está OK, es decir sólo se require estar
-    logueado.
-
-    """
-    pass
 
 # from unittest.case import TestCase
 # import pytest
