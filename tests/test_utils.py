@@ -16,7 +16,7 @@ from django_roles.utils import walk_site_url
 
 class MockRegex:
     def __init__(self):
-        self.pattern = '^fake-regex-pattern/'
+        self.pattern = '^fake-regex-pattern/$'
 
 
 class MockRegexResolver:
@@ -180,14 +180,14 @@ class IntegratedTestWalkSiteURL(TestCase):
         self.url = import_module(settings.ROOT_URLCONF).urlpatterns
 
     def test_found_direct_access_view(self):
-        expected_result = ('direct_access_view/$',
+        expected_result = ('direct_access_view/',
                            views.protected_view_by_role,
                            'direct_access_view', None)
         result = walk_site_url(self.url)
         self.assertIn(expected_result, result)
 
     def test_found_included_view_without_namespace(self):
-        expected_result = ('role-included[135]/view_by_role/$',
+        expected_result = ('role-included[135]/view_by_role/',
                            views.protected_view_by_role,
                            'django_roles:view_protected_by_role',
                            'django_roles')
@@ -195,7 +195,7 @@ class IntegratedTestWalkSiteURL(TestCase):
         self.assertIn(expected_result, result)
 
     def test_found_included_view_with_namespace(self):
-        expected_result = ('role-included2/view_by_role/$',
+        expected_result = ('role-included2/view_by_role/',
                            views.protected_view_by_role,
                            'app-ns2:view_protected_by_role',
                            'django_roles')
@@ -203,7 +203,7 @@ class IntegratedTestWalkSiteURL(TestCase):
         self.assertIn(expected_result, result)
 
     def test_found_nested_access_view(self):
-        expected_result = ('nest1/nest2/view_by_role/$',
+        expected_result = ('nest1/nest2/view_by_role/',
                            views.protected_view_by_role,
                            'nest1_namespace:nest2_namespace:view_'
                            'protected_by_role',

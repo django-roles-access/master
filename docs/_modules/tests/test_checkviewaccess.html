@@ -78,6 +78,8 @@
 <span class="sd">This test module will search for all site&#39;s urls and analyze their security</span>
 <span class="sd">status.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">django.utils.six</span> <span class="k">import</span> <span class="n">StringIO</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="k">import</span> <span class="n">ugettext</span> <span class="k">as</span> <span class="n">_</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="k">import</span> <span class="n">Mock</span><span class="p">,</span> <span class="n">patch</span><span class="p">,</span> <span class="n">MagicMock</span>
 <span class="k">except</span><span class="p">:</span>
@@ -88,13 +90,31 @@
 <span class="kn">from</span> <span class="nn">django.test</span> <span class="k">import</span> <span class="n">TestCase</span>
 
 
-<div class="viewcode-block" id="UnitTestCheckViewAccess"><a class="viewcode-back" href="../../test.html#tests.test_checkviewaccess.UnitTestCheckViewAccess">[docs]</a><span class="k">class</span> <span class="nc">UnitTestCheckViewAccess</span><span class="p">(</span><span class="n">UnitTestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="UnitTestCheckViewAccess"><a class="viewcode-back" href="../../test.html#tests.test_checkviewaccess.UnitTestCheckViewAccess">[docs]</a><span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.import_module&#39;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.settings&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">UnitTestCheckViewAccess</span><span class="p">(</span><span class="n">UnitTestCase</span><span class="p">):</span>
 
 <div class="viewcode-block" id="UnitTestCheckViewAccess.setUp"><a class="viewcode-back" href="../../test.html#tests.test_checkviewaccess.UnitTestCheckViewAccess.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">root_urlconf</span> <span class="o">=</span> <span class="n">Mock</span><span class="p">()</span></div>
 
-    <span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.import_module&#39;</span><span class="p">)</span>
-    <span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.settings&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test_write_at_beginning_of_command_execution</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">mock_settings</span><span class="p">,</span> <span class="n">mock_import_module</span>
+    <span class="p">):</span>
+        <span class="n">mock_settings</span><span class="o">.</span><span class="n">ROOT_URLCONF</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_urlconf</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+        <span class="n">expected_text</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Start gathering information.&#39;</span><span class="p">)</span>
+        <span class="n">call_command</span><span class="p">(</span><span class="s1">&#39;checkviewaccess&#39;</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">expected_text</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">test_write_when_finish_command_execution</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">mock_settings</span><span class="p">,</span> <span class="n">mock_import_module</span>
+    <span class="p">):</span>
+        <span class="n">mock_settings</span><span class="o">.</span><span class="n">ROOT_URLCONF</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_urlconf</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+        <span class="n">expected_text</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;End checking view access.&#39;</span><span class="p">)</span>
+        <span class="n">call_command</span><span class="p">(</span><span class="s1">&#39;checkviewaccess&#39;</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">expected_text</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+
     <span class="k">def</span> <span class="nf">test_import_module_is_called</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">mock_settings</span><span class="p">,</span> <span class="n">mock_import_module</span>
     <span class="p">):</span>
@@ -102,8 +122,6 @@
         <span class="n">call_command</span><span class="p">(</span><span class="s1">&#39;checkviewaccess&#39;</span><span class="p">)</span>
         <span class="n">mock_import_module</span><span class="o">.</span><span class="n">assert_called</span><span class="p">()</span>
 
-    <span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.import_module&#39;</span><span class="p">)</span>
-    <span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.settings&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">test_import_module_is_called_once</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">mock_settings</span><span class="p">,</span> <span class="n">mock_import_module</span>
     <span class="p">):</span>
@@ -111,8 +129,6 @@
         <span class="n">call_command</span><span class="p">(</span><span class="s1">&#39;checkviewaccess&#39;</span><span class="p">)</span>
         <span class="n">mock_import_module</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span>
 
-    <span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.import_module&#39;</span><span class="p">)</span>
-    <span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.settings&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">test_import_module_is_called_once_with</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">mock_settings</span><span class="p">,</span> <span class="n">mock_import_module</span>
     <span class="p">):</span>
@@ -121,36 +137,32 @@
         <span class="n">mock_import_module</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root_urlconf</span><span class="p">)</span>
 
     <span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.walk_site_url&#39;</span><span class="p">)</span>
-    <span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.import_module&#39;</span><span class="p">)</span>
-    <span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.settings&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">test_walk_site_url_is_called</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">mock_settings</span><span class="p">,</span> <span class="n">mock_import_module</span><span class="p">,</span> <span class="n">mock_walk_site_url</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">mock_walk_site_url</span><span class="p">,</span> <span class="n">mock_settings</span><span class="p">,</span> <span class="n">mock_import_module</span>
     <span class="p">):</span>
         <span class="n">mock_import_module</span><span class="o">.</span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="s1">&#39;fake-url-pattern&#39;</span>
         <span class="n">call_command</span><span class="p">(</span><span class="s1">&#39;checkviewaccess&#39;</span><span class="p">)</span>
         <span class="n">mock_walk_site_url</span><span class="o">.</span><span class="n">assert_called</span><span class="p">()</span>
 
     <span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.walk_site_url&#39;</span><span class="p">)</span>
-    <span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.import_module&#39;</span><span class="p">)</span>
-    <span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.settings&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">test_walk_site_url_is_called_once</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">mock_settings</span><span class="p">,</span> <span class="n">mock_import_module</span><span class="p">,</span> <span class="n">mock_walk_site_url</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">mock_walk_site_url</span><span class="p">,</span> <span class="n">mock_settings</span><span class="p">,</span> <span class="n">mock_import_module</span>
     <span class="p">):</span>
         <span class="n">mock_import_module</span><span class="o">.</span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="s1">&#39;fake-url-pattern&#39;</span>
         <span class="n">call_command</span><span class="p">(</span><span class="s1">&#39;checkviewaccess&#39;</span><span class="p">)</span>
         <span class="n">mock_walk_site_url</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span>
 
     <span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.walk_site_url&#39;</span><span class="p">)</span>
-    <span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.import_module&#39;</span><span class="p">)</span>
-    <span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;django_roles.management.commands.checkviewaccess.settings&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">test_walk_site_url_is_called_once_with</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">mock_settings</span><span class="p">,</span> <span class="n">mock_import_module</span><span class="p">,</span> <span class="n">mock_walk_site_url</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">mock_walk_site_url</span><span class="p">,</span> <span class="n">mock_settings</span><span class="p">,</span> <span class="n">mock_import_module</span>
     <span class="p">):</span>
         <span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">Mock</span><span class="p">()</span>
         <span class="n">urlpatterns</span><span class="o">.</span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="s1">&#39;fake-urlpatterns&#39;</span>
         <span class="n">mock_import_module</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">urlpatterns</span>
         <span class="n">call_command</span><span class="p">(</span><span class="s1">&#39;checkviewaccess&#39;</span><span class="p">)</span>
         <span class="n">mock_walk_site_url</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="s1">&#39;fake-urlpatterns&#39;</span><span class="p">)</span></div>
+
+
 
 
 <div class="viewcode-block" id="AnalyzeSiteSecurity"><a class="viewcode-back" href="../../test.html#tests.test_checkviewaccess.AnalyzeSiteSecurity">[docs]</a><span class="k">class</span> <span class="nc">AnalyzeSiteSecurity</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>

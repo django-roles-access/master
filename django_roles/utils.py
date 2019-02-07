@@ -22,6 +22,7 @@ def walk_site_url(_url_patterns, recursive_url='',
             # Running with Django 1
             pattern = str(url.regex.pattern)
         pattern = pattern.strip('^')  # For better presentation
+        pattern = pattern.strip('$')  # For better presentation
         if hasattr(url, 'url_patterns'):
             # When url object has 'url_patterns' attribute means is a Resolver
             if view_name:
