@@ -11,7 +11,7 @@ try:
 except:
     from mock import Mock, patch
 
-from django_roles.utils import walk_site_url
+from django_roles.utils import walk_site_url, get_views_by_app
 
 
 class MockRegex:
@@ -210,3 +210,16 @@ class IntegratedTestWalkSiteURL(TestCase):
                            'roles-app-name')
         result = walk_site_url(self.url)
         self.assertIn(expected_result, result)
+
+
+class UnitTestGetViewsByApp(UnitTestCase):
+    """
+    get_views_by_app receive the result of walk_site_url and is required to
+    return a dictionary with keys been installed applications.
+    """
+    def setUp(self):
+        self.data = ['fake-element']
+
+    def test_returns_a_dictionary(self):
+        result = get_views_by_app(self.data)
+        self.assertIsInstance(result, dict)

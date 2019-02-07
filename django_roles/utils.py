@@ -41,3 +41,7 @@ def walk_site_url(_url_patterns, recursive_url='',
                            new_view_name, app_name))
 
     return result
+
+
+def get_views_by_app():
+    pass

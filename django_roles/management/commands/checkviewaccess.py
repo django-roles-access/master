@@ -7,7 +7,7 @@ from importlib import import_module
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
-from django_roles.utils import walk_site_url
+from django_roles.utils import walk_site_url, get_views_by_app
 
 
 class Command(BaseCommand):
@@ -37,6 +37,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Start gathering information.'))
         url = import_module(settings.ROOT_URLCONF).urlpatterns
         site_url_list = walk_site_url(url)
+        get_views_by_app()
         print(site_url_list)
 
         self.stdout.write(self.style.SUCCESS('End checking view access.'))
