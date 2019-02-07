@@ -86,7 +86,13 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         mock_walk_site_url.assert_called_once_with('fake-urlpatterns')
 
-
+    @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
+    def test_get_views_by_app_is_called(
+            self, mock_get_views_by_app, mock_settings, mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        call_command('checkviewaccess')
+        mock_get_views_by_app.assert_called()
 
 
 class AnalyzeSiteSecurity(TestCase):

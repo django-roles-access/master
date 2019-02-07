@@ -162,7 +162,13 @@
         <span class="n">call_command</span><span class="p">(</span><span class="s1">&#39;checkviewaccess&#39;</span><span class="p">)</span>
         <span class="n">mock_walk_site_url</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="s1">&#39;fake-urlpatterns&#39;</span><span class="p">)</span></div>
 
-
+    <span class="c1"># @patch(&#39;django_roles.management.commands.checkviewaccess.get_views_by_app&#39;)</span>
+    <span class="c1"># def test_get_views_by_app_is_called(</span>
+    <span class="c1">#         self, mock_get_views_by_app, mock_settings, mock_import_module</span>
+    <span class="c1"># ):</span>
+    <span class="c1">#     mock_settings.ROOT_URLCONF = self.root_urlconf</span>
+    <span class="c1">#     call_command(&#39;checkviewaccess&#39;)</span>
+    <span class="c1">#     mock_get_views_by_app.assert_called()</span>
 
 
 <div class="viewcode-block" id="AnalyzeSiteSecurity"><a class="viewcode-back" href="../../test.html#tests.test_checkviewaccess.AnalyzeSiteSecurity">[docs]</a><span class="k">class</span> <span class="nc">AnalyzeSiteSecurity</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>

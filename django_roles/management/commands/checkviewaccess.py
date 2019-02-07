@@ -11,6 +11,16 @@ from django_roles.utils import walk_site_url
 
 
 class Command(BaseCommand):
+    """
+    **checkviewaccess** management command analyze *all site's views access*.
+
+    The list with *all site's views* is obtained from *urlpatterns* attribute of
+    the URLConf module configured in settings.ROOT_URLCONF.Each view access from
+    the list of *site's views* is subject of analyze.
+
+    Conclusion of analyze is reported by application as Django Roles let
+    classify installed applications.
+    """
     help = 'Manage command checkviewaccess'
 
     # def add_arguments(self, parser):
@@ -22,7 +32,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """
-        This method implements the manage.py command
+        This method implements checkviewaccess command behavior.
         """
         self.stdout.write(self.style.SUCCESS('Start gathering information.'))
         url = import_module(settings.ROOT_URLCONF).urlpatterns
