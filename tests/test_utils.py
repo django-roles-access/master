@@ -1,4 +1,8 @@
 from unittest import TestCase as UnitTestCase
+try:
+    from unittest.mock import Mock, patch, MagicMock
+except:
+    from mock import Mock, patch
 
 from django_roles.utils import walk_site_url
 
@@ -21,7 +25,8 @@ class MockRegexResolverNested:
 class MockPattern:
     def __init__(self):
         self.regex = MockRegex()
-        self.callback = 'fake-view'
+        self.callback = 'fake-callback'
+        self.name = 'fake-view-name'
 
 
 class MockResolver:
@@ -42,8 +47,9 @@ class MockResolverNested:
 
 class MockPatternDjango2:
     def __init__(self):
-        self.pattern = '^fake-regex-pattern/'
-        self.callback = 'fake-view'
+        self.pattern = '^fake-pattern/'
+        self.callback = 'fake-callback'
+        self.name = 'fake-view-name'
 
 
 class MockResolverDjango2:
@@ -74,28 +80,35 @@ class UnitTestWalkSiteURL(UnitTestCase):
 
     def test_first_param_list_of_pattern_and_view(self):
         result = walk_site_url(self.data)
-        self.assertEqual(result, [('fake-regex-pattern/', 'fake-view')])
+        self.assertEqual(result, [('fake-regex-pattern/', 'fake-callback',
+                                   'fake-view-name', None)])
 
     def test_first_param_list_of_patterns_and_views(self):
         pattern_2 = MockPattern()
         pattern_2.regex.pattern = 'fake-regex-pattern-2/'
         pattern_2.callback = 'fake-view-2'
         result = walk_site_url([self.pattern_1, pattern_2])
-        self.assertEqual(result, [('fake-regex-pattern/', 'fake-view'),
-                                  ('fake-regex-pattern-2/', 'fake-view-2')])
+        self.assertEqual(result, [('fake-regex-pattern/', 'fake-callback',
+                                   'fake-view-name', None),
+                                  ('fake-regex-pattern-2/', 'fake-view-2',
+                                   'fake-view-name', None)])
 
     def test_param_list_with_pattern_and_resolver_django_1(self):
-        expected_result = [('fake-regex-pattern/', 'fake-view'),
-                           ('fake-resolver/fake-regex-pattern/', 'fake-view')]
+        expected_result = [
+            ('fake-regex-pattern/', 'fake-callback', 'fake-view-name', None),
+            ('fake-resolver/fake-regex-pattern/',
+             'fake-callback', 'fake-namespace:fake-view-name', 'fake-app-name'
+             )]
         resolver = MockResolver()
         result = walk_site_url([self.pattern_1, resolver])
         self.assertEqual(result, expected_result)
 
     def test_param_list_with_pattern_and_nested_resolver_django_1(self):
         expected_result = [
-            ('fake-regex-pattern/', 'fake-view'),
+            ('fake-regex-pattern/', 'fake-callback', 'fake-view-name', None),
             ('fake-nested-resolver/fake-resolver/fake-regex-pattern/',
-             'fake-view'
+             'fake-callback', 'nested-namespace:fake-namespace:fake-view-name',
+             'fake-app-name'
              )
         ]
         resolver = MockResolverNested()
@@ -103,47 +116,54 @@ class UnitTestWalkSiteURL(UnitTestCase):
         self.assertEqual(result, expected_result)
 
     def test_param_list_with_pattern_and_resolver_django_2(self):
-        expected_result = [('fake-regex-pattern/', 'fake-view'),
-                           ('fake-resolver/fake-regex-pattern/', 'fake-view')]
+        expected_result = [
+            ('fake-pattern/', 'fake-callback', 'fake-view-name', None),
+            ('fake-resolver/fake-pattern/',
+             'fake-callback', 'fake-namespace:fake-view-name', 'fake-app-name'
+             )
+        ]
         resolver = MockResolverDjango2()
         result = walk_site_url([MockPatternDjango2(), resolver])
         self.assertEqual(result, expected_result)
 
     def test_param_list_with_pattern_and_nested_resolver_django_2(self):
         expected_result = [
-            ('fake-regex-pattern/', 'fake-view'),
-            ('fake-nested-resolver/fake-resolver/fake-regex-pattern/',
-             'fake-view'
+            ('fake-pattern/', 'fake-callback', 'fake-view-name', None),
+            ('fake-nested-resolver/fake-resolver/fake-pattern/',
+             'fake-callback', 'nested-namespace:fake-namespace:fake-view-name',
+             'fake-app-name'
              )
         ]
-        resolver = MockResolverDjangoNested()
-        result = walk_site_url([MockPatternDjango2(), resolver])
+        result = walk_site_url([MockPatternDjango2(),
+                                MockResolverDjangoNested()])
         self.assertEqual(result, expected_result)
 
     def test_param_list_with_resolver_get_app_name_and_view_name_django_1(self):
         expected_result = [
             ('fake-resolver/fake-regex-pattern/',
-             'fake-view', 'fake-namespace:fake-view-name', 'fake-app-name'
+             'fake-callback', 'fake-namespace:fake-view-name', 'fake-app-name'
              ),
             ('fake-nested-resolver/fake-resolver/fake-regex-pattern/',
-             'fake-view', 'nested-namespace:fake-namespace:fake-view-name',
+             'fake-callback', 'nested-namespace:fake-namespace:fake-view-name',
              'fake-app-name'
              )
         ]
-        result = walk_site_url([MockResolver, MockResolverNested])
+        result = walk_site_url([MockResolver(), MockResolverNested()])
         self.assertEqual(result, expected_result)
 
     def test_param_list_with_resolver_get_app_name_and_view_name_django_2(self):
         expected_result = [
-            ('fake-resolver/fake-regex-pattern/',
-             'fake-view', 'fake-namespace:fake-view-name', 'fake-app-name'
+            ('fake-resolver/fake-pattern/',
+             'fake-callback', 'fake-namespace:fake-view-name', 'fake-app-name'
              ),
-            ('fake-nested-resolver/fake-resolver/fake-regex-pattern/',
-             'fake-view', 'nested-namespace:fake-namespace:fake-view-name',
+            ('fake-nested-resolver/fake-resolver/fake-pattern/',
+             'fake-callback', 'nested-namespace:fake-namespace:fake-view-name',
              'fake-app-name'
              )
         ]
-        result = walk_site_url([MockResolverDjango2, MockResolverDjangoNested])
+        resolver = MockResolverDjango2()
+        nested_resolver = MockResolverDjangoNested()
+        result = walk_site_url([resolver, nested_resolver])
         self.assertEqual(result, expected_result)
 
 

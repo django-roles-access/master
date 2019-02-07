@@ -2,8 +2,11 @@
 This test module will search for all site's urls and analyze their security
 status.
 """
+try:
+    from unittest.mock import Mock, patch, MagicMock
+except:
+    from mock import Mock, patch
 from unittest.case import TestCase as UnitTestCase
-from unittest.mock import Mock, patch
 
 from django.core.management import call_command
 from django.test import TestCase
@@ -72,8 +75,6 @@ class UnitTestCheckViewAccess(UnitTestCase):
         mock_import_module.return_value = urlpatterns
         call_command('checkviewaccess')
         mock_walk_site_url.assert_called_once_with('fake-urlpatterns')
-
-
 
 
 class AnalyzeSiteSecurity(TestCase):
