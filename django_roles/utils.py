@@ -17,10 +17,10 @@ def walk_site_url(_url_patterns, recursive_url='',
     for url in _url_patterns:
         if hasattr(url, 'pattern'):
             # Running With Django 2
-            pattern = url.pattern
+            pattern = str(url.pattern)
         else:
             # Running with Django 1
-            pattern = url.regex.pattern
+            pattern = str(url.regex.pattern)
         pattern = pattern.strip('^')  # For better presentation
         if hasattr(url, 'url_patterns'):
             # When url object has 'url_patterns' attribute means is a Resolver

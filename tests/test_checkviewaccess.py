@@ -2,6 +2,8 @@
 This test module will search for all site's urls and analyze their security
 status.
 """
+from django.utils.six import StringIO
+from django.utils.translation import ugettext as _
 try:
     from unittest.mock import Mock, patch, MagicMock
 except:
@@ -12,13 +14,31 @@ from django.core.management import call_command
 from django.test import TestCase
 
 
+@patch('django_roles.management.commands.checkviewaccess.import_module')
+@patch('django_roles.management.commands.checkviewaccess.settings')
 class UnitTestCheckViewAccess(UnitTestCase):
 
     def setUp(self):
         self.root_urlconf = Mock()
 
-    @patch('django_roles.management.commands.checkviewaccess.import_module')
-    @patch('django_roles.management.commands.checkviewaccess.settings')
+    def test_write_at_beginning_of_command_execution(
+            self, mock_settings, mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        expected_text = _(u'Start gathering information.')
+        call_command('checkviewaccess', stdout=out)
+        self.assertIn(expected_text, out.getvalue())
+
+    def test_write_when_finish_command_execution(
+            self, mock_settings, mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        expected_text = _(u'End checking view access.')
+        call_command('checkviewaccess', stdout=out)
+        self.assertIn(expected_text, out.getvalue())
+
     def test_import_module_is_called(
             self, mock_settings, mock_import_module
     ):
@@ -26,8 +46,6 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         mock_import_module.assert_called()
 
-    @patch('django_roles.management.commands.checkviewaccess.import_module')
-    @patch('django_roles.management.commands.checkviewaccess.settings')
     def test_import_module_is_called_once(
             self, mock_settings, mock_import_module
     ):
@@ -35,8 +53,6 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         mock_import_module.assert_called_once()
 
-    @patch('django_roles.management.commands.checkviewaccess.import_module')
-    @patch('django_roles.management.commands.checkviewaccess.settings')
     def test_import_module_is_called_once_with(
             self, mock_settings, mock_import_module
     ):
@@ -45,36 +61,32 @@ class UnitTestCheckViewAccess(UnitTestCase):
         mock_import_module.assert_called_once_with(self.root_urlconf)
 
     @patch('django_roles.management.commands.checkviewaccess.walk_site_url')
-    @patch('django_roles.management.commands.checkviewaccess.import_module')
-    @patch('django_roles.management.commands.checkviewaccess.settings')
     def test_walk_site_url_is_called(
-            self, mock_settings, mock_import_module, mock_walk_site_url
+            self, mock_walk_site_url, mock_settings, mock_import_module
     ):
         mock_import_module.urlpatterns = 'fake-url-pattern'
         call_command('checkviewaccess')
         mock_walk_site_url.assert_called()
 
     @patch('django_roles.management.commands.checkviewaccess.walk_site_url')
-    @patch('django_roles.management.commands.checkviewaccess.import_module')
-    @patch('django_roles.management.commands.checkviewaccess.settings')
     def test_walk_site_url_is_called_once(
-            self, mock_settings, mock_import_module, mock_walk_site_url
+            self, mock_walk_site_url, mock_settings, mock_import_module
     ):
         mock_import_module.urlpatterns = 'fake-url-pattern'
         call_command('checkviewaccess')
         mock_walk_site_url.assert_called_once()
 
     @patch('django_roles.management.commands.checkviewaccess.walk_site_url')
-    @patch('django_roles.management.commands.checkviewaccess.import_module')
-    @patch('django_roles.management.commands.checkviewaccess.settings')
     def test_walk_site_url_is_called_once_with(
-            self, mock_settings, mock_import_module, mock_walk_site_url
+            self, mock_walk_site_url, mock_settings, mock_import_module
     ):
         urlpatterns = Mock()
         urlpatterns.urlpatterns = 'fake-urlpatterns'
         mock_import_module.return_value = urlpatterns
         call_command('checkviewaccess')
         mock_walk_site_url.assert_called_once_with('fake-urlpatterns')
+
+
 
 
 class AnalyzeSiteSecurity(TestCase):

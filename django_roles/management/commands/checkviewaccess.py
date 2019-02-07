@@ -24,12 +24,12 @@ class Command(BaseCommand):
         """
         This method implements the manage.py command
         """
+        self.stdout.write(self.style.SUCCESS('Start gathering information.'))
         url = import_module(settings.ROOT_URLCONF).urlpatterns
-        list = walk_site_url(url)
-        print(list)
+        site_url_list = walk_site_url(url)
+        print(site_url_list)
 
-        self.stdout.write(self.style.SUCCESS('Check Site Views access '
-                                             'configuration.'))
+        self.stdout.write(self.style.SUCCESS('End checking view access.'))
 
 
 # from unittest.case import TestCase
