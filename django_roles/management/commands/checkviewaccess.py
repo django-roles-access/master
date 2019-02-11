@@ -37,7 +37,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Start gathering information.'))
         url = import_module(settings.ROOT_URLCONF).urlpatterns
         site_url_list = walk_site_url(url)
-        get_views_by_app()
+        get_views_by_app(site_url_list)
         print(site_url_list)
 
         self.stdout.write(self.style.SUCCESS('End checking view access.'))

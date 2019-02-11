@@ -218,8 +218,67 @@ class UnitTestGetViewsByApp(UnitTestCase):
     return a dictionary with keys been installed applications.
     """
     def setUp(self):
-        self.data = ['fake-element']
+        self.data = [('a', 'b', 'c', 'fake-app-1')]
 
-    def test_returns_a_dictionary(self):
+    @patch('django_roles.utils.settings')
+    def test_returns_a_dictionary(
+            self, mock_settings
+    ):
+        mock_settings.INSTALLED_APPS = ['fake-app-1', 'fake-app-2']
         result = get_views_by_app(self.data)
         self.assertIsInstance(result, dict)
+
+    @patch('django_roles.utils.settings')
+    def test_returns_a_dictionary_with_all_installed_apps(
+            self, mock_settings
+    ):
+        mock_settings.INSTALLED_APPS = ['fake-app-1', 'fake-app-2']
+        result = get_views_by_app(self.data)
+        assert 'fake-app-1' in result
+        assert 'fake-app-2' in result
+
+    @patch('django_roles.utils.settings')
+    def test_values_of_returned_dictionary_keys_are_lists(
+            self, mock_settings
+    ):
+        mock_settings.INSTALLED_APPS = ['fake-app-1', 'fake-app-2']
+        result = get_views_by_app(self.data)
+        self.assertIsInstance(result['fake-app-1'], list)
+        self.assertIsInstance(result['fake-app-2'], list)
+
+    @patch('django_roles.utils.settings')
+    def test_receive_list_of_tuples_with_4_element(
+            self, mock_settings
+    ):
+        mock_settings.INSTALLED_APPS = ['fake-app-1']
+        result = get_views_by_app(self.data)
+        assert 'fake-app-1' in result
+
+    @patch('django_roles.utils.settings')
+    def test_raise_type_error_if_receive_list_of_tuples_with_3_element(
+            self, mock_settings
+    ):
+        mock_settings.INSTALLED_APPS = ['fake-app-1']
+        data = [('a', 'b', 'c')]
+        with self.assertRaises(TypeError):
+            get_views_by_app(data)
+
+    @patch('django_roles.utils.settings')
+    def test_raise_type_error_if_receive_list_of_tuples_with_5_element(
+            self, mock_settings
+    ):
+        mock_settings.INSTALLED_APPS = ['fake-app-1']
+        data = [('a', 'b', 'c', 'd', 'e')]
+        with self.assertRaises(TypeError):
+            get_views_by_app(data)
+
+    @patch('django_roles.utils.settings')
+    def test_received_data_is_ordered_and_returned_by_application(
+            self, mock_settings
+    ):
+        mock_settings.INSTALLED_APPS = ['fake-app-1', 'fake-app-2', None]
+        data = [('a', 'b', 'c', 'fake-app-1'), ('1', '2', '3', 'fake-app-2'),
+                ('a1', 'b2', 'c3', None)]
+        expected_result = [('a', 'b', 'c')]
+        result = get_views_by_app(data)
+        self.assertEqual(expected_result, result['fake-app-1'])

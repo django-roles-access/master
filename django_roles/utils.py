@@ -1,6 +1,7 @@
 """
 Code used by checkviewaccess management command
 """
+from django.conf import settings
 
 
 def walk_site_url(_url_patterns, recursive_url='',
@@ -21,8 +22,7 @@ def walk_site_url(_url_patterns, recursive_url='',
         else:
             # Running with Django 1
             pattern = str(url.regex.pattern)
-        pattern = pattern.strip('^')  # For better presentation
-        pattern = pattern.strip('$')  # For better presentation
+        pattern = pattern.strip('^').strip('$')  # For better presentation
         if hasattr(url, 'url_patterns'):
             # When url object has 'url_patterns' attribute means is a Resolver
             if view_name:
@@ -43,5 +43,13 @@ def walk_site_url(_url_patterns, recursive_url='',
     return result
 
 
-def get_views_by_app():
-    pass
+def get_views_by_app(site_urls):
+    installed_apps = settings.INSTALLED_APPS
+    result = {key: [] for key in installed_apps}
+    for site_url in site_urls:
+        try:
+            url, callback, view_name, app_name = site_url
+            result[app_name].append((url, callback, view_name))
+        except:
+            raise TypeError
+    return result
