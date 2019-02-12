@@ -1,4 +1,4 @@
-from functools import update_wrapper
+from functools import update_wrapper, wraps
 
 from django.core.exceptions import PermissionDenied
 from django_roles.tools import check_access_by_role
@@ -15,11 +15,11 @@ def access_by_role(view):
 
     PermissionDenied is raised if user has no access.
     """
+    @wraps(view)
     def _view(request, *args, **kwargs):
         if check_access_by_role(request):
             return view(request, *args, **kwargs)
         raise PermissionDenied
 
     _view.access_by_role = True
-    update_wrapper(_view, view)
     return _view
