@@ -282,3 +282,30 @@ class UnitTestGetViewsByApp(UnitTestCase):
         expected_result = [('a', 'b', 'c')]
         result = get_views_by_app(data)
         self.assertEqual(expected_result, result['fake-app-1'])
+
+    @patch('django_roles.utils.settings')
+    def test_can_work_with_no_declared_application_name(
+            self, mock_settings
+    ):
+        mock_settings.INSTALLED_APPS = ['fake-app-1', 'fake-app-2', None]
+        data = [('a', 'b', 'c', 'fake-app-1'), ('1', '2', '3', 'fake-app-2'),
+                ('a1', 'b2', 'c3', None)]
+        expected_result = [('a1', 'b2', 'c3')]
+        result = get_views_by_app(data)
+        self.assertEqual(expected_result, result[None])
+
+class IntegratedTestGetViewsByApp(TestCase):
+
+    def setUp(self):
+        self.url = import_module(settings.ROOT_URLCONF).urlpatterns
+    
+    def test_get_dict_with_direct_view_without_declared_app(self):
+        expected_result = ('direct_access_view/',
+                           views.protected_view_by_role,
+                           'direct_access_view')
+        site_urls_list = walk_site_url(self.url)
+        result = get_views_by_app(site_urls_list)
+        import pdb
+        pdb.set_trace()
+        self.assertIn(expected_result, result[None])
+
