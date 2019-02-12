@@ -2,6 +2,10 @@
 Code used by checkviewaccess management command
 """
 from django.conf import settings
+from django.utils.translation import ugettext as _
+
+
+APP_NAME_FOR_NONE = _(u'Undefined app')
 
 
 def walk_site_url(_url_patterns, recursive_url='',
@@ -49,7 +53,12 @@ def get_views_by_app(site_urls):
     for site_url in site_urls:
         try:
             url, callback, view_name, app_name = site_url
-            result[app_name].append((url, callback, view_name))
         except:
             raise TypeError
+        if not app_name:
+            app_name = APP_NAME_FOR_NONE
+        try:
+            result[app_name].append((url, callback, view_name))
+        except KeyError:
+            result[app_name] = [(url, callback, view_name)]
     return result

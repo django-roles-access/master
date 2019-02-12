@@ -11,7 +11,8 @@ try:
 except:
     from mock import Mock, patch
 
-from django_roles.utils import walk_site_url, get_views_by_app
+from django_roles.utils import (walk_site_url, get_views_by_app,
+                                APP_NAME_FOR_NONE)
 
 
 class MockRegex:
@@ -292,20 +293,19 @@ class UnitTestGetViewsByApp(UnitTestCase):
                 ('a1', 'b2', 'c3', None)]
         expected_result = [('a1', 'b2', 'c3')]
         result = get_views_by_app(data)
-        self.assertEqual(expected_result, result[None])
+        self.assertEqual(expected_result, result[APP_NAME_FOR_NONE])
+
 
 class IntegratedTestGetViewsByApp(TestCase):
 
     def setUp(self):
         self.url = import_module(settings.ROOT_URLCONF).urlpatterns
     
-    def test_get_dict_with_direct_view_without_declared_app(self):
+    def test_not_declared_app_are_defined_as_undefined_app(self):
         expected_result = ('direct_access_view/',
                            views.protected_view_by_role,
                            'direct_access_view')
         site_urls_list = walk_site_url(self.url)
         result = get_views_by_app(site_urls_list)
-        import pdb
-        pdb.set_trace()
-        self.assertIn(expected_result, result[None])
+        self.assertIn(expected_result, result[APP_NAME_FOR_NONE])
 
