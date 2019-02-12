@@ -48,6 +48,11 @@ def walk_site_url(_url_patterns, recursive_url='',
 
 
 def get_views_by_app(site_urls):
+    """
+
+    :param site_urls:
+    :return:
+    """
     installed_apps = settings.INSTALLED_APPS
     result = {key: [] for key in installed_apps}
     for site_url in site_urls:

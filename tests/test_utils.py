@@ -295,17 +295,45 @@ class UnitTestGetViewsByApp(UnitTestCase):
         result = get_views_by_app(data)
         self.assertEqual(expected_result, result[APP_NAME_FOR_NONE])
 
+    @patch('django_roles.utils.settings')
+    def test_if_application_is_not_in_installed_apps_will_not_be_in_dict(
+            self, mock_settings
+    ):
+        mock_settings.INSTALLED_APPS = ['fake-app-1', 'fake-app-2', None]
+        result = get_views_by_app(self.data)
+        assert 'fake-app-3' not in result
+
 
 class IntegratedTestGetViewsByApp(TestCase):
 
     def setUp(self):
         self.url = import_module(settings.ROOT_URLCONF).urlpatterns
     
-    def test_not_declared_app_are_defined_as_undefined_app(self):
+    def test_not_declared_app_are_recognized_as_undefined_app(self):
         expected_result = ('direct_access_view/',
                            views.protected_view_by_role,
                            'direct_access_view')
-        site_urls_list = walk_site_url(self.url)
-        result = get_views_by_app(site_urls_list)
+        result = get_views_by_app(walk_site_url(self.url))
         self.assertIn(expected_result, result[APP_NAME_FOR_NONE])
 
+    def test_views_without_namespace_are_added_with_app_name_in_view_name(self):
+        expected_result = ('role-included[135]/view_by_role/',
+                           views.protected_view_by_role,
+                           'django_roles:view_protected_by_role')
+        result = get_views_by_app(walk_site_url(self.url))
+        self.assertIn(expected_result, result['django_roles'])
+
+    def test_view_with_namespace_are_added_with_correct_app_name(self):
+        expected_result = ('role-included2/view_by_role/',
+                           views.protected_view_by_role,
+                           'app-ns2:view_protected_by_role')
+        result = get_views_by_app(walk_site_url(self.url))
+        self.assertIn(expected_result, result['django_roles'])
+
+    def test_nested_namespace_are_added_with_correct_app_name(self):
+        expected_result = ('nest1/nest2/view_by_role/',
+                           views.protected_view_by_role,
+                           'nest1_namespace:nest2_namespace:view_'
+                           'protected_by_role')
+        result = get_views_by_app(walk_site_url(self.url))
+        self.assertIn(expected_result, result['roles-app-name'])

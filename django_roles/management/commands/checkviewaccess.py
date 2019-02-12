@@ -4,7 +4,7 @@ This test module will search for all site's urls and analyze their security
 status.
 """
 from importlib import import_module
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.conf import settings
 
 from django_roles.utils import walk_site_url, get_views_by_app
@@ -36,9 +36,7 @@ class Command(BaseCommand):
         """
         self.stdout.write(self.style.SUCCESS('Start gathering information.'))
         url = import_module(settings.ROOT_URLCONF).urlpatterns
-        site_url_list = walk_site_url(url)
-        get_views_by_app(site_url_list)
-        print(site_url_list)
+        views_by_app = get_views_by_app(walk_site_url(url))
 
         self.stdout.write(self.style.SUCCESS('End checking view access.'))
 
