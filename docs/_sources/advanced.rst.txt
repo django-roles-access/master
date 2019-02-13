@@ -85,3 +85,12 @@ when trying to use it, an exception will be raised:
     django.core.exceptions.ImproperlyConfigured: No DjangoTemplates backend is
     configured.
 
+
+
+==============================
+Views without application name
+==============================
+
+When a views have no application associated, they will be classified in a
+group under application name equal to constant
+*django_roles.utils.APP_NAME_FOR_NONE*

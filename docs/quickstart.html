@@ -81,24 +81,46 @@
             
   <div class="section" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>Django roles is an application for securing a Django site by controlling
-access to views.</p>
-<p>Permissions to access views are given to
-<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a>, and they can be interpreted as roles.
-Is also possible to change a view access security at run time.</p>
+<p><code class="docutils literal notranslate"><span class="pre">django_roles</span></code> is a Django app for securing access to views. It’s built on top
+of <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a> that will be interpreted as role
+. This app do not interfere with the work of any <code class="docutils literal notranslate"><span class="pre">django.contrib.auth</span>
+<span class="pre">.decorators</span></code> used in the project.</p>
+<p>Main features:</p>
+<ul class="simple">
+<li>Once configured, all administration for securing access to views is done in
+admin site at run time.</li>
+<li>Not extra code required:<ul>
+<li>In case of being using <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> decorator or mixin, all what is
+needed is to decorate the view function or prepend the mixin in class based
+view definition.</li>
+<li>When using <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> middleware no more code is required.</li>
+</ul>
+</li>
+<li>Access to views can be controlled with two element:<ol class="arabic">
+<li>View access object: An object with two attribute: view name and roles.</li>
+<li>Application classifications in project settings.</li>
+</ol>
+</li>
+<li><code class="docutils literal notranslate"><span class="pre">django_roles</span></code> register an action called <code class="docutils literal notranslate"><span class="pre">checkviewaccess</span></code> that will
+report project views access security no matter if <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> tools are
+used or not. To use it just:</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">checkviewaccess</span>
+</pre></div>
+</div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The installation and use of <em>Django roles</em> will not have any effect in views
 with already restricted access. For example, a view restricted with
-decorator <a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/default/#django.contrib.auth.decorators.login_required" title="(in Django v2.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code></a>
+decorator <a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/default/#django.contrib.auth.decorators.login_required" title="(in Django v3.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code></a>
 will remain having the restriction plus the new restrictions added by
 Django roles</p>
 </div>
 </div>
 <div class="section" id="requirements">
 <h1>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h1>
-<p>Django roles use <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a>,
-<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.User" title="(in Django v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.User</span></code></a> and <em>view names</em> to control access
+<p>Django roles use <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a>,
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.User" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.User</span></code></a> and <em>view names</em> to control access
 to views. Also <em>Django admin interface</em> in necessary to create and administrate
 <em>view control access</em> (<a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a>).</p>
 <p>So Django roles is dependent of <em>Django admin site</em> and because of this it has
@@ -124,15 +146,16 @@ official documentation: <a class="reference external" href="https://docs.djangop
 <span class="p">]</span>
 </pre></div>
 </div>
-<ol class="arabic simple" start="3">
-<li>Run <cite>python manage.py migrate</cite> to create the django roles models.</li>
-</ol>
+<p>3. Run migrations to create the <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> models:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">migrate</span>
+</pre></div>
+</div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Once Django roles is installed, by default all Django sites views keeps their
 <strong>access status</strong>. If they were public, they will remain
 being public. If they were restricted by some logic (like
-<a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/default/#django.contrib.auth.decorators.login_required" title="(in Django v2.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code></a>), they will keep
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/default/#django.contrib.auth.decorators.login_required" title="(in Django v3.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code></a>), they will keep
 restricted by the same logic.</p>
 </div>
 </div>
@@ -149,23 +172,23 @@ restricted by the same logic.</p>
 <li>In <strong>type</strong> select the <em>access type</em> for the view:<ul>
 <li><strong>Public</strong>: Any visitor can access the view.</li>
 <li><strong>Authorized</strong>: Only authorized (logged)
-<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.User" title="(in Django v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.User</span></code></a> can access the view.</li>
-<li><strong>By roles</strong>: Only <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.User" title="(in Django v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.User</span></code></a> belonging to
-any <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a> added to <em>roles</em> attribute
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.User" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.User</span></code></a> can access the view.</li>
+<li><strong>By roles</strong>: Only <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.User" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.User</span></code></a> belonging to
+any <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a> added to <em>roles</em> attribute
 will access the view.</li>
 </ul>
 </li>
 <li>If <em>By role</em> access type was selected, add to <strong>roles</strong> attribute the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.Group</span></code> who’s members should have access
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a> whose members will have access
 to the view.</li>
 </ol>
 </div>
 <div class="section" id="step-2">
 <h3>Step 2<a class="headerlink" href="#step-2" title="Permalink to this headline">¶</a></h3>
-<p>The second step is about using <a class="reference internal" href="reference.html#django_roles.decorators.access_by_role" title="django_roles.decorators.access_by_role"><code class="xref py py-func docutils literal notranslate"><span class="pre">django_roles.decorators.access_by_role()</span></code></a>
+<p>The second step is about using <code class="xref py py-func docutils literal notranslate"><span class="pre">django_roles.decorators.access_by_role()</span></code>
 decorator to decorate the view you want to secure.
 For example:</p>
-<p>In case the view is a function::</p>
+<p>In case the view is a function:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django_roles.decorators</span> <span class="k">import</span> <span class="n">access_by_role</span>
 
 <span class="nd">@access_by_role</span><span class="p">()</span>
@@ -173,10 +196,10 @@ For example:</p>
    <span class="o">...</span>
 </pre></div>
 </div>
-<p>In case of classes based views use mixin::</p>
+<p>In case of classes based views use mixin:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django_roles.mixin</span> <span class="k">import</span> <span class="n">RolesMixin</span>
 
-<span class="k">class</span> <span class="nc">MyView</span><span class="p">(</span><span class="n">View</span><span class="p">,</span> <span class="n">RolesMixin</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">MyView</span><span class="p">(</span><span class="n">RolesMixin</span><span class="p">,</span> <span class="n">View</span><span class="p">):</span>
 
     <span class="o">...</span>
 </pre></div>
@@ -238,7 +261,7 @@ For example:</p>
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Jan 08, 2019</p>
+              <p class="topless">Feb 13, 2019</p>
           </div>
         
       

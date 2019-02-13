@@ -1,0 +1,206 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Check view access &#8212; Django roles 0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Levels of access to applications" href="advanced.html" />
+    <link rel="prev" title="Using Django roles middleware" href="middleware.html" />
+
+
+
+ 
+<script type="text/javascript" src="templatebuiltins.js"></script>
+<script type="text/javascript">
+(function($) {
+    if (!django_template_builtins) {
+       // templatebuiltins.js missing, do nothing.
+       return;
+    }
+    $(document).ready(function() {
+        // Hyperlink Django template tags and filters
+        var base = "ref/templates/builtins.html";
+        if (base == "#") {
+            // Special case for builtins.html itself
+            base = "";
+        }
+        // Tags are keywords, class '.k'
+        $("div.highlight\\-html\\+django span.k").each(function(i, elem) {
+             var tagname = $(elem).text();
+             if ($.inArray(tagname, django_template_builtins.ttags) != -1) {
+                 var fragment = tagname.replace(/_/, '-');
+                 $(elem).html("<a href='" + base + "#" + fragment + "'>" + tagname + "</a>");
+             }
+        });
+        // Filters are functions, class '.nf'
+        $("div.highlight\\-html\\+django span.nf").each(function(i, elem) {
+             var filtername = $(elem).text();
+             if ($.inArray(filtername, django_template_builtins.tfilters) != -1) {
+                 var fragment = filtername.replace(/_/, '-');
+                 $(elem).html("<a href='" + base + "#" + fragment + "'>" + filtername + "</a>");
+             }
+        });
+    });
+})(jQuery);</script>
+
+  </head><body>
+
+    <div class="document">
+  <div id="custom-doc" class="yui-t6">
+    <div id="hd">
+      <h1><a href="index.html">Django roles 0.1 documentation</a></h1>
+      <div id="global-nav">
+        <a title="Home page" href="index.html">Home</a>  |
+        <a title="Table of contents" href="contents.html">Table of contents</a>  |
+        <a title="Global index" href="genindex.html">Index</a>  |
+        <a title="Module index" href="py-modindex.html">Modules</a>
+      </div>
+      <div class="nav">
+    &laquo; <a href="middleware.html" title="Using Django roles middleware">previous</a>
+     |
+    <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a>
+   |
+    <a href="advanced.html" title="Levels of access to applications">next</a> &raquo;</div>
+    </div>
+
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <div class="yui-g" id="checkviewaccess">
+            
+  <div class="section" id="check-view-access">
+<h1>Check view access<a class="headerlink" href="#check-view-access" title="Permalink to this headline">¶</a></h1>
+<p>Django roles register an action with manage.py:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">checkviewaccess</span>
+</pre></div>
+</div>
+<p>This action will analyze all reachable views from settings.ROOT_URLCONF and
+print to standard output a <em>security report</em> of access to each view.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Django documentation explain the algorithm the system follows to determine
+which Python code to execute <a class="reference external" href="https://docs.djangoproject.com/en/dev/topics/http/urls/#how-django-processes-a-request">django_algorithm</a>:</p>
+<p>… but if the incoming HttpRequest object has a urlconf attribute (set by
+middleware), its value will be used in place of the ROOT_URLCONF setting.
+…</p>
+<p class="last">Django Roles <em>checkviewaccess</em> takes from ROOT_URLCONF the root for all
+site’s views. If an installed middleware change this root, registered
+action may not work as expected.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Django Roles middleware do not change ROOT_URLCONF or any other attribute
+of the HTTPRequest. HTTPResponse is changed only when access denied is
+raised.</p>
+</div>
+<div class="section" id="analysis">
+<h2>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h2>
+<p>The used analysis follow next algorithm:</p>
+<ol class="arabic simple">
+<li>All views are collected and grouped by application. In the created report
+this step si called <strong>gathering information</strong>.</li>
+<li>Is checked if Django roles middleware is active or not. When active the
+report will indicate <strong>Django roles active for site: True</strong>. When not
+active it will br reported as <strong>Django roles active for site: False</strong>. Also
+analysis will keep track of this state in it’s <strong>site_active</strong> variable.</li>
+<li>For each installed application (settings.INSTALLED_APPLICATION) is checked
+if the application was classified as explained in
+<a class="reference internal" href="middleware.html#applications-type"><span class="std std-ref">Applications type</span></a>. The result of this is reported to standard output.</li>
+<li>For each view of the analyzed application selected in step 3, is checked
+the access security by analyzing the callable associated with the view. This
+analysis include:<ul>
+<li>Search for any <code class="docutils literal notranslate"><span class="pre">django.contrib.auth.decorators</span></code>.</li>
+<li>Evaluate if view is decorated with <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> decorator or if mixin
+was used. Then is searched <a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a>
+object for the view. And finally taking in consideration if <strong>site_active</strong>
+is True or not, an access security status is concluded.</li>
+</ul>
+</li>
+<li>Report from selected view will indicate:<ul>
+<li>View Name.</li>
+<li>Declared URL.</li>
+<li>Access security status.</li>
+</ul>
+</li>
+</ol>
+<p>The last of all <strong>Access security status</strong> is concluded by work done in step 4.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      
+        
+          <div class="yui-b" id="sidebar">
+            
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Check view access</a><ul>
+<li><a class="reference internal" href="#analysis">Analysis</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="middleware.html"
+                        title="previous chapter">Using Django roles middleware</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="advanced.html"
+                        title="next chapter">Levels of access to applications</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/checkviewaccess.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+              <h3>Last update:</h3>
+              <p class="topless">Feb 13, 2019</p>
+          </div>
+        
+      
+    </div>
+
+    <div id="ft">
+      <div class="nav">
+    &laquo; <a href="middleware.html" title="Using Django roles middleware">previous</a>
+     |
+    <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a>
+   |
+    <a href="advanced.html" title="Levels of access to applications">next</a> &raquo;</div>
+    </div>
+  </div>
+
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Reference" href="reference.html" />
-    <link rel="prev" title="Using Django roles middleware" href="middleware.html" />
+    <link rel="prev" title="Check view access" href="checkviewaccess.html" />
 
 
 
@@ -67,7 +67,7 @@
         <a title="Module index" href="py-modindex.html">Modules</a>
       </div>
       <div class="nav">
-    &laquo; <a href="middleware.html" title="Using Django roles middleware">previous</a>
+    &laquo; <a href="checkviewaccess.html" title="Check view access">previous</a>
      |
     <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a>
    |
@@ -143,6 +143,12 @@ when trying to use it, an exception will be raised:</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="views-without-application-name">
+<h1>Views without application name<a class="headerlink" href="#views-without-application-name" title="Permalink to this headline">¶</a></h1>
+<p>When a views have no application associated, they will be classified in a
+group under application name equal to constant
+<em>django_roles.utils.APP_NAME_FOR_NONE</em></p>
+</div>
 
 
           </div>
@@ -161,11 +167,12 @@ when trying to use it, an exception will be raised:</p>
 <li><a class="reference internal" href="#namespaces-and-view-name">Namespaces and View Name</a></li>
 <li><a class="reference internal" href="#arguments">Arguments</a></li>
 <li><a class="reference internal" href="#template-tag">Template Tag</a></li>
+<li><a class="reference internal" href="#views-without-application-name">Views without application name</a></li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="middleware.html"
-                        title="previous chapter">Using Django roles middleware</a></p>
+  <p class="topless"><a href="checkviewaccess.html"
+                        title="previous chapter">Check view access</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="reference.html"
                         title="next chapter">Reference</a></p>
@@ -191,7 +198,7 @@ when trying to use it, an exception will be raised:</p>
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Feb 01, 2019</p>
+              <p class="topless">Feb 13, 2019</p>
           </div>
         
       
@@ -199,7 +206,7 @@ when trying to use it, an exception will be raised:</p>
 
     <div id="ft">
       <div class="nav">
-    &laquo; <a href="middleware.html" title="Using Django roles middleware">previous</a>
+    &laquo; <a href="checkviewaccess.html" title="Check view access">previous</a>
      |
     <a title="Django roles 0.1 documentation" href="index.html" accesskey="U">up</a>
    |

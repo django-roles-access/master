@@ -5,9 +5,13 @@ status.
 """
 from importlib import import_module
 from django.core.management.base import BaseCommand
+from django.utils.translation import ugettext as _
 from django.conf import settings
 
+from django_roles.tools import get_setting_dictionary
 from django_roles.utils import walk_site_url, get_views_by_app
+
+DJANGO_ROLE_MIDDLEWARE = 'django_roles.middleware.RolesMiddleware'
 
 
 class Command(BaseCommand):
@@ -34,11 +38,29 @@ class Command(BaseCommand):
         """
         This method implements checkviewaccess command behavior.
         """
-        self.stdout.write(self.style.SUCCESS('Start gathering information.'))
+        self.stdout.write(self.style.SUCCESS(
+            _(u'Start checking views access.')))
+
+        # 1. All views are collected and grouped by application
+        self.stdout.write(self.style.SUCCESS(
+            _(u'Start gathering information.')))
         url = import_module(settings.ROOT_URLCONF).urlpatterns
         views_by_app = get_views_by_app(walk_site_url(url))
+        configured_apps = get_setting_dictionary()
+        self.stdout.write(self.style.SUCCESS(
+            _(u'Finish gathering information.')))
 
-        self.stdout.write(self.style.SUCCESS('End checking view access.'))
+        # 2. Check if Django roles middleware is active or not
+        if DJANGO_ROLE_MIDDLEWARE in settings.MIDDLEWARE:
+            site_active = True
+        else:
+            site_active = False
+        self.stdout.write(
+            self.style.SUCCESS(
+                _(u'Django roles active for site: {}.').format(site_active)))
+
+        self.stdout.write(self.style.SUCCESS(
+            _(u'End checking view access.')))
 
 
 # from unittest.case import TestCase

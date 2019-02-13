@@ -1,6 +1,9 @@
 """
 This test module will search for all site's urls and analyze their security
 status.
+
+Seguir la documentacion: para cada aplicacion indicar cual es su clasificacion
+
 """
 from django.utils.six import StringIO
 from django.utils.translation import ugettext as _
@@ -26,7 +29,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         out = StringIO()
-        expected_text = _(u'Start gathering information.')
+        expected_text = _(u'Start checking views access.')
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text, out.getvalue())
 
@@ -36,6 +39,15 @@ class UnitTestCheckViewAccess(UnitTestCase):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         out = StringIO()
         expected_text = _(u'End checking view access.')
+        call_command('checkviewaccess', stdout=out)
+        self.assertIn(expected_text, out.getvalue())
+
+    def test_write_at_beginning_of_gathering_information_phase(
+            self, mock_settings, mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        expected_text = _(u'Start gathering information.')
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text, out.getvalue())
 
@@ -93,6 +105,75 @@ class UnitTestCheckViewAccess(UnitTestCase):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         call_command('checkviewaccess')
         mock_get_views_by_app.assert_called()
+
+    @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
+    def test_get_views_by_app_is_called_once(
+            self, mock_get_views_by_app, mock_settings, mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        call_command('checkviewaccess')
+        mock_get_views_by_app.assert_called_once()
+
+    @patch('django_roles.management.commands.checkviewaccess.walk_site_url')
+    @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
+    def test_get_views_by_app_is_called_once_with(
+            self, mock_get_views_by_app, mock_walk_site_url, mock_settings,
+            mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        mock_walk_site_url.return_value = 'fake-result'
+        call_command('checkviewaccess')
+        mock_get_views_by_app.assert_called_once_with('fake-result')
+
+    @patch('django_roles.management.commands.checkviewaccess.'
+           'get_setting_dictionary')
+    def test_get_setting_dictionary_is_called(
+            self, mock_get_setting_dictionary, mock_settings, mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        call_command('checkviewaccess')
+        mock_get_setting_dictionary.assert_called()
+
+    @patch('django_roles.management.commands.checkviewaccess.'
+           'get_setting_dictionary')
+    def test_get_setting_dictionary_is_called_once(
+            self, mock_get_setting_dictionary, mock_settings, mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        call_command('checkviewaccess')
+        mock_get_setting_dictionary.assert_called_once()
+
+    def test_write_at_end_of_gathering_information_phase(
+            self, mock_settings, mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        expected_text = _(u'Finish gathering information.')
+        call_command('checkviewaccess', stdout=out)
+        self.assertIn(expected_text, out.getvalue())
+
+    def test_middleware_is_active_and_site_active_is_true(
+            self, mock_settings, mock_import_module
+    ):
+        mock_settings.MIDDLEWARE = ['fake-middleware',
+                                    'django_roles.middleware.RolesMiddleware',
+                                    'other-fake-middleware']
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        expected_text = _(u'Django roles active for site: True.')
+        call_command('checkviewaccess', stdout=out)
+        self.assertIn(expected_text, out.getvalue())
+
+    def test_middleware_is_not_active_and_site_active_is_false(
+            self, mock_settings, mock_import_module
+    ):
+        mock_settings.MIDDLEWARE = ['fake-middleware',
+                                    'other-fake-middleware']
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        expected_text = _(u'Django roles active for site: False.')
+        call_command('checkviewaccess', stdout=out)
+        self.assertIn(expected_text, out.getvalue())
 
 
 class AnalyzeSiteSecurity(TestCase):

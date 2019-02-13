@@ -2,13 +2,37 @@
 Introduction
 ============
 
-Django roles is an application for securing a Django site by controlling
-access to views.
+``django_roles`` is a Django app for securing access to views. It's built on top
+of :class:`django.contrib.auth.models.Group` that will be interpreted as role
+. This app do not interfere with the work of any ``django.contrib.auth
+.decorators`` used in the project.
 
-Permissions to access views are given to
-:class:`django.contrib.auth.models.Group`, and they can be interpreted as roles.
-Is also possible to change a view access security at run time.
+Main features:
 
+* Once configured, all administration for securing access to views is done in
+  admin site at run time.
+
+* Not extra code required:
+
+  * In case of being using ``django_roles`` decorator or mixin, all what is
+    needed is to decorate the view function or prepend the mixin in class based
+    view definition.
+
+  * When using ``django_roles`` middleware no more code is required.
+
+* Access to views can be controlled with two element:
+
+  1. View access object: An object with two attribute: view name and roles.
+
+  2. Application classifications in project settings.
+
+* ``django_roles`` register an action called ``checkviewaccess`` that will
+  report project views access security no matter if ``django_roles`` tools are
+  used or not. To use it just:
+
+::
+
+    python manage.py checkviewaccess
 
 .. note::
 
@@ -60,7 +84,10 @@ Installation and configuration
    ]
 
 
-3. Run `python manage.py migrate` to create the django roles models.
+3. Run migrations to create the ``django_roles`` models:
+::
+
+    python manage.py migrate
 
 .. note::
 
@@ -97,7 +124,7 @@ In *Django admin* interface to create an
      will access the view.
 
 3. If *By role* access type was selected, add to **roles** attribute the
-   :class:`django.contrib.auth.Group` who's members should have access
+   :class:`django.contrib.auth.models.Group` whose members will have access
    to the view.
 
 Step 2
@@ -107,7 +134,8 @@ The second step is about using :func:`django_roles.decorators.access_by_role`
 decorator to decorate the view you want to secure.
 For example:
 
-In case the view is a function:::
+In case the view is a function:
+::
 
     from django_roles.decorators import access_by_role
 
@@ -116,11 +144,12 @@ In case the view is a function:::
        ...
 
 
-In case of classes based views use mixin:::
+In case of classes based views use mixin:
+::
 
     from django_roles.mixin import RolesMixin
 
-    class MyView(View, RolesMixin):
+    class MyView(RolesMixin, View):
 
         ...
 

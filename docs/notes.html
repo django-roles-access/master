@@ -81,39 +81,34 @@
             
   <div class="section" id="notes">
 <h1>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h1>
-<p>How Django processes a request</p>
-<p>1) Django determines the root URLconf module to use. Ordinarily, this is the
-value of the ROOT_URLCONF setting, but if the incoming HttpRequest object has a
-urlconf attribute (set by middleware), its value will be used in place of the
-ROOT_URLCONF setting.</p>
-<ol class="arabic simple" start="2">
-<li>Django loads that Python module and looks for the variable urlpatterns. This</li>
-</ol>
-<blockquote>
-<div>should be a Python list of django.urls.path() and/or django.urls.re_path()
-instances.</div></blockquote>
-<p>3) Django runs through each URL pattern, in order, and stops at the first one
-that matches the requested URL.</p>
-<p>4) Once one of the URL patterns matches, Django imports and calls the given
-view, which is a simple Python function (or a class-based view). The view gets
-passed the following arguments:
-An instance of HttpRequest.
-If the matched URL pattern returned no named groups, then the matches from the
-regular expression are provided as positional arguments.
-The keyword arguments are made up of any named parts matched by the path
-expression, overridden by any arguments specified in the optional kwargs
-argument to django.urls.path() or django.urls.re_path().</p>
-<p>5) If no URL pattern matches, or if an exception is raised during any point in
-this process, Django invokes an appropriate error-handling view. See Error
-handling below.</p>
-<p>Why is not used user_passes_test()?
-Because the callable receive the user as argument, while access by role also
-need to know the view being accessed. As pure decorator it receive the request.</p>
-<p>Comparatives with other technology</p>
+<div class="section" id="other-middleware">
+<h2>Other middleware<a class="headerlink" href="#other-middleware" title="Permalink to this headline">¶</a></h2>
+<p>Django documentation explain the algorithm the system follows to determine which
+Python code to execute <a class="reference external" href="https://docs.djangoproject.com/en/dev/topics/http/urls/#how-django-processes-a-request">django_algorithm</a>:</p>
+<p>… but if the incoming HttpRequest object has a urlconf attribute (set by
+middleware), its value will be used in place of the ROOT_URLCONF setting. …</p>
+<p>Django Roles <em>checkviewaccess</em> takes from ROOT_URLCONF the root for all site’s
+views. If an installed middleware change this root, the management command
+may not work as expected.</p>
+<p>Django Roles middleware will not change ROOT_URLCONF or any other attribute
+of the HTTPRequest or HTTPResponse (except for the last one when access
+denied is raised).</p>
+</div>
+<div class="section" id="other-considerations">
+<h2>Other considerations<a class="headerlink" href="#other-considerations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="why-is-not-used-user-passes-test">
+<h3>Why is not used user_passes_test()?<a class="headerlink" href="#why-is-not-used-user-passes-test" title="Permalink to this headline">¶</a></h3>
+<p>Because the callable receive the user as argument, while Django Roles also
+need to know the view being accessed.</p>
+</div>
+<div class="section" id="comparatives-with-other-solutions">
+<h3>Comparatives with other solutions<a class="headerlink" href="#comparatives-with-other-solutions" title="Permalink to this headline">¶</a></h3>
+<p>The main</p>
 <p>With group_required decorator <a class="reference external" href="https://djangosnippets.org/snippets/1703/">https://djangosnippets.org/snippets/1703/</a> is
 possible to implement security with Groups. But this snippet require to
-hardcode the required group.
-Django-roles lets administrate the security dynamically with ViewAccess objects.</p>
+hardcoded the required group.</p>
+</div>
+</div>
 </div>
 
 
@@ -126,6 +121,19 @@ Django-roles lets administrate the security dynamically with ViewAccess objects.
             
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Notes</a><ul>
+<li><a class="reference internal" href="#other-middleware">Other middleware</a></li>
+<li><a class="reference internal" href="#other-considerations">Other considerations</a><ul>
+<li><a class="reference internal" href="#why-is-not-used-user-passes-test">Why is not used user_passes_test()?</a></li>
+<li><a class="reference internal" href="#comparatives-with-other-solutions">Comparatives with other solutions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="reference.html"
                         title="previous chapter">Reference</a></p>
@@ -154,7 +162,7 @@ Django-roles lets administrate the security dynamically with ViewAccess objects.
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Jan 08, 2019</p>
+              <p class="topless">Feb 13, 2019</p>
           </div>
         
       
