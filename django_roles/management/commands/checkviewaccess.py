@@ -59,6 +59,19 @@ class Command(BaseCommand):
             self.style.SUCCESS(
                 _(u'Django roles active for site: {}.').format(site_active)))
 
+        # Analysis is done by application
+        for app_name in views_by_app:
+            self.stdout.write(
+                self.style.SUCCESS(
+                    _(u'Analyzing {}:').format(app_name)
+                ))
+
+            self.stdout.write(
+                self.style.SUCCESS(
+                    _(u'Finish analyzing {}.').format(app_name)
+                ))
+
+
         self.stdout.write(self.style.SUCCESS(
             _(u'End checking view access.')))
 

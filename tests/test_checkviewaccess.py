@@ -175,6 +175,79 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text, out.getvalue())
 
+    @patch('django_roles.utils.settings')
+    def test_write_at_start_of_each_application_analyze(
+            self, mock_utils_settings, mock_settings, mock_import_module
+    ):
+        mock_utils_settings.INSTALLED_APPS = ['fake-app-1', 'fake-app-2']
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        expected_text1 = _(u'Analyzing fake-app-1:\n')
+        expected_text2 = _(u'Analyzing fake-app-2:\n')
+        call_command('checkviewaccess', stdout=out)
+        self.assertIn(expected_text1, out.getvalue())
+        self.assertIn(expected_text2, out.getvalue())
+
+    @patch('django_roles.utils.settings')
+    def test_write_at_end_of_each_application_analyze(
+            self, mock_utils_settings, mock_settings, mock_import_module
+    ):
+        mock_utils_settings.INSTALLED_APPS = ['fake-app-1', 'fake-app-2']
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        expected_text1 = _(u'Finish analyzing fake-app-1.\n')
+        expected_text2 = _(u'Finish analyzing fake-app-2.\n')
+        call_command('checkviewaccess', stdout=out)
+        self.assertIn(expected_text1, out.getvalue())
+        self.assertIn(expected_text2, out.getvalue())
+
+    # @patch('django_roles.utils.settings')
+    # def test_detect_installed_application_is_not_configured(
+    #         self, mock_utils_settings, mock_settings, mock_import_module
+    # ):
+    #     mock_utils_settings.INSTALLED_APPS = ['fake-app-1']
+    #     mock_settings.ROOT_URLCONF = self.root_urlconf
+    #     out = StringIO()
+    #     expected_text = _(u'\tfake-app-1 has no type declared.\n')
+    #     call_command('checkviewaccess', stdout=out)
+    #     self.assertIn(expected_text, out.getvalue())
+    #
+    # @patch('django_roles.utils.settings')
+    # def test_detect_installed_application_is_configured_as_NOT_SECURED(
+    #         self, mock_utils_settings, mock_settings, mock_import_module
+    # ):
+    #     mock_utils_settings.INSTALLED_APPS = ['fake-app-1']
+    #     mock_settings.NOT_SECURED = ['fake-app-1']
+    #     mock_settings.ROOT_URLCONF = self.root_urlconf
+    #     out = StringIO()
+    #     expected_text = _(u'\tfake-app-1 is NOT SECURED type.\n')
+    #     call_command('checkviewaccess', stdout=out)
+    #     self.assertIn(expected_text, out.getvalue())
+    #
+    # @patch('django_roles.utils.settings')
+    # def test_detect_installed_application_is_configured_as_PUBLIC(
+    #         self, mock_utils_settings, mock_settings, mock_import_module
+    # ):
+    #     mock_utils_settings.INSTALLED_APPS = ['fake-app-1']
+    #     mock_settings.PUBLIC = ['fake-app-1']
+    #     mock_settings.ROOT_URLCONF = self.root_urlconf
+    #     out = StringIO()
+    #     expected_text = _(u'\tfake-app-1 is PUBLIC type.\n')
+    #     call_command('checkviewaccess', stdout=out)
+    #     self.assertIn(expected_text, out.getvalue())
+    #
+    # @patch('django_roles.utils.settings')
+    # def test_detect_installed_application_is_configured_as_SECURED(
+    #         self, mock_utils_settings, mock_settings, mock_import_module
+    # ):
+    #     mock_utils_settings.INSTALLED_APPS = ['fake-app-1']
+    #     mock_settings.SECURED = ['fake-app-1']
+    #     mock_settings.ROOT_URLCONF = self.root_urlconf
+    #     out = StringIO()
+    #     expected_text = _(u'\tfake-app-1 is SECURED type.\n')
+    #     call_command('checkviewaccess', stdout=out)
+    #     self.assertIn(expected_text, out.getvalue())
+
 
 class AnalyzeSiteSecurity(TestCase):
     """
