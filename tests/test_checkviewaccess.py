@@ -182,8 +182,8 @@ class UnitTestCheckViewAccess(UnitTestCase):
         mock_utils_settings.INSTALLED_APPS = ['fake-app-1', 'fake-app-2']
         mock_settings.ROOT_URLCONF = self.root_urlconf
         out = StringIO()
-        expected_text1 = _(u'Analyzing fake-app-1:\n')
-        expected_text2 = _(u'Analyzing fake-app-2:\n')
+        expected_text1 = _(u'Analyzing fake-app-1:')
+        expected_text2 = _(u'Analyzing fake-app-2:')
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text1, out.getvalue())
         self.assertIn(expected_text2, out.getvalue())
@@ -195,8 +195,8 @@ class UnitTestCheckViewAccess(UnitTestCase):
         mock_utils_settings.INSTALLED_APPS = ['fake-app-1', 'fake-app-2']
         mock_settings.ROOT_URLCONF = self.root_urlconf
         out = StringIO()
-        expected_text1 = _(u'Finish analyzing fake-app-1.\n')
-        expected_text2 = _(u'Finish analyzing fake-app-2.\n')
+        expected_text1 = _(u'Finish analyzing fake-app-1.')
+        expected_text2 = _(u'Finish analyzing fake-app-2.')
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text1, out.getvalue())
         self.assertIn(expected_text2, out.getvalue())
