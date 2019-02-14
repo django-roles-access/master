@@ -104,3 +104,10 @@ def check_access_by_role(request):
         if not request.user.is_authenticated:
             return False
     return True
+
+
+def get_app_type(app_name):
+    for key, val in get_setting_dictionary().items():
+        if app_name in val:
+            return key
+    return None

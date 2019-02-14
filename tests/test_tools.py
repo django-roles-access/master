@@ -1,25 +1,24 @@
-import unittest
+from unittest import TestCase as UnitTestCase
 import pytest
 from django.conf import settings
 from django.contrib.auth import logout, login
 from django.contrib.auth.models import User, Group
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.core.exceptions import PermissionDenied
-from django.test import RequestFactory, modify_settings, override_settings, \
-    TestCase
+from django.test import RequestFactory, TestCase
 try:
     from unittest.mock import Mock, patch
 except:
     from mock import Mock, patch
 
 from django_roles.models import ViewAccess
-from django_roles.tools import get_setting_dictionary, get_view_access, \
-    check_access_by_role
+from django_roles.tools import (get_setting_dictionary, get_view_access,
+                                check_access_by_role, get_app_type)
 
 
 @patch('django_roles.tools.resolve')
 @patch('django_roles.tools.ViewAccess.objects')
-class UnitTestGetViewAccess(unittest.TestCase):
+class UnitTestGetViewAccess(UnitTestCase):
 
     def setUp(self):
         self.request = Mock()
@@ -93,7 +92,7 @@ class UnitTestGetViewAccess(unittest.TestCase):
 
 
 @pytest.mark.django_db
-class TestGetViewAccess(unittest.TestCase):
+class TestGetViewAccess(UnitTestCase):
 
     def setUp(self):
         # User and group
@@ -212,7 +211,7 @@ class TestGetViewAccess(unittest.TestCase):
 
 
 @pytest.mark.django_db
-class TestGetViewAccessWithDirectView(unittest.TestCase):
+class TestGetViewAccessWithDirectView(UnitTestCase):
 
     def setUp(self):
         # User and group
@@ -245,7 +244,7 @@ class TestGetViewAccessWithDirectView(unittest.TestCase):
 
 
 @pytest.mark.django_db
-class TestNestedNameSpaces(unittest.TestCase):
+class TestNestedNameSpaces(UnitTestCase):
 
     def setUp(self):
         # User and group
@@ -288,7 +287,7 @@ class TestNestedNameSpaces(unittest.TestCase):
             check_access_by_role(self.req1)
 
 
-class TestGetDictionarySettings(unittest.TestCase):
+class TestGetDictionarySettings(UnitTestCase):
     """
     """
 
@@ -364,7 +363,7 @@ class TestGetDictionarySettings(unittest.TestCase):
 
 @patch('django_roles.tools.resolve')
 @patch('django_roles.tools.get_view_access')
-class TestCheckAccessByRole(unittest.TestCase):
+class TestCheckAccessByRole(UnitTestCase):
 
     def setUp(self):
         self.request = Mock()
@@ -592,3 +591,81 @@ class TestCheckAccessByRoleWithoutAnySettings(TestCase):
 
         login(self.req1, self.u1)
         assert check_access_by_role(self.req1)
+
+
+class UnitTestGetAppType(UnitTestCase):
+
+    def test_detect_app_has_no_type(self):
+        """
+        When no configuration is given, or default case.
+        """
+        result = get_app_type('fake-app')
+        self.assertEqual(result, None)
+
+    @patch('django_roles.tools.get_setting_dictionary')
+    def test_get_settings_dictionary_is_called(
+            self, mock_get_settings_dictionary
+    ):
+        get_app_type('fake-app')
+        mock_get_settings_dictionary.assert_called()
+
+    @patch('django_roles.tools.get_setting_dictionary')
+    def test_get_settings_dictionary_is_called_once(
+            self, mock_get_settings_dictionary
+    ):
+        mock_get_settings_dictionary.return_value = {'type 1': [],
+                                                     'type 2': []}
+        get_app_type('fake-app')
+        mock_get_settings_dictionary.assert_called_once()
+
+    @patch('django_roles.tools.get_setting_dictionary')
+    def test_get_settings_dictionary_is_called_once_with_no_param(
+            self, mock_get_settings_dictionary
+    ):
+        get_app_type('fake-app')
+        mock_get_settings_dictionary.assert_called_once_with()
+
+    @patch('django_roles.tools.get_setting_dictionary')
+    def test_detect_app_is_any_configured_type(
+            self, mock_get_settings_dictionary
+    ):
+        _dict = {
+            'type 1': ['blue', 'red'],
+            'any type': ['orange', 'fake-app', 'sky']
+        }
+        mock_get_settings_dictionary.return_value = _dict
+        result = get_app_type('fake-app')
+        expected = u'any type'
+        self.assertEqual(result, expected)
+
+
+class IntegratedTestGetAppType(UnitTestCase):
+
+    def setUp(self):
+        settings.__setattr__('NOT_SECURED', ['not_secured_app'])
+        settings.__setattr__('PUBLIC', ['public_app'])
+        settings.__setattr__('SECURED', ['secured_app'])
+
+    def tearDown(self):
+        settings.__delattr__('NOT_SECURED')
+        settings.__delattr__('PUBLIC')
+        settings.__delattr__('SECURED')
+
+    def test_default_case_with_no_configuration(self):
+        result = get_app_type('app_name')
+        self.assertIs(result, None)
+
+    def test_detect_NOT_SECURED_configured_app(self):
+        result = get_app_type('not_secured_app')
+        expected = 'NOT_SECURED'
+        self.assertEqual(result, expected)
+
+    def test_detect_PUBLIC_configured_app(self):
+        result = get_app_type('public_app')
+        expected = 'PUBLIC'
+        self.assertEqual(result, expected)
+
+    def test_detect_SECURED_configured_app(self):
+        result = get_app_type('secured_app')
+        expected = 'SECURED'
+        self.assertEqual(result, expected)

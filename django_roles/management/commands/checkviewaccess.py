@@ -8,7 +8,7 @@ from django.core.management.base import BaseCommand
 from django.utils.translation import ugettext as _
 from django.conf import settings
 
-from django_roles.tools import get_setting_dictionary
+from django_roles.tools import get_setting_dictionary, get_app_type
 from django_roles.utils import walk_site_url, get_views_by_app
 
 DJANGO_ROLE_MIDDLEWARE = 'django_roles.middleware.RolesMiddleware'
@@ -59,19 +59,32 @@ class Command(BaseCommand):
             self.style.SUCCESS(
                 _(u'Django roles active for site: {}.').format(site_active)))
 
-        # Analysis is done by application
+        # 3. Analysis is done by application
         for app_name in views_by_app:
             self.stdout.write(
                 self.style.SUCCESS(
                     _(u'Analyzing {}:').format(app_name)
                 ))
+            # Get application classification.
+            app_type = get_app_type(app_name)
+            if app_type:
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        _(u'{} is {} type.').format(app_name, app_type)
+                    ))
+            else:
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        _(u'{} has no type.').format(app_name)
+                    ))
 
             self.stdout.write(
                 self.style.SUCCESS(
                     _(u'Finish analyzing {}.').format(app_name)
                 ))
+            # End for app_name in views_by_app:
 
-
+        # End of report
         self.stdout.write(self.style.SUCCESS(
             _(u'End checking view access.')))
 
