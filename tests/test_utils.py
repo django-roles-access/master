@@ -12,7 +12,7 @@ except:
     from mock import Mock, patch
 
 from django_roles.utils import (walk_site_url, get_views_by_app,
-                                APP_NAME_FOR_NONE)
+                                view_access_analyzer, APP_NAME_FOR_NONE)
 
 
 class MockRegex:
@@ -337,3 +337,38 @@ class IntegratedTestGetViewsByApp(TestCase):
                            'protected_by_role')
         result = get_views_by_app(walk_site_url(self.url))
         self.assertIn(expected_result, result['roles-app-name'])
+
+
+class UnitTestViewAnalyzer(UnitTestCase):
+
+    def test_view_analyzer_receive_3_params(self):
+        """
+        Start with the information given by walk_site_url
+        """
+        self.assertTrue(view_access_analyzer('param1', 'param2', 'param3'))
+
+
+class TestViewAnalyzerDetectDjangoDecorators(UnitTestCase):
+    pass
+
+
+class TestViewAnalyzer(UnitTestCase):
+
+    pass
+    # def test_detect_view_is_protected_by_login_required(self):
+    #     self.fail(u'Not implemented')
+    #
+    # def test_detect_view_is_protected_by_user_pass_test(self):
+    #     self.fail(u'Not implemented')
+    #
+    # def test_detect_view_is_protected_by_any_other_django_decorator(self):
+    #     self.fail(u'Not implemented')
+    #
+    # def test_detect_view_is_protected_by_view_access_object(self):
+    #     self.fail(u'Not implemented')
+    #
+    # def test_detect_view_is_protected_by_application_type(self):
+    #     self.fail(u'Not implemented')
+
+    # TODO: Which are the error in access view secuirty that this function
+    # TODO: should found

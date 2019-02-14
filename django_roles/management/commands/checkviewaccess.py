@@ -46,7 +46,6 @@ class Command(BaseCommand):
             _(u'Start gathering information.')))
         url = import_module(settings.ROOT_URLCONF).urlpatterns
         views_by_app = get_views_by_app(walk_site_url(url))
-        configured_apps = get_setting_dictionary()
         self.stdout.write(self.style.SUCCESS(
             _(u'Finish gathering information.')))
 
@@ -60,28 +59,28 @@ class Command(BaseCommand):
                 _(u'Django roles active for site: {}.').format(site_active)))
 
         # 3. Analysis is done by application
-        for app_name in views_by_app:
+        for app_name, views_list in views_by_app.items():
             self.stdout.write(
                 self.style.SUCCESS(
-                    _(u'Analyzing {}:').format(app_name)
-                ))
+                    _(u'\tAnalyzing {}:').format(app_name)))
             # Get application classification.
             app_type = get_app_type(app_name)
             if app_type:
                 self.stdout.write(
                     self.style.SUCCESS(
-                        _(u'{} is {} type.').format(app_name, app_type)
-                    ))
+                        _(u'\t\t{} is {} type.').format(app_name, app_type)))
             else:
                 self.stdout.write(
                     self.style.SUCCESS(
-                        _(u'{} has no type.').format(app_name)
-                    ))
+                        _(u'\t\t{} has no type.').format(app_name)))
+
+            # 4 For each view of the analyzed application
+            # wiews_list: Python list of tuples like:
+            # (url, callback, view_name)
 
             self.stdout.write(
                 self.style.SUCCESS(
-                    _(u'Finish analyzing {}.').format(app_name)
-                ))
+                    _(u'\tFinish analyzing {}.').format(app_name)))
             # End for app_name in views_by_app:
 
         # End of report

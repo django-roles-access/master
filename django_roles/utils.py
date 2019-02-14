@@ -67,3 +67,7 @@ def get_views_by_app(site_urls):
         except KeyError:
             result[app_name] = [(url, callback, view_name)]
     return result
+
+
+def view_access_analyzer(url, callback, view_name):
+    return True

@@ -125,24 +125,6 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         mock_get_views_by_app.assert_called_once_with('fake-result')
 
-    @patch('django_roles.management.commands.checkviewaccess.'
-           'get_setting_dictionary')
-    def test_get_setting_dictionary_is_called(
-            self, mock_get_setting_dictionary, mock_settings, mock_import_module
-    ):
-        mock_settings.ROOT_URLCONF = self.root_urlconf
-        call_command('checkviewaccess')
-        mock_get_setting_dictionary.assert_called()
-
-    @patch('django_roles.management.commands.checkviewaccess.'
-           'get_setting_dictionary')
-    def test_get_setting_dictionary_is_called_once(
-            self, mock_get_setting_dictionary, mock_settings, mock_import_module
-    ):
-        mock_settings.ROOT_URLCONF = self.root_urlconf
-        call_command('checkviewaccess')
-        mock_get_setting_dictionary.assert_called_once()
-
     def test_write_at_end_of_gathering_information_phase(
             self, mock_settings, mock_import_module
     ):
@@ -286,6 +268,16 @@ class UnitTestCheckViewAccess(UnitTestCase):
         expected_text = _(u'fake-app is SECURED type.')
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text, out.getvalue())
+
+    def test_view_analyzer_is_called_0_times_when_app_have_no_views(
+            self, mock_settings, mock_import_module
+    ):
+        self.fail(u'Not implemented')
+
+    def test_view_analyzer_is_called_3_times_when_app_have_3_views(
+            self, mock_settings, mock_import_module
+    ):
+        self.fail(u'Not implemented')
 
 
 class AnalyzeSiteSecurity(TestCase):
