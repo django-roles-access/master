@@ -70,4 +70,31 @@ def get_views_by_app(site_urls):
 
 
 def view_access_analyzer(url, callback, view_name):
-    return True
+    """
+    Expected behavior:
+
+    The function analyze the callback, **a function**, searching for:
+
+    * Any ``django.contrib.auth.decorators``.
+
+
+    :param url:
+    :param callback:
+    :param view_name:
+    :return:
+    If any ``django.contrib.auth.decorators`` is present it will be included
+    in report.
+
+    """
+    return _(u'')
+
+
+def get_view_decorators(function):
+    result = []
+    if not function.__closure__:
+        return [function.__name__]
+    else:
+        for cell in function.__closure__:
+            if cell.cell_contents:
+                result.extend(get_view_decorators(cell.cell_contents))
+    return [function.__name__] + result
