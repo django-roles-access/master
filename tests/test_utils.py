@@ -15,8 +15,7 @@ except:
     from mock import Mock, patch
 
 from django_roles.utils import (walk_site_url, get_views_by_app,
-                                view_access_analyzer, get_view_decorators,
-                                APP_NAME_FOR_NONE)
+                                view_access_analyzer, APP_NAME_FOR_NONE)
 
 
 class MockRegex:
@@ -342,27 +341,27 @@ class IntegratedTestGetViewsByApp(TestCase):
         result = get_views_by_app(walk_site_url(self.url))
         self.assertIn(expected_result, result['roles-app-name'])
 
-
-class UnitTestViewAnalyzer(UnitTestCase):
-
-    def test_view_analyzer_receive_3_params(self):
-        """
-        Start with the information given by walk_site_url:
-        (url, callback, view_name)
-        """
-        view_access_analyzer('param1', 'param2', 'param3')
-
-    def test_return_string_or_report(self):
-        result = view_access_analyzer('fake-param-1', 'fake-param-2',
-                                      'fake-param-3')
-        self.assertIsInstance(result, str)
+#
+# class UnitTestViewAnalyzer(UnitTestCase):
+#
+#     def test_view_analyzer_receive_3_params(self):
+#         """
+#         Start with the information given by walk_site_url:
+#         (url, callback, view_name)
+#         """
+#         view_access_analyzer('param1', 'param2', 'param3')
+#
+#     def test_return_string_or_report(self):
+#         result = view_access_analyzer('fake-param-1', 'fake-param-2',
+#                                       'fake-param-3')
+#         self.assertIsInstance(result, str)
 
 
 class TestViewAnalyzerDetectDjangoDecorators(TestCase):
 
     def test_detect_login_required_decorator(self):
 
-        @login_required()
+        @login_required
         def fake_view(request):
             return HttpResponse(u'Fake response')
 
@@ -397,45 +396,45 @@ class TestViewAnalyzer(UnitTestCase):
     # TODO: should found
 
 
-class UnitTestGetViewDecorators(UnitTestCase):
-
-    def test_return_list(self):
-
-        def test_function():
-            pass
-
-        result = get_view_decorators(test_function)
-        self.assertIsInstance(result, list)
-
-    def test_return_view_function(self):
-
-        def test_function():
-            pass
-
-        expected = ['test_function']
-        result = get_view_decorators(test_function)
-        self.assertEqual(result, expected)
-
-    def test_return_view_function_decorator(self):
-
-        def myattr_dec(func):
-            def wrapper(*args, **kwargs):
-                return func(*args, **kwargs)
-            return wrapper
-
-        @myattr_dec
-        def test_function():
-            pass
-
-        @login_required
-        def login_function():
-            pass
-
-        expected = ['myattr_dec', 'test_function']
-        # import pdb
-        # pdb.set_trace()
-        # result = get_view_decorators(test_function)
-
-        result2 = get_view_decorators(login_function)
-        self.assertEqual(result2, expected)
+# class UnitTestGetViewDecorators(UnitTestCase):
+#
+#     def test_return_list(self):
+#
+#         def test_function():
+#             pass
+#
+#         result = get_view_decorators(test_function)
+#         self.assertIsInstance(result, list)
+#
+#     def test_return_view_function(self):
+#
+#         def test_function():
+#             pass
+#
+#         expected = ['test_function']
+#         result = get_view_decorators(test_function)
+#         self.assertEqual(result, expected)
+#
+#     def test_return_view_function_decorator(self):
+#
+#         def myattr_dec(func):
+#             def wrapper(*args, **kwargs):
+#                 return func(*args, **kwargs)
+#             return wrapper
+#
+#         @myattr_dec
+#         def test_function():
+#             pass
+#
+#         @login_required
+#         def login_function():
+#             pass
+#
+#         expected = ['myattr_dec', 'test_function']
+#         # import pdb
+#         # pdb.set_trace()
+#         # result = get_view_decorators(test_function)
+#
+#         result2 = get_view_decorators(login_function)
+#         self.assertEqual(result2, expected)
 
