@@ -15,7 +15,8 @@ except:
     from mock import Mock, patch
 
 from django_roles.utils import (walk_site_url, get_views_by_app,
-                                view_access_analyzer, APP_NAME_FOR_NONE)
+                                view_access_analyzer, get_view_analyze_report,
+                                APP_NAME_FOR_NONE)
 
 
 class MockRegex:
@@ -341,59 +342,179 @@ class IntegratedTestGetViewsByApp(TestCase):
         result = get_views_by_app(walk_site_url(self.url))
         self.assertIn(expected_result, result['roles-app-name'])
 
-#
-# class UnitTestViewAnalyzer(UnitTestCase):
-#
-#     def test_view_analyzer_receive_3_params(self):
-#         """
-#         Start with the information given by walk_site_url:
-#         (url, callback, view_name)
-#         """
-#         view_access_analyzer('param1', 'param2', 'param3')
-#
-#     def test_return_string_or_report(self):
-#         result = view_access_analyzer('fake-param-1', 'fake-param-2',
-#                                       'fake-param-3')
-#         self.assertIsInstance(result, str)
+
+class UnitTestViewAnalyzeReport(UnitTestCase):
+
+    def test_report_for_no_application_type(self):
+        expected = u'\tERROR: Django roles middleware is active; or view is '
+        expected += u'protected with Django roles decorator or mixin, '
+        expected += u'and has no application or application has no type. '
+        expected += u'Is not possible to determine default behavior for view '
+        expected += u'access.'
+        result = get_view_analyze_report(None)
+        self.assertEqual(result, expected)
+
+    def test_report_for_application_type_NOT_SECURED(self):
+        expected = u'\tWARNING: View has no security configured (ViewAccess) '
+        expected += u'and application type is "NOT_SECURED". No access is '
+        expected += u'checked at all.'
+        result = get_view_analyze_report('NOT_SECURED')
+        self.assertEqual(result, expected)
+
+    def test_report_for_application_type_SECURED(self):
+        expected = u'\tNo security configured for the view (ViewAccess object) '
+        expected += u'and application type is "SECURED". User is required to '
+        expected += u'be authenticated to access the view.'
+        result = get_view_analyze_report('SECURED')
+        self.assertEqual(result, expected)
+
+    def test_report_for_application_type_PUBLIC(self):
+        expected = u'\tNo security configured for the view (ViewAccess object) '
+        expected += u'and application type is "PUBLIC". Anonymous user can '
+        expected += u'access the view.'
+        result = get_view_analyze_report('PUBLIC')
+        self.assertEqual(result, expected)
 
 
-class TestViewAnalyzerDetectDjangoDecorators(TestCase):
+@patch('django_roles.utils.ViewAccess.objects')
+class UnitTestViewAnalyzer(UnitTestCase):
 
-    def test_detect_login_required_decorator(self):
+    def test_view_analyzer_return_a_report(
+            self, mock_objects
+    ):
+        view_access = Mock()
+        view_access.type = 'pu'
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = view_access
+        result = view_access_analyzer('fake-app-type', 'fake-callback',
+                                      'fake-view-name', 'fake-site-active')
+        self.assertIsInstance(result, str)
 
-        @login_required
-        def fake_view(request):
-            return HttpResponse(u'Fake response')
+    def test_view_analyzer_search_view_access_for_the_view(
+            self, mock_objects
+    ):
+        view_access = Mock()
+        view_access.type = 'pu'
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = view_access
+        view_access_analyzer('fake-app-type', 'fake-callback',
+                             'fake-view-name', 'fake-site-active')
+        mock_objects.first.assert_called()
 
-        # import pdb
-        # pdb.set_trace()
-        result = view_access_analyzer('/fake-url/', fake_view, 'fake-name')
-        print(result)
-        pass
+    def test_view_analyzer_search_view_access_for_the_view_once(
+            self, mock_objects
+    ):
+        view_access = Mock()
+        view_access.type = 'pu'
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = view_access
+        view_access_analyzer('fake-app-type', 'fake-callback',
+                             'fake-view-name', 'fake-site-active')
+        mock_objects.filter.assert_called_once()
+
+    def test_view_analyzer_search_view_access_with_view_name(
+            self, mock_objects
+    ):
+        view_access = Mock()
+        view_access.type = 'pu'
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = view_access
+        view_access_analyzer('fake-app-type', 'fake-callback',
+                             'fake-view-name', 'fake-site-active')
+        mock_objects.filter.assert_called_once_with(view='fake-view-name')
+
+    def test_view_access_type_when_site_active_and_exists_view_access(
+            self, mock_objects
+    ):
+        expected = u'\tView access is of type Public'
+        view_access = Mock()
+        view_access.type = 'pu'
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = view_access
+        result = view_access_analyzer('fake-app-type', 'fake-callback',
+                                      'fake-view-name', True)
+        self.assertEqual(result, expected)
+
+    def test_view_access_type_by_role_when_site_active_and_exists_view_access(
+            self, mock_objects
+    ):
+        expected = u'\tView access is of type By role\n'
+        expected += u'\tRoles with access: fake-role, fake-role-2'
+        view_access = Mock()
+        view_access.type = 'br'
+        view_access.roles.all.return_value = ['fake-role', 'fake-role-2']
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = view_access
+        result = view_access_analyzer('fake-app-type', 'fake-callback',
+                                      'fake-view-name', True)
+        self.assertEqual(result, expected)
+
+    def test_report_error_if_access_type_is_br_and_no_roles_added(
+            self, mock_objects
+    ):
+        expected = u'\tView access is of type By role\n'
+        expected += u'\tERROR: No roles configured to access de view.'
+        view_access = Mock()
+        view_access.type = 'br'
+        view_access.roles.count.return_value = 0
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = view_access
+        result = view_access_analyzer('fake-app-type', 'fake-callback',
+                                      'fake-view-name', True)
+        self.assertEqual(result, expected)
+
+    def test_no_view_access_object_for_the_view_and_site_active_no_app_type(
+            self, mock_objects
+    ):
+        expected = u'\tERROR: Django roles middleware is active; or view is '
+        expected += u'protected with Django roles decorator or mixin, '
+        expected += u'and has no application or application has no type. '
+        expected += u'Is not possible to determine default behavior for view '
+        expected += u'access.'
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = None
+        result = view_access_analyzer(None, 'fake-callback',
+                                      'fake-view-name', True)
+        self.assertEqual(result, expected)
+
+    def test_no_view_access_object_and_site_active_app_type_NOT_SECURED(
+            self, mock_objects
+    ):
+        expected = u'\tWARNING: View has no security configured (ViewAccess) '
+        expected += u'and application type is "NOT_SECURED". No access is '
+        expected += u'checked at all.'
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = None
+        result = view_access_analyzer('NOT_SECURED', 'fake-callback',
+                                      'fake-view-name', True)
+        self.assertEqual(result, expected)
+
+    def test_no_view_access_object_and_site_active_app_type_SECURED(
+            self, mock_objects
+    ):
+        expected = u'\tNo security configured for the view (ViewAccess object) '
+        expected += u'and application type is "SECURED". User is required to '
+        expected += u'be authenticated to access the view.'
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = None
+        result = view_access_analyzer('SECURED', 'fake-callback',
+                                      'fake-view-name', True)
+        self.assertEqual(result, expected)
+
+    def test_no_view_access_object_and_site_active_app_type_PUBLIC(
+            self, mock_objects
+    ):
+        expected = u'\tNo security configured for the view (ViewAccess object) '
+        expected += u'and application type is "PUBLIC". Anonymous user can '
+        expected += u'access the view.'
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = None
+        result = view_access_analyzer('PUBLIC', 'fake-callback',
+                                      'fake-view-name', True)
+        self.assertEqual(result, expected)
 
 
-class TestViewAnalyzer(UnitTestCase):
 
-    def test_view_analyzer(self):
-        pass
-        # self.fail(u'Not implemented')
-    # def test_detect_view_is_protected_by_login_required(self):
-    #     self.fail(u'Not implemented')
-    #
-    # def test_detect_view_is_protected_by_user_pass_test(self):
-    #     self.fail(u'Not implemented')
-    #
-    # def test_detect_view_is_protected_by_any_other_django_decorator(self):
-    #     self.fail(u'Not implemented')
-    #
-    # def test_detect_view_is_protected_by_view_access_object(self):
-    #     self.fail(u'Not implemented')
-    #
-    # def test_detect_view_is_protected_by_application_type(self):
-    #     self.fail(u'Not implemented')
-
-    # TODO: Which are the error in access view secuirty that this function
-    # TODO: should found
 
 
 # class UnitTestGetViewDecorators(UnitTestCase):
