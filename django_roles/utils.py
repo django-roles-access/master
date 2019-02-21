@@ -94,6 +94,15 @@ def get_view_analyze_report(app_type):
     return result
 
 
+def check_django_roles_is_used(view):
+    if hasattr(view, 'access_by_role'):
+        return True
+    elif 'dispatch' in dir(view):
+        if hasattr(view.dispatch, 'access_by_role'):
+            return True
+    return False
+
+
 def view_access_analyzer(app_type, callback, view_name, site_active):
     """
 
@@ -108,7 +117,7 @@ def view_access_analyzer(app_type, callback, view_name, site_active):
     if site_active:
         if view_access:
             view_access_type = dict(ViewAccess.ACCESS_TYPES)[view_access.type]
-            result = _(u'\tView access is of type {}'.format(view_access_type))
+            result = _(u'\tView access is of type {}.'.format(view_access_type))
             if view_access.type == 'br':
                 if view_access.roles.count() != 0:
                     result += _(u'\n\tRoles with access: ')
@@ -120,6 +129,10 @@ def view_access_analyzer(app_type, callback, view_name, site_active):
                                 u'view.')
         else:
             result = get_view_analyze_report(app_type)
+    else:
+        if view_access:
+            view_access_type = dict(ViewAccess.ACCESS_TYPES)[view_access.type]
+            result = _(u'\tView access is of type {}.'.format(view_access_type))
 
     return result
 

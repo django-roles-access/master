@@ -6,7 +6,10 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.test import TestCase
+from django.views.generic import TemplateView
 
+from django_roles.decorator import access_by_role
+from django_roles.mixin import RolesMixin
 from tests import views
 
 try:
@@ -16,7 +19,7 @@ except:
 
 from django_roles.utils import (walk_site_url, get_views_by_app,
                                 view_access_analyzer, get_view_analyze_report,
-                                APP_NAME_FOR_NONE)
+                                check_django_roles_is_used, APP_NAME_FOR_NONE)
 
 
 class MockRegex:
@@ -376,6 +379,30 @@ class UnitTestViewAnalyzeReport(UnitTestCase):
         self.assertEqual(result, expected)
 
 
+class UnitTestCheckDjangoRolesIsUsed(UnitTestCase):
+
+    def test_detect_view_is_decorated(self):
+        @access_by_role
+        def function():
+            pass
+        self.assertTrue(check_django_roles_is_used(function))
+
+    def test_detect_view_is_not_decorated(self):
+        def function():
+            pass
+        self.assertFalse(check_django_roles_is_used(function()))
+
+    def test_detect_view_use_mixin(self):
+        class Aview(RolesMixin, TemplateView):
+            template_name = 'dummyTemplate.html'
+        self.assertTrue(check_django_roles_is_used(Aview))
+
+    def test_detect_view_not_use_mixin(self):
+        class Aview(TemplateView):
+            template_name = 'dummyTemplate.html'
+        self.assertFalse(check_django_roles_is_used(Aview))
+
+
 @patch('django_roles.utils.ViewAccess.objects')
 class UnitTestViewAnalyzer(UnitTestCase):
 
@@ -426,7 +453,7 @@ class UnitTestViewAnalyzer(UnitTestCase):
     def test_view_access_type_when_site_active_and_exists_view_access(
             self, mock_objects
     ):
-        expected = u'\tView access is of type Public'
+        expected = u'\tView access is of type Public.'
         view_access = Mock()
         view_access.type = 'pu'
         mock_objects.filter.return_value = mock_objects
@@ -435,10 +462,10 @@ class UnitTestViewAnalyzer(UnitTestCase):
                                       'fake-view-name', True)
         self.assertEqual(result, expected)
 
-    def test_view_access_type_by_role_when_site_active_and_exists_view_access(
+    def test_view_access_type_by_role_when_site_active(
             self, mock_objects
     ):
-        expected = u'\tView access is of type By role\n'
+        expected = u'\tView access is of type By role.\n'
         expected += u'\tRoles with access: fake-role, fake-role-2'
         view_access = Mock()
         view_access.type = 'br'
@@ -452,7 +479,7 @@ class UnitTestViewAnalyzer(UnitTestCase):
     def test_report_error_if_access_type_is_br_and_no_roles_added(
             self, mock_objects
     ):
-        expected = u'\tView access is of type By role\n'
+        expected = u'\tView access is of type By role.\n'
         expected += u'\tERROR: No roles configured to access de view.'
         view_access = Mock()
         view_access.type = 'br'
@@ -513,8 +540,17 @@ class UnitTestViewAnalyzer(UnitTestCase):
                                       'fake-view-name', True)
         self.assertEqual(result, expected)
 
-
-
+    def test_middleware_not_used_view_access_object_exist_and_dr_tools_used(
+            self, mock_objects
+    ):
+        expected = u'\tView access is of type Public.'
+        view_access = Mock()
+        view_access.type = 'pu'
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = view_access
+        result = view_access_analyzer('fake-app-type', 'fake-callback',
+                                      'fake-view-name', False)
+        self.assertEqual(result, expected)
 
 
 # class UnitTestGetViewDecorators(UnitTestCase):
