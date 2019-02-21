@@ -130,10 +130,19 @@ def view_access_analyzer(app_type, callback, view_name, site_active):
         else:
             result = get_view_analyze_report(app_type)
     else:
-        if view_access:
-            view_access_type = dict(ViewAccess.ACCESS_TYPES)[view_access.type]
-            result = _(u'\tView access is of type {}.'.format(view_access_type))
-
+        if check_django_roles_is_used(callback):
+            if view_access:
+                view_access_type = \
+                    dict(ViewAccess.ACCESS_TYPES)[view_access.type]
+                result = _(
+                    u'\tView access is of type {}.'.format(view_access_type))
+            else:
+                result = get_view_analyze_report(app_type)
+        else:
+            if view_access:
+                result = _(u'\tERROR: Exist view access object for the view ')
+                result += _('but no Django role tool is used: neither ')
+                result += _('decorator, mixin or middleware.')
     return result
 
     # """

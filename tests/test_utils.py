@@ -544,11 +544,49 @@ class UnitTestViewAnalyzer(UnitTestCase):
             self, mock_objects
     ):
         expected = u'\tView access is of type Public.'
+
+        @access_by_role
+        def function():
+            pass
         view_access = Mock()
         view_access.type = 'pu'
         mock_objects.filter.return_value = mock_objects
         mock_objects.first.return_value = view_access
-        result = view_access_analyzer('fake-app-type', 'fake-callback',
+        result = view_access_analyzer('fake-app-type', function,
+                                      'fake-view-name', False)
+        self.assertEqual(result, expected)
+
+    def test_middleware_not_used_view_access_object_exist_and_dr_tools_not_used(
+            self, mock_objects
+    ):
+        expected = u'\tERROR: Exist view access object for the view but no '
+        expected += u'Django role tool is used: neither decorator, mixin or '
+        expected += u'middleware.'
+
+        def function():
+            pass
+
+        view_access = Mock()
+        view_access.type = 'pu'
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = view_access
+        result = view_access_analyzer('fake-app-type', function,
+                                      'fake-view-name', False)
+        self.assertEqual(result, expected)
+
+    def test_middleware_not_used_dr_tools_are_used_no_view_access_object(
+            self, mock_objects
+    ):
+        expected = u'\tNo security configured for the view (ViewAccess object) '
+        expected += u'and application type is "PUBLIC". Anonymous user can '
+        expected += u'access the view.'
+
+        @access_by_role
+        def function():
+            pass
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = None
+        result = view_access_analyzer('PUBLIC', function,
                                       'fake-view-name', False)
         self.assertEqual(result, expected)
 
