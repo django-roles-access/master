@@ -89,8 +89,8 @@ def get_view_analyze_report(app_type):
         result = _(u'\tERROR: Django roles middleware is active; or view is ')
         result += _(u'protected with Django roles decorator or mixin, ')
         result += _(u'and has no application or application has no type. ')
-        result += _(u'Is not possible to determine default behavior for view ')
-        result += _(u'access.')
+        result += _(u'There are no View Access object for the view. ')
+        result += _(u'Is not possible to determine behavior for access view.')
     return result
 
 
@@ -101,6 +101,19 @@ def check_django_roles_is_used(view):
         if hasattr(view.dispatch, 'access_by_role'):
             return True
     return False
+
+
+def analyze_by_role(view_access):
+    result = u''
+    if view_access.type == 'br':
+        if view_access.roles.count() != 0:
+            result = _(u'\n\tRoles with access: ')
+            for role in view_access.roles.all():
+                result += role.name + u', '
+            result = result[:-2]
+        else:
+            result = _(u'\n\tERROR: No roles configured to access de view.')
+    return result
 
 
 def view_access_analyzer(app_type, callback, view_name, site_active):
@@ -118,15 +131,7 @@ def view_access_analyzer(app_type, callback, view_name, site_active):
         if view_access:
             view_access_type = dict(ViewAccess.ACCESS_TYPES)[view_access.type]
             result = _(u'\tView access is of type {}.'.format(view_access_type))
-            if view_access.type == 'br':
-                if view_access.roles.count() != 0:
-                    result += _(u'\n\tRoles with access: ')
-                    for role in view_access.roles.all():
-                        result += role + ', '
-                    result = result[:-2]
-                else:
-                    result += _(u'\n\tERROR: No roles configured to access de '
-                                u'view.')
+            result += analyze_by_role(view_access)
         else:
             result = get_view_analyze_report(app_type)
     else:
@@ -136,6 +141,7 @@ def view_access_analyzer(app_type, callback, view_name, site_active):
                     dict(ViewAccess.ACCESS_TYPES)[view_access.type]
                 result = _(
                     u'\tView access is of type {}.'.format(view_access_type))
+                result += analyze_by_role(view_access)
             else:
                 result = get_view_analyze_report(app_type)
         else:
