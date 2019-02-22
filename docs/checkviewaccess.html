@@ -104,6 +104,24 @@ action may not work as expected.</p>
 of the HTTPRequest. HTTPResponse is changed only when access denied is
 raised.</p>
 </div>
+<div class="section" id="roles-security">
+<h2>Roles security<a class="headerlink" href="#roles-security" title="Permalink to this headline">¶</a></h2>
+<p>It is also possible to use <code class="docutils literal notranslate"><span class="pre">checkviewaccess</span></code> using a role name (
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a> name) for getting all views where
+such role have access:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">checkviewaccess</span> <span class="o">&lt;</span><span class="n">role_name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="views-security">
+<h2>Views security<a class="headerlink" href="#views-security" title="Permalink to this headline">¶</a></h2>
+<p>If in place of role name, <code class="docutils literal notranslate"><span class="pre">checkviewaccess</span></code> is used with a view name, It
+will report the configured access to the view (configured with Django roles
+tools):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">checkviewaccess</span> <span class="o">&lt;</span><span class="n">view_name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="analysis">
 <h2>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h2>
 <p>The used analysis follow next algorithm:</p>
@@ -120,11 +138,12 @@ if the application was classified as explained in
 <li>For each view of the analyzed application selected in step 3, is checked
 the access security by analyzing the callable associated with the view. This
 analysis include:<ul>
-<li>Search for any <code class="docutils literal notranslate"><span class="pre">django.contrib.auth.decorators</span></code>.</li>
-<li>Evaluate if view is decorated with <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> decorator or if mixin
-was used. Then is searched <a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a>
-object for the view. And finally taking in consideration if <strong>site_active</strong>
-is True or not, an access security status is concluded.</li>
+<li>Evaluate if view is decorated with <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> decorator, or if mixin
+was used.</li>
+<li>Search any <a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a> object for the view.</li>
+<li>Take in consideration if <strong>site_active</strong> is True or not.</li>
+<li>Take in consideration the <a class="reference internal" href="middleware.html#applications-type"><span class="std std-ref">Applications type</span></a> of the application
+holding the view.</li>
 </ul>
 </li>
 <li>Report from selected view will indicate:<ul>
@@ -134,7 +153,34 @@ is True or not, an access security status is concluded.</li>
 </ul>
 </li>
 </ol>
-<p>The last of all <strong>Access security status</strong> is concluded by work done in step 4.</p>
+</div>
+<div class="section" id="method">
+<h2>Method<a class="headerlink" href="#method" title="Permalink to this headline">¶</a></h2>
+<p>The used method to determine <strong>Access security status</strong> of a view is:</p>
+<ol class="arabic simple">
+<li>A <a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a> object is searched for the view.</li>
+<li>If <strong>site_active</strong> is True:<ol class="loweralpha">
+<li>If an object was found in step 1, object security is reported for the
+view. If object security is type <cite>By role</cite> and no roles were added an
+ERROR is reported (no one, except superuser, can access de view).</li>
+<li>If no object was found; default behavior for view’s application is
+reported as explained in <a class="reference internal" href="middleware.html#applications-type"><span class="std std-ref">Applications type</span></a>.</li>
+<li>If no object was found in step 1. And no application type is
+defined for view’s application (or view has no application defined). An
+ERROR of configuration is reported.</li>
+</ol>
+</li>
+<li>If <strong>site_active</strong> is False and <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> decorator or mixin was used:<ol class="loweralpha">
+<li>In case exist object found in step 1, object security is reported.</li>
+<li>In case no object were found in step 1. And view’s application has a
+type as defined in <a class="reference internal" href="middleware.html#applications-type"><span class="std std-ref">Applications type</span></a>. Default behavior for the
+application type is reported as view access security.</li>
+<li>In case no object were found in step 1. And no application type is
+defined for view’s application (or view has no application defined). An
+ERROR of configuration is reported.</li>
+</ol>
+</li>
+</ol>
 </div>
 </div>
 
@@ -151,7 +197,10 @@ is True or not, an access security status is concluded.</li>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Check view access</a><ul>
+<li><a class="reference internal" href="#roles-security">Roles security</a></li>
+<li><a class="reference internal" href="#views-security">Views security</a></li>
 <li><a class="reference internal" href="#analysis">Analysis</a></li>
+<li><a class="reference internal" href="#method">Method</a></li>
 </ul>
 </li>
 </ul>
@@ -184,7 +233,7 @@ is True or not, an access security status is concluded.</li>
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Feb 13, 2019</p>
+              <p class="topless">Feb 22, 2019</p>
           </div>
         
       

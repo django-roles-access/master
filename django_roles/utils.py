@@ -145,77 +145,11 @@ def view_access_analyzer(app_type, callback, view_name, site_active):
                 result += _('decorator, mixin or middleware.')
     return result
 
-    # """
-    # Expected behavior:
-    #
-    # The function analyze the callback, **a function**, searching for:
-    #
-    # * Any ``django.contrib.auth.decorators``.
-    #
-    #
-    # :param url:
-    # :param callback:
-    # :param view_name:
-    # :return:
-    # If any ``django.contrib.auth.decorators`` is present it will be included
-    # in report.
-    #
-    # """
-    # #: request_anonymous
-    #
-    #
-    # #: request_1: Has user. Is loged. And is super user.
-    # super_user, created = User.objects.get_or_create(
-    #     username='django_roles_superuser')
-    # if created:
-    #     super_user.is_superuser = True
-    #     super_user.save()
-    #
-    # request_1 = RequestFactory()
-    # # request_1.user = super_user
-    #
-    # request_1.user = AnonymousUser()
-    #
-    # def return_uri():
-    #     return u'/'
-    #
-    # def return_path():
-    #     return url
-    #
-    # request_1.build_absolute_uri = return_uri
-    # request_1.get_full_path = return_path
-    #
-    # # request_1.session = {}
-    #
-    # # # Session
-    # # middleware = SessionMiddleware()
-    # # middleware.process_request(request_1)
-    # # request_1.session.save()
-    #
-    # # logout(request_1)
-    #
-    # response = callback(request_1)
-    # print(response.content)
-    # return response
 
-
-# def get_view_decorators(function):
-#     functions = []
-#     if not function:
-#         return []
-#     if isinstance(function, str):
-#         return [function]
-#     if not function.__closure__:
-#         return [(function.__name__, function.__module__, function.__dict__)]
-#     for cell in function.__closure__:
-#         functions.extend(get_view_decorators(cell.cell_contents))
-#     return [(function.__name__, function.__module__, function.__dict__)] \
-#         + functions
-    # result = []
-    # if not function.__closure__:
-    #     return [function.__name__]
-    # else:
-    #     for cell in function.__closure__:
-    #         if cell.cell_contents:
-    #             result.extend(get_view_decorators(cell.cell_contents))
-    # return [function.__name__] + result
+def print_view_analysis(stdout, style, report):
+    if 'ERROR' in report:
+        stdout.write(style.ERROR('\t' + report))
+    elif 'WARNING' in report:
+        stdout.write(style.WARNING('\t' + report))
+    else:
+        stdout.write(style.SUCCESS('\t' + report))

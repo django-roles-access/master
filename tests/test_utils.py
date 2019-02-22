@@ -1,10 +1,8 @@
-from functools import wraps
 from importlib import import_module
 from unittest import TestCase as UnitTestCase
 
+from django.core.management import BaseCommand
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django.test import TestCase
 from django.views.generic import TemplateView
 
@@ -19,7 +17,8 @@ except:
 
 from django_roles.utils import (walk_site_url, get_views_by_app,
                                 view_access_analyzer, get_view_analyze_report,
-                                check_django_roles_is_used, APP_NAME_FOR_NONE)
+                                check_django_roles_is_used, print_view_analysis,
+                                APP_NAME_FOR_NONE)
 
 
 class MockRegex:
@@ -415,7 +414,10 @@ class UnitTestViewAnalyzer(UnitTestCase):
         mock_objects.first.return_value = view_access
         result = view_access_analyzer('fake-app-type', 'fake-callback',
                                       'fake-view-name', 'fake-site-active')
-        self.assertIsInstance(result, str)
+        try:
+            self.assertIsInstance(result, unicode)
+        except:
+            self.assertIsInstance(result, str)
 
     def test_view_analyzer_search_view_access_for_the_view(
             self, mock_objects
@@ -589,6 +591,71 @@ class UnitTestViewAnalyzer(UnitTestCase):
         result = view_access_analyzer('PUBLIC', function,
                                       'fake-view-name', False)
         self.assertEqual(result, expected)
+
+
+@patch.object(BaseCommand(), 'style')
+@patch.object(BaseCommand(), 'stdout')
+class UnitTestPrintViewAnalysis(UnitTestCase):
+
+    def test_call_stdout(
+            self, mock_stdout, mock_style
+    ):
+        # output = StringIO()
+        # sys.stdout = output
+        print_view_analysis(mock_stdout, mock_style, 'fake report')
+        mock_stdout.write.assert_called()
+
+    def test_call_stdout_once(
+            self, mock_stdout, mock_style
+    ):
+        print_view_analysis(mock_stdout, mock_style, 'fake report')
+        mock_stdout.write.assert_called_once()
+
+    def test_call_stdout_with_SUCCESS(
+            self, mock_stdout, mock_style
+    ):
+        print_view_analysis(mock_stdout, mock_style, 'fake report')
+        mock_stdout.write.assert_called_once_with(
+            mock_style.SUCCESS())
+
+    def test_call_SUCCESS_style(
+            self, mock_stdout, mock_style
+    ):
+        print_view_analysis(mock_stdout, mock_style, 'fake report')
+        mock_style.SUCCESS.assert_called()
+
+    def test_call_SUCCESS_style_with_report(
+            self, mock_stdout, mock_style
+    ):
+        print_view_analysis(mock_stdout, mock_style, 'fake report')
+        mock_style.SUCCESS.assert_called_once_with('\t' + 'fake report')
+
+    def test_call_ERROR_style_when_there_is_an_error_in_report(
+            self, mock_stdout, mock_style
+    ):
+        print_view_analysis(mock_stdout, mock_style, 'ERROR: fake report')
+        mock_style.ERROR.assert_called()
+
+    def test_call_ERROR_style_when_there_is_an_error_in_report_with_report(
+            self, mock_stdout, mock_style
+    ):
+        print_view_analysis(mock_stdout, mock_style, 'ERROR: fake report')
+        mock_style.ERROR.assert_called_once_with('\t' + 'ERROR: fake report')
+
+    def test_call_WARNING_style_when_there_is_a_warning_in_report(
+            self, mock_stdout, mock_style
+    ):
+        print_view_analysis(mock_stdout, mock_style, 'WARNING: fake report')
+        mock_style.WARNING.assert_called()
+
+    def test_call_WARNING_style_when_there_is_a_warning_in_report_with_report(
+            self, mock_stdout, mock_style
+    ):
+        print_view_analysis(mock_stdout, mock_style, 'WARNING: fake report')
+        mock_style.WARNING.assert_called_once_with(
+            '\t' + 'WARNING: fake report')
+
+
 
 
 # class UnitTestGetViewDecorators(UnitTestCase):

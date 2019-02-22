@@ -8,8 +8,10 @@ from django.core.management.base import BaseCommand
 from django.utils.translation import ugettext as _
 from django.conf import settings
 
-from django_roles.tools import get_setting_dictionary, get_app_type
-from django_roles.utils import walk_site_url, get_views_by_app
+from django_roles.tools import get_app_type
+from django_roles.utils import (walk_site_url, get_views_by_app,
+                                view_access_analyzer, print_view_analysis)
+
 
 DJANGO_ROLE_MIDDLEWARE = 'django_roles.middleware.RolesMiddleware'
 
@@ -75,8 +77,18 @@ class Command(BaseCommand):
                         _(u'\t\t{} has no type.').format(app_name)))
 
             # 4 For each view of the analyzed application
-            # wiews_list: Python list of tuples like:
+            # views_list: Python list of tuples like:
             # (url, callback, view_name)
+            for url, callback, view_name in views_list:
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        _(u'\n\t\tAnalysis for view: {}'
+                          u'\n\t\tView url: {}'.format(view_name, url))))
+
+                analysis = view_access_analyzer(app_type, callback, view_name,
+                                                site_active)
+
+                print_view_analysis(self.stdout, self.style, analysis)
 
             self.stdout.write(
                 self.style.SUCCESS(
