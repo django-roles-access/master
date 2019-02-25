@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.3\n"
-"Report-Msgid-Bugs-To: vramosga@gmail.com\n"
-"POT-Creation-Date: 2019-02-04 14:49-0600\n"
+"Project-Id-Version: 0.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-02-25 15:37-0600\n"
 "PO-Revision-Date: 2019-02-04 17:30-0600\n"
 "Last-Translator: Vicente Ramos García (vramosga@gmail.com)\n"
 "Language-Team: N/A\n"
@@ -17,6 +17,56 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: django_roles/management/commands/checkviewaccess.py:44
+msgid "Start checking views access."
+msgstr "Comenzando el chequeo de acceso a vistas."
+
+#: django_roles/management/commands/checkviewaccess.py:48
+msgid "Start gathering information."
+msgstr "Comenzando a recopilar información."
+
+#: django_roles/management/commands/checkviewaccess.py:52
+msgid "Finish gathering information."
+msgstr "Terminada etapa para recopilar información."
+
+#: django_roles/management/commands/checkviewaccess.py:61
+msgid "Django roles active for site: {}."
+msgstr "Django roles está activo para el sitio: {}"
+
+#: django_roles/management/commands/checkviewaccess.py:67
+msgid "\tAnalyzing {}:"
+msgstr "\tAnalizando {}"
+
+#: django_roles/management/commands/checkviewaccess.py:73
+msgid "\t\t{} is {} type."
+msgstr "\t\t{} es de tipo {}."
+
+#: django_roles/management/commands/checkviewaccess.py:77
+msgid "\t\t{} has no type."
+msgstr "\t\t{} no tiene tipo."
+
+#: django_roles/management/commands/checkviewaccess.py:83
+msgid "\t\t{} does not have configured views."
+msgstr "\t\t{} no tiene vistas configuradas."
+
+#: django_roles/management/commands/checkviewaccess.py:90
+msgid ""
+"\n"
+"\t\tAnalysis for view: {}\n"
+"\t\tView url: {}"
+msgstr ""
+"\n"
+"\t\tAnálisis para la vista: {}\n"
+"\t\tURL de la vista: {}"
+
+#: django_roles/management/commands/checkviewaccess.py:101
+msgid "\tFinish analyzing {}."
+msgstr "\tFinalizado el análisis de {}"
+
+#: django_roles/management/commands/checkviewaccess.py:105
+msgid "End checking view access."
+msgstr "Fin de la verificación del acceso a vistas."
 
 #: django_roles/models.py:22
 msgid "Public"
@@ -87,3 +137,81 @@ msgstr "Acceso a plantilla"
 #: django_roles/models.py:77
 msgid "Templates access"
 msgstr "Accesos a plantillas"
+
+#: django_roles/utils.py:11
+msgid "Undefined app"
+msgstr "Aplicación sin definir"
+
+#: django_roles/utils.py:13
+msgid ""
+"WARNING: View has no security configured (ViewAccess) and application type "
+"is \"NOT_SECURED\". No access is checked at all."
+msgstr ""
+"ALERTA: La vista no tiene objeto de seguridad configurado (ViewAccess) y el "
+"tipo de aplicación es \"NOT_SECURED\". No se verifica ningún acceso."
+
+#: django_roles/utils.py:17
+msgid ""
+"No security configured for the view (ViewAccess object) and application type "
+"is \"SECURED\". User is required to be authenticated to access the view."
+msgstr ""
+"No hay seguridad configurada para la vista (objeto ViewAccess) y el tipo de "
+"aplicación es \"SECURED\". Será requerido que el usuario esté autenticado "
+"para acceder a la vista"
+
+#: django_roles/utils.py:21
+msgid ""
+"No security configured for the view (ViewAccess object) and application type "
+"is \"PUBLIC\". Anonymous user can access the view."
+msgstr ""
+"No hay seguridad configurada para la vista (objeto ViewAccess) y el tipo de "
+"aplicación es \"PUBLIC\". Usuarios anónimos tendrán acceso a la vista."
+
+#: django_roles/utils.py:25
+msgid ""
+"ERROR: Django roles middleware is active; or view is protected with Django "
+"roles decorator or mixin, and has no application or application has no type. "
+"There are no View Access object for the view. Is not possible to determine "
+"behavior for access view. Access to view is determined by view "
+"implementation."
+msgstr ""
+"ERROR: El middleware de Django roles está activo; o la vista está protegida "
+"por el mixin o el decorador de Django roles, no hay aplicación o la "
+"aplicación no tiene tipo. No hay objeto ViewAccess para la vista. No es "
+"posible determinar el comportamiento para el acceso a la vista. El acceso a "
+"la vista está determinado por su implementación."
+
+#: django_roles/utils.py:118
+msgid ""
+"\n"
+"\t\t\tRoles with access: "
+msgstr ""
+"\n"
+"\t\t\tRoles con acceso: "
+
+#: django_roles/utils.py:123
+msgid ""
+"\n"
+"\t\t\tERROR: No roles configured to access de view."
+msgstr ""
+"\n"
+"\t\t\tERROR: No hay roles configurados para acceder a la vista."
+
+#: django_roles/utils.py:136
+msgid ""
+"\tNo Django roles tool used. Access to view depends on its implementation."
+msgstr ""
+"\tNo se han utilizado herramientas de Django roles. El acceso a la vista "
+"dependerá de su implementación"
+
+#: django_roles/utils.py:142 django_roles/utils.py:152
+msgid "\tView access is of type {}."
+msgstr "\tEl acceso a la vista es de tipo {}."
+
+#: django_roles/utils.py:158
+msgid ""
+"\tERROR: Exist view access object for the view but no Django role tool is "
+"used: neither decorator, mixin or middleware."
+msgstr ""
+"\tERROR: Existe un objeto ViewAccess para la vista pero ninguna herramienta"
+"(decorador, mixin, o middleware) de Django roles está siendo usada."

@@ -10,6 +10,25 @@ from django_roles.models import ViewAccess
 User = get_user_model()
 APP_NAME_FOR_NONE = _(u'Undefined app')
 
+NOT_SECURED_DEFAULT = _(u'WARNING: View has no security configured '
+                        u'(ViewAccess) and application type is "NOT_SECURED".'
+                        u' No access is checked at all.')
+
+SECURED_DEFAULT = _(u'No security configured for the view (ViewAccess '
+                    u'object) and application type is "SECURED". User is '
+                    u'required to be authenticated to access the view.')
+
+PUBLIC_DEFAULT = _(u'No security configured for the view (ViewAccess object)'
+                   u' and application type is "PUBLIC". Anonymous user can'
+                   u' access the view.')
+
+NONE_TYPE_DEFAULT = _(u'ERROR: Django roles middleware is active; or view'
+                      u' is protected with Django roles decorator or mixin,'
+                      u' and has no application or application has no type. '
+                      u'There are no View Access object for the view. Is not '
+                      u'possible to determine behavior for access view. Access'
+                      u' to view is determined by view implementation.')
+
 
 def walk_site_url(_url_patterns, recursive_url='',
                   view_name=None, app_name=None):
@@ -32,10 +51,13 @@ def walk_site_url(_url_patterns, recursive_url='',
         pattern = pattern.strip('^').strip('$')  # For better presentation
         if hasattr(url, 'url_patterns'):
             # When url object has 'url_patterns' attribute means is a Resolver
-            if view_name:
-                new_view_name = view_name + ":" + url.namespace
+            if url.namespace:
+                if view_name:
+                    new_view_name = view_name + ":" + url.namespace
+                else:
+                    new_view_name = url.namespace
             else:
-                new_view_name = url.namespace
+                new_view_name = ''
             result.extend(walk_site_url(url.url_patterns,
                                         recursive_url + pattern,
                                         new_view_name, url.app_name))
@@ -74,24 +96,13 @@ def get_views_by_app(site_urls):
 
 def get_view_analyze_report(app_type):
     if app_type == 'NOT_SECURED':
-        result = _(u'\tWARNING: View has no security configured (ViewAccess)')
-        result += _(u' and application type is "NOT_SECURED". No access is ')
-        result += _(u'checked at all.')
+        return u'\t' + NOT_SECURED_DEFAULT
     elif app_type == 'SECURED':
-        result = _(u'\tNo security configured for the view (ViewAccess ')
-        result += _(u'object) and application type is "SECURED". User is ')
-        result += _(u'required to be authenticated to access the view.')
+        return u'\t' + SECURED_DEFAULT
     elif app_type == 'PUBLIC':
-        result = _(u'\tNo security configured for the view (ViewAccess ')
-        result += _(u'object) and application type is "PUBLIC". Anonymous ')
-        result += _(u'user can access the view.')
+        return u'\t' + PUBLIC_DEFAULT
     else:
-        result = _(u'\tERROR: Django roles middleware is active; or view is ')
-        result += _(u'protected with Django roles decorator or mixin, ')
-        result += _(u'and has no application or application has no type. ')
-        result += _(u'There are no View Access object for the view. ')
-        result += _(u'Is not possible to determine behavior for access view.')
-    return result
+        return u'\t' + NONE_TYPE_DEFAULT
 
 
 def check_django_roles_is_used(view):
@@ -107,12 +118,12 @@ def analyze_by_role(view_access):
     result = u''
     if view_access.type == 'br':
         if view_access.roles.count() != 0:
-            result = _(u'\n\tRoles with access: ')
+            result = _(u'\n\t\t\tRoles with access: ')
             for role in view_access.roles.all():
                 result += role.name + u', '
             result = result[:-2]
         else:
-            result = _(u'\n\tERROR: No roles configured to access de view.')
+            result = _(u'\n\t\t\tERROR: No roles configured to access de view.')
     return result
 
 
@@ -125,7 +136,8 @@ def view_access_analyzer(app_type, callback, view_name, site_active):
     :param site_active: Boolean with True when Django roles middleware is used.
     :return: String with the report for the view
     """
-    result = u''
+    result = _(u'\tNo Django roles tool used. Access to view depends on '
+               u'its implementation.')
     view_access = ViewAccess.objects.filter(view=view_name).first()
     if site_active:
         if view_access:
@@ -146,9 +158,9 @@ def view_access_analyzer(app_type, callback, view_name, site_active):
                 result = get_view_analyze_report(app_type)
         else:
             if view_access:
-                result = _(u'\tERROR: Exist view access object for the view ')
-                result += _('but no Django role tool is used: neither ')
-                result += _('decorator, mixin or middleware.')
+                result = _(u'\tERROR: Exist view access object for the view '
+                           u'but no Django role tool is used: neither '
+                           u'decorator, mixin or middleware.')
     return result
 
 

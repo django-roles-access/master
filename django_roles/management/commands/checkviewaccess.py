@@ -73,12 +73,17 @@ class Command(BaseCommand):
                         _(u'\t\t{} is {} type.').format(app_name, app_type)))
             else:
                 self.stdout.write(
-                    self.style.SUCCESS(
+                    self.style.WARNING(
                         _(u'\t\t{} has no type.').format(app_name)))
 
-            # 4 For each view of the analyzed application
-            # views_list: Python list of tuples like:
-            # (url, callback, view_name)
+            # if application does not have views list:
+            if len(views_list) == 0:
+                self.stdout.write(
+                    self.style.WARNING(
+                        _(u'\t\t{} does not have configured views.'.format(
+                            app_name))))
+
+            # 4. For each view of the analyzed application
             for url, callback, view_name in views_list:
                 self.stdout.write(
                     self.style.SUCCESS(
@@ -90,12 +95,12 @@ class Command(BaseCommand):
 
                 print_view_analysis(self.stdout, self.style, analysis)
 
+            # 5. End for app_name in views_by_app:
             self.stdout.write(
                 self.style.SUCCESS(
                     _(u'\tFinish analyzing {}.').format(app_name)))
-            # End for app_name in views_by_app:
 
-        # End of report
+        # 6. End of report
         self.stdout.write(self.style.SUCCESS(
             _(u'End checking view access.')))
 
