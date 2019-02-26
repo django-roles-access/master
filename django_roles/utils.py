@@ -57,7 +57,7 @@ def walk_site_url(_url_patterns, recursive_url='',
                 else:
                     new_view_name = url.namespace
             else:
-                new_view_name = ''
+                new_view_name = None
             result.extend(walk_site_url(url.url_patterns,
                                         recursive_url + pattern,
                                         new_view_name, url.app_name))

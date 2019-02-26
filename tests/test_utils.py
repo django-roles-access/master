@@ -70,6 +70,13 @@ class MockPatternDjango2:
         self.name = 'fake-view-name'
 
 
+class MockPatternDjango2None:
+    def __init__(self):
+        self.pattern = '^fake-pattern/'
+        self.callback = 'fake-callback'
+        self.name = 'fake-view-none'
+
+
 class MockResolverDjango2:
     def __init__(self):
         self.pattern = '^fake-resolver/'
@@ -81,7 +88,7 @@ class MockResolverDjango2:
 class MockResolverDjango2None:
     def __init__(self):
         self.pattern = '^fake-resolver/'
-        self.url_patterns = [MockPatternDjango2()]
+        self.url_patterns = [MockPatternDjango2None()]
         self.app_name = None
         self.namespace = None
 
@@ -90,8 +97,8 @@ class MockResolverDjango2None2:
     def __init__(self):
         self.pattern = '^fake-resolver/'
         self.url_patterns = [MockResolverDjango2None()]
-        self.app_name = None
-        self.namespace = None
+        self.app_name = 'fake-app-name'
+        self.namespace = 'fake-namespace'
 
 
 class MockResolverDjangoNested:
@@ -203,12 +210,23 @@ class UnitTestWalkSiteURL(UnitTestCase):
     def test_when_url_namespace_is_None(self):
         expected_result = [
             ('fake-resolver/fake-resolver/fake-pattern/',
-             'fake-callback', 'fake-view-name', None
+             'fake-callback', 'fake-view-none', None
              )
         ]
         resolver = MockResolverDjango2None2()
-        result = walk_site_url([resolver], view_name='fake-view-name')
+        result = walk_site_url([resolver])
         self.assertEqual(result, expected_result)
+
+    # def test_when_view_name_is_None(self):
+    #     expected_result = [
+    #         ('fake-resolver/fake-pattern/',
+    #          'fake-callback', 'fake-view-name', None
+    #          )
+    #     ]
+    #     resolver = MockResolverDjango2None2()
+    #     result = walk_site_url([resolver])
+    #     print(result)
+    #     self.assertEqual(result, expected_result)
 
 
 class IntegratedTestWalkSiteURL(TestCase):
