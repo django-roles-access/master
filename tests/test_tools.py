@@ -363,24 +363,49 @@ class TestGetDictionarySettings(UnitTestCase):
 
 @patch('django_roles.tools.resolve')
 @patch('django_roles.tools.get_view_access')
-class TestCheckAccessByRole(UnitTestCase):
+class UnitTestCheckAccessByRole(UnitTestCase):
 
     def setUp(self):
         self.request = Mock()
 
-    @patch('django_roles.tools.get_setting_dictionary')
-    def test_get_setting_dictionary_is_called(
-            self, mock_get_setting_dctionary, mock_get_view_access, mock_resolve
+    def test_resolve_called_with_request_path_info(
+            self, mock_get_view_access, mock_resolve
     ):
         check_access_by_role(self.request)
-        mock_get_setting_dctionary.assert_called()
+        mock_resolve.assert_called_once_with(self.request.path_info)
+
+    @patch('django_roles.tools.get_setting_dictionary')
+    def test_get_setting_dictionary_is_called(
+            self, mock_get_setting_dictionary, mock_get_view_access,
+            mock_resolve
+    ):
+        check_access_by_role(self.request)
+        assert mock_get_setting_dictionary.called
 
     @patch('django_roles.tools.get_setting_dictionary')
     def test_get_setting_dictionary_is_called_once(
-            self, mock_get_setting_dctionary, mock_get_view_access, mock_resolve
+            self, mock_get_setting_dictionary, mock_get_view_access,
+            mock_resolve
     ):
         check_access_by_role(self.request)
-        mock_get_setting_dctionary.assert_called_once()
+        mock_get_setting_dictionary.assert_called_once()
+
+    @patch('django_roles.tools.get_setting_dictionary')
+    def test_app_name_is_searched_as_NOT_SECURED_before_get_view_access(
+            self, mock_get_setting_dictionary, mock_get_view_access,
+            mock_resolve
+    ):
+        """
+        Default behavior of NOT_SECURED applications is not to check access.
+        """
+        used_url = Mock()
+        used_url.app_name = 'fake-app-name'
+        mock_resolve.return_value = used_url
+        mock_get_setting_dictionary.return_value = {
+            'NOT_SECURED': ['fake-app-name']
+        }
+        assert check_access_by_role(self.request)
+        assert not mock_get_view_access.called
 
     def test_get_view_access_is_called(
             self, mock_get_view_access, mock_resolve
@@ -402,6 +427,77 @@ class TestCheckAccessByRole(UnitTestCase):
         mock_get_view_access.assert_called_once_with(
             self.request
         )
+
+    @patch('django_roles.tools.get_setting_dictionary')
+    def test_default_PUBLIC_behavior(
+            self, mock_get_setting_dictionary, mock_get_view_access,
+            mock_resolve
+    ):
+        used_url = Mock()
+        used_url.app_name = 'fake-app-name'
+        mock_resolve.return_value = used_url
+        mock_get_setting_dictionary.return_value = {
+            'NOT_SECURED': [],
+            'PUBLIC': ['fake-app-name'],
+        }
+        mock_get_view_access.return_value = False
+        assert check_access_by_role(self.request)
+
+    @patch('django_roles.tools.get_setting_dictionary')
+    def test_default_SECURED_behavior_when_user_not_authenticated(
+            self, mock_get_setting_dictionary, mock_get_view_access,
+            mock_resolve
+    ):
+        used_url = Mock()
+        used_url.app_name = 'fake-app-name'
+        mock_resolve.return_value = used_url
+        mock_get_setting_dictionary.return_value = {
+            'NOT_SECURED': [],
+            'PUBLIC': [],
+            'SECURED': ['fake-app-name']
+        }
+        mock_get_view_access.return_value = False
+        self.request.user.is_authenticated = False
+        assert not check_access_by_role(self.request)
+
+    @patch('django_roles.tools.get_setting_dictionary')
+    def test_default_SECURED_behavior_when_user_authenticated(
+            self, mock_get_setting_dictionary, mock_get_view_access,
+            mock_resolve
+    ):
+        used_url = Mock()
+        used_url.app_name = 'fake-app-name'
+        mock_resolve.return_value = used_url
+        mock_get_setting_dictionary.return_value = {
+            'NOT_SECURED': [],
+            'PUBLIC': [],
+            'SECURED': ['fake-app-name']
+        }
+        mock_get_view_access.return_value = False
+        self.request.user.is_authenticated = True
+        assert check_access_by_role(self.request)
+
+    @patch('django_roles.tools.get_setting_dictionary')
+    def test_check_access_by_role_return_True_if_any_happen(
+            self, mock_get_setting_dictionary, mock_get_view_access,
+            mock_resolve
+    ):
+        """
+        In case Django roles is activated, for example with middleware, and
+        no more configuration are given, behavior must be: not to change view
+        behavior.
+        """
+        used_url = Mock()
+        used_url.app_name = 'fake-app-name'
+        mock_resolve.return_value = used_url
+        mock_get_setting_dictionary.return_value = {
+            'NOT_SECURED': [],
+            'PUBLIC': [],
+            'SECURED': []
+        }
+        mock_get_view_access.return_value = False
+        self.request.user.is_authenticated = False
+        assert check_access_by_role(self.request)
 
 
 # Integrated tests
