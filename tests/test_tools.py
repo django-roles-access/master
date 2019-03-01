@@ -429,6 +429,27 @@ class UnitTestCheckAccessByRole(UnitTestCase):
         )
 
     @patch('django_roles.tools.get_setting_dictionary')
+    def test_get_view_access_take_precedence_over_default_behavior(
+            self, mock_get_setting_dictionary, mock_get_view_access,
+            mock_resolve
+    ):
+        """
+        If a ViewAccess object exist for the view, this must be first than
+        default behaviors.
+        """
+        used_url = Mock()
+        used_url.app_name = 'fake-app-name'
+        mock_resolve.return_value = used_url
+        mock_get_setting_dictionary.return_value = {
+            'NOT_SECURED': [],
+            'PUBLIC': [],
+            'SECURED': ['fake-app-name']
+        }
+        mock_get_view_access.return_value = True
+        self.request.user.is_authenticated = False
+        assert check_access_by_role(self.request)
+
+    @patch('django_roles.tools.get_setting_dictionary')
     def test_default_PUBLIC_behavior(
             self, mock_get_setting_dictionary, mock_get_view_access,
             mock_resolve
