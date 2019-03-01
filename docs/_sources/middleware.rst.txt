@@ -30,12 +30,12 @@ to MIDDLEWARE variable:
 
 ::
 
-   MIDDLEWARE = [
-       'django.contrib.sessions.middleware.SessionMiddleware',
-       'django.contrib.auth.middleware.AuthenticationMiddleware',
-       'django_roles.middleware.RolesMiddleware',
-       ...
-   ]
+    MIDDLEWARE = [
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django_roles.middleware.RolesMiddleware',
+        ...
+    ]
 
 
 -------------

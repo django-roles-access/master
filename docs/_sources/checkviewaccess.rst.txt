@@ -10,7 +10,6 @@ Django roles register an action with manage.py:
 This action will analyze all reachable views from settings.ROOT_URLCONF and
 print to standard output a *security report* of access to each view.
 
-
 .. _django_algorithm: https://docs.djangoproject.com/en/dev/topics/http/urls/#how-django-processes-a-request
 
 .. warning::
@@ -31,6 +30,123 @@ print to standard output a *security report* of access to each view.
    Django Roles middleware do not change ROOT_URLCONF or any other attribute
    of the HTTPRequest. HTTPResponse is changed only when access denied is
    raised.
+
+----------------------
+Security report format
+----------------------
+
+Printed *security report* has format:
+
+.. code-block:: text
+
+    python manage.py checkviewaccess
+    Start checking views access.
+    Start gathering information.
+    Finish gathering information.
+    Django roles active for site: False.
+
+    ...
+
+        Analyzing django.contrib.messages:
+            django.contrib.messages has no type.
+            django.contrib.messages does not have configured views.
+        Finish analyzing django.contrib.messages.
+
+    ...
+
+        Analyzing app_name:
+            app_name is SECURED type.
+
+            Analysis for view: app_name:index
+            View url: app_name/
+            View access is of type By role.
+                Roles with access: role-1, role-2
+
+            Analysis for view: app_name:status
+            View url: app_name/status/
+            No Django roles tool used. Access to view depends on its implementation.
+        Finish analyzing app_name.
+    End checking view access.
+
+
+Django roles active for site
+-----------------------------
+
+This indicate if Django roles middleware is being used or not. When **True**
+means middleware is *active* and all views are *protected by Django role*.
+When **False** means Django roles middleware is not installed.
+
+When Django roles middleware is active:
+
+* Views will have default application type behavior.
+
+* If no application type declared
+
+
+.. code-block:: text
+
+    python manage.py checkviewaccess
+    Start checking views access.
+    Start gathering information.
+    Finish gathering information.
+    Django roles active for site: True.
+
+    ...
+
+        Analyzing django.contrib.messages:
+            django.contrib.messages has no type.
+            django.contrib.messages does not have configured views.
+        Finish analyzing django.contrib.messages.
+
+    ...
+
+        Analyzing app_name:
+        Analyzing devices:
+            app_name is SECURED type.
+
+            Analysis for view: app_name:index
+            View url: app_name/
+            No security configured for the view (ViewAccess object) and application type is "SECURED". User is required to be authenticated to access the view.
+
+            Analysis for view: app_name:status
+            View url: app_name/status/
+            View access is of type By role.
+                Roles with access: role-1, role-2
+        Finish analyzing app_name.
+
+    ...
+
+        Analyzing Undefined app:
+            Undefined app has no type.
+
+            Analysis for view: other-index
+            View url: /
+            ERROR: Django roles middleware is active; or view is protected with Django roles decorator or mixin, and has no application or application has no type. There are no View Access object for the view. Is not possible to determine behavior for access view. Access to view is determined by view implementation.
+        Finish analyzing Undefined app.
+
+    End checking view access.
+
+In above example `Django roles active for site:` is **True** because Django
+roles is active (installed). All views of site are *cover* by Django roles.
+Views without a :class:`django_roles.models.ViewAccess` will have de default
+behavior of the application type they belong.
+
+If a view belong to an application without configured type and no
+:class:`django_roles.models.ViewAccess` associated, an *ERROR* will be reported
+because there is no default behavior for the view. The access to it will
+depends on it implementation, this mean, for example, the view could be
+decorated with Django *login_required decorator*.
+
+Views without application will be classified under an application with
+name *Undefined app*.
+
+Applications type
+-----------------
+
+When application has no configured type is reported as `app_name has no type`
+. In any other case the configured type for the application is reported
+`app_name is SECURED type`.
+
 
 --------------
 Roles security

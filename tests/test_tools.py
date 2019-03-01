@@ -24,6 +24,19 @@ class UnitTestGetViewAccess(UnitTestCase):
         self.request = Mock()
         self.request.user = Mock()
 
+    def test_filter_is_done_with_view_name(
+            self, mock_objects, mock_resolve
+    ):
+        used_url = Mock()
+        used_url.view_name = 'fake-namespace:fake-view-name'
+        mock_resolve.return_value = used_url
+
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = Mock()
+        get_view_access(self.request)
+        mock_objects.filter.assert_called_with(
+            view='fake-namespace:fake-view-name')
+
     def test_secured_view_as_public_with_no_authorization_and_no_role(
             self, mock_objects, mock_resolve
     ):

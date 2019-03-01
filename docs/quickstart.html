@@ -90,10 +90,10 @@ of <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/
 <li>Once configured, all administration for securing access to views is done in
 admin site at run time.</li>
 <li>Not extra code required:<ul>
+<li>When using <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> middleware no more code is required.</li>
 <li>In case of being using <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> decorator or mixin, all what is
 needed is to decorate the view function or prepend the mixin in class based
 view definition.</li>
-<li>When using <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> middleware no more code is required.</li>
 </ul>
 </li>
 <li>Access to views can be controlled with two element:<ol class="arabic">
@@ -101,9 +101,12 @@ view definition.</li>
 <li>Application classifications in project settings.</li>
 </ol>
 </li>
+<li>If <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> is installed but nothing is done (only add
+<code class="docutils literal notranslate"><span class="pre">django_roles</span></code> to settings.INSTALLED_APPS) there will be no change in views
+behavior.</li>
 <li><code class="docutils literal notranslate"><span class="pre">django_roles</span></code> register an action called <code class="docutils literal notranslate"><span class="pre">checkviewaccess</span></code> that will
-report project views access security no matter if <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> tools are
-used or not. To use it just:</li>
+report project views access security when using <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> tools. To
+use it just:</li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">checkviewaccess</span>
 </pre></div>
@@ -261,7 +264,7 @@ For example:</p>
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Feb 25, 2019</p>
+              <p class="topless">Mar 01, 2019</p>
           </div>
         
       

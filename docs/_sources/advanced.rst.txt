@@ -64,27 +64,23 @@ namespaces), only request argument is needed.
 This is important if your site have a middleware that change the request.
 
 
-============
-Template Tag
-============
+==================
+Views without name
+==================
 
-For using Django roles template tag:
+In case a view has no name, clean url will be used as name. For example:
+
+* Django 1.11:
 ::
 
-    {% load roles_tags %}
-    ...
-    {% if request.user|check_role:'reports_menu' %}
-        check_access
-    {% endif %}
+    url_patterns = [
+    ]
 
 
-Is required to configure a DjangoTemplate backend in *settings* file. If not,
-when trying to use it, an exception will be raised:
+* Django 2:
 ::
-
-    django.core.exceptions.ImproperlyConfigured: No DjangoTemplates backend is
-    configured.
-
+    url_patterns = [
+    ]
 
 
 ==============================

@@ -15,7 +15,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Reference" href="reference.html" />
+    <link rel="next" title="Django roles template tag" href="template_tag.html" />
     <link rel="prev" title="Check view access" href="checkviewaccess.html" />
 
 
@@ -71,7 +71,7 @@
      |
     <a title="Django roles 0.4 documentation" href="index.html" accesskey="U">up</a>
    |
-    <a href="reference.html" title="Reference">next</a> &raquo;</div>
+    <a href="template_tag.html" title="Django roles template tag">next</a> &raquo;</div>
     </div>
 
     <div id="bd">
@@ -126,22 +126,24 @@ access, or not. And this is done with view name and application name (or
 namespaces), only request argument is needed.</p>
 <p>This is important if your site have a middleware that change the request.</p>
 </div>
-<div class="section" id="template-tag">
-<h1>Template Tag<a class="headerlink" href="#template-tag" title="Permalink to this headline">¶</a></h1>
-<p>For using Django roles template tag:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">%</span> <span class="n">load</span> <span class="n">roles_tags</span> <span class="o">%</span><span class="p">}</span>
-<span class="o">...</span>
-<span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">|</span><span class="n">check_role</span><span class="p">:</span><span class="s1">&#39;reports_menu&#39;</span> <span class="o">%</span><span class="p">}</span>
-    <span class="n">check_access</span>
-<span class="p">{</span><span class="o">%</span> <span class="n">endif</span> <span class="o">%</span><span class="p">}</span>
+<div class="section" id="views-without-name">
+<h1>Views without name<a class="headerlink" href="#views-without-name" title="Permalink to this headline">¶</a></h1>
+<p>In case a view has no name, clean url will be used as name. For example:</p>
+<ul class="simple">
+<li>Django 1.11:</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">url_patterns</span> <span class="o">=</span> <span class="p">[</span>
+<span class="p">]</span>
 </pre></div>
 </div>
-<p>Is required to configure a DjangoTemplate backend in <em>settings</em> file. If not,
-when trying to use it, an exception will be raised:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">django</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ImproperlyConfigured</span><span class="p">:</span> <span class="n">No</span> <span class="n">DjangoTemplates</span> <span class="n">backend</span> <span class="ow">is</span>
-<span class="n">configured</span><span class="o">.</span>
-</pre></div>
-</div>
+<ul class="simple">
+<li>Django 2:</li>
+</ul>
+<dl class="docutils">
+<dt>::</dt>
+<dd>url_patterns = [
+]</dd>
+</dl>
 </div>
 <div class="section" id="views-without-application-name">
 <h1>Views without application name<a class="headerlink" href="#views-without-application-name" title="Permalink to this headline">¶</a></h1>
@@ -166,7 +168,7 @@ group under application name equal to constant
 <li><a class="reference internal" href="#without-configuration">Without configuration</a></li>
 <li><a class="reference internal" href="#namespaces-and-view-name">Namespaces and View Name</a></li>
 <li><a class="reference internal" href="#arguments">Arguments</a></li>
-<li><a class="reference internal" href="#template-tag">Template Tag</a></li>
+<li><a class="reference internal" href="#views-without-name">Views without name</a></li>
 <li><a class="reference internal" href="#views-without-application-name">Views without application name</a></li>
 </ul>
 
@@ -174,8 +176,8 @@ group under application name equal to constant
   <p class="topless"><a href="checkviewaccess.html"
                         title="previous chapter">Check view access</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="reference.html"
-                        title="next chapter">Reference</a></p>
+  <p class="topless"><a href="template_tag.html"
+                        title="next chapter">Django roles template tag</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -198,7 +200,7 @@ group under application name equal to constant
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Feb 25, 2019</p>
+              <p class="topless">Mar 01, 2019</p>
           </div>
         
       
@@ -210,7 +212,7 @@ group under application name equal to constant
      |
     <a title="Django roles 0.4 documentation" href="index.html" accesskey="U">up</a>
    |
-    <a href="reference.html" title="Reference">next</a> &raquo;</div>
+    <a href="template_tag.html" title="Django roles template tag">next</a> &raquo;</div>
     </div>
   </div>
 

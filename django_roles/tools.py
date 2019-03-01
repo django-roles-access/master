@@ -25,12 +25,9 @@ def get_view_access(request):
     """
     user = request.user
     current_url = resolve(request.path_info)
-    view_name = current_url.url_name
-    namespace = current_url.namespace
+    view_name = current_url.view_name
 
-    view_access = ViewAccess.objects.filter(
-        Q(view=u'{}:{}'.format(namespace, view_name)) |
-        Q(view=view_name)).first()
+    view_access = ViewAccess.objects.filter(view=view_name).first()
     if view_access:
         if view_access.type == 'pu':
             return True

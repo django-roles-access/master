@@ -14,11 +14,11 @@ Main features:
 
 * Not extra code required:
 
+  * When using ``django_roles`` middleware no more code is required.
+
   * In case of being using ``django_roles`` decorator or mixin, all what is
     needed is to decorate the view function or prepend the mixin in class based
     view definition.
-
-  * When using ``django_roles`` middleware no more code is required.
 
 * Access to views can be controlled with two element:
 
@@ -26,9 +26,13 @@ Main features:
 
   2. Application classifications in project settings.
 
+* If ``django_roles`` is installed but nothing is done (only add
+  ``django_roles`` to settings.INSTALLED_APPS) there will be no change in views
+  behavior.
+
 * ``django_roles`` register an action called ``checkviewaccess`` that will
-  report project views access security no matter if ``django_roles`` tools are
-  used or not. To use it just:
+  report project views access security when using ``django_roles`` tools. To
+  use it just:
 
 ::
 

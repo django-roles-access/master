@@ -44,6 +44,17 @@ Advanced topics
 
    advanced
 
+============
+Template tag
+============
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+
+   template_tag
+
 =========
 Reference
 =========
