@@ -3,7 +3,11 @@
 # django-internationalization-for-admin-pages-translate-model-name-and-attribute
 
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+try:
+    from django.utils.translation import gettext_lazy as _
+except:
+    from django.utils.translation import ugettext_lazy as _
+
 
 from django.contrib.auth.models import Group
 

@@ -126,25 +126,6 @@ access, or not. And this is done with view name and application name (or
 namespaces), only request argument is needed.</p>
 <p>This is important if your site have a middleware that change the request.</p>
 </div>
-<div class="section" id="views-without-name">
-<h1>Views without name<a class="headerlink" href="#views-without-name" title="Permalink to this headline">¶</a></h1>
-<p>In case a view has no name, clean url will be used as name. For example:</p>
-<ul class="simple">
-<li>Django 1.11:</li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">url_patterns</span> <span class="o">=</span> <span class="p">[</span>
-<span class="p">]</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li>Django 2:</li>
-</ul>
-<dl class="docutils">
-<dt>::</dt>
-<dd>url_patterns = [
-]</dd>
-</dl>
-</div>
 <div class="section" id="views-without-application-name">
 <h1>Views without application name<a class="headerlink" href="#views-without-application-name" title="Permalink to this headline">¶</a></h1>
 <p>When a views have no application associated, they will be classified in a
@@ -168,7 +149,6 @@ group under application name equal to constant
 <li><a class="reference internal" href="#without-configuration">Without configuration</a></li>
 <li><a class="reference internal" href="#namespaces-and-view-name">Namespaces and View Name</a></li>
 <li><a class="reference internal" href="#arguments">Arguments</a></li>
-<li><a class="reference internal" href="#views-without-name">Views without name</a></li>
 <li><a class="reference internal" href="#views-without-application-name">Views without application name</a></li>
 </ul>
 

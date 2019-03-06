@@ -541,7 +541,7 @@ class UnitTestViewAnalyzer(UnitTestCase):
         mock_objects.first.return_value = view_access
         view_access_analyzer('fake-app-type', 'fake-callback',
                              'fake-view-name', 'fake-site-active')
-        mock_objects.first.assert_called()
+        assert mock_objects.first.called
 
     def test_view_analyzer_search_view_access_for_the_view_once(
             self, mock_objects
@@ -552,7 +552,7 @@ class UnitTestViewAnalyzer(UnitTestCase):
         mock_objects.first.return_value = view_access
         view_access_analyzer('fake-app-type', 'fake-callback',
                              'fake-view-name', 'fake-site-active')
-        mock_objects.filter.assert_called_once()
+        self.assertEqual(mock_objects.filter.call_count, 1)
 
     def test_view_analyzer_search_view_access_with_view_name(
             self, mock_objects
@@ -587,7 +587,7 @@ class UnitTestViewAnalyzer(UnitTestCase):
         mock_objects.first.return_value = view_access
         view_access_analyzer('fake-app-type', 'fake-callback',
                              'fake-view-name', True)
-        mock_analyze_by_role.assert_called()
+        assert mock_analyze_by_role.called
 
     @patch('django_roles.utils.analyze_by_role')
     def test_view_access_type_by_role_call_analyze_by_role_once(
@@ -599,7 +599,7 @@ class UnitTestViewAnalyzer(UnitTestCase):
         mock_objects.first.return_value = view_access
         view_access_analyzer('fake-app-type', 'fake-callback',
                              'fake-view-name', True)
-        mock_analyze_by_role.assert_called_once()
+        self.assertEqual(mock_analyze_by_role.call_count ,1)
 
     @patch('django_roles.utils.analyze_by_role')
     def test_view_access_type_by_role_call_analyze_by_role_with_view_access(
@@ -870,13 +870,13 @@ class UnitTestPrintViewAnalysis(UnitTestCase):
         # output = StringIO()
         # sys.stdout = output
         print_view_analysis(mock_stdout, mock_style, 'fake report')
-        mock_stdout.write.assert_called()
+        assert mock_stdout.write.called
 
     def test_call_stdout_once(
             self, mock_stdout, mock_style
     ):
         print_view_analysis(mock_stdout, mock_style, 'fake report')
-        mock_stdout.write.assert_called_once()
+        self.assertEqual(mock_stdout.write.call_count, 1)
 
     def test_call_stdout_with_SUCCESS(
             self, mock_stdout, mock_style
@@ -889,7 +889,7 @@ class UnitTestPrintViewAnalysis(UnitTestCase):
             self, mock_stdout, mock_style
     ):
         print_view_analysis(mock_stdout, mock_style, 'fake report')
-        mock_style.SUCCESS.assert_called()
+        assert mock_style.SUCCESS.called
 
     def test_call_SUCCESS_style_with_report(
             self, mock_stdout, mock_style
@@ -901,7 +901,7 @@ class UnitTestPrintViewAnalysis(UnitTestCase):
             self, mock_stdout, mock_style
     ):
         print_view_analysis(mock_stdout, mock_style, 'ERROR: fake report')
-        mock_style.ERROR.assert_called()
+        assert mock_style.ERROR.called
 
     def test_call_ERROR_style_when_there_is_an_error_in_report_with_report(
             self, mock_stdout, mock_style
@@ -913,7 +913,7 @@ class UnitTestPrintViewAnalysis(UnitTestCase):
             self, mock_stdout, mock_style
     ):
         print_view_analysis(mock_stdout, mock_style, 'WARNING: fake report')
-        mock_style.WARNING.assert_called()
+        assert mock_style.WARNING.called
 
     def test_call_WARNING_style_when_there_is_a_warning_in_report_with_report(
             self, mock_stdout, mock_style

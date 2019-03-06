@@ -41,8 +41,8 @@ class MiddlewareUnitTest(unittest.TestCase):
             self, mock_check_access_by_role
     ):
         self.middleware(self.request)
-        mock_check_access_by_role.assert_called()
-        mock_check_access_by_role.assert_called_once()
+        assert mock_check_access_by_role.called
+        self.assertEqual(mock_check_access_by_role.call_count, 1)
 
     @patch('django_roles.middleware.check_access_by_role')
     def test_middleware_call_check_access_by_roles_with_request(

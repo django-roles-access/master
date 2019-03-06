@@ -1,6 +1,9 @@
 from django.contrib.auth.models import Group
 from django.db import IntegrityError
-from django.utils.translation import ugettext as _
+try:
+    from django.utils.translation import gettext as _
+except:
+    from django.utils.translation import ugettext as _
 from django.test import TestCase
 from django_roles.models import ViewAccess, TemplateAccess
 
@@ -68,6 +71,14 @@ class TestViewAccessModel(TestCase):
             view_access.save()
             view_access.full_clean()
 
+    def test_verbose_name_singular(self):
+        self.assertEqual(str(ViewAccess._meta.verbose_name),
+                         'View access')
+
+    def test_verbose_name_plural(self):
+        self.assertEqual(str(ViewAccess._meta.verbose_name_plural),
+                         'Views access')
+
 
 class TestTemplateAccessModel(TestCase):
     """
@@ -116,5 +127,10 @@ class TestTemplateAccessModel(TestCase):
         with self.assertRaises(IntegrityError):
             template_access_2.save()
 
-# TODO: Check verbose attribute name
-# TODO: Check verbose name for models
+    def test_verbose_name_singular(self):
+        self.assertEqual(str(TemplateAccess._meta.verbose_name),
+                         'Template access')
+
+    def test_verbose_name_plural(self):
+        self.assertEqual(str(TemplateAccess._meta.verbose_name_plural),
+                         'Templates access')

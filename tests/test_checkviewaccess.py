@@ -2,8 +2,10 @@ from importlib import import_module
 
 from django.conf import settings
 from django.contrib.auth.models import Group
-from django.utils.six import StringIO
-from django.utils.translation import ugettext as _
+try:
+    from django.utils.six import StringIO
+except:
+    from io import StringIO
 
 from django_roles.models import ViewAccess
 
@@ -59,14 +61,14 @@ class UnitTestCheckViewAccess(UnitTestCase):
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         call_command('checkviewaccess')
-        mock_import_module.assert_called()
+        assert mock_import_module.called
 
     def test_import_module_is_called_once(
             self, mock_settings, mock_import_module
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         call_command('checkviewaccess')
-        mock_import_module.assert_called_once()
+        self.assertEqual(mock_import_module.call_count, 1)
 
     def test_import_module_is_called_once_with(
             self, mock_settings, mock_import_module
@@ -81,7 +83,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
     ):
         mock_import_module.urlpatterns = 'fake-url-pattern'
         call_command('checkviewaccess')
-        mock_walk_site_url.assert_called()
+        assert mock_walk_site_url.called
 
     @patch('django_roles.management.commands.checkviewaccess.walk_site_url')
     def test_walk_site_url_is_called_once(
@@ -89,7 +91,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
     ):
         mock_import_module.urlpatterns = 'fake-url-pattern'
         call_command('checkviewaccess')
-        mock_walk_site_url.assert_called_once()
+        self.assertEqual(mock_walk_site_url.call_count, 1)
 
     @patch('django_roles.management.commands.checkviewaccess.walk_site_url')
     def test_walk_site_url_is_called_once_with(
@@ -107,7 +109,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         call_command('checkviewaccess')
-        mock_get_views_by_app.assert_called()
+        assert mock_get_views_by_app.called
 
     @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
     def test_get_views_by_app_is_called_once(
@@ -115,7 +117,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         call_command('checkviewaccess')
-        mock_get_views_by_app.assert_called_once()
+        self.assertEqual(mock_get_views_by_app.call_count, 1)
 
     @patch('django_roles.management.commands.checkviewaccess.walk_site_url')
     @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
@@ -206,7 +208,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
         mock_utils_settings.INSTALLED_APPS = ['fake-app-1']
         mock_settings.ROOT_URLCONF = self.root_urlconf
         call_command('checkviewaccess')
-        mock_get_app_type.assert_called()
+        assert mock_get_app_type.called
 
     @patch('django_roles.management.commands.checkviewaccess.get_app_type')
     @patch('django_roles.utils.settings')
@@ -382,7 +384,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
                                            'fake-view')]}
         mock_view_access_analyzer.return_value = u'fake-analysis'
         call_command('checkviewaccess')
-        mock_print_view_analysis.assert_called_once()
+        self.assertEqual(mock_print_view_analysis.call_count, 1)
 
     @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
     @patch('django_roles.management.commands.checkviewaccess.'

@@ -64,25 +64,6 @@ namespaces), only request argument is needed.
 This is important if your site have a middleware that change the request.
 
 
-==================
-Views without name
-==================
-
-In case a view has no name, clean url will be used as name. For example:
-
-* Django 1.11:
-::
-
-    url_patterns = [
-    ]
-
-
-* Django 2:
-::
-    url_patterns = [
-    ]
-
-
 ==============================
 Views without application name
 ==============================

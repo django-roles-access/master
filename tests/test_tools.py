@@ -401,7 +401,7 @@ class UnitTestCheckAccessByRole(UnitTestCase):
             mock_resolve
     ):
         check_access_by_role(self.request)
-        mock_get_setting_dictionary.assert_called_once()
+        self.assertEqual(mock_get_setting_dictionary.call_count, 1)
 
     @patch('django_roles.tools.get_setting_dictionary')
     def test_app_name_is_searched_as_NOT_SECURED_before_get_view_access(
@@ -424,13 +424,13 @@ class UnitTestCheckAccessByRole(UnitTestCase):
             self, mock_get_view_access, mock_resolve
     ):
         check_access_by_role(self.request)
-        mock_get_view_access.assert_called()
+        assert mock_get_view_access.called
 
     def test_get_view_access_is_called_once(
             self, mock_get_view_access, mock_resolve
     ):
         check_access_by_role(self.request)
-        mock_get_view_access.assert_called_once()
+        self.assertEqual(mock_get_view_access.call_count, 1)
 
     def test_get_view_access_is_called_with(
             self, mock_get_view_access, mock_resolve
@@ -737,7 +737,7 @@ class UnitTestGetAppType(UnitTestCase):
             self, mock_get_settings_dictionary
     ):
         get_app_type('fake-app')
-        mock_get_settings_dictionary.assert_called()
+        assert mock_get_settings_dictionary.called
 
     @patch('django_roles.tools.get_setting_dictionary')
     def test_get_settings_dictionary_is_called_once(
@@ -746,7 +746,7 @@ class UnitTestGetAppType(UnitTestCase):
         mock_get_settings_dictionary.return_value = {'type 1': [],
                                                      'type 2': []}
         get_app_type('fake-app')
-        mock_get_settings_dictionary.assert_called_once()
+        self.assertEqual(mock_get_settings_dictionary.call_count, 1)
 
     @patch('django_roles.tools.get_setting_dictionary')
     def test_get_settings_dictionary_is_called_once_with_no_param(

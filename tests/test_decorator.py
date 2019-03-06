@@ -97,7 +97,7 @@ class UnitTestAccessByRoleDecorator(unittest.TestCase):
         request = Mock()
         decorated_func = access_by_role(func)
         decorated_func(request)
-        mock_check_access_by_role.assert_called()
+        assert mock_check_access_by_role.called
 
     @patch('django_roles.decorator.check_access_by_role')
     def test_decorator_call_check_access_by_role_with_request(
