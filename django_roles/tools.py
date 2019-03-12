@@ -35,7 +35,7 @@ def get_view_access(request):
             if user.is_authenticated:
                 return True
             else:
-                raise PermissionDenied
+                return False
         elif view_access.type == 'br':
             if user.is_authenticated:
                 access = list(set(user.groups.all()) &
@@ -43,9 +43,11 @@ def get_view_access(request):
                 if access:
                     return True
                 else:
-                    raise PermissionDenied
+                    return False
             else:
-                raise PermissionDenied
+                return False
+        else:
+            return None
 
 
 def get_setting_dictionary():
@@ -92,8 +94,9 @@ def check_access_by_role(request):
         return True
     # If view has an access configuration, this takes precedence over
     # the classification of the application
-    if get_view_access(request):
-        return True
+    view_access = get_view_access(request)
+    if view_access is not None:
+        return view_access
     # Check for public applications
     if app_name in setting_dictionary['PUBLIC']:
         return True
