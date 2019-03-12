@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.5\n"
+"Project-Id-Version: 0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-01 15:46-0600\n"
+"POT-Creation-Date: 2019-03-12 13:24-0500\n"
 "PO-Revision-Date: 2019-02-04 17:30-0600\n"
 "Last-Translator: Vicente Ramos García (vramosga@gmail.com)\n"
 "Language-Team: N/A\n"
@@ -80,7 +80,7 @@ msgstr "Autorizado"
 msgid "By role"
 msgstr "Por rol"
 
-#: django_roles/models.py:34 tests/test_models.py:16
+#: django_roles/models.py:34 tests/test_models.py:19
 msgid "View name to be secured: <em>namespace:view_name</em>"
 msgstr "Vista a ser asegurada: <em>nombredeespacios:nombre_vista</em>"
 
@@ -88,7 +88,7 @@ msgstr "Vista a ser asegurada: <em>nombredeespacios:nombre_vista</em>"
 msgid "View"
 msgstr "Vista"
 
-#: django_roles/models.py:39 tests/test_models.py:22
+#: django_roles/models.py:39 tests/test_models.py:25
 msgid "Type of access for the view. Select from available options."
 msgstr "Tipo de acceso para la vista. Seleccione de las opciones disponibles."
 
@@ -96,7 +96,7 @@ msgstr "Tipo de acceso para la vista. Seleccione de las opciones disponibles."
 msgid "Type"
 msgstr "Tipo"
 
-#: django_roles/models.py:44 tests/test_models.py:28
+#: django_roles/models.py:44 tests/test_models.py:31
 msgid "Select the groups (roles) with view access if access type = By role."
 msgstr "Seleccione grupos (roles) con acceso a la vista si el tipo = Por rol."
 
@@ -112,7 +112,7 @@ msgstr "Acceso a vista"
 msgid "Views access"
 msgstr "Accessos a vistas"
 
-#: django_roles/models.py:67 tests/test_models.py:82
+#: django_roles/models.py:67 tests/test_models.py:93
 msgid ""
 "Flag is used with template tag check_role to restrict access in templates."
 msgstr ""
@@ -123,7 +123,7 @@ msgstr ""
 msgid "Flag"
 msgstr "Bandera"
 
-#: django_roles/models.py:73 tests/test_models.py:102
+#: django_roles/models.py:73 tests/test_models.py:113
 msgid ""
 "Select the groups (roles) with access with check_role template tag and flag."
 msgstr ""
