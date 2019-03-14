@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth import logout, login
 from django.contrib.auth.models import User, Group
 from django.contrib.sessions.middleware import SessionMiddleware
-from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.test import RequestFactory, TestCase
 try:
     from unittest.mock import Mock, patch
@@ -13,7 +13,10 @@ except:
 
 from django_roles.models import ViewAccess
 from django_roles.tools import (get_setting_dictionary, get_view_access,
-                                check_access_by_role, get_app_type)
+                                check_access_by_role, get_app_type,
+                                get_forbidden_message,
+                                DEFAULT_FORBIDDEN_MESSAGE,
+                                get_no_access_response)
 
 
 @patch('django_roles.tools.resolve')
@@ -799,3 +802,109 @@ class IntegratedTestGetAppType(UnitTestCase):
         result = get_app_type('secured_app')
         expected = 'SECURED'
         self.assertEqual(result, expected)
+
+
+class UnitTestGetForbiddenMessage(UnitTestCase):
+
+    def test_default_forbidden_message(self):
+        assert DEFAULT_FORBIDDEN_MESSAGE == get_forbidden_message()
+
+    @patch('django_roles.tools.settings')
+    def test_forbidden_configured_message(
+            self, mock_settings
+    ):
+        mock_settings.DJANGO_ROLES_FORBIDDEN_MESSAGE = 'fake-message'
+        assert 'fake-message' == get_forbidden_message()
+
+
+class IntegratedTestGetForbiddenMessage(TestCase):
+
+    def test_default_forbidden_message(self):
+        assert DEFAULT_FORBIDDEN_MESSAGE == get_forbidden_message()
+
+    def test_forbidden_configured_message(self):
+        settings.__setattr__('DJANGO_ROLES_FORBIDDEN_MESSAGE',
+                             'forbidden-message')
+        response = get_forbidden_message()
+        settings.__delattr__('DJANGO_ROLES_FORBIDDEN_MESSAGE')
+        assert 'forbidden-message' == response
+
+
+class UnitTestGetNoAccessResponse(UnitTestCase):
+
+    @patch('django_roles.tools.HttpResponseForbidden')
+    def test_default_behavior_http_response_forbidden(
+            self, mock_http_response_forbidden
+    ):
+        mock_http_response_forbidden.return_value = 'fake-forbidden'
+        response = get_no_access_response()
+        assert response == 'fake-forbidden'
+
+    @patch('django_roles.tools.HttpResponseForbidden')
+    def test_default_behavior_http_response_forbidden_403_Forbidden(
+            self, mock_http_response_forbidden
+    ):
+        argument = u'<h1>403 Forbidden</h1>'
+        get_no_access_response()
+        mock_http_response_forbidden.assert_called_with(argument)
+
+    @patch('django_roles.tools.settings')
+    @patch('django_roles.tools.HttpResponseForbidden')
+    def test_http_response_forbidden_with_configuration(
+            self, mock_http_response_forbidden, mock_settings
+    ):
+        mock_settings.DJANGO_ROLES_REDIRECT = False
+        mock_settings.DJANGO_ROLES_FORBIDDEN_MESSAGE = 'fake-message'
+        get_no_access_response()
+        mock_http_response_forbidden.assert_called_with('fake-message')
+
+    @patch('django_roles.tools.settings')
+    @patch('django_roles.tools.HttpResponseRedirect')
+    def test_redirect_if_redirect_is_configured(
+            self, mock_http_response_redirect, mock_settings
+    ):
+        mock_settings.DJANGO_ROLES_REDIRECT = True
+        mock_http_response_redirect.return_value = 'fake-redirect'
+        response = get_no_access_response()
+        assert response == 'fake-redirect'
+
+    @patch('django_roles.tools.settings')
+    @patch('django_roles.tools.HttpResponseRedirect')
+    def test_redirect_if_redirect_to_LOGIN_URL(
+            self, mock_http_response_redirect, mock_settings
+    ):
+        mock_settings.DJANGO_ROLES_REDIRECT = True
+        mock_settings.LOGIN_URL = 'fake-login'
+        get_no_access_response()
+        mock_http_response_redirect.assert_called_with('fake-login')
+
+
+class IntegratedTextGetNoAccessResponse(TestCase):
+
+    def test_default_behavior_http_response_forbidden(self):
+        response = get_no_access_response()
+        self.assertIsInstance(response, HttpResponseForbidden)
+
+    def test_default_behavior_http_response_forbidden_403_Forbidden(self):
+        response = get_no_access_response()
+        self.assertIn(DEFAULT_FORBIDDEN_MESSAGE,
+                      response.content.decode('utf-8'))
+
+    def test_http_response_forbidden_with_configuration(self):
+        settings.__setattr__('DJANGO_ROLES_FORBIDDEN_MESSAGE',
+                             'forbidden-message')
+        response = get_no_access_response()
+        settings.__delattr__('DJANGO_ROLES_FORBIDDEN_MESSAGE')
+        self.assertIn('forbidden-message', response.content.decode('utf-8'))
+
+    def test_redirect_if_redirect_is_configured(self):
+        settings.__setattr__('DJANGO_ROLES_REDIRECT', True)
+        response = get_no_access_response()
+        settings.__delattr__('DJANGO_ROLES_REDIRECT')
+        self.assertIsInstance(response, HttpResponseRedirect)
+
+    def test_redirect_if_redirect_to_LOGIN_URL(self):
+        settings.__setattr__('DJANGO_ROLES_REDIRECT', True)
+        response = get_no_access_response()
+        settings.__delattr__('DJANGO_ROLES_REDIRECT')
+        self.assertEqual(settings.LOGIN_URL, response.url)

@@ -1,19 +1,18 @@
 import unittest
 from django.conf import settings
-from django.core.exceptions import PermissionDenied
-from django.test import TestCase, override_settings
-
-from django_roles.models import ViewAccess
-
+from django.test import TestCase
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import (user_passes_test,
+                                            login_required,
+                                            permission_required)
 try:
     from unittest.mock import Mock, patch, MagicMock
 except:
     from mock import Mock, patch
-from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import user_passes_test, login_required, \
-    permission_required
-from django.utils.decorators import method_decorator
+
+from django_roles.models import ViewAccess
 from django_roles.decorator import access_by_role
+from django_roles.tools import DEFAULT_FORBIDDEN_MESSAGE
 
 User = get_user_model()
 
@@ -122,17 +121,31 @@ class UnitTestAccessByRoleDecorator(unittest.TestCase):
         response = decorated_func(request)
         assert response == func(request)
 
+    @patch('django_roles.decorator.get_no_access_response')
     @patch('django_roles.decorator.check_access_by_role')
-    def test_decorator_raise_permission_denied_if_access_by_role_return_false(
-            self, mock_check_access_by_role
+    def test_call_get_no_access_response_when_access_by_role_return_false(
+            self, mock_check_access_by_role, mock_get_no_access_response
     ):
         func = Mock()
         func.__name__ = 'func'  # Needed by Python 2.7
         request = Mock()
         decorated_func = access_by_role(func)
         mock_check_access_by_role.return_value = False
-        with self.assertRaises(PermissionDenied):
-            decorated_func(request)
+        decorated_func(request)
+        assert mock_get_no_access_response.called
+
+    @patch('django_roles.decorator.get_no_access_response')
+    @patch('django_roles.decorator.check_access_by_role')
+    def test_call_once_get_no_access_response_when_access_by_role_return_false(
+            self, mock_check_access_by_role, mock_get_no_access_response
+    ):
+        func = Mock()
+        func.__name__ = 'func'  # Needed by Python 2.7
+        request = Mock()
+        decorated_func = access_by_role(func)
+        mock_check_access_by_role.return_value = False
+        decorated_func(request)
+        assert mock_get_no_access_response.call_count == 1
 
 
 class IntegratedTestAccessByRoleDecorator(TestCase):
@@ -195,7 +208,7 @@ class IntegratedTestAccessByRoleDecorator(TestCase):
             '/direct_access_view/')
         self.assertEqual(response.status_code, 403)
 
-    def test_default_behavior_somewhere(self):
+    def test_default_behavior_when_no_configuration(self):
         """
         Default behavior is to remain public if Django Roles si installed but
         no more configuration or decorator is used.
@@ -204,3 +217,29 @@ class IntegratedTestAccessByRoleDecorator(TestCase):
         response = self.client.get(
             '/direct_view/')
         self.assertEqual(response.status_code, 200)
+
+    def test_forbidden_behavior_without_configuration(self):
+        self.client.logout()
+        response = self.client.get(
+            '/role-included2/view_by_role/')
+        self.assertIn(DEFAULT_FORBIDDEN_MESSAGE, response.content.decode(
+            'utf-8'))
+
+    def test_forbidden_behavior_with_configuration(self):
+        expected = '<h1>No access</h1><p>Contact administrator</p>'
+        settings.__setattr__('DJANGO_ROLES_FORBIDDEN_MESSAGE',
+                             expected)
+        self.client.logout()
+        response = self.client.get(
+            '/role-included2/view_by_role/')
+        settings.__delattr__('DJANGO_ROLES_FORBIDDEN_MESSAGE')
+        self.assertIn(expected, response.content.decode('utf-8'))
+
+    def test_redirect_if_configured(self):
+        settings.__setattr__('DJANGO_ROLES_REDIRECT', True)
+        self.client.logout()
+        response = self.client.get(
+            '/role-included2/view_by_role/')
+        settings.__delattr__('DJANGO_ROLES_REDIRECT')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, settings.LOGIN_URL)

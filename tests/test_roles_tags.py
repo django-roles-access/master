@@ -1,5 +1,4 @@
 from unittest import TestCase as UnitTestCase
-
 from django.template import Template, Context
 from django.test import TestCase, RequestFactory
 from django.contrib.auth import get_user_model

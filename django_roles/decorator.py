@@ -1,7 +1,6 @@
 from functools import wraps
 
-from django.core.exceptions import PermissionDenied
-from django_roles.tools import check_access_by_role
+from django_roles.tools import check_access_by_role, get_no_access_response
 
 
 def access_by_role(view):
@@ -19,7 +18,7 @@ def access_by_role(view):
     def _view(request, *args, **kwargs):
         if check_access_by_role(request):
             return view(request, *args, **kwargs)
-        raise PermissionDenied
+        return get_no_access_response()
 
     _view.access_by_role = True
     return _view

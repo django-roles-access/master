@@ -4,19 +4,17 @@ from unittest import TestCase as UnitTestCase
 from django.contrib.auth.models import Group
 from django.core.management import BaseCommand
 from django.conf import settings
-from django.test import TestCase, modify_settings
+from django.test import TestCase
 from django.views.generic import TemplateView
-
-from django_roles.decorator import access_by_role
-from django_roles.mixin import RolesMixin
-from django_roles.models import ViewAccess
-from tests import views
-
 try:
     from unittest.mock import Mock, patch, MagicMock
 except:
     from mock import Mock, patch
 
+from django_roles.decorator import access_by_role
+from django_roles.mixin import RolesMixin
+from django_roles.models import ViewAccess
+from tests import views
 from django_roles.utils import (walk_site_url, get_views_by_app,
                                 view_access_analyzer, get_view_analyze_report,
                                 check_django_roles_is_used, print_view_analysis,

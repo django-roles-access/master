@@ -1,9 +1,14 @@
 from django.conf import settings
-from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseForbidden, HttpResponseRedirect
+try:
+    from django.utils.translation import ugettex as _
+except:
+    from django.utils.translation import gettext as _
 from django.urls import resolve
-from django.db.models import Q
 
 from django_roles.models import ViewAccess
+
+DEFAULT_FORBIDDEN_MESSAGE = _(u'<h1>403 Forbidden</h1>')
 
 
 def get_view_access(request):
@@ -111,3 +116,18 @@ def get_app_type(app_name):
         if app_name in val:
             return key
     return None
+
+
+def get_forbidden_message():
+    if hasattr(settings, 'DJANGO_ROLES_FORBIDDEN_MESSAGE'):
+        return settings.DJANGO_ROLES_FORBIDDEN_MESSAGE
+    return DEFAULT_FORBIDDEN_MESSAGE
+
+
+def get_no_access_response():
+    if hasattr(settings, 'DJANGO_ROLES_REDIRECT'):
+        if settings.DJANGO_ROLES_REDIRECT:
+            return HttpResponseRedirect(settings.LOGIN_URL)
+    if hasattr(settings, 'DJANGO_ROLES_FORBIDDEN_MESSAGE'):
+        return HttpResponseForbidden(settings.DJANGO_ROLES_FORBIDDEN_MESSAGE)
+    return HttpResponseForbidden(DEFAULT_FORBIDDEN_MESSAGE)

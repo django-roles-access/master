@@ -1,6 +1,4 @@
-from django.core.exceptions import PermissionDenied
-
-from django_roles.tools import check_access_by_role
+from django_roles.tools import check_access_by_role, get_no_access_response
 
 
 class RolesMiddleware:
@@ -9,7 +7,7 @@ class RolesMiddleware:
 
     def __call__(self, request):
         if not check_access_by_role(request):
-            raise PermissionDenied
+            return get_no_access_response()
 
         response = self.get_response(request)
 
