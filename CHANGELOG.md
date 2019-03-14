@@ -1,6 +1,6 @@
 # Django roles Change Log
 
-## [0.7] - 2019-03-13
+## [0.7] - 2019-03-14
 
 ### Added
 **Implement enhancements:**

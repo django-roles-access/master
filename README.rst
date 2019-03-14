@@ -5,20 +5,12 @@ Django Roles
 Application for securing Django site view access by roles
 (:class:`django.contrib.auth.models.Group`).
 
-Works with:
-* Django 1.11 (Python 2.7, Python 3.6)
-* Django 2 (Python 3.6)
-
-============
-Django Roles
-============
-
-Django roles is an application for securing a Django site by controlling
-access to views.
-
-Permissions to access views are given to
-:class:`django.contrib.auth.models.Group`, and they can be interpreted as roles.
-Is also possible to change a view access security at run time.
+``django_roles`` is a Django app for securing access to views. It's built on top
+of :class:`django.contrib.auth.models.Group` interpreted as role.
+The objective of the app is to provide secure access to views without requiring
+new code. Letting security to be administrated (at run time) in admin site.
+The app also provides a security report by registering ``checkviewaccess``
+action.
 
 Works with:
 * Django 1.11 (Python 2.7, Python 3.6)
@@ -30,12 +22,11 @@ Requirements
 ============
 
 Django roles use :class:`django.contrib.auth.models.Group`,
-:class:`django.contrib.auth.models.User` and *view names* to control access
-to views. Also *Django admin interface* in necessary to create and administrate
-*view control access* (:class:`django_roles.models.ViewAccess`).
-
+:class:`django.contrib.auth.models.User`. Also *Django admin interface* is
+necessary to create and administrate *views access*
+(:class:`django_roles.models.ViewAccess`).
 So Django roles is dependent of *Django admin site* and because of this it has
-the same requirements than *Django admin site*. This can be checked in the
+the same requirements than it. This can be checked in the
 official documentation: `Django admin site`_.
 
 .. _`Django admin site`: https://docs.djangoproject.com/en/dev/ref/contrib/admin/
@@ -50,13 +41,13 @@ Quick start
 Installation and configuration
 ------------------------------
 
-1. Install "django-roles" from pypi:
+1. Install ``django_roles`` from pypi:
 
 ::
 
    pip install django-roles
 
-2. Add *"django_roles"* to your INSTALLED_APPS setting:
+2. Add *'django_roles'* to your INSTALLED_APPS setting:
 
 ::
 
@@ -66,15 +57,15 @@ Installation and configuration
    ]
 
 
-3. Run `python manage.py migrate` to create the django roles models.
+3. Run migrations to create the ``django_roles`` models:
+::
+
+    python manage.py migrate
 
 .. note::
 
-   Once Django roles is installed, by default all Django sites views keeps their
-   **access status**. If they were public, they will remain
-   being public. If they were restricted by some logic (like
-   :func:`django.contrib.auth.decorators.login_required`), they will keep
-   restricted by the same logic.
+   If nothing else is done, then Django site security keeps without
+   modification.
 
 --------------------
 Access configuration
@@ -85,13 +76,13 @@ Quick access configuration in two steps.
 Step 1
 ======
 
-In *Django admin* interface to create an
+In *Django admin* interface create a
 :class:`django_roles.models.ViewAccess` object and configure it:
 
-1. In **view** select the view you want to secure. More about this in
-   :ref:`Namespace and View Name`.
+1. **view** attribute: type the name of the view you want to secure. More about
+   this in :ref:`Namespace and View Name`.
 
-2. In **type** select the *access type* for the view:
+2. **type** attribute: select the *access type* for the view:
 
    * **Public**: Any visitor can access the view.
 
@@ -99,21 +90,23 @@ In *Django admin* interface to create an
      :class:`django.contrib.auth.models.User` can access the view.
 
    * **By roles**: Only :class:`django.contrib.auth.models.User` belonging to
-     any :class:`django.contrib.auth.models.Group` added to *roles* attribute
-     will access the view.
+     any added :class:`django.contrib.auth.models.Group` will access the view.
 
-3. If *By role* access type was selected, add to **roles** attribute the
-   :class:`django.contrib.auth.Group` who's members should have access
-   to the view.
+3. **roles** attribute: When *By roles* is selected as *access type*, this
+   attribute hold any :class:`django.contrib.auth.models.Group`
+   whose members will access the view.
+
 
 Step 2
 ======
 
-The second step is about using :func:`django_roles.decorators.access_by_role`
-decorator to decorate the view you want to secure.
+Use :func:`django_roles.decorators.access_by_role` decorator or
+:class:`django_roles.mixin.RolesMixin` mixin in the view to be secured.
+
 For example:
 
-In case the view is a function:::
+In case the view is a function:
+::
 
     from django_roles.decorators import access_by_role
 
@@ -122,10 +115,35 @@ In case the view is a function:::
        ...
 
 
-In case of classes based views use mixin:::
+In case of classes based views use mixin:
+::
 
     from django_roles.mixin import RolesMixin
 
-    class MyView(View, RolesMixin):
+    class MyView(RolesMixin, View):
 
         ...
+
+
+.. note::
+
+   Pre existent security behavior can be modified if a ``django_role``
+   configuration for the same view results in forbidden access.
+
+======
+Result
+======
+
+By default ``django_roles`` response with
+:class:`django.http.HttpResponseForbidden` when the user has no access to the
+view. This behavior can be changed, for this add in *settings files* a new
+attribute `DJANGO_ROLES_REDIRECT` with a value equal to True:
+::
+
+    ...
+    DJANGO_ROLES_REDIRECT = True
+    ...
+
+The answer given to a user without access is a
+:class:`django.http.HttpResponseRedirect` to the address configured in
+*settings.LOGIN_URL*.
