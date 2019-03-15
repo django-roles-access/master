@@ -35,14 +35,6 @@ NONE_TYPE_DEFAULT = _(u'ERROR: Django roles middleware is active; or view'
 
 def walk_site_url(_url_patterns, recursive_url='',
                   view_name=None, app_name=None):
-    """
-
-    :param _url_patterns:
-    :param recursive_url:
-    :param view_name:
-    :param app_name:
-    :return: A list of tuples: (url, callback view, foo:view_name, app_name)
-    """
     result = []
     for url in _url_patterns:
         if hasattr(url, 'pattern'):
@@ -76,11 +68,6 @@ def walk_site_url(_url_patterns, recursive_url='',
 
 
 def get_views_by_app(site_urls):
-    """
-
-    :param site_urls:
-    :return:
-    """
     installed_apps = settings.INSTALLED_APPS
     result = {key: [] for key in installed_apps}
     for site_url in site_urls:
@@ -131,14 +118,6 @@ def analyze_by_role(view_access):
 
 
 def view_access_analyzer(app_type, callback, view_name, site_active):
-    """
-
-    :param app_type:
-    :param callback:
-    :param view_name:
-    :param site_active: Boolean with True when Django roles middleware is used.
-    :return: String with the report for the view
-    """
     result = _(u'\tNo Django roles tool used. Access to view depends on '
                u'its implementation.')
     view_access = ViewAccess.objects.filter(view=view_name).first()
@@ -161,9 +140,9 @@ def view_access_analyzer(app_type, callback, view_name, site_active):
                 result = get_view_analyze_report(app_type)
         else:
             if view_access:
-                result = _(u'\tERROR: Exist view access object for the view '
+                result = _(u'\tERROR: View access object exist for the view, '
                            u'but no Django role tool is used: neither '
-                           u'decorator, mixin or middleware.')
+                           u'decorator, mixin, or middleware.')
     return result
 
 

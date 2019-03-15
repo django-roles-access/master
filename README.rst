@@ -7,14 +7,22 @@ Application for securing Django site view access by roles
 
 ``django_roles`` is a Django app for securing access to views. It's built on top
 of :class:`django.contrib.auth.models.Group` interpreted as role.
-The objective of the app is to provide secure access to views without requiring
-new code. Letting security to be administrated (at run time) in admin site.
-The app also provides a security report by registering ``checkviewaccess``
-action.
+The objective of the app are:
+
+* Provide secure access to views.
+
+* Be able to administrate access to views without the need to restart the
+  server (at run time).
+
+* Minimize the need of new code, or eliminate it at all (when using
+  ``django_roles`` middleware). Also free developers from view access task/code.
+
+* ``django_roles`` also provides a security report by registering
+  ``checkviewaccess`` action.
 
 Works with:
-* Django 1.11 (Python 2.7, Python 3.6)
-* Django 2 (Python 3.6)
+* Django 1.10+ (Python 2.7, Python 3.5+)
+* Django 2 (Python 3.5+)
 
 
 ============
@@ -30,6 +38,9 @@ the same requirements than it. This can be checked in the
 official documentation: `Django admin site`_.
 
 .. _`Django admin site`: https://docs.djangoproject.com/en/dev/ref/contrib/admin/
+
+Last requirement is to give names in *urls.py* files to views and
+applications. Read more about this in :ref:`Required views and app name`.
 
 .. _QuickStart:
 
@@ -124,26 +135,12 @@ In case of classes based views use mixin:
 
         ...
 
+.. note::
+
+   When user has no access to a view, by default ``django_roles`` response with
+   :class:`django.http.HttpResponseForbidden`.
 
 .. note::
 
    Pre existent security behavior can be modified if a ``django_role``
    configuration for the same view results in forbidden access.
-
-======
-Result
-======
-
-By default ``django_roles`` response with
-:class:`django.http.HttpResponseForbidden` when the user has no access to the
-view. This behavior can be changed, for this add in *settings files* a new
-attribute `DJANGO_ROLES_REDIRECT` with a value equal to True:
-::
-
-    ...
-    DJANGO_ROLES_REDIRECT = True
-    ...
-
-The answer given to a user without access is a
-:class:`django.http.HttpResponseRedirect` to the address configured in
-*settings.LOGIN_URL*.

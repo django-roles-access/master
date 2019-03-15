@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-14 13:00-0500\n"
-"PO-Revision-Date: 2019-03-14 13:00-0500\n"
+"POT-Creation-Date: 2019-03-15 15:07-0500\n"
+"PO-Revision-Date: 2019-03-15 15:07-0500\n"
 "Last-Translator: Vicente Ramos García (vramosga@gmail.com)\n"
 "Language-Team: N/A\n"
 "Language: Spanish\n"
@@ -68,73 +68,74 @@ msgstr "\tFinalizado el análisis de {}"
 msgid "End checking view access."
 msgstr "Fin de la verificación del acceso a vistas."
 
-#: django_roles/models.py:24
+#: django_roles/models.py:27
 msgid "Public"
 msgstr "Público"
 
-#: django_roles/models.py:25
+#: django_roles/models.py:28
 msgid "Authorized"
 msgstr "Autorizado"
 
-#: django_roles/models.py:26
+#: django_roles/models.py:29
 msgid "By role"
 msgstr "Por rol"
 
-#: django_roles/models.py:32 tests/test_models.py:19
+#: django_roles/models.py:36 tests/test_models.py:19
 msgid "View name to be secured: <em>namespace:view_name</em>"
 msgstr "Vista a ser asegurada: <em>nombredeespacios:nombre_vista</em>"
 
-#: django_roles/models.py:34
+#: django_roles/models.py:38
 msgid "View"
 msgstr "Vista"
 
-#: django_roles/models.py:37 tests/test_models.py:25
+#: django_roles/models.py:41 tests/test_models.py:25
 msgid "Type of access for the view. Select from available options."
 msgstr "Tipo de acceso para la vista. Seleccione de las opciones disponibles."
 
-#: django_roles/models.py:39
+#: django_roles/models.py:43
 msgid "Type"
 msgstr "Tipo"
 
-#: django_roles/models.py:42 tests/test_models.py:31
+#: django_roles/models.py:49 tests/test_models.py:31
 msgid "Select the groups (roles) with view access if access type = By role."
 msgstr "Seleccione grupos (roles) con acceso a la vista si el tipo = Por rol."
 
-#: django_roles/models.py:45 django_roles/models.py:75
+#: django_roles/models.py:52 django_roles/models.py:85
 msgid "Roles"
 msgstr "Roles"
 
-#: django_roles/models.py:48
+#: django_roles/models.py:56
 msgid "View access"
 msgstr "Acceso a vista"
 
-#: django_roles/models.py:49
+#: django_roles/models.py:57
 msgid "Views access"
 msgstr "Accessos a vistas"
 
-#: django_roles/models.py:65 tests/test_models.py:93
+#: django_roles/models.py:74
 msgid ""
-"Flag is used with template tag check_role to restrict access in templates."
+"Unique between all applications.Flag is used with template tag check_role to "
+"restrict access in templates."
 msgstr ""
-"Bandera es usado junto con el marcador check_role para restringir el acceso "
-"en plantillas."
+"El valor será único entre todas las aplicaciones. Bandera es usado junto con "
+"el marcador check_role para restringir el acceso en plantillas."
 
-#: django_roles/models.py:68
+#: django_roles/models.py:78
 msgid "Flag"
 msgstr "Bandera"
 
-#: django_roles/models.py:71 tests/test_models.py:113
+#: django_roles/models.py:81 tests/test_models.py:113
 msgid ""
 "Select the groups (roles) with access with check_role template tag and flag."
 msgstr ""
 "Seleccione grupos (roles) con acceso a través del marcador de plantilla "
 "check_role y la bandera."
 
-#: django_roles/models.py:78
+#: django_roles/models.py:88
 msgid "Template access"
 msgstr "Acceso a plantilla"
 
-#: django_roles/models.py:79
+#: django_roles/models.py:89
 msgid "Templates access"
 msgstr "Accesos a plantillas"
 
@@ -185,7 +186,7 @@ msgstr ""
 "posible determinar el comportamiento para el acceso a la vista. El acceso a "
 "la vista está determinado por su implementación."
 
-#: django_roles/utils.py:124
+#: django_roles/utils.py:111
 msgid ""
 "\n"
 "\t\t\tRoles with access: "
@@ -193,7 +194,7 @@ msgstr ""
 "\n"
 "\t\t\tRoles con acceso: "
 
-#: django_roles/utils.py:129
+#: django_roles/utils.py:116
 msgid ""
 "\n"
 "\t\t\tERROR: No roles configured to access de view."
@@ -201,22 +202,29 @@ msgstr ""
 "\n"
 "\t\t\tERROR: No hay roles configurados para acceder a la vista."
 
-#: django_roles/utils.py:142
+#: django_roles/utils.py:121
 msgid ""
 "\tNo Django roles tool used. Access to view depends on its implementation."
 msgstr ""
 "\tNo se han utilizado herramientas de Django roles. El acceso a la vista "
 "dependerá de su implementación"
 
-#: django_roles/utils.py:148 django_roles/utils.py:158
+#: django_roles/utils.py:127 django_roles/utils.py:137
 msgid "\tView access is of type {}."
 msgstr "\tEl acceso a la vista es de tipo {}."
 
-#: django_roles/utils.py:164
+#: django_roles/utils.py:143
 msgid ""
-"\tERROR: Exist view access object for the view but no Django role tool is "
-"used: neither decorator, mixin or middleware."
+"\tERROR: View access object exist for the view, but no Django role tool is "
+"used: neither decorator, mixin, or middleware."
 msgstr ""
 "\tERROR: Existe un objeto ViewAccess para la vista pero ninguna "
-"herramienta(decorador, mixin, o middleware) de Django roles está siendo "
+"herramienta (decorador, mixin, o middleware) de Django roles está siendo "
 "usada."
+
+#: tests/test_models.py:93
+msgid ""
+"Flag is used with template tag check_role to restrict access in templates."
+msgstr ""
+"Bandera es usado junto con el marcador check_role para restringir el acceso "
+"en plantillas."

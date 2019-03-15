@@ -12,8 +12,11 @@ from django.contrib.auth.models import Group
 
 class ViewAccess(models.Model):
     """
-    Implements security by checking url_name of each declared view with the groups
-    assigned to that view.
+    Implements security in views having a name.
+
+    The view name is *view* attribute value. The security for view name is
+    configured with next two attributes: type (type of security) and roles
+    (only if type is By role).
     """
 
     PUBLIC = 'pu'
@@ -26,8 +29,9 @@ class ViewAccess(models.Model):
         (BY_ROLE, _('By role'))
     )
 
-    #: View's name to be secured. Is possible to use namespace as part of the
-    #: view's name.
+    #: View's name to be secured. Value can be just a view name 'objects_a',
+    #: with application name: 'app_name:index', or a nested configurations with
+    #: namespaces: 'namespace_1:namespace_2:index'.
     view = models.CharField(max_length=255, unique=True, default=None,
                             help_text=_(u'View name to be secured: '
                                         u'<em>namespace:view_name</em>'),
@@ -38,11 +42,15 @@ class ViewAccess(models.Model):
                                         u'Select from available options.'),
                             verbose_name=_(u'Type'))
     #: One or more roles (:func:`django.contrib.auth.models.Group`) with access.
+    #: This attributes can always be empty. If the type selected is *By role*
+    #: and no roles are added to this attribute, then *checkviewaccess* will
+    #: report an ERROR.
     roles = models.ManyToManyField(Group, help_text=
                                    _(u'Select the groups (roles) with view '
                                      u'access if access type = By role.'),
                                    related_name='view_access',
-                                   verbose_name=_(u'Roles'))
+                                   verbose_name=_(u'Roles'),
+                                   blank=True)
 
     class Meta:
         verbose_name = _('View access')
@@ -54,15 +62,17 @@ class ViewAccess(models.Model):
 
 class TemplateAccess(models.Model):
     """
-    Implements security at template level.
+    Implements content security.
 
     This model let administrator to add or remove Groups (roles) from *roles*
     attribute. In templates, users belonging to any added group will pass the
     check.
     """
-    #: Template's flag for restriction by role.
+    #: Template's flag, text label, to identify each template access object.
+    #: Flag must be unique.
     flag = models.CharField(max_length=255, unique=True, default=None,
-                            help_text=_(u'Flag is used with template tag '
+                            help_text=_(u'Unique between all applications.'
+                                        u'Flag is used with template tag '
                                         u'check_role to restrict access in '
                                         u'templates.'),
                             verbose_name=_(u'Flag'))
