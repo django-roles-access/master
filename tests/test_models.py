@@ -90,7 +90,8 @@ class TestTemplateAccessModel(TestCase):
         self.assertEqual(str(template_access), "a-flag")
 
     def test_flag_help_text(self):
-        expected_help_text = _(u'Flag is used with template tag '
+        expected_help_text = _(u'Unique between all applications.'
+                               u'Flag is used with template tag '
                                u'check_role to restrict access in templates.')
         actual_help_text = TemplateAccess._meta.get_field('flag').help_text
         self.assertEqual(expected_help_text, actual_help_text)

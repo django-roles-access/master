@@ -9,11 +9,18 @@ Data Model
 .. automodule:: django_roles.models
    :members:
 
-----------
-Decorators
-----------
+---------
+Decorator
+---------
 
 .. automodule:: django_roles.decorator
+   :members:
+
+-----
+Mixin
+-----
+
+.. automodule:: django_roles.mixin
    :members:
 
 ----------

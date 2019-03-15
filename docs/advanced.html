@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Levels of access to applications &#8212; Django roles 0.4 documentation</title>
+    <title>Required views and app name &#8212; Django roles 0.7 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -15,8 +15,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Django roles template tag" href="template_tag.html" />
-    <link rel="prev" title="Check view access" href="checkviewaccess.html" />
+    <link rel="next" title="Example" href="example.html" />
+    <link rel="prev" title="Django roles template tag" href="template_tag.html" />
 
 
 
@@ -59,7 +59,7 @@
     <div class="document">
   <div id="custom-doc" class="yui-t6">
     <div id="hd">
-      <h1><a href="index.html">Django roles 0.4 documentation</a></h1>
+      <h1><a href="index.html">Django roles 0.7 documentation</a></h1>
       <div id="global-nav">
         <a title="Home page" href="index.html">Home</a>  |
         <a title="Table of contents" href="contents.html">Table of contents</a>  |
@@ -67,11 +67,11 @@
         <a title="Module index" href="py-modindex.html">Modules</a>
       </div>
       <div class="nav">
-    &laquo; <a href="checkviewaccess.html" title="Check view access">previous</a>
+    &laquo; <a href="template_tag.html" title="Django roles template tag">previous</a>
      |
-    <a title="Django roles 0.4 documentation" href="index.html" accesskey="U">up</a>
+    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a>
    |
-    <a href="template_tag.html" title="Django roles template tag">next</a> &raquo;</div>
+    <a href="example.html" title="Example">next</a> &raquo;</div>
     </div>
 
     <div id="bd">
@@ -79,27 +79,30 @@
         <div class="yui-b">
           <div class="yui-g" id="advanced">
             
-  <div class="section" id="levels-of-access-to-applications">
-<h1>Levels of access to applications<a class="headerlink" href="#levels-of-access-to-applications" title="Permalink to this headline">¶</a></h1>
-<p>Mainly django-roles is about setting roles access to views. This is done in
-Admin creating an <code class="xref py py-class docutils literal notranslate"><span class="pre">ViewAccess</span></code> object for each view. There are 3
-possible type of access to be set:</p>
-<ul class="simple">
-<li>Public: Any user can access the view.</li>
-<li>Authorized: Only authorized <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.User</span></code> can access
-the view. Is equivalent to
-<a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/default/#django.contrib.auth.decorators.login_required" title="(in Django v3.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code></a>.</li>
-<li>By roles: Only <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.User</span></code> belonging to
-<code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.Group</span></code> that has been granted access to the
-view can access the view.</li>
-</ul>
+  <div class="section" id="required-views-and-app-name">
+<span id="id1"></span><h1>Required views and app name<a class="headerlink" href="#required-views-and-app-name" title="Permalink to this headline">¶</a></h1>
+<p>One last requirement is to give names in <em>urls.py</em> files to views and
+applications.</p>
+<p>This is an implicit requirement if is expected to use all <code class="docutils literal notranslate"><span class="pre">django_roles</span></code>
+characteristics. This is necessary because the value used by
+<code class="docutils literal notranslate"><span class="pre">django_roles</span></code> to identify the views to be protected is it’s name. Equally is
+necessary to name the app with <code class="docutils literal notranslate"><span class="pre">app_name</span></code>. Examples of this can be found in
+Django project tutorial at <a class="reference external" href="https://docs.djangoproject.com/en/dev/intro/tutorial03/#namespacing-url-names">Namespacing URL names</a>.</p>
+<p>As with Django this requirement could be optional; but if it is planned to
+create <a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a> object for a view, will be
+necessary to have a way to name the view so the object can be associated with
+it.</p>
+<p>In the same way, if it is planned to classify applications in different types as
+is explained in <a class="reference internal" href="middleware.html#applications-type"><span class="std std-ref">Applications type</span></a> it will be necessary to name the
+application in <em>urls.py file</em>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">django_roles</span></code> use views names to associate
+<a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a> objects to the named view. And
+applications names to group all views belonging to that application so is
+possible to configure a type for the application and give it’s views a
+default security behavior.</p>
 </div>
-<div class="section" id="without-configuration">
-<h1>Without configuration<a class="headerlink" href="#without-configuration" title="Permalink to this headline">¶</a></h1>
-<p>If an application is not declared as any of the others, but there is an
-<code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code> object associated to a view belonging to that
-application and the view is protected with decorator or middleware is being
-used ViewAccess object will be used to restrict the access.</p>
 </div>
 <div class="section" id="namespaces-and-view-name">
 <span id="namespace-and-view-name"></span><h1>Namespaces and View Name<a class="headerlink" href="#namespaces-and-view-name" title="Permalink to this headline">¶</a></h1>
@@ -111,26 +114,38 @@ attribute can be:</p>
 <li><cite>namespace:view_name</cite></li>
 <li><cite>nest_namespace:namespace:view_name</cite></li>
 </ul>
-<p>#TODO: Check how official doc talk about this and link.
-URLConf configuration (<em>urls.py</em>) gives the possible values. As also
-URLConf configuration is used by Django to serve Site’s URL.</p>
-<p>???The value of <em>ROOT_URLCONF</em> is used to know all possible views.???</p>
+<p>As this are the only possible value for <strong>view</strong> attribute, a requirement of
+<code class="docutils literal notranslate"><span class="pre">django_roles</span></code> is to use <em>view names</em> and <em>app_name</em> in <em>urls.py</em> files.
+Read more about Naming URL in official Django project documentation
+<a class="reference external" href="https://docs.djangoproject.com/en/dev/topics/http/urls/#naming-url-patterns">Naming URL</a>.</p>
 </div>
-<div class="section" id="arguments">
-<h1>Arguments<a class="headerlink" href="#arguments" title="Permalink to this headline">¶</a></h1>
-<p>Django-roles do not take view’s arguments into consideration. This is true
-except for request argument (key in Django-roles works).</p>
-<p>As Django’s URL dispatcher found a match (with or without regex to solve) the
-view is called. When the view is called is when Django-roles start to grant
-access, or not. And this is done with view name and application name (or
-namespaces), only request argument is needed.</p>
-<p>This is important if your site have a middleware that change the request.</p>
+<div class="section" id="django-roles-response">
+<h1>Django roles response<a class="headerlink" href="#django-roles-response" title="Permalink to this headline">¶</a></h1>
+<p>When a user try to access a view and result a forbidden action, is possible
+to setup different responses to user.</p>
+<div class="section" id="django-roles-redirect">
+<h2>DJANGO_ROLES_REDIRECT<a class="headerlink" href="#django-roles-redirect" title="Permalink to this headline">¶</a></h2>
+<p>By default <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> response with
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/request-response/#django.http.HttpResponseForbidden" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.http.HttpResponseForbidden</span></code></a> when the user has no access to the
+view. This behavior can be changed if add in <em>settings files</em> a new
+attribute <cite>DJANGO_ROLES_REDIRECT</cite> with a value equal to True:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="n">DJANGO_ROLES_REDIRECT</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="o">...</span>
+</pre></div>
 </div>
-<div class="section" id="views-without-application-name">
-<h1>Views without application name<a class="headerlink" href="#views-without-application-name" title="Permalink to this headline">¶</a></h1>
-<p>When a views have no application associated, they will be classified in a
-group under application name equal to constant
-<em>django_roles.utils.APP_NAME_FOR_NONE</em></p>
+<p>The answer given to a user without access is a
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/request-response/#django.http.HttpResponseRedirect" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.http.HttpResponseRedirect</span></code></a> to the address configured in
+<em>settings.LOGIN_URL</em>.</p>
+</div>
+<div class="section" id="django-roles-forbidden-message">
+<h2>DJANGO_ROLES_FORBIDDEN_MESSAGE<a class="headerlink" href="#django-roles-forbidden-message" title="Permalink to this headline">¶</a></h2>
+<p>When <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> answer with HttpResponseForbidden, the message used by
+default is: <code class="docutils literal notranslate"><span class="pre">&lt;h1&gt;403</span> <span class="pre">Forbidden&lt;/h1&gt;</span></code>; but this configuration can also be
+changed if add in <em>settings files</em> a new attribute
+<cite>DJANGO_ROLES_FORBIDDEN_MESSAGE</cite> with the wanted message to be returned
+instead of default one.</p>
+</div>
 </div>
 
 
@@ -145,19 +160,21 @@ group under application name equal to constant
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Levels of access to applications</a></li>
-<li><a class="reference internal" href="#without-configuration">Without configuration</a></li>
+<li><a class="reference internal" href="#">Required views and app name</a></li>
 <li><a class="reference internal" href="#namespaces-and-view-name">Namespaces and View Name</a></li>
-<li><a class="reference internal" href="#arguments">Arguments</a></li>
-<li><a class="reference internal" href="#views-without-application-name">Views without application name</a></li>
+<li><a class="reference internal" href="#django-roles-response">Django roles response</a><ul>
+<li><a class="reference internal" href="#django-roles-redirect">DJANGO_ROLES_REDIRECT</a></li>
+<li><a class="reference internal" href="#django-roles-forbidden-message">DJANGO_ROLES_FORBIDDEN_MESSAGE</a></li>
+</ul>
+</li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="checkviewaccess.html"
-                        title="previous chapter">Check view access</a></p>
-  <h4>Next topic</h4>
   <p class="topless"><a href="template_tag.html"
-                        title="next chapter">Django roles template tag</a></p>
+                        title="previous chapter">Django roles template tag</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="example.html"
+                        title="next chapter">Example</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -180,7 +197,7 @@ group under application name equal to constant
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Mar 01, 2019</p>
+              <p class="topless">Mar 15, 2019</p>
           </div>
         
       
@@ -188,11 +205,11 @@ group under application name equal to constant
 
     <div id="ft">
       <div class="nav">
-    &laquo; <a href="checkviewaccess.html" title="Check view access">previous</a>
+    &laquo; <a href="template_tag.html" title="Django roles template tag">previous</a>
      |
-    <a title="Django roles 0.4 documentation" href="index.html" accesskey="U">up</a>
+    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a>
    |
-    <a href="template_tag.html" title="Django roles template tag">next</a> &raquo;</div>
+    <a href="example.html" title="Example">next</a> &raquo;</div>
     </div>
   </div>
 

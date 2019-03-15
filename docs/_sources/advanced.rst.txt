@@ -1,29 +1,36 @@
-================================
-Levels of access to applications
-================================
+.. _`Required views and app name`:
 
-Mainly django-roles is about setting roles access to views. This is done in
-Admin creating an :class:`ViewAccess` object for each view. There are 3
-possible type of access to be set:
+===========================
+Required views and app name
+===========================
 
-* Public: Any user can access the view.
+One last requirement is to give names in *urls.py* files to views and
+applications.
 
-* Authorized: Only authorized :class:`django.contrib.auth.User` can access
-  the view. Is equivalent to
-  :func:`django.contrib.auth.decorators.login_required`.
+This is an implicit requirement if is expected to use all ``django_roles``
+characteristics. This is necessary because the value used by
+``django_roles`` to identify the views to be protected is it's name. Equally is
+necessary to name the app with ``app_name``. Examples of this can be found in
+Django project tutorial at `Namespacing URL names`_.
 
-* By roles: Only :class:`django.contrib.auth.User` belonging to
-  :class:`django.contrib.auth.Group` that has been granted access to the
-  view can access the view.
+As with Django this requirement could be optional; but if it is planned to
+create :class:`django_roles.models.ViewAccess` object for a view, will be
+necessary to have a way to name the view so the object can be associated with
+it.
 
+In the same way, if it is planned to classify applications in different types as
+is explained in :ref:`Applications type` it will be necessary to name the
+application in *urls.py file*.
 
-=====================
-Without configuration
-=====================
-If an application is not declared as any of the others, but there is an
-:class:`roles.models.ViewAccess` object associated to a view belonging to that
-application and the view is protected with decorator or middleware is being
-used ViewAccess object will be used to restrict the access.
+.. _`Namespacing URL names`: https://docs.djangoproject.com/en/dev/intro/tutorial03/#namespacing-url-names
+
+.. warning::
+
+   ``django_roles`` use views names to associate
+   :class:`django_roles.models.ViewAccess` objects to the named view. And
+   applications names to group all views belonging to that application so is
+   possible to configure a type for the application and give it's views a
+   default security behavior.
 
 
 .. _`Namespace and View Name`:
@@ -40,34 +47,45 @@ attribute can be:
 * `namespace:view_name`
 * `nest_namespace:namespace:view_name`
 
+As this are the only possible value for **view** attribute, a requirement of
+``django_roles`` is to use *view names* and *app_name* in *urls.py* files.
+Read more about Naming URL in official Django project documentation
+`Naming URL`_.
 
-#TODO: Check how official doc talk about this and link.
-URLConf configuration (*urls.py*) gives the possible values. As also
-URLConf configuration is used by Django to serve Site's URL.
-
-???The value of *ROOT_URLCONF* is used to know all possible views.???
-
-
-
-=========
-Arguments
-=========
-
-Django-roles do not take view's arguments into consideration. This is true
-except for request argument (key in Django-roles works).
-
-As Django's URL dispatcher found a match (with or without regex to solve) the
-view is called. When the view is called is when Django-roles start to grant
-access, or not. And this is done with view name and application name (or
-namespaces), only request argument is needed.
-
-This is important if your site have a middleware that change the request.
+.. _`Naming URL`: https://docs.djangoproject.com/en/dev/topics/http/urls/#naming-url-patterns
 
 
-==============================
-Views without application name
-==============================
+=====================
+Django roles response
+=====================
 
-When a views have no application associated, they will be classified in a
-group under application name equal to constant
-*django_roles.utils.APP_NAME_FOR_NONE*
+When a user try to access a view and result a forbidden action, is possible
+to setup different responses to user.
+
+---------------------
+DJANGO_ROLES_REDIRECT
+---------------------
+
+By default ``django_roles`` response with
+:class:`django.http.HttpResponseForbidden` when the user has no access to the
+view. This behavior can be changed if add in *settings files* a new
+attribute `DJANGO_ROLES_REDIRECT` with a value equal to True:
+::
+
+    ...
+    DJANGO_ROLES_REDIRECT = True
+    ...
+
+The answer given to a user without access is a
+:class:`django.http.HttpResponseRedirect` to the address configured in
+*settings.LOGIN_URL*.
+
+------------------------------
+DJANGO_ROLES_FORBIDDEN_MESSAGE
+------------------------------
+
+When ``django_roles`` answer with HttpResponseForbidden, the message used by
+default is: ``<h1>403 Forbidden</h1>``; but this configuration can also be
+changed if add in *settings files* a new attribute
+`DJANGO_ROLES_FORBIDDEN_MESSAGE` with the wanted message to be returned
+instead of default one.

@@ -2,9 +2,9 @@
 Welcome to Django Roles's documentation!
 ========================================
 
-============
-Firsts steps
-============
+===========
+Quick Start
+===========
 
 .. toctree::
    :maxdepth: 2
@@ -34,6 +34,17 @@ Check view access
 
    checkviewaccess
 
+===================
+Content access tool
+===================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+
+   template_tag
+
 ===============
 Advanced topics
 ===============
@@ -44,16 +55,15 @@ Advanced topics
 
    advanced
 
-============
-Template tag
-============
+========
+Examples
+========
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-
-   template_tag
+   example
 
 =========
 Reference
@@ -64,18 +74,6 @@ Reference
    :caption: Contents:
 
    reference
-
-======
-Others
-======
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   notes
-   example
-   views
 
 ==================
 Indices and tables

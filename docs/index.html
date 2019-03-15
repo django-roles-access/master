@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Welcome to Django Roles’s documentation! &#8212; Django roles 0.4 documentation</title>
+    <title>Welcome to Django Roles’s documentation! &#8212; Django roles 0.7 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -58,7 +58,7 @@
     <div class="document">
   <div id="custom-doc" class="">
     <div id="hd">
-      <h1><a href="#">Django roles 0.4 documentation</a></h1>
+      <h1><a href="#">Django roles 0.7 documentation</a></h1>
       <div id="global-nav">
         <a title="Home page" href="#">Home</a>  |
         <a title="Table of contents" href="contents.html">Table of contents</a>  |
@@ -66,7 +66,7 @@
         <a title="Module index" href="py-modindex.html">Modules</a>
       </div>
       <div class="nav">
-    <a title="Django roles 0.4 documentation" href="#" accesskey="U">up</a>
+    <a title="Django roles 0.7 documentation" href="#" accesskey="U">up</a>
    |
     <a href="quickstart.html" title="Introduction">next</a> &raquo;</div>
     </div>
@@ -79,12 +79,15 @@
   <div class="section" id="welcome-to-django-roles-s-documentation">
 <h1>Welcome to Django Roles’s documentation!<a class="headerlink" href="#welcome-to-django-roles-s-documentation" title="Permalink to this headline">¶</a></h1>
 </div>
-<div class="section" id="firsts-steps">
-<h1>Firsts steps<a class="headerlink" href="#firsts-steps" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="quick-start">
+<h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#main-features">Main features</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html#requirements">Requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html#quick-start">Quick start</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="quickstart.html#installation-and-configuration">Installation and configuration</a></li>
@@ -120,12 +123,19 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="checkviewaccess.html">Check view access</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="checkviewaccess.html#security-report-format">Security report format</a></li>
-<li class="toctree-l2"><a class="reference internal" href="checkviewaccess.html#roles-security">Roles security</a></li>
-<li class="toctree-l2"><a class="reference internal" href="checkviewaccess.html#views-security">Views security</a></li>
 <li class="toctree-l2"><a class="reference internal" href="checkviewaccess.html#analysis">Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="checkviewaccess.html#method">Method</a></li>
 </ul>
 </li>
+</ul>
+</div>
+</div>
+<div class="section" id="content-access-tool">
+<h1>Content access tool<a class="headerlink" href="#content-access-tool" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="template_tag.html">Django roles template tag</a></li>
 </ul>
 </div>
 </div>
@@ -134,20 +144,27 @@
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="advanced.html">Levels of access to applications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advanced.html#without-configuration">Without configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Required views and app name</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advanced.html#namespaces-and-view-name">Namespaces and View Name</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advanced.html#arguments">Arguments</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advanced.html#views-without-application-name">Views without application name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html#django-roles-response">Django roles response</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#django-roles-redirect">DJANGO_ROLES_REDIRECT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html#django-roles-forbidden-message">DJANGO_ROLES_FORBIDDEN_MESSAGE</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
-<div class="section" id="template-tag">
-<h1>Template tag<a class="headerlink" href="#template-tag" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="template_tag.html">Django roles template tag</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Example</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="example.html#create-django-project-polls-app">1 Create Django project polls app</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example.html#app-and-views-name">2 App and views name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example.html#start-using-django-roles">3 Start using <code class="docutils literal notranslate"><span class="pre">django_roles</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -158,34 +175,9 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="reference.html#module-django_roles.models">Data Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference.html#module-django_roles.decorator">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#module-django_roles.decorator">Decorator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#module-django_roles.mixin">Mixin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reference.html#module-django_roles.middleware">Middleware</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<div class="section" id="others">
-<h1>Others<a class="headerlink" href="#others" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="notes.html">Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="notes.html#other-middleware">Other middleware</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notes.html#other-considerations">Other considerations</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="example.html">Example</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="example.html#create-example-django-project">Create example Django project</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example.html#installing-django-roles">Installing Django-Roles</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="views.html">Views</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="views.html#configure-applications-access">1 Configure applications access</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#configure-views-access">2 Configure views access</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#decorate-the-view">3 Decorate the view</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#use-mixin">4 Use Mixin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="views.html#basic-concepts">Basic concepts</a></li>
 </ul>
 </li>
 </ul>
@@ -211,7 +203,7 @@
 
     <div id="ft">
       <div class="nav">
-    <a title="Django roles 0.4 documentation" href="#" accesskey="U">up</a>
+    <a title="Django roles 0.7 documentation" href="#" accesskey="U">up</a>
    |
     <a href="quickstart.html" title="Introduction">next</a> &raquo;</div>
     </div>

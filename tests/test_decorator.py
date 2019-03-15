@@ -31,7 +31,8 @@ class TestAccessByRoleWithOtherDecorators(unittest.TestCase):
         self.assertTrue(protected_view_by_role.access_by_role)
 
     def test_attributes(self):
-        doc = "Check if logged user can access the decorated function or class."
+        doc = "Check if logged user can access the decorated function or " \
+              "method."
         self.assertEqual(access_by_role.__name__, 'access_by_role')
         self.assertIn(doc, access_by_role.__doc__)
         self.assertEqual(access_by_role.__dict__, {})

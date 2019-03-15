@@ -29,7 +29,7 @@ print to standard output a *security report* of access to each view.
 
    Django Roles middleware do not change ROOT_URLCONF or any other attribute
    of the HTTPRequest. HTTPResponse is changed only when access denied is
-   raised.
+   reached.
 
 ----------------------
 Security report format
@@ -76,13 +76,6 @@ This indicate if Django roles middleware is being used or not. When **True**
 means middleware is *active* and all views are *protected by Django role*.
 When **False** means Django roles middleware is not installed.
 
-When Django roles middleware is active:
-
-* Views will have default application type behavior.
-
-* If no application type declared
-
-
 .. code-block:: text
 
     python manage.py checkviewaccess
@@ -126,11 +119,7 @@ When Django roles middleware is active:
 
     End checking view access.
 
-In above example `Django roles active for site:` is **True** because Django
-roles is active (installed). All views of site are *cover* by Django roles.
-Views without a :class:`django_roles.models.ViewAccess` will have de default
-behavior of the application type they belong.
-
+In above example `Django roles active for site:` is **True**.
 If a view belong to an application without configured type and no
 :class:`django_roles.models.ViewAccess` associated, an *ERROR* will be reported
 because there is no default behavior for the view. The access to it will
@@ -144,32 +133,8 @@ Applications type
 -----------------
 
 When application has no configured type is reported as `app_name has no type`
-. In any other case the configured type for the application is reported
-`app_name is SECURED type`.
-
-
---------------
-Roles security
---------------
-
-It is also possible to use ``checkviewaccess`` using a role name (
-:class:`django.contrib.auth.models.Group` name) for getting all views where
-such role have access:
-::
-
-    python manage.py checkviewaccess <role_name>
-
-
---------------
-Views security
---------------
-
-If in place of role name, ``checkviewaccess`` is used with a view name, It
-will report the configured access to the view (configured with Django roles
-tools):
-::
-
-    python manage.py checkviewaccess <view_name>
+. In any other case the configured type for the application is reported for
+example `app_name is SECURED type`.
 
 
 --------

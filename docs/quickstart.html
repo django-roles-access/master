@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Introduction &#8212; Django roles 0.4 documentation</title>
+    <title>Introduction &#8212; Django roles 0.7 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -59,7 +59,7 @@
     <div class="document">
   <div id="custom-doc" class="yui-t6">
     <div id="hd">
-      <h1><a href="index.html">Django roles 0.4 documentation</a></h1>
+      <h1><a href="index.html">Django roles 0.7 documentation</a></h1>
       <div id="global-nav">
         <a title="Home page" href="index.html">Home</a>  |
         <a title="Table of contents" href="contents.html">Table of contents</a>  |
@@ -69,7 +69,7 @@
       <div class="nav">
     &laquo; <a href="index.html" title="Welcome to Django Roles’s documentation!">previous</a>
      |
-    <a title="Django roles 0.4 documentation" href="index.html" accesskey="U">up</a>
+    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a>
    |
     <a href="middleware.html" title="Using Django roles middleware">next</a> &raquo;</div>
     </div>
@@ -82,22 +82,25 @@
   <div class="section" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">django_roles</span></code> is a Django app for securing access to views. It’s built on top
-of <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a> that will be interpreted as role
-. This app do not interfere with the work of any <code class="docutils literal notranslate"><span class="pre">django.contrib.auth</span>
-<span class="pre">.decorators</span></code> used in the project.</p>
-<p>Main features:</p>
+of <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a> interpreted as role.</p>
+<p>The objective of the app is to provide secure access to views without requiring
+new code. Letting security to be administrated (at run time).
+The app also provides a security report by registering <code class="docutils literal notranslate"><span class="pre">checkviewaccess</span></code>
+action.</p>
+<div class="section" id="main-features">
+<h2>Main features<a class="headerlink" href="#main-features" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Once configured, all administration for securing access to views is done in
 admin site at run time.</li>
 <li>Not extra code required:<ul>
-<li>When using <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> middleware no more code is required.</li>
-<li>In case of being using <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> decorator or mixin, all what is
+<li>When using <code class="docutils literal notranslate"><span class="pre">django_roles</span></code>’s middleware, no more code is required.</li>
+<li>In case of using <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> decorator or mixin, all what is
 needed is to decorate the view function or prepend the mixin in class based
 view definition.</li>
 </ul>
 </li>
 <li>Access to views can be controlled with two element:<ol class="arabic">
-<li>View access object: An object with two attribute: view name and roles.</li>
+<li>View access object: An object created and configured in admin site.</li>
 <li>Application classifications in project settings.</li>
 </ol>
 </li>
@@ -105,43 +108,38 @@ view definition.</li>
 <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> to settings.INSTALLED_APPS) there will be no change in views
 behavior.</li>
 <li><code class="docutils literal notranslate"><span class="pre">django_roles</span></code> register an action called <code class="docutils literal notranslate"><span class="pre">checkviewaccess</span></code> that will
-report project views access security when using <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> tools. To
-use it just:</li>
+report Django sites views access security when using <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> tools.
+To use it just:</li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">checkviewaccess</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The installation and use of <em>Django roles</em> will not have any effect in views
-with already restricted access. For example, a view restricted with
-decorator <a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/default/#django.contrib.auth.decorators.login_required" title="(in Django v3.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code></a>
-will remain having the restriction plus the new restrictions added by
-Django roles</p>
 </div>
 </div>
 <div class="section" id="requirements">
 <h1>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h1>
 <p>Django roles use <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a>,
-<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.User" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.User</span></code></a> and <em>view names</em> to control access
-to views. Also <em>Django admin interface</em> in necessary to create and administrate
-<em>view control access</em> (<a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a>).</p>
-<p>So Django roles is dependent of <em>Django admin site</em> and because of this it has
-the same requirements than <em>Django admin site</em>. This can be checked in the
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.User" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.User</span></code></a>. Also <em>Django admin interface</em> is
+necessary to create and administrate <em>views access</em>
+(<a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a>).
+So Django roles is dependent of <em>Django admin site</em> and because of this it has
+the same requirements than it. This can be checked in the
 official documentation: <a class="reference external" href="https://docs.djangoproject.com/en/dev/ref/contrib/admin/">Django admin site</a>.</p>
+<p>Last requirement is to give names in <em>urls.py</em> files to views and
+applications. Read more about this in <a class="reference internal" href="advanced.html#required-views-and-app-name"><span class="std std-ref">Required views and app name</span></a>.</p>
 </div>
 <div class="section" id="quick-start">
-<span id="quickstart"></span><h1>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="installation-and-configuration">
 <h2>Installation and configuration<a class="headerlink" href="#installation-and-configuration" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
-<li>Install “django-roles” from pypi:</li>
+<li>Install <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> from pypi:</li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">django</span><span class="o">-</span><span class="n">roles</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li>Add <em>“django_roles”</em> to your INSTALLED_APPS setting:</li>
+<li>Add <em>‘django_roles’</em> to your INSTALLED_APPS setting:</li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
     <span class="o">...</span>
@@ -155,42 +153,45 @@ official documentation: <a class="reference external" href="https://docs.djangop
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Once Django roles is installed, by default all Django sites views keeps their
-<strong>access status</strong>. If they were public, they will remain
-being public. If they were restricted by some logic (like
-<a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/default/#django.contrib.auth.decorators.login_required" title="(in Django v3.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.decorators.login_required()</span></code></a>), they will keep
-restricted by the same logic.</p>
+<p class="last">If nothing else is done, then Django site security keeps without
+modification.</p>
 </div>
 </div>
 <div class="section" id="access-configuration">
 <h2>Access configuration<a class="headerlink" href="#access-configuration" title="Permalink to this headline">¶</a></h2>
 <p>Quick access configuration in two steps.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is also possible to use <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> as middleware, for example under
+next two reasons: (a) no new code wants to be added to project; (b) project
+size demand a solution for many applications, including third-party
+applications. Read more in <a class="reference internal" href="middleware.html#using-django-roles-middleware"><span class="std std-ref">Using Django roles middleware</span></a></p>
+</div>
 <div class="section" id="step-1">
 <h3>Step 1<a class="headerlink" href="#step-1" title="Permalink to this headline">¶</a></h3>
-<p>In <em>Django admin</em> interface to create an
+<p>In <em>Django admin</em> interface create a
 <a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a> object and configure it:</p>
 <ol class="arabic simple">
-<li>In <strong>view</strong> select the view you want to secure. More about this in
-<a class="reference internal" href="advanced.html#namespace-and-view-name"><span class="std std-ref">Namespaces and View Name</span></a>.</li>
-<li>In <strong>type</strong> select the <em>access type</em> for the view:<ul>
+<li><strong>view</strong> attribute: type the name of the view you want to secure. More about
+this in <a class="reference internal" href="advanced.html#namespace-and-view-name"><span class="std std-ref">Namespaces and View Name</span></a>.</li>
+<li><strong>type</strong> attribute: select the <em>access type</em> for the view:<ul>
 <li><strong>Public</strong>: Any visitor can access the view.</li>
 <li><strong>Authorized</strong>: Only authorized (logged)
 <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.User" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.User</span></code></a> can access the view.</li>
 <li><strong>By roles</strong>: Only <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.User" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.User</span></code></a> belonging to
-any <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a> added to <em>roles</em> attribute
-will access the view.</li>
+any added <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a> will access the view.</li>
 </ul>
 </li>
-<li>If <em>By role</em> access type was selected, add to <strong>roles</strong> attribute the
-<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a> whose members will have access
-to the view.</li>
+<li><strong>roles</strong> attribute: When <em>By roles</em> is selected as <em>access type</em>, this
+attribute hold any <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a>
+whose members will access the view.</li>
 </ol>
 </div>
 <div class="section" id="step-2">
 <h3>Step 2<a class="headerlink" href="#step-2" title="Permalink to this headline">¶</a></h3>
-<p>The second step is about using <code class="xref py py-func docutils literal notranslate"><span class="pre">django_roles.decorators.access_by_role()</span></code>
-decorator to decorate the view you want to secure.
-For example:</p>
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">django_roles.decorators.access_by_role()</span></code> decorator or
+<a class="reference internal" href="reference.html#django_roles.mixin.RolesMixin" title="django_roles.mixin.RolesMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.mixin.RolesMixin</span></code></a> mixin in the view to be secured.</p>
+<p>For example:</p>
 <p>In case the view is a function:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django_roles.decorators</span> <span class="k">import</span> <span class="n">access_by_role</span>
 
@@ -206,6 +207,16 @@ For example:</p>
 
     <span class="o">...</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When user has no access to a view, by default <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> response with
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/request-response/#django.http.HttpResponseForbidden" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.http.HttpResponseForbidden</span></code></a>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Pre existent security behavior can be modified if a <code class="docutils literal notranslate"><span class="pre">django_role</span></code>
+configuration for the same view results in forbidden access.</p>
 </div>
 </div>
 </div>
@@ -223,7 +234,10 @@ For example:</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Introduction</a></li>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#main-features">Main features</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#requirements">Requirements</a></li>
 <li><a class="reference internal" href="#quick-start">Quick start</a><ul>
 <li><a class="reference internal" href="#installation-and-configuration">Installation and configuration</a></li>
@@ -264,7 +278,7 @@ For example:</p>
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Mar 01, 2019</p>
+              <p class="topless">Mar 15, 2019</p>
           </div>
         
       
@@ -274,7 +288,7 @@ For example:</p>
       <div class="nav">
     &laquo; <a href="index.html" title="Welcome to Django Roles’s documentation!">previous</a>
      |
-    <a title="Django roles 0.4 documentation" href="index.html" accesskey="U">up</a>
+    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a>
    |
     <a href="middleware.html" title="Using Django roles middleware">next</a> &raquo;</div>
     </div>

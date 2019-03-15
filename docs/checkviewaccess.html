@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Check view access &#8212; Django roles 0.4 documentation</title>
+    <title>Check view access &#8212; Django roles 0.7 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -15,7 +15,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Levels of access to applications" href="advanced.html" />
+    <link rel="next" title="Django roles template tag" href="template_tag.html" />
     <link rel="prev" title="Using Django roles middleware" href="middleware.html" />
 
 
@@ -59,7 +59,7 @@
     <div class="document">
   <div id="custom-doc" class="yui-t6">
     <div id="hd">
-      <h1><a href="index.html">Django roles 0.4 documentation</a></h1>
+      <h1><a href="index.html">Django roles 0.7 documentation</a></h1>
       <div id="global-nav">
         <a title="Home page" href="index.html">Home</a>  |
         <a title="Table of contents" href="contents.html">Table of contents</a>  |
@@ -69,9 +69,9 @@
       <div class="nav">
     &laquo; <a href="middleware.html" title="Using Django roles middleware">previous</a>
      |
-    <a title="Django roles 0.4 documentation" href="index.html" accesskey="U">up</a>
+    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a>
    |
-    <a href="advanced.html" title="Levels of access to applications">next</a> &raquo;</div>
+    <a href="template_tag.html" title="Django roles template tag">next</a> &raquo;</div>
     </div>
 
     <div id="bd">
@@ -102,7 +102,7 @@ action may not work as expected.</p>
 <p class="first admonition-title">Note</p>
 <p class="last">Django Roles middleware do not change ROOT_URLCONF or any other attribute
 of the HTTPRequest. HTTPResponse is changed only when access denied is
-raised.</p>
+reached.</p>
 </div>
 <div class="section" id="security-report-format">
 <h2>Security report format<a class="headerlink" href="#security-report-format" title="Permalink to this headline">¶</a></h2>
@@ -142,11 +142,6 @@ End checking view access.
 <p>This indicate if Django roles middleware is being used or not. When <strong>True</strong>
 means middleware is <em>active</em> and all views are <em>protected by Django role</em>.
 When <strong>False</strong> means Django roles middleware is not installed.</p>
-<p>When Django roles middleware is active:</p>
-<ul class="simple">
-<li>Views will have default application type behavior.</li>
-<li>If no application type declared</li>
-</ul>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>python manage.py checkviewaccess
 Start checking views access.
 Start gathering information.
@@ -189,11 +184,8 @@ Django roles active for site: True.
 End checking view access.
 </pre></div>
 </div>
-<p>In above example <cite>Django roles active for site:</cite> is <strong>True</strong> because Django
-roles is active (installed). All views of site are <em>cover</em> by Django roles.
-Views without a <a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a> will have de default
-behavior of the application type they belong.</p>
-<p>If a view belong to an application without configured type and no
+<p>In above example <cite>Django roles active for site:</cite> is <strong>True</strong>.
+If a view belong to an application without configured type and no
 <a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a> associated, an <em>ERROR</em> will be reported
 because there is no default behavior for the view. The access to it will
 depends on it implementation, this mean, for example, the view could be
@@ -204,26 +196,8 @@ name <em>Undefined app</em>.</p>
 <div class="section" id="applications-type">
 <h3>Applications type<a class="headerlink" href="#applications-type" title="Permalink to this headline">¶</a></h3>
 <p>When application has no configured type is reported as <cite>app_name has no type</cite>
-. In any other case the configured type for the application is reported
-<cite>app_name is SECURED type</cite>.</p>
-</div>
-</div>
-<div class="section" id="roles-security">
-<h2>Roles security<a class="headerlink" href="#roles-security" title="Permalink to this headline">¶</a></h2>
-<p>It is also possible to use <code class="docutils literal notranslate"><span class="pre">checkviewaccess</span></code> using a role name (
-<a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a> name) for getting all views where
-such role have access:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">checkviewaccess</span> <span class="o">&lt;</span><span class="n">role_name</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="views-security">
-<h2>Views security<a class="headerlink" href="#views-security" title="Permalink to this headline">¶</a></h2>
-<p>If in place of role name, <code class="docutils literal notranslate"><span class="pre">checkviewaccess</span></code> is used with a view name, It
-will report the configured access to the view (configured with Django roles
-tools):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">checkviewaccess</span> <span class="o">&lt;</span><span class="n">view_name</span><span class="o">&gt;</span>
-</pre></div>
+. In any other case the configured type for the application is reported for
+example <cite>app_name is SECURED type</cite>.</p>
 </div>
 </div>
 <div class="section" id="analysis">
@@ -306,8 +280,6 @@ ERROR of configuration is reported.</li>
 <li><a class="reference internal" href="#applications-type">Applications type</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#roles-security">Roles security</a></li>
-<li><a class="reference internal" href="#views-security">Views security</a></li>
 <li><a class="reference internal" href="#analysis">Analysis</a></li>
 <li><a class="reference internal" href="#method">Method</a></li>
 </ul>
@@ -318,8 +290,8 @@ ERROR of configuration is reported.</li>
   <p class="topless"><a href="middleware.html"
                         title="previous chapter">Using Django roles middleware</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="advanced.html"
-                        title="next chapter">Levels of access to applications</a></p>
+  <p class="topless"><a href="template_tag.html"
+                        title="next chapter">Django roles template tag</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -342,7 +314,7 @@ ERROR of configuration is reported.</li>
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Feb 28, 2019</p>
+              <p class="topless">Mar 15, 2019</p>
           </div>
         
       
@@ -352,9 +324,9 @@ ERROR of configuration is reported.</li>
       <div class="nav">
     &laquo; <a href="middleware.html" title="Using Django roles middleware">previous</a>
      |
-    <a title="Django roles 0.4 documentation" href="index.html" accesskey="U">up</a>
+    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a>
    |
-    <a href="advanced.html" title="Levels of access to applications">next</a> &raquo;</div>
+    <a href="template_tag.html" title="Django roles template tag">next</a> &raquo;</div>
     </div>
   </div>
 

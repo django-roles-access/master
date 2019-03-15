@@ -670,8 +670,8 @@ class UnitTestViewAnalyzer(UnitTestCase):
     def test_middleware_not_used_view_access_object_exist_and_dr_tools_not_used(
             self, mock_objects
     ):
-        expected = u'\tERROR: Exist view access object for the view but no '
-        expected += u'Django role tool is used: neither decorator, mixin or '
+        expected = u'\tERROR: View access object exist for the view, but no '
+        expected += u'Django role tool is used: neither decorator, mixin, or '
         expected += u'middleware.'
 
         def function():
@@ -847,9 +847,9 @@ class IntegratedTestViewAnalyzezr(TestCase):
     def test_without_middleware_with_view_access_object_and_view_not_protected(
             self
     ):
-        expected = u'\tERROR: Exist view access object for the view '
+        expected = u'\tERROR: View access object exist for the view, '
         expected += 'but no Django role tool is used: neither '
-        expected += 'decorator, mixin or middleware.'
+        expected += 'decorator, mixin, or middleware.'
         ViewAccess.objects.create(view='django_roles:middleware_view_func',
                                   type='pu')
         result = view_access_analyzer(None, views.middleware_view,
