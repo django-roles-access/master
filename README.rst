@@ -22,7 +22,9 @@ the app are:
   ``checkviewaccess`` action.
 
 Works with:
+
 * Django 1.10+ (Python 2.7, Python 3.5+)
+
 * Django 2 (Python 3.5+)
 
 
