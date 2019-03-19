@@ -9,15 +9,15 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django_roles_access',
-    version='0.7',
+    version='0.8',
     packages=find_packages(),
     include_package_data=True,
-    license='BSD License',
+    license='MIT License',
     description='Django view access security by roles (groups).',
     long_description=README,
-    url='https://www.example.com/',
-    author='Vicente Ramos Garcia',
-    author_email='vramosga@gmail.com',
+    url='http://django-roles-access.github.io/master/',
+    author='Django roles access',
+    author_email='django.roles.access@gmail.com',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
@@ -34,8 +34,6 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
-        'Topic :: Security :: Access',
-        'Topic :: Security :: View access :: by role',
-        'Topic :: Security :: Role :: Group',
+        'Topic :: Security',
     ],
 )

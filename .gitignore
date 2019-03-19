@@ -17,3 +17,6 @@ tox_make_migrations.ini
 tox_makemessages_es.ini
 tox_compilemessages.ini
 tox_shell.ini
+.pypirc
+dist/
+
