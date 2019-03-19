@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Django roles template tag &#8212; Django roles 0.7 documentation</title>
+    <title>Django roles template tag &#8212; Django Roles Access 0.8 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -59,7 +59,7 @@
     <div class="document">
   <div id="custom-doc" class="yui-t6">
     <div id="hd">
-      <h1><a href="index.html">Django roles 0.7 documentation</a></h1>
+      <h1><a href="index.html">Django Roles Access 0.8 documentation</a></h1>
       <div id="global-nav">
         <a title="Home page" href="index.html">Home</a>  |
         <a title="Table of contents" href="contents.html">Table of contents</a>  |
@@ -69,7 +69,7 @@
       <div class="nav">
     &laquo; <a href="checkviewaccess.html" title="Check view access">previous</a>
      |
-    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a>
+    <a title="Django Roles Access 0.8 documentation" href="index.html" accesskey="U">up</a>
    |
     <a href="advanced.html" title="Required views and app name">next</a> &raquo;</div>
     </div>
@@ -81,14 +81,14 @@
             
   <div class="section" id="django-roles-template-tag">
 <h1>Django roles template tag<a class="headerlink" href="#django-roles-template-tag" title="Permalink to this headline">¶</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">django_roles</span></code> <em>template tag</em> is a method to restrict access by role to
+<p><code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code> <em>template tag</em> is a method to restrict access by role to
 content.</p>
-<p><code class="docutils literal notranslate"><span class="pre">django_roles</span></code> decorator, mixin, or middleware, restrict access to a
+<p><code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code> decorator, mixin, or middleware, restrict access to a
 view. In this way, restriction is applied to all content of the view. With
-<code class="docutils literal notranslate"><span class="pre">django_roles</span></code> <em>template tag</em> is possible to restrict access to content
+<code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code> <em>template tag</em> is possible to restrict access to content
 portions of a view.</p>
-<p><code class="docutils literal notranslate"><span class="pre">django_roles</span></code> <em>template tag</em> is used in Django templates.</p>
-<p>Example for using Django roles template tag:</p>
+<p><code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code> <em>template tag</em> is used in Django templates.</p>
+<p>Example for using Django roles access template tag:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">%</span> <span class="n">load</span> <span class="n">roles_tags</span> <span class="o">%</span><span class="p">}</span>
 <span class="o">...</span>
 <span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">|</span><span class="n">check_role</span><span class="p">:</span><span class="s1">&#39;reports_menu&#39;</span> <span class="o">%</span><span class="p">}</span>
@@ -96,12 +96,12 @@ portions of a view.</p>
 <span class="p">{</span><span class="o">%</span> <span class="n">endif</span> <span class="o">%</span><span class="p">}</span>
 </pre></div>
 </div>
-<p>If exist <a class="reference internal" href="reference.html#django_roles.models.TemplateAccess" title="django_roles.models.TemplateAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.TemplateAccess</span></code></a> object with name
+<p>If exist <a class="reference internal" href="reference.html#django_roles_access.models.TemplateAccess" title="django_roles_access.models.TemplateAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles_access.models.TemplateAccess</span></code></a> object with name
 <em>reports_menu</em>; only users in added <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.Group" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group</span></code></a>
 will see <strong>restricted content</strong>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">django_roles</span></code> <em>template_tag</em> require DjangoTemplate backend to be
+<p><code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code> <em>template_tag</em> require DjangoTemplate backend to be
 configured in <em>settings file</em>. If not, when trying to use it, an exception
 will be raised:</p>
 <div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">django</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ImproperlyConfigured</span><span class="p">:</span> <span class="n">No</span> <span class="n">DjangoTemplates</span>
@@ -149,7 +149,7 @@ will be raised:</p>
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Mar 15, 2019</p>
+              <p class="topless">Mar 19, 2019</p>
           </div>
         
       
@@ -159,7 +159,7 @@ will be raised:</p>
       <div class="nav">
     &laquo; <a href="checkviewaccess.html" title="Check view access">previous</a>
      |
-    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a>
+    <a title="Django Roles Access 0.8 documentation" href="index.html" accesskey="U">up</a>
    |
     <a href="advanced.html" title="Required views and app name">next</a> &raquo;</div>
     </div>

@@ -1,6 +1,12 @@
-========================================
-Welcome to Django Roles's documentation!
-========================================
+============================================
+Welcome to Django Roles Access documentation
+============================================
+
+
+.. _`Source code at Github.com`: https://github.com/django-roles-access/master
+
+
+Source code at `Source code at Github.com`_:
 
 ===========
 Quick Start

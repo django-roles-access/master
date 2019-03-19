@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Reference &#8212; Django roles 0.7 documentation</title>
+    <title>Reference &#8212; Django Roles Access 0.8 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -58,7 +58,7 @@
     <div class="document">
   <div id="custom-doc" class="yui-t6">
     <div id="hd">
-      <h1><a href="index.html">Django roles 0.7 documentation</a></h1>
+      <h1><a href="index.html">Django Roles Access 0.8 documentation</a></h1>
       <div id="global-nav">
         <a title="Home page" href="index.html">Home</a>  |
         <a title="Table of contents" href="contents.html">Table of contents</a>  |
@@ -68,7 +68,7 @@
       <div class="nav">
     &laquo; <a href="example.html" title="Example">previous</a>
      |
-    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a></div>
+    <a title="Django Roles Access 0.8 documentation" href="index.html" accesskey="U">up</a></div>
     </div>
 
     <div id="bd">
@@ -78,60 +78,60 @@
             
   <div class="section" id="reference">
 <h1>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-django_roles.models">
-<span id="data-model"></span><h2>Data Model<a class="headerlink" href="#module-django_roles.models" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-django_roles_access.models">
+<span id="data-model"></span><h2>Data Model<a class="headerlink" href="#module-django_roles_access.models" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="django_roles.models.TemplateAccess">
-<em class="property">class </em><code class="descclassname">django_roles.models.</code><code class="descname">TemplateAccess</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/django_roles/models.html#TemplateAccess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#django_roles.models.TemplateAccess" title="Permalink to this definition">¶</a></dt>
+<dt id="django_roles_access.models.TemplateAccess">
+<em class="property">class </em><code class="descclassname">django_roles_access.models.</code><code class="descname">TemplateAccess</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/django_roles_access/models.html#TemplateAccess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#django_roles_access.models.TemplateAccess" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements content security.</p>
 <p>This model let administrator to add or remove Groups (roles) from <em>roles</em>
 attribute. In templates, users belonging to any added group will pass the
 check.</p>
 <dl class="exception">
-<dt id="django_roles.models.TemplateAccess.DoesNotExist">
-<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#django_roles.models.TemplateAccess.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dt id="django_roles_access.models.TemplateAccess.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#django_roles_access.models.TemplateAccess.DoesNotExist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="exception">
-<dt id="django_roles.models.TemplateAccess.MultipleObjectsReturned">
-<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#django_roles.models.TemplateAccess.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dt id="django_roles_access.models.TemplateAccess.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#django_roles_access.models.TemplateAccess.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="django_roles.models.TemplateAccess.flag">
-<code class="descname">flag</code><a class="headerlink" href="#django_roles.models.TemplateAccess.flag" title="Permalink to this definition">¶</a></dt>
+<dt id="django_roles_access.models.TemplateAccess.flag">
+<code class="descname">flag</code><a class="headerlink" href="#django_roles_access.models.TemplateAccess.flag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Template’s flag, text label, to identify each template access object.
 Flag must be unique.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="django_roles.models.TemplateAccess.roles">
-<code class="descname">roles</code><a class="headerlink" href="#django_roles.models.TemplateAccess.roles" title="Permalink to this definition">¶</a></dt>
+<dt id="django_roles_access.models.TemplateAccess.roles">
+<code class="descname">roles</code><a class="headerlink" href="#django_roles_access.models.TemplateAccess.roles" title="Permalink to this definition">¶</a></dt>
 <dd><p>One or more roles (<code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group()</span></code>) with access.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="django_roles.models.ViewAccess">
-<em class="property">class </em><code class="descclassname">django_roles.models.</code><code class="descname">ViewAccess</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/django_roles/models.html#ViewAccess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#django_roles.models.ViewAccess" title="Permalink to this definition">¶</a></dt>
+<dt id="django_roles_access.models.ViewAccess">
+<em class="property">class </em><code class="descclassname">django_roles_access.models.</code><code class="descname">ViewAccess</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/django_roles_access/models.html#ViewAccess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#django_roles_access.models.ViewAccess" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements security in views having a name.</p>
 <p>The view name is <em>view</em> attribute value. The security for view name is
 configured with next two attributes: type (type of security) and roles
 (only if type is By role).</p>
 <dl class="exception">
-<dt id="django_roles.models.ViewAccess.DoesNotExist">
-<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#django_roles.models.ViewAccess.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dt id="django_roles_access.models.ViewAccess.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#django_roles_access.models.ViewAccess.DoesNotExist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="exception">
-<dt id="django_roles.models.ViewAccess.MultipleObjectsReturned">
-<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#django_roles.models.ViewAccess.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dt id="django_roles_access.models.ViewAccess.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#django_roles_access.models.ViewAccess.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="django_roles.models.ViewAccess.roles">
-<code class="descname">roles</code><a class="headerlink" href="#django_roles.models.ViewAccess.roles" title="Permalink to this definition">¶</a></dt>
+<dt id="django_roles_access.models.ViewAccess.roles">
+<code class="descname">roles</code><a class="headerlink" href="#django_roles_access.models.ViewAccess.roles" title="Permalink to this definition">¶</a></dt>
 <dd><p>One or more roles (<code class="xref py py-func docutils literal notranslate"><span class="pre">django.contrib.auth.models.Group()</span></code>) with access.
 This attributes can always be empty. If the type selected is <em>By role</em>
 and no roles are added to this attribute, then <em>checkviewaccess</em> will
@@ -139,14 +139,14 @@ report an ERROR.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="django_roles.models.ViewAccess.type">
-<code class="descname">type</code><a class="headerlink" href="#django_roles.models.ViewAccess.type" title="Permalink to this definition">¶</a></dt>
+<dt id="django_roles_access.models.ViewAccess.type">
+<code class="descname">type</code><a class="headerlink" href="#django_roles_access.models.ViewAccess.type" title="Permalink to this definition">¶</a></dt>
 <dd><p>The type of access as defined by ACCESS_TYPES</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="django_roles.models.ViewAccess.view">
-<code class="descname">view</code><a class="headerlink" href="#django_roles.models.ViewAccess.view" title="Permalink to this definition">¶</a></dt>
+<dt id="django_roles_access.models.ViewAccess.view">
+<code class="descname">view</code><a class="headerlink" href="#django_roles_access.models.ViewAccess.view" title="Permalink to this definition">¶</a></dt>
 <dd><p>View’s name to be secured. Value can be just a view name ‘objects_a’,
 with application name: ‘app_name:index’, or a nested configurations with
 namespaces: ‘namespace_1:namespace_2:index’.</p>
@@ -155,26 +155,26 @@ namespaces: ‘namespace_1:namespace_2:index’.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-django_roles.decorator">
-<span id="decorator"></span><h2>Decorator<a class="headerlink" href="#module-django_roles.decorator" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-django_roles_access.decorator">
+<span id="decorator"></span><h2>Decorator<a class="headerlink" href="#module-django_roles_access.decorator" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="django_roles.decorator.access_by_role">
-<code class="descclassname">django_roles.decorator.</code><code class="descname">access_by_role</code><span class="sig-paren">(</span><em>view</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/django_roles/decorator.html#access_by_role"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#django_roles.decorator.access_by_role" title="Permalink to this definition">¶</a></dt>
+<dt id="django_roles_access.decorator.access_by_role">
+<code class="descclassname">django_roles_access.decorator.</code><code class="descname">access_by_role</code><span class="sig-paren">(</span><em>view</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/django_roles_access/decorator.html#access_by_role"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#django_roles_access.decorator.access_by_role" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if logged user can access the decorated function or method.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-django_roles.mixin">
-<span id="mixin"></span><h2>Mixin<a class="headerlink" href="#module-django_roles.mixin" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-django_roles_access.mixin">
+<span id="mixin"></span><h2>Mixin<a class="headerlink" href="#module-django_roles_access.mixin" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="django_roles.mixin.RolesMixin">
-<em class="property">class </em><code class="descclassname">django_roles.mixin.</code><code class="descname">RolesMixin</code><a class="reference internal" href="_modules/django_roles/mixin.html#RolesMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#django_roles.mixin.RolesMixin" title="Permalink to this definition">¶</a></dt>
+<dt id="django_roles_access.mixin.RolesMixin">
+<em class="property">class </em><code class="descclassname">django_roles_access.mixin.</code><code class="descname">RolesMixin</code><a class="reference internal" href="_modules/django_roles_access/mixin.html#RolesMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#django_roles_access.mixin.RolesMixin" title="Permalink to this definition">¶</a></dt>
 <dd><p>A mixin that user access_by_role decorator for dispatch method.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-django_roles.middleware">
-<span id="middleware"></span><h2>Middleware<a class="headerlink" href="#module-django_roles.middleware" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-django_roles_access.middleware">
+<span id="middleware"></span><h2>Middleware<a class="headerlink" href="#module-django_roles_access.middleware" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -191,10 +191,10 @@ namespaces: ‘namespace_1:namespace_2:index’.</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Reference</a><ul>
-<li><a class="reference internal" href="#module-django_roles.models">Data Model</a></li>
-<li><a class="reference internal" href="#module-django_roles.decorator">Decorator</a></li>
-<li><a class="reference internal" href="#module-django_roles.mixin">Mixin</a></li>
-<li><a class="reference internal" href="#module-django_roles.middleware">Middleware</a></li>
+<li><a class="reference internal" href="#module-django_roles_access.models">Data Model</a></li>
+<li><a class="reference internal" href="#module-django_roles_access.decorator">Decorator</a></li>
+<li><a class="reference internal" href="#module-django_roles_access.mixin">Mixin</a></li>
+<li><a class="reference internal" href="#module-django_roles_access.middleware">Middleware</a></li>
 </ul>
 </li>
 </ul>
@@ -224,7 +224,7 @@ namespaces: ‘namespace_1:namespace_2:index’.</p>
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Mar 15, 2019</p>
+              <p class="topless">Mar 19, 2019</p>
           </div>
         
       
@@ -234,7 +234,7 @@ namespaces: ‘namespace_1:namespace_2:index’.</p>
       <div class="nav">
     &laquo; <a href="example.html" title="Example">previous</a>
      |
-    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a></div>
+    <a title="Django Roles Access 0.8 documentation" href="index.html" accesskey="U">up</a></div>
     </div>
   </div>
 

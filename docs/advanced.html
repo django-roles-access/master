@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Required views and app name &#8212; Django roles 0.7 documentation</title>
+    <title>Required views and app name &#8212; Django Roles Access 0.8 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -59,7 +59,7 @@
     <div class="document">
   <div id="custom-doc" class="yui-t6">
     <div id="hd">
-      <h1><a href="index.html">Django roles 0.7 documentation</a></h1>
+      <h1><a href="index.html">Django Roles Access 0.8 documentation</a></h1>
       <div id="global-nav">
         <a title="Home page" href="index.html">Home</a>  |
         <a title="Table of contents" href="contents.html">Table of contents</a>  |
@@ -69,7 +69,7 @@
       <div class="nav">
     &laquo; <a href="template_tag.html" title="Django roles template tag">previous</a>
      |
-    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a>
+    <a title="Django Roles Access 0.8 documentation" href="index.html" accesskey="U">up</a>
    |
     <a href="example.html" title="Example">next</a> &raquo;</div>
     </div>
@@ -83,13 +83,13 @@
 <span id="id1"></span><h1>Required views and app name<a class="headerlink" href="#required-views-and-app-name" title="Permalink to this headline">¶</a></h1>
 <p>One last requirement is to give names in <em>urls.py</em> files to views and
 applications.</p>
-<p>This is an implicit requirement if is expected to use all <code class="docutils literal notranslate"><span class="pre">django_roles</span></code>
-characteristics. This is necessary because the value used by
-<code class="docutils literal notranslate"><span class="pre">django_roles</span></code> to identify the views to be protected is it’s name. Equally is
-necessary to name the app with <code class="docutils literal notranslate"><span class="pre">app_name</span></code>. Examples of this can be found in
-Django project tutorial at <a class="reference external" href="https://docs.djangoproject.com/en/dev/intro/tutorial03/#namespacing-url-names">Namespacing URL names</a>.</p>
+<p>This is an implicit requirement if is expected to use all
+<code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code> characteristics. This is necessary because the value
+used by <code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code> to identify the views to be protected is it’s
+name. Equally is necessary to name the app with <code class="docutils literal notranslate"><span class="pre">app_name</span></code>. Examples of
+this can be found in Django project tutorial at <a class="reference external" href="https://docs.djangoproject.com/en/dev/intro/tutorial03/#namespacing-url-names">Namespacing URL names</a>.</p>
 <p>As with Django this requirement could be optional; but if it is planned to
-create <a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a> object for a view, will be
+create <a class="reference internal" href="reference.html#django_roles_access.models.ViewAccess" title="django_roles_access.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles_access.models.ViewAccess</span></code></a> object for a view, will be
 necessary to have a way to name the view so the object can be associated with
 it.</p>
 <p>In the same way, if it is planned to classify applications in different types as
@@ -97,8 +97,8 @@ is explained in <a class="reference internal" href="middleware.html#applications
 application in <em>urls.py file</em>.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last"><code class="docutils literal notranslate"><span class="pre">django_roles</span></code> use views names to associate
-<a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a> objects to the named view. And
+<p class="last"><code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code> use views names to associate
+<a class="reference internal" href="reference.html#django_roles_access.models.ViewAccess" title="django_roles_access.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles_access.models.ViewAccess</span></code></a> objects to the named view. And
 applications names to group all views belonging to that application so is
 possible to configure a type for the application and give it’s views a
 default security behavior.</p>
@@ -106,8 +106,8 @@ default security behavior.</p>
 </div>
 <div class="section" id="namespaces-and-view-name">
 <span id="namespace-and-view-name"></span><h1>Namespaces and View Name<a class="headerlink" href="#namespaces-and-view-name" title="Permalink to this headline">¶</a></h1>
-<p>When creating a <code class="xref py py-class docutils literal notranslate"><span class="pre">roles.models.ViewAccess</span></code> object, the value of <strong>view</strong>
-attribute can be:</p>
+<p>When creating a <a class="reference internal" href="reference.html#django_roles_access.models.ViewAccess" title="django_roles_access.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles_access.models.ViewAccess</span></code></a> object, the
+value of <strong>view</strong> attribute can be:</p>
 <ul class="simple">
 <li><cite>view_name</cite></li>
 <li><cite>app_name:view_name</cite></li>
@@ -115,22 +115,22 @@ attribute can be:</p>
 <li><cite>nest_namespace:namespace:view_name</cite></li>
 </ul>
 <p>As this are the only possible value for <strong>view</strong> attribute, a requirement of
-<code class="docutils literal notranslate"><span class="pre">django_roles</span></code> is to use <em>view names</em> and <em>app_name</em> in <em>urls.py</em> files.
-Read more about Naming URL in official Django project documentation
-<a class="reference external" href="https://docs.djangoproject.com/en/dev/topics/http/urls/#naming-url-patterns">Naming URL</a>.</p>
+<code class="docutils literal notranslate"><span class="pre">django_rolesdjango_roles_access</span></code> is to use <em>view names</em> and <em>app_name</em> in
+<em>urls.py</em> files. Read more about Naming URL in official Django project
+documentation <a class="reference external" href="https://docs.djangoproject.com/en/dev/topics/http/urls/#naming-url-patterns">Naming URL</a>.</p>
 </div>
-<div class="section" id="django-roles-response">
-<h1>Django roles response<a class="headerlink" href="#django-roles-response" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="django-roles-access-response">
+<h1>Django roles access response<a class="headerlink" href="#django-roles-access-response" title="Permalink to this headline">¶</a></h1>
 <p>When a user try to access a view and result a forbidden action, is possible
 to setup different responses to user.</p>
-<div class="section" id="django-roles-redirect">
-<h2>DJANGO_ROLES_REDIRECT<a class="headerlink" href="#django-roles-redirect" title="Permalink to this headline">¶</a></h2>
-<p>By default <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> response with
+<div class="section" id="django-roles-access-redirect">
+<h2>DJANGO_ROLES_ACCESS_REDIRECT<a class="headerlink" href="#django-roles-access-redirect" title="Permalink to this headline">¶</a></h2>
+<p>By default <code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code> response with
 <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/request-response/#django.http.HttpResponseForbidden" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.http.HttpResponseForbidden</span></code></a> when the user has no access to the
 view. This behavior can be changed if add in <em>settings files</em> a new
-attribute <cite>DJANGO_ROLES_REDIRECT</cite> with a value equal to True:</p>
+attribute <cite>DJANGO_ROLES_ACCESS_REDIRECT</cite> with a value equal to True:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
-<span class="n">DJANGO_ROLES_REDIRECT</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">DJANGO_ROLES_ACCESS_REDIRECT</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="o">...</span>
 </pre></div>
 </div>
@@ -138,12 +138,12 @@ attribute <cite>DJANGO_ROLES_REDIRECT</cite> with a value equal to True:</p>
 <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/request-response/#django.http.HttpResponseRedirect" title="(in Django v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">django.http.HttpResponseRedirect</span></code></a> to the address configured in
 <em>settings.LOGIN_URL</em>.</p>
 </div>
-<div class="section" id="django-roles-forbidden-message">
-<h2>DJANGO_ROLES_FORBIDDEN_MESSAGE<a class="headerlink" href="#django-roles-forbidden-message" title="Permalink to this headline">¶</a></h2>
-<p>When <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> answer with HttpResponseForbidden, the message used by
-default is: <code class="docutils literal notranslate"><span class="pre">&lt;h1&gt;403</span> <span class="pre">Forbidden&lt;/h1&gt;</span></code>; but this configuration can also be
-changed if add in <em>settings files</em> a new attribute
-<cite>DJANGO_ROLES_FORBIDDEN_MESSAGE</cite> with the wanted message to be returned
+<div class="section" id="django-roles-access-forbidden-message">
+<h2>DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE<a class="headerlink" href="#django-roles-access-forbidden-message" title="Permalink to this headline">¶</a></h2>
+<p>When <code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code> answer with HttpResponseForbidden, the message
+used by default is: <code class="docutils literal notranslate"><span class="pre">&lt;h1&gt;403</span> <span class="pre">Forbidden&lt;/h1&gt;</span></code>; but this configuration can
+also be changed if add in <em>settings files</em> a new attribute
+<cite>DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE</cite> with the wanted message to be returned
 instead of default one.</p>
 </div>
 </div>
@@ -162,9 +162,9 @@ instead of default one.</p>
   <ul>
 <li><a class="reference internal" href="#">Required views and app name</a></li>
 <li><a class="reference internal" href="#namespaces-and-view-name">Namespaces and View Name</a></li>
-<li><a class="reference internal" href="#django-roles-response">Django roles response</a><ul>
-<li><a class="reference internal" href="#django-roles-redirect">DJANGO_ROLES_REDIRECT</a></li>
-<li><a class="reference internal" href="#django-roles-forbidden-message">DJANGO_ROLES_FORBIDDEN_MESSAGE</a></li>
+<li><a class="reference internal" href="#django-roles-access-response">Django roles access response</a><ul>
+<li><a class="reference internal" href="#django-roles-access-redirect">DJANGO_ROLES_ACCESS_REDIRECT</a></li>
+<li><a class="reference internal" href="#django-roles-access-forbidden-message">DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE</a></li>
 </ul>
 </li>
 </ul>
@@ -197,7 +197,7 @@ instead of default one.</p>
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Mar 15, 2019</p>
+              <p class="topless">Mar 19, 2019</p>
           </div>
         
       
@@ -207,7 +207,7 @@ instead of default one.</p>
       <div class="nav">
     &laquo; <a href="template_tag.html" title="Django roles template tag">previous</a>
      |
-    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a>
+    <a title="Django Roles Access 0.8 documentation" href="index.html" accesskey="U">up</a>
    |
     <a href="example.html" title="Example">next</a> &raquo;</div>
     </div>

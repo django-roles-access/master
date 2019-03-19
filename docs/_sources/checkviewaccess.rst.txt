@@ -2,7 +2,7 @@
 Check view access
 =================
 
-Django roles register an action with manage.py:
+Django roles access register an action with manage.py:
 ::
 
     python manage.py checkviewaccess
@@ -21,15 +21,15 @@ print to standard output a *security report* of access to each view.
    middleware), its value will be used in place of the ROOT_URLCONF setting.
    ...
 
-   Django Roles *checkviewaccess* takes from ROOT_URLCONF the root for all
-   site's views. If an installed middleware change this root, registered
+   Django roles access *checkviewaccess* takes from ROOT_URLCONF the root for
+   all site's views. If an installed middleware change this root, registered
    action may not work as expected.
 
 .. note::
 
-   Django Roles middleware do not change ROOT_URLCONF or any other attribute
-   of the HTTPRequest. HTTPResponse is changed only when access denied is
-   reached.
+   Django roles access middleware do not change ROOT_URLCONF or any other
+   attribute of the HTTPRequest. HTTPResponse is changed only when access
+   denied is reached.
 
 ----------------------
 Security report format
@@ -72,9 +72,9 @@ Printed *security report* has format:
 Django roles active for site
 -----------------------------
 
-This indicate if Django roles middleware is being used or not. When **True**
-means middleware is *active* and all views are *protected by Django role*.
-When **False** means Django roles middleware is not installed.
+This indicate if Django roles access middleware is being used or not. When
+**True** means middleware is *active* and all views are *protected by Django
+role*. When **False** means Django roles access middleware is not installed.
 
 .. code-block:: text
 
@@ -121,9 +121,9 @@ When **False** means Django roles middleware is not installed.
 
 In above example `Django roles active for site:` is **True**.
 If a view belong to an application without configured type and no
-:class:`django_roles.models.ViewAccess` associated, an *ERROR* will be reported
-because there is no default behavior for the view. The access to it will
-depends on it implementation, this mean, for example, the view could be
+:class:`django_roles_access.models.ViewAccess` associated, an *ERROR* will be
+reported because there is no default behavior for the view. The access to it
+will depends on it implementation, this mean, for example, the view could be
 decorated with Django *login_required decorator*.
 
 Views without application will be classified under an application with
@@ -146,8 +146,8 @@ The used analysis follow next algorithm:
 1. All views are collected and grouped by application. In the created report
    this step si called **gathering information**.
 
-2. Is checked if Django roles middleware is active or not. When active the
-   report will indicate **Django roles active for site: True**. When not
+2. Is checked if Django roles access middleware is active or not. When active
+   the report will indicate **Django roles active for site: True**. When not
    active it will br reported as **Django roles active for site: False**. Also
    analysis will keep track of this state in it's **site_active** variable.
 
@@ -159,10 +159,11 @@ The used analysis follow next algorithm:
    the access security by analyzing the callable associated with the view. This
    analysis include:
 
-   * Evaluate if view is decorated with ``django_roles`` decorator, or if mixin
-     was used.
+   * Evaluate if view is decorated with ``django_roles_access`` decorator, or
+     if mixin was used.
 
-   * Search any :class:`django_roles.models.ViewAccess` object for the view.
+   * Search any :class:`django_roles_access.models.ViewAccess` object for the
+     view.
 
    * Take in consideration if **site_active** is True or not.
 
@@ -183,7 +184,8 @@ Method
 
 The used method to determine **Access security status** of a view is:
 
-1. A :class:`django_roles.models.ViewAccess` object is searched for the view.
+1. A :class:`django_roles_access.models.ViewAccess` object is searched for the
+   view.
 
 2. If **site_active** is True:
 
@@ -198,7 +200,8 @@ The used method to determine **Access security status** of a view is:
       defined for view's application (or view has no application defined). An
       ERROR of configuration is reported.
 
-3. If **site_active** is False and ``django_roles`` decorator or mixin was used:
+3. If **site_active** is False and ``django_roles_access`` decorator or mixin
+   was used:
 
    a. In case exist object found in step 1, object security is reported.
 

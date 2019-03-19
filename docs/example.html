@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Example &#8212; Django roles 0.7 documentation</title>
+    <title>Example &#8212; Django Roles Access 0.8 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -59,7 +59,7 @@
     <div class="document">
   <div id="custom-doc" class="yui-t6">
     <div id="hd">
-      <h1><a href="index.html">Django roles 0.7 documentation</a></h1>
+      <h1><a href="index.html">Django Roles Access 0.8 documentation</a></h1>
       <div id="global-nav">
         <a title="Home page" href="index.html">Home</a>  |
         <a title="Table of contents" href="contents.html">Table of contents</a>  |
@@ -69,7 +69,7 @@
       <div class="nav">
     &laquo; <a href="advanced.html" title="Required views and app name">previous</a>
      |
-    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a>
+    <a title="Django Roles Access 0.8 documentation" href="index.html" accesskey="U">up</a>
    |
     <a href="reference.html" title="Reference">next</a> &raquo;</div>
     </div>
@@ -83,8 +83,8 @@
 <h1>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="create-django-project-polls-app">
 <span id="create-example-django-project"></span><h2>1 Create Django project polls app<a class="headerlink" href="#create-django-project-polls-app" title="Permalink to this headline">¶</a></h2>
-<p>This example show quickly how to apply <code class="docutils literal notranslate"><span class="pre">django_roles</span></code>. As is necessary a
-simple Django project and application, this example use Django’s
+<p>This example show quickly how to apply <code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code>. As is
+necessary a simple Django project and application, this example use Django’s
 documentation <em>polls app</em> example for this. This example can be found
 at <a class="reference external" href="https://docs.djangoproject.com/en/dev/intro/tutorial01/">Django_example</a>.</p>
 <div class="admonition note">
@@ -97,19 +97,19 @@ at <a class="reference external" href="https://docs.djangoproject.com/en/dev/int
 <p>Make sure you name views in <em>polls/urls.py</em> as in example you can found in
 <a class="reference external" href="https://docs.djangoproject.com/en/dev/intro/tutorial03/#namespacing-url-names">writing more views</a>. Also note how <code class="docutils literal notranslate"><span class="pre">app_name</span> <span class="pre">=</span> <span class="pre">'polls'</span></code> is configured.</p>
 </div>
-<div class="section" id="start-using-django-roles">
-<h2>3 Start using <code class="docutils literal notranslate"><span class="pre">django_roles</span></code><a class="headerlink" href="#start-using-django-roles" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="start-using-django-roles-access">
+<h2>3 Start using <code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code><a class="headerlink" href="#start-using-django-roles-access" title="Permalink to this headline">¶</a></h2>
 <p>Imagine you want to keep polls application public, in this way all users
 (anonymous or not) can vote a polls; but result should be restricted to a
 special users with specific role.</p>
-<p>Achieve this is very simple with <code class="docutils literal notranslate"><span class="pre">django_roles</span></code>:</p>
+<p>Achieve this is very simple with <code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code>:</p>
 <ul>
-<li><p class="first">Install <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> middleware; or add <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> decorators to
-<em>results</em> views</p>
+<li><p class="first">Install <code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code> middleware; or add <code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code>
+decorators to <em>results</em> views</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">polls/views.py</span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
-<span class="kn">from</span> <span class="nn">django_roles.decorator</span> <span class="kn">import</span> <span class="n">access_by_role</span>
+<span class="kn">from</span> <span class="nn">django_roles_access.decorator</span> <span class="kn">import</span> <span class="n">access_by_role</span>
 <span class="o">...</span>
 
 <span class="nd">@access_by_role</span>
@@ -122,7 +122,7 @@ special users with specific role.</p>
 </li>
 <li><p class="first">Go to <em>admin site</em>.</p>
 </li>
-<li><p class="first">Create a new <a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a> configure it:</p>
+<li><p class="first">Create a new <a class="reference internal" href="reference.html#django_roles_access.models.ViewAccess" title="django_roles_access.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles_access.models.ViewAccess</span></code></a> configure it:</p>
 <ul class="simple">
 <li><strong>view</strong> attribute: Type <code class="docutils literal notranslate"><span class="pre">polls:results</span></code>.</li>
 <li><strong>type</strong> attribute: Select <code class="docutils literal notranslate"><span class="pre">By</span> <span class="pre">role</span></code>.</li>
@@ -169,7 +169,7 @@ modification could help:</p>
 <li><a class="reference internal" href="#">Example</a><ul>
 <li><a class="reference internal" href="#create-django-project-polls-app">1 Create Django project polls app</a></li>
 <li><a class="reference internal" href="#app-and-views-name">2 App and views name</a></li>
-<li><a class="reference internal" href="#start-using-django-roles">3 Start using <code class="docutils literal notranslate"><span class="pre">django_roles</span></code></a></li>
+<li><a class="reference internal" href="#start-using-django-roles-access">3 Start using <code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -202,7 +202,7 @@ modification could help:</p>
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Mar 15, 2019</p>
+              <p class="topless">Mar 19, 2019</p>
           </div>
         
       
@@ -212,7 +212,7 @@ modification could help:</p>
       <div class="nav">
     &laquo; <a href="advanced.html" title="Required views and app name">previous</a>
      |
-    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a>
+    <a title="Django Roles Access 0.8 documentation" href="index.html" accesskey="U">up</a>
    |
     <a href="reference.html" title="Reference">next</a> &raquo;</div>
     </div>

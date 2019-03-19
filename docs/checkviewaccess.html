@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Check view access &#8212; Django roles 0.7 documentation</title>
+    <title>Check view access &#8212; Django Roles Access 0.8 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Django roles template tag" href="template_tag.html" />
-    <link rel="prev" title="Using Django roles middleware" href="middleware.html" />
+    <link rel="prev" title="Using Django roles access middleware" href="middleware.html" />
 
 
 
@@ -59,7 +59,7 @@
     <div class="document">
   <div id="custom-doc" class="yui-t6">
     <div id="hd">
-      <h1><a href="index.html">Django roles 0.7 documentation</a></h1>
+      <h1><a href="index.html">Django Roles Access 0.8 documentation</a></h1>
       <div id="global-nav">
         <a title="Home page" href="index.html">Home</a>  |
         <a title="Table of contents" href="contents.html">Table of contents</a>  |
@@ -67,9 +67,9 @@
         <a title="Module index" href="py-modindex.html">Modules</a>
       </div>
       <div class="nav">
-    &laquo; <a href="middleware.html" title="Using Django roles middleware">previous</a>
+    &laquo; <a href="middleware.html" title="Using Django roles access middleware">previous</a>
      |
-    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a>
+    <a title="Django Roles Access 0.8 documentation" href="index.html" accesskey="U">up</a>
    |
     <a href="template_tag.html" title="Django roles template tag">next</a> &raquo;</div>
     </div>
@@ -81,7 +81,7 @@
             
   <div class="section" id="check-view-access">
 <h1>Check view access<a class="headerlink" href="#check-view-access" title="Permalink to this headline">¶</a></h1>
-<p>Django roles register an action with manage.py:</p>
+<p>Django roles access register an action with manage.py:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">checkviewaccess</span>
 </pre></div>
 </div>
@@ -94,15 +94,15 @@ which Python code to execute <a class="reference external" href="https://docs.dj
 <p>… but if the incoming HttpRequest object has a urlconf attribute (set by
 middleware), its value will be used in place of the ROOT_URLCONF setting.
 …</p>
-<p class="last">Django Roles <em>checkviewaccess</em> takes from ROOT_URLCONF the root for all
-site’s views. If an installed middleware change this root, registered
+<p class="last">Django roles access <em>checkviewaccess</em> takes from ROOT_URLCONF the root for
+all site’s views. If an installed middleware change this root, registered
 action may not work as expected.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Django Roles middleware do not change ROOT_URLCONF or any other attribute
-of the HTTPRequest. HTTPResponse is changed only when access denied is
-reached.</p>
+<p class="last">Django roles access middleware do not change ROOT_URLCONF or any other
+attribute of the HTTPRequest. HTTPResponse is changed only when access
+denied is reached.</p>
 </div>
 <div class="section" id="security-report-format">
 <h2>Security report format<a class="headerlink" href="#security-report-format" title="Permalink to this headline">¶</a></h2>
@@ -139,9 +139,9 @@ End checking view access.
 </div>
 <div class="section" id="django-roles-active-for-site">
 <h3>Django roles active for site<a class="headerlink" href="#django-roles-active-for-site" title="Permalink to this headline">¶</a></h3>
-<p>This indicate if Django roles middleware is being used or not. When <strong>True</strong>
-means middleware is <em>active</em> and all views are <em>protected by Django role</em>.
-When <strong>False</strong> means Django roles middleware is not installed.</p>
+<p>This indicate if Django roles access middleware is being used or not. When
+<strong>True</strong> means middleware is <em>active</em> and all views are <em>protected by Django
+role</em>. When <strong>False</strong> means Django roles access middleware is not installed.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>python manage.py checkviewaccess
 Start checking views access.
 Start gathering information.
@@ -186,9 +186,9 @@ End checking view access.
 </div>
 <p>In above example <cite>Django roles active for site:</cite> is <strong>True</strong>.
 If a view belong to an application without configured type and no
-<a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a> associated, an <em>ERROR</em> will be reported
-because there is no default behavior for the view. The access to it will
-depends on it implementation, this mean, for example, the view could be
+<a class="reference internal" href="reference.html#django_roles_access.models.ViewAccess" title="django_roles_access.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles_access.models.ViewAccess</span></code></a> associated, an <em>ERROR</em> will be
+reported because there is no default behavior for the view. The access to it
+will depends on it implementation, this mean, for example, the view could be
 decorated with Django <em>login_required decorator</em>.</p>
 <p>Views without application will be classified under an application with
 name <em>Undefined app</em>.</p>
@@ -206,8 +206,8 @@ example <cite>app_name is SECURED type</cite>.</p>
 <ol class="arabic simple">
 <li>All views are collected and grouped by application. In the created report
 this step si called <strong>gathering information</strong>.</li>
-<li>Is checked if Django roles middleware is active or not. When active the
-report will indicate <strong>Django roles active for site: True</strong>. When not
+<li>Is checked if Django roles access middleware is active or not. When active
+the report will indicate <strong>Django roles active for site: True</strong>. When not
 active it will br reported as <strong>Django roles active for site: False</strong>. Also
 analysis will keep track of this state in it’s <strong>site_active</strong> variable.</li>
 <li>For each installed application (settings.INSTALLED_APPLICATION) is checked
@@ -216,9 +216,10 @@ if the application was classified as explained in
 <li>For each view of the analyzed application selected in step 3, is checked
 the access security by analyzing the callable associated with the view. This
 analysis include:<ul>
-<li>Evaluate if view is decorated with <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> decorator, or if mixin
-was used.</li>
-<li>Search any <a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a> object for the view.</li>
+<li>Evaluate if view is decorated with <code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code> decorator, or
+if mixin was used.</li>
+<li>Search any <a class="reference internal" href="reference.html#django_roles_access.models.ViewAccess" title="django_roles_access.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles_access.models.ViewAccess</span></code></a> object for the
+view.</li>
 <li>Take in consideration if <strong>site_active</strong> is True or not.</li>
 <li>Take in consideration the <a class="reference internal" href="middleware.html#applications-type"><span class="std std-ref">Applications type</span></a> of the application
 holding the view.</li>
@@ -236,7 +237,8 @@ holding the view.</li>
 <h2>Method<a class="headerlink" href="#method" title="Permalink to this headline">¶</a></h2>
 <p>The used method to determine <strong>Access security status</strong> of a view is:</p>
 <ol class="arabic simple">
-<li>A <a class="reference internal" href="reference.html#django_roles.models.ViewAccess" title="django_roles.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles.models.ViewAccess</span></code></a> object is searched for the view.</li>
+<li>A <a class="reference internal" href="reference.html#django_roles_access.models.ViewAccess" title="django_roles_access.models.ViewAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">django_roles_access.models.ViewAccess</span></code></a> object is searched for the
+view.</li>
 <li>If <strong>site_active</strong> is True:<ol class="loweralpha">
 <li>If an object was found in step 1, object security is reported for the
 view. If object security is type <cite>By role</cite> and no roles were added an
@@ -248,7 +250,8 @@ defined for view’s application (or view has no application defined). An
 ERROR of configuration is reported.</li>
 </ol>
 </li>
-<li>If <strong>site_active</strong> is False and <code class="docutils literal notranslate"><span class="pre">django_roles</span></code> decorator or mixin was used:<ol class="loweralpha">
+<li>If <strong>site_active</strong> is False and <code class="docutils literal notranslate"><span class="pre">django_roles_access</span></code> decorator or mixin
+was used:<ol class="loweralpha">
 <li>In case exist object found in step 1, object security is reported.</li>
 <li>In case no object were found in step 1. And view’s application has a
 type as defined in <a class="reference internal" href="middleware.html#applications-type"><span class="std std-ref">Applications type</span></a>. Default behavior for the
@@ -288,7 +291,7 @@ ERROR of configuration is reported.</li>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="middleware.html"
-                        title="previous chapter">Using Django roles middleware</a></p>
+                        title="previous chapter">Using Django roles access middleware</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="template_tag.html"
                         title="next chapter">Django roles template tag</a></p>
@@ -314,7 +317,7 @@ ERROR of configuration is reported.</li>
         </div>
       </div>
               <h3>Last update:</h3>
-              <p class="topless">Mar 15, 2019</p>
+              <p class="topless">Mar 19, 2019</p>
           </div>
         
       
@@ -322,9 +325,9 @@ ERROR of configuration is reported.</li>
 
     <div id="ft">
       <div class="nav">
-    &laquo; <a href="middleware.html" title="Using Django roles middleware">previous</a>
+    &laquo; <a href="middleware.html" title="Using Django roles access middleware">previous</a>
      |
-    <a title="Django roles 0.7 documentation" href="index.html" accesskey="U">up</a>
+    <a title="Django Roles Access 0.8 documentation" href="index.html" accesskey="U">up</a>
    |
     <a href="template_tag.html" title="Django roles template tag">next</a> &raquo;</div>
     </div>
