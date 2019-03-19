@@ -3,7 +3,7 @@ import unittest
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 
-from django_roles.tools import DEFAULT_FORBIDDEN_MESSAGE
+from django_roles_access.tools import DEFAULT_FORBIDDEN_MESSAGE
 try:
     from unittest.mock import Mock, patch
 except:
@@ -13,13 +13,13 @@ from django.test import TestCase, RequestFactory, \
     modify_settings, override_settings
 from django.contrib.auth import get_user_model
 
-from django_roles.middleware import RolesMiddleware
+from django_roles_access.middleware import RolesMiddleware
 
 User = get_user_model()
 
 
 # UNIT TEST
-@patch('django_roles.middleware.check_access_by_role')
+@patch('django_roles_access.middleware.check_access_by_role')
 class MiddlewareUnitTest(unittest.TestCase):
 
     def setUp(self):
@@ -78,14 +78,14 @@ class MiddlewareUnitTest(unittest.TestCase):
     def test_middleware_redirect_if_not_check_access(
             self, mock_check_access_by_role
     ):
-        settings.__setattr__('DJANGO_ROLES_REDIRECT', True)
+        settings.__setattr__('DJANGO_ROLES_ACCESS_REDIRECT', True)
         mock_check_access_by_role.return_value = False
         response = self.middleware(self.request)
-        settings.__delattr__('DJANGO_ROLES_REDIRECT')
+        settings.__delattr__('DJANGO_ROLES_ACCESS_REDIRECT')
         self.assertIsInstance(response, HttpResponseRedirect)
         self.assertEqual(response.url, settings.LOGIN_URL)
 
-    @patch('django_roles.middleware.get_no_access_response')
+    @patch('django_roles_access.middleware.get_no_access_response')
     def test_call_get_no_access_response_when_access_by_role_return_false(
             self, mock_get_no_access_response, mock_check_access_by_role
     ):
@@ -93,7 +93,7 @@ class MiddlewareUnitTest(unittest.TestCase):
         self.middleware(self.request)
         assert mock_get_no_access_response.called
 
-    @patch('django_roles.middleware.get_no_access_response')
+    @patch('django_roles_access.middleware.get_no_access_response')
     def test_call_once_get_no_access_response_when_access_by_role_return_false(
             self, mock_get_no_access_response, mock_check_access_by_role
     ):
@@ -104,7 +104,7 @@ class MiddlewareUnitTest(unittest.TestCase):
 
 # INTEGRATED TEST
 @modify_settings(MIDDLEWARE={
-    'append': 'django_roles.middleware.RolesMiddleware'
+    'append': 'django_roles_access.middleware.RolesMiddleware'
 })
 class MiddlewareIntegratedTestSecuredApp(TestCase):
 
@@ -157,18 +157,18 @@ class MiddlewareIntegratedTestSecuredApp(TestCase):
 
     def test_forbidden_behavior_with_configuration(self):
         expected = '<h1>No access</h1><p>Contact administrator</p>'
-        settings.__setattr__('DJANGO_ROLES_FORBIDDEN_MESSAGE', expected)
+        settings.__setattr__('DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE', expected)
         self.client.logout()
         response = self.client.get(
             '/role-included2/middleware_view_func/')
-        settings.__delattr__('DJANGO_ROLES_FORBIDDEN_MESSAGE')
+        settings.__delattr__('DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE')
         self.assertIn(expected, response.content.decode('utf-8'))
 
     def test_redirect_if_configured(self):
-        settings.__setattr__('DJANGO_ROLES_REDIRECT', True)
+        settings.__setattr__('DJANGO_ROLES_ACCESS_REDIRECT', True)
         self.client.logout()
         response = self.client.get(
             '/role-included2/middleware_view_func/')
-        settings.__delattr__('DJANGO_ROLES_REDIRECT')
+        settings.__delattr__('DJANGO_ROLES_ACCESS_REDIRECT')
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, settings.LOGIN_URL)

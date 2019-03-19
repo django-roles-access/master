@@ -1,5 +1,5 @@
 from django import template
-from django_roles.models import TemplateAccess
+from django_roles_access.models import TemplateAccess
 
 register = template.Library()
 

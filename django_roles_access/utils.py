@@ -8,7 +8,7 @@ try:
 except:
     from django.utils.translation import ugettext as _
 
-from django_roles.models import ViewAccess
+from django_roles_access.models import ViewAccess
 
 User = get_user_model()
 APP_NAME_FOR_NONE = _(u'Undefined app')

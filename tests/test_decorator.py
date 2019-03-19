@@ -10,9 +10,9 @@ try:
 except:
     from mock import Mock, patch
 
-from django_roles.models import ViewAccess
-from django_roles.decorator import access_by_role
-from django_roles.tools import DEFAULT_FORBIDDEN_MESSAGE
+from django_roles_access.models import ViewAccess
+from django_roles_access.decorator import access_by_role
+from django_roles_access.tools import DEFAULT_FORBIDDEN_MESSAGE
 
 User = get_user_model()
 
@@ -88,7 +88,7 @@ class TestAccessByRoleWithOtherDecorators(unittest.TestCase):
 
 class UnitTestAccessByRoleDecorator(unittest.TestCase):
 
-    @patch('django_roles.decorator.check_access_by_role')
+    @patch('django_roles_access.decorator.check_access_by_role')
     def test_decorator_call_check_access_by_role(
             self, mock_check_access_by_role
     ):
@@ -99,7 +99,7 @@ class UnitTestAccessByRoleDecorator(unittest.TestCase):
         decorated_func(request)
         assert mock_check_access_by_role.called
 
-    @patch('django_roles.decorator.check_access_by_role')
+    @patch('django_roles_access.decorator.check_access_by_role')
     def test_decorator_call_check_access_by_role_with_request(
             self, mock_check_access_by_role
     ):
@@ -110,7 +110,7 @@ class UnitTestAccessByRoleDecorator(unittest.TestCase):
         decorated_func(request)
         mock_check_access_by_role.assert_called_once_with(request)
 
-    @patch('django_roles.decorator.check_access_by_role')
+    @patch('django_roles_access.decorator.check_access_by_role')
     def test_decorator_return_view_if_access_by_role_return_true(
             self, mock_check_access_by_role
     ):
@@ -122,8 +122,8 @@ class UnitTestAccessByRoleDecorator(unittest.TestCase):
         response = decorated_func(request)
         assert response == func(request)
 
-    @patch('django_roles.decorator.get_no_access_response')
-    @patch('django_roles.decorator.check_access_by_role')
+    @patch('django_roles_access.decorator.get_no_access_response')
+    @patch('django_roles_access.decorator.check_access_by_role')
     def test_call_get_no_access_response_when_access_by_role_return_false(
             self, mock_check_access_by_role, mock_get_no_access_response
     ):
@@ -135,8 +135,8 @@ class UnitTestAccessByRoleDecorator(unittest.TestCase):
         decorated_func(request)
         assert mock_get_no_access_response.called
 
-    @patch('django_roles.decorator.get_no_access_response')
-    @patch('django_roles.decorator.check_access_by_role')
+    @patch('django_roles_access.decorator.get_no_access_response')
+    @patch('django_roles_access.decorator.check_access_by_role')
     def test_call_once_get_no_access_response_when_access_by_role_return_false(
             self, mock_check_access_by_role, mock_get_no_access_response
     ):
@@ -228,19 +228,19 @@ class IntegratedTestAccessByRoleDecorator(TestCase):
 
     def test_forbidden_behavior_with_configuration(self):
         expected = '<h1>No access</h1><p>Contact administrator</p>'
-        settings.__setattr__('DJANGO_ROLES_FORBIDDEN_MESSAGE',
+        settings.__setattr__('DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE',
                              expected)
         self.client.logout()
         response = self.client.get(
             '/role-included2/view_by_role/')
-        settings.__delattr__('DJANGO_ROLES_FORBIDDEN_MESSAGE')
+        settings.__delattr__('DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE')
         self.assertIn(expected, response.content.decode('utf-8'))
 
     def test_redirect_if_configured(self):
-        settings.__setattr__('DJANGO_ROLES_REDIRECT', True)
+        settings.__setattr__('DJANGO_ROLES_ACCESS_REDIRECT', True)
         self.client.logout()
         response = self.client.get(
             '/role-included2/view_by_role/')
-        settings.__delattr__('DJANGO_ROLES_REDIRECT')
+        settings.__delattr__('DJANGO_ROLES_ACCESS_REDIRECT')
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, settings.LOGIN_URL)

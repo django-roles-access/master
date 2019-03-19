@@ -11,16 +11,16 @@ try:
 except:
     from mock import Mock, patch
 
-from django_roles.models import ViewAccess
-from django_roles.tools import (get_setting_dictionary, get_view_access,
-                                check_access_by_role, get_app_type,
-                                get_forbidden_message,
-                                DEFAULT_FORBIDDEN_MESSAGE,
-                                get_no_access_response)
+from django_roles_access.models import ViewAccess
+from django_roles_access.tools import (get_setting_dictionary, get_view_access,
+                                       check_access_by_role, get_app_type,
+                                       get_forbidden_message,
+                                       DEFAULT_FORBIDDEN_MESSAGE,
+                                       get_no_access_response)
 
 
-@patch('django_roles.tools.resolve')
-@patch('django_roles.tools.ViewAccess.objects')
+@patch('django_roles_access.tools.resolve')
+@patch('django_roles_access.tools.ViewAccess.objects')
 class UnitTestGetViewAccess(UnitTestCase):
 
     def setUp(self):
@@ -379,8 +379,8 @@ class TestGetDictionarySettings(UnitTestCase):
         self.assertEqual(expected_dictionary, settings_dictionary)
 
 
-@patch('django_roles.tools.resolve')
-@patch('django_roles.tools.get_view_access')
+@patch('django_roles_access.tools.resolve')
+@patch('django_roles_access.tools.get_view_access')
 class UnitTestCheckAccessByRole(UnitTestCase):
 
     def setUp(self):
@@ -392,7 +392,7 @@ class UnitTestCheckAccessByRole(UnitTestCase):
         check_access_by_role(self.request)
         mock_resolve.assert_called_once_with(self.request.path_info)
 
-    @patch('django_roles.tools.get_setting_dictionary')
+    @patch('django_roles_access.tools.get_setting_dictionary')
     def test_get_setting_dictionary_is_called(
             self, mock_get_setting_dictionary, mock_get_view_access,
             mock_resolve
@@ -400,7 +400,7 @@ class UnitTestCheckAccessByRole(UnitTestCase):
         check_access_by_role(self.request)
         assert mock_get_setting_dictionary.called
 
-    @patch('django_roles.tools.get_setting_dictionary')
+    @patch('django_roles_access.tools.get_setting_dictionary')
     def test_get_setting_dictionary_is_called_once(
             self, mock_get_setting_dictionary, mock_get_view_access,
             mock_resolve
@@ -408,7 +408,7 @@ class UnitTestCheckAccessByRole(UnitTestCase):
         check_access_by_role(self.request)
         self.assertEqual(mock_get_setting_dictionary.call_count, 1)
 
-    @patch('django_roles.tools.get_setting_dictionary')
+    @patch('django_roles_access.tools.get_setting_dictionary')
     def test_app_name_is_searched_as_NOT_SECURED_before_get_view_access(
             self, mock_get_setting_dictionary, mock_get_view_access,
             mock_resolve
@@ -446,7 +446,7 @@ class UnitTestCheckAccessByRole(UnitTestCase):
             self.request
         )
 
-    @patch('django_roles.tools.get_setting_dictionary')
+    @patch('django_roles_access.tools.get_setting_dictionary')
     def test_get_view_access_take_precedence_over_default_behavior(
             self, mock_get_setting_dictionary, mock_get_view_access,
             mock_resolve
@@ -467,7 +467,7 @@ class UnitTestCheckAccessByRole(UnitTestCase):
         self.request.user.is_authenticated = False
         assert check_access_by_role(self.request)
 
-    @patch('django_roles.tools.get_setting_dictionary')
+    @patch('django_roles_access.tools.get_setting_dictionary')
     def test_default_PUBLIC_behavior(
             self, mock_get_setting_dictionary, mock_get_view_access,
             mock_resolve
@@ -482,7 +482,7 @@ class UnitTestCheckAccessByRole(UnitTestCase):
         mock_get_view_access.return_value = None
         assert check_access_by_role(self.request)
 
-    @patch('django_roles.tools.get_setting_dictionary')
+    @patch('django_roles_access.tools.get_setting_dictionary')
     def test_default_SECURED_behavior_when_user_not_authenticated(
             self, mock_get_setting_dictionary, mock_get_view_access,
             mock_resolve
@@ -499,7 +499,7 @@ class UnitTestCheckAccessByRole(UnitTestCase):
         self.request.user.is_authenticated = False
         assert not check_access_by_role(self.request)
 
-    @patch('django_roles.tools.get_setting_dictionary')
+    @patch('django_roles_access.tools.get_setting_dictionary')
     def test_default_SECURED_behavior_when_user_authenticated(
             self, mock_get_setting_dictionary, mock_get_view_access,
             mock_resolve
@@ -516,7 +516,7 @@ class UnitTestCheckAccessByRole(UnitTestCase):
         self.request.user.is_authenticated = True
         assert check_access_by_role(self.request)
 
-    @patch('django_roles.tools.get_setting_dictionary')
+    @patch('django_roles_access.tools.get_setting_dictionary')
     def test_check_access_by_role_return_True_if_any_happen(
             self, mock_get_setting_dictionary, mock_get_view_access,
             mock_resolve
@@ -735,14 +735,14 @@ class UnitTestGetAppType(UnitTestCase):
         result = get_app_type('fake-app')
         self.assertEqual(result, None)
 
-    @patch('django_roles.tools.get_setting_dictionary')
+    @patch('django_roles_access.tools.get_setting_dictionary')
     def test_get_settings_dictionary_is_called(
             self, mock_get_settings_dictionary
     ):
         get_app_type('fake-app')
         assert mock_get_settings_dictionary.called
 
-    @patch('django_roles.tools.get_setting_dictionary')
+    @patch('django_roles_access.tools.get_setting_dictionary')
     def test_get_settings_dictionary_is_called_once(
             self, mock_get_settings_dictionary
     ):
@@ -751,14 +751,14 @@ class UnitTestGetAppType(UnitTestCase):
         get_app_type('fake-app')
         self.assertEqual(mock_get_settings_dictionary.call_count, 1)
 
-    @patch('django_roles.tools.get_setting_dictionary')
+    @patch('django_roles_access.tools.get_setting_dictionary')
     def test_get_settings_dictionary_is_called_once_with_no_param(
             self, mock_get_settings_dictionary
     ):
         get_app_type('fake-app')
         mock_get_settings_dictionary.assert_called_once_with()
 
-    @patch('django_roles.tools.get_setting_dictionary')
+    @patch('django_roles_access.tools.get_setting_dictionary')
     def test_detect_app_is_any_configured_type(
             self, mock_get_settings_dictionary
     ):
@@ -809,11 +809,11 @@ class UnitTestGetForbiddenMessage(UnitTestCase):
     def test_default_forbidden_message(self):
         assert DEFAULT_FORBIDDEN_MESSAGE == get_forbidden_message()
 
-    @patch('django_roles.tools.settings')
+    @patch('django_roles_access.tools.settings')
     def test_forbidden_configured_message(
             self, mock_settings
     ):
-        mock_settings.DJANGO_ROLES_FORBIDDEN_MESSAGE = 'fake-message'
+        mock_settings.DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE = 'fake-message'
         assert 'fake-message' == get_forbidden_message()
 
 
@@ -823,16 +823,16 @@ class IntegratedTestGetForbiddenMessage(TestCase):
         assert DEFAULT_FORBIDDEN_MESSAGE == get_forbidden_message()
 
     def test_forbidden_configured_message(self):
-        settings.__setattr__('DJANGO_ROLES_FORBIDDEN_MESSAGE',
+        settings.__setattr__('DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE',
                              'forbidden-message')
         response = get_forbidden_message()
-        settings.__delattr__('DJANGO_ROLES_FORBIDDEN_MESSAGE')
+        settings.__delattr__('DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE')
         assert 'forbidden-message' == response
 
 
 class UnitTestGetNoAccessResponse(UnitTestCase):
 
-    @patch('django_roles.tools.HttpResponseForbidden')
+    @patch('django_roles_access.tools.HttpResponseForbidden')
     def test_default_behavior_http_response_forbidden(
             self, mock_http_response_forbidden
     ):
@@ -840,7 +840,7 @@ class UnitTestGetNoAccessResponse(UnitTestCase):
         response = get_no_access_response()
         assert response == 'fake-forbidden'
 
-    @patch('django_roles.tools.HttpResponseForbidden')
+    @patch('django_roles_access.tools.HttpResponseForbidden')
     def test_default_behavior_http_response_forbidden_403_Forbidden(
             self, mock_http_response_forbidden
     ):
@@ -848,32 +848,32 @@ class UnitTestGetNoAccessResponse(UnitTestCase):
         get_no_access_response()
         mock_http_response_forbidden.assert_called_with(argument)
 
-    @patch('django_roles.tools.settings')
-    @patch('django_roles.tools.HttpResponseForbidden')
+    @patch('django_roles_access.tools.settings')
+    @patch('django_roles_access.tools.HttpResponseForbidden')
     def test_http_response_forbidden_with_configuration(
             self, mock_http_response_forbidden, mock_settings
     ):
-        mock_settings.DJANGO_ROLES_REDIRECT = False
-        mock_settings.DJANGO_ROLES_FORBIDDEN_MESSAGE = 'fake-message'
+        mock_settings.DJANGO_ROLES_ACCESS_REDIRECT = False
+        mock_settings.DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE = 'fake-message'
         get_no_access_response()
         mock_http_response_forbidden.assert_called_with('fake-message')
 
-    @patch('django_roles.tools.settings')
-    @patch('django_roles.tools.HttpResponseRedirect')
+    @patch('django_roles_access.tools.settings')
+    @patch('django_roles_access.tools.HttpResponseRedirect')
     def test_redirect_if_redirect_is_configured(
             self, mock_http_response_redirect, mock_settings
     ):
-        mock_settings.DJANGO_ROLES_REDIRECT = True
+        mock_settings.DJANGO_ROLES_ACCESS_REDIRECT = True
         mock_http_response_redirect.return_value = 'fake-redirect'
         response = get_no_access_response()
         assert response == 'fake-redirect'
 
-    @patch('django_roles.tools.settings')
-    @patch('django_roles.tools.HttpResponseRedirect')
+    @patch('django_roles_access.tools.settings')
+    @patch('django_roles_access.tools.HttpResponseRedirect')
     def test_redirect_if_redirect_to_LOGIN_URL(
             self, mock_http_response_redirect, mock_settings
     ):
-        mock_settings.DJANGO_ROLES_REDIRECT = True
+        mock_settings.DJANGO_ROLES_ACCESS_REDIRECT = True
         mock_settings.LOGIN_URL = 'fake-login'
         get_no_access_response()
         mock_http_response_redirect.assert_called_with('fake-login')
@@ -891,20 +891,20 @@ class IntegratedTextGetNoAccessResponse(TestCase):
                       response.content.decode('utf-8'))
 
     def test_http_response_forbidden_with_configuration(self):
-        settings.__setattr__('DJANGO_ROLES_FORBIDDEN_MESSAGE',
+        settings.__setattr__('DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE',
                              'forbidden-message')
         response = get_no_access_response()
-        settings.__delattr__('DJANGO_ROLES_FORBIDDEN_MESSAGE')
+        settings.__delattr__('DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE')
         self.assertIn('forbidden-message', response.content.decode('utf-8'))
 
     def test_redirect_if_redirect_is_configured(self):
-        settings.__setattr__('DJANGO_ROLES_REDIRECT', True)
+        settings.__setattr__('DJANGO_ROLES_ACCESS_REDIRECT', True)
         response = get_no_access_response()
-        settings.__delattr__('DJANGO_ROLES_REDIRECT')
+        settings.__delattr__('DJANGO_ROLES_ACCESS_REDIRECT')
         self.assertIsInstance(response, HttpResponseRedirect)
 
     def test_redirect_if_redirect_to_LOGIN_URL(self):
-        settings.__setattr__('DJANGO_ROLES_REDIRECT', True)
+        settings.__setattr__('DJANGO_ROLES_ACCESS_REDIRECT', True)
         response = get_no_access_response()
-        settings.__delattr__('DJANGO_ROLES_REDIRECT')
+        settings.__delattr__('DJANGO_ROLES_ACCESS_REDIRECT')
         self.assertEqual(settings.LOGIN_URL, response.url)

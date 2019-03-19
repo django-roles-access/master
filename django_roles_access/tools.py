@@ -1,12 +1,12 @@
 from django.conf import settings
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 try:
-    from django.utils.translation import ugettex as _
-except:
     from django.utils.translation import gettext as _
+except:
+    from django.utils.translation import ugettex as _
 from django.urls import resolve
 
-from django_roles.models import ViewAccess
+from django_roles_access.models import ViewAccess
 
 DEFAULT_FORBIDDEN_MESSAGE = _(u'<h1>403 Forbidden</h1>')
 
@@ -119,15 +119,16 @@ def get_app_type(app_name):
 
 
 def get_forbidden_message():
-    if hasattr(settings, 'DJANGO_ROLES_FORBIDDEN_MESSAGE'):
-        return settings.DJANGO_ROLES_FORBIDDEN_MESSAGE
+    if hasattr(settings, 'DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE'):
+        return settings.DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE
     return DEFAULT_FORBIDDEN_MESSAGE
 
 
 def get_no_access_response():
-    if hasattr(settings, 'DJANGO_ROLES_REDIRECT'):
-        if settings.DJANGO_ROLES_REDIRECT:
+    if hasattr(settings, 'DJANGO_ROLES_ACCESS_REDIRECT'):
+        if settings.DJANGO_ROLES_ACCESS_REDIRECT:
             return HttpResponseRedirect(settings.LOGIN_URL)
-    if hasattr(settings, 'DJANGO_ROLES_FORBIDDEN_MESSAGE'):
-        return HttpResponseForbidden(settings.DJANGO_ROLES_FORBIDDEN_MESSAGE)
+    if hasattr(settings, 'DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE'):
+        return HttpResponseForbidden(
+            settings.DJANGO_ROLES_ACCESS_FORBIDDEN_MESSAGE)
     return HttpResponseForbidden(DEFAULT_FORBIDDEN_MESSAGE)

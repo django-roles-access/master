@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from django_roles.models import ViewAccess, TemplateAccess
+from django_roles_access.models import ViewAccess, TemplateAccess
 
 
 # admin.site.register(ViewAccess, ViewAccessAdmin)

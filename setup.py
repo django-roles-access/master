@@ -8,11 +8,11 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='django-roles',
+    name='django_roles_access',
     version='0.7',
     packages=find_packages(),
     include_package_data=True,
-    license='BSD License',  # example license
+    license='BSD License',
     description='Django view access security by roles (groups).',
     long_description=README,
     url='https://www.example.com/',
@@ -21,16 +21,21 @@ setup(
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
-        'Framework :: Django :: 1.11',  # replace "X.Y" as appropriate
-        'Framework :: Django :: 2',  # replace "X.Y" as appropriate
+        'Framework :: Django :: 1.10',
+        'Framework :: Django :: 1.11',
+        'Framework :: Django :: 2.0',
+        'Framework :: Django :: 2.1',
+        'Framework :: Django :: 2.2',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',  # example license
+        'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
-        'Topic :: Internet :: WWW/HTTP',
-        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
-        'Topic :: Internet :: WWW/HTTP :: Django Security',
+        'Programming Language :: Python :: 3.7',
+        'Topic :: Security :: Access',
+        'Topic :: Security :: View access :: by role',
+        'Topic :: Security :: Role :: Group',
     ],
 )

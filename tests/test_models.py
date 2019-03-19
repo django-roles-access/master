@@ -5,7 +5,7 @@ try:
 except:
     from django.utils.translation import ugettext as _
 from django.test import TestCase
-from django_roles.models import ViewAccess, TemplateAccess
+from django_roles_access.models import ViewAccess, TemplateAccess
 
 
 class TestViewAccessModel(TestCase):

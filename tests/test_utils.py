@@ -11,16 +11,16 @@ try:
 except:
     from mock import Mock, patch
 
-from django_roles.decorator import access_by_role
-from django_roles.mixin import RolesMixin
-from django_roles.models import ViewAccess
+from django_roles_access.decorator import access_by_role
+from django_roles_access.mixin import RolesMixin
+from django_roles_access.models import ViewAccess
 from tests import views
-from django_roles.utils import (walk_site_url, get_views_by_app,
-                                view_access_analyzer, get_view_analyze_report,
-                                check_django_roles_is_used, print_view_analysis,
-                                analyze_by_role, APP_NAME_FOR_NONE,
-                                NOT_SECURED_DEFAULT, SECURED_DEFAULT,
-                                PUBLIC_DEFAULT, NONE_TYPE_DEFAULT)
+from django_roles_access.utils import (walk_site_url, get_views_by_app,
+                                       view_access_analyzer, get_view_analyze_report,
+                                       check_django_roles_is_used, print_view_analysis,
+                                       analyze_by_role, APP_NAME_FOR_NONE,
+                                       NOT_SECURED_DEFAULT, SECURED_DEFAULT,
+                                       PUBLIC_DEFAULT, NONE_TYPE_DEFAULT)
 
 
 class MockRegex:
@@ -273,7 +273,7 @@ class UnitTestGetViewsByApp(UnitTestCase):
     def setUp(self):
         self.data = [('a', 'b', 'c', 'fake-app-1')]
 
-    @patch('django_roles.utils.settings')
+    @patch('django_roles_access.utils.settings')
     def test_returns_a_dictionary(
             self, mock_settings
     ):
@@ -281,7 +281,7 @@ class UnitTestGetViewsByApp(UnitTestCase):
         result = get_views_by_app(self.data)
         self.assertIsInstance(result, dict)
 
-    @patch('django_roles.utils.settings')
+    @patch('django_roles_access.utils.settings')
     def test_returns_a_dictionary_with_all_installed_apps(
             self, mock_settings
     ):
@@ -290,7 +290,7 @@ class UnitTestGetViewsByApp(UnitTestCase):
         assert 'fake-app-1' in result
         assert 'fake-app-2' in result
 
-    @patch('django_roles.utils.settings')
+    @patch('django_roles_access.utils.settings')
     def test_values_of_returned_dictionary_keys_are_lists(
             self, mock_settings
     ):
@@ -299,7 +299,7 @@ class UnitTestGetViewsByApp(UnitTestCase):
         self.assertIsInstance(result['fake-app-1'], list)
         self.assertIsInstance(result['fake-app-2'], list)
 
-    @patch('django_roles.utils.settings')
+    @patch('django_roles_access.utils.settings')
     def test_receive_list_of_tuples_with_4_element(
             self, mock_settings
     ):
@@ -307,7 +307,7 @@ class UnitTestGetViewsByApp(UnitTestCase):
         result = get_views_by_app(self.data)
         assert 'fake-app-1' in result
 
-    @patch('django_roles.utils.settings')
+    @patch('django_roles_access.utils.settings')
     def test_raise_type_error_if_receive_list_of_tuples_with_3_element(
             self, mock_settings
     ):
@@ -316,7 +316,7 @@ class UnitTestGetViewsByApp(UnitTestCase):
         with self.assertRaises(TypeError):
             get_views_by_app(data)
 
-    @patch('django_roles.utils.settings')
+    @patch('django_roles_access.utils.settings')
     def test_raise_type_error_if_receive_list_of_tuples_with_5_element(
             self, mock_settings
     ):
@@ -325,7 +325,7 @@ class UnitTestGetViewsByApp(UnitTestCase):
         with self.assertRaises(TypeError):
             get_views_by_app(data)
 
-    @patch('django_roles.utils.settings')
+    @patch('django_roles_access.utils.settings')
     def test_received_data_is_ordered_and_returned_by_application(
             self, mock_settings
     ):
@@ -336,7 +336,7 @@ class UnitTestGetViewsByApp(UnitTestCase):
         result = get_views_by_app(data)
         self.assertEqual(expected_result, result['fake-app-1'])
 
-    @patch('django_roles.utils.settings')
+    @patch('django_roles_access.utils.settings')
     def test_can_work_with_no_declared_application_name(
             self, mock_settings
     ):
@@ -347,7 +347,7 @@ class UnitTestGetViewsByApp(UnitTestCase):
         result = get_views_by_app(data)
         self.assertEqual(expected_result, result[APP_NAME_FOR_NONE])
 
-    @patch('django_roles.utils.settings')
+    @patch('django_roles_access.utils.settings')
     def test_if_application_is_not_in_installed_apps_will_not_be_in_dict(
             self, mock_settings
     ):
@@ -438,7 +438,7 @@ class TestCheckDjangoRolesIsUsed(UnitTestCase):
         self.assertFalse(check_django_roles_is_used(Aview))
 
 
-@patch('django_roles.utils.ViewAccess')
+@patch('django_roles_access.utils.ViewAccess')
 class UnitTestAnalyzeByRoleAccess(UnitTestCase):
 
     def test_detect_access_is_by_role(
@@ -513,7 +513,7 @@ class IntegratedTestAnalyzeByRoleAccess(TestCase):
         self.assertEqual(result, expected)
 
 
-@patch('django_roles.utils.ViewAccess.objects')
+@patch('django_roles_access.utils.ViewAccess.objects')
 class UnitTestViewAnalyzer(UnitTestCase):
 
     def test_view_analyzer_return_a_report(
@@ -575,7 +575,7 @@ class UnitTestViewAnalyzer(UnitTestCase):
                                       'fake-view-name', True)
         self.assertEqual(result, expected)
 
-    @patch('django_roles.utils.analyze_by_role')
+    @patch('django_roles_access.utils.analyze_by_role')
     def test_view_access_type_by_role_call_analyze_by_role(
             self, mock_analyze_by_role, mock_objects
     ):
@@ -587,7 +587,7 @@ class UnitTestViewAnalyzer(UnitTestCase):
                              'fake-view-name', True)
         assert mock_analyze_by_role.called
 
-    @patch('django_roles.utils.analyze_by_role')
+    @patch('django_roles_access.utils.analyze_by_role')
     def test_view_access_type_by_role_call_analyze_by_role_once(
             self, mock_analyze_by_role, mock_objects
     ):
@@ -599,7 +599,7 @@ class UnitTestViewAnalyzer(UnitTestCase):
                              'fake-view-name', True)
         self.assertEqual(mock_analyze_by_role.call_count ,1)
 
-    @patch('django_roles.utils.analyze_by_role')
+    @patch('django_roles_access.utils.analyze_by_role')
     def test_view_access_type_by_role_call_analyze_by_role_with_view_access(
             self, mock_analyze_by_role, mock_objects
     ):

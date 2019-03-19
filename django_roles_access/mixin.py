@@ -1,6 +1,6 @@
 from django.utils.decorators import method_decorator
 
-from django_roles.decorator import access_by_role
+from django_roles_access.decorator import access_by_role
 
 
 class RolesMixin(object):

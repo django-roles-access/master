@@ -1,6 +1,6 @@
 from functools import wraps
 
-from django_roles.tools import check_access_by_role, get_no_access_response
+from django_roles_access.tools import check_access_by_role, get_no_access_response
 
 
 def access_by_role(view):

@@ -6,7 +6,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django_roles',
+    'django_roles_access',
 ]
 
 MIDDLEWARE = [
@@ -41,5 +41,5 @@ import os
 BASE_DIR = os.path.dirname(
     os.path.dirname(os.path.abspath(__file__)))
 LOCALE_PATHS = [
-    os.path.join(BASE_DIR, "django_roles/locale"),
+    os.path.join(BASE_DIR, "django_roles_access/locale"),
 ]

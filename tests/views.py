@@ -5,8 +5,8 @@ from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from django_roles.decorator import access_by_role
-from django_roles.mixin import RolesMixin
+from django_roles_access.decorator import access_by_role
+from django_roles_access.mixin import RolesMixin
 
 
 def direct_view(request):

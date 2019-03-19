@@ -10,8 +10,8 @@ try:
 except:
     from mock import Mock, patch
 
-from django_roles.models import TemplateAccess
-from django_roles.templatetags.roles_tags import check_role
+from django_roles_access.models import TemplateAccess
+from django_roles_access.templatetags.roles_tags import check_role
 
 User = get_user_model()
 
@@ -23,7 +23,7 @@ class UnitTestRolesTags(UnitTestCase):
         user.is_superuser = True
         self.assertTrue(check_role(user=user, flag='fake-flag'))
 
-    @patch('django_roles.templatetags.roles_tags.TemplateAccess.objects')
+    @patch('django_roles_access.templatetags.roles_tags.TemplateAccess.objects')
     def test_roles_tags_show_content_for_flag_and_user_in_roles(
             self, mock_ta_objects
     ):
@@ -35,7 +35,7 @@ class UnitTestRolesTags(UnitTestCase):
         mock_ta_objects.get.return_value = template_flag
         self.assertTrue(check_role(user=user, flag='fake-flag'))
 
-    @patch('django_roles.templatetags.roles_tags.TemplateAccess.objects')
+    @patch('django_roles_access.templatetags.roles_tags.TemplateAccess.objects')
     def test_roles_tags_not_show_content_for_flag_and_user_not_in_roles(
             self, mock_ta_objects
     ):

@@ -5,7 +5,7 @@ try:
 except:
     from io import StringIO
 
-from django_roles.models import ViewAccess
+from django_roles_access.models import ViewAccess
 
 try:
     from unittest.mock import Mock, patch, MagicMock, ANY
@@ -15,13 +15,13 @@ from unittest.case import TestCase as UnitTestCase
 
 from django.core.management import call_command
 from django.test import TestCase, modify_settings
-from django_roles.utils import (NONE_TYPE_DEFAULT, NOT_SECURED_DEFAULT,
-                                SECURED_DEFAULT, PUBLIC_DEFAULT,
-                                APP_NAME_FOR_NONE)
+from django_roles_access.utils import (NONE_TYPE_DEFAULT, NOT_SECURED_DEFAULT,
+                                       SECURED_DEFAULT, PUBLIC_DEFAULT,
+                                       APP_NAME_FOR_NONE)
 
 
-@patch('django_roles.management.commands.checkviewaccess.import_module')
-@patch('django_roles.management.commands.checkviewaccess.settings')
+@patch('django_roles_access.management.commands.checkviewaccess.import_module')
+@patch('django_roles_access.management.commands.checkviewaccess.settings')
 class UnitTestCheckViewAccess(UnitTestCase):
 
     def setUp(self):
@@ -75,7 +75,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         mock_import_module.assert_called_once_with(self.root_urlconf)
 
-    @patch('django_roles.management.commands.checkviewaccess.walk_site_url')
+    @patch('django_roles_access.management.commands.checkviewaccess.walk_site_url')
     def test_walk_site_url_is_called(
             self, mock_walk_site_url, mock_settings, mock_import_module
     ):
@@ -83,7 +83,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         assert mock_walk_site_url.called
 
-    @patch('django_roles.management.commands.checkviewaccess.walk_site_url')
+    @patch('django_roles_access.management.commands.checkviewaccess.walk_site_url')
     def test_walk_site_url_is_called_once(
             self, mock_walk_site_url, mock_settings, mock_import_module
     ):
@@ -91,7 +91,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         self.assertEqual(mock_walk_site_url.call_count, 1)
 
-    @patch('django_roles.management.commands.checkviewaccess.walk_site_url')
+    @patch('django_roles_access.management.commands.checkviewaccess.walk_site_url')
     def test_walk_site_url_is_called_once_with(
             self, mock_walk_site_url, mock_settings, mock_import_module
     ):
@@ -101,7 +101,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         mock_walk_site_url.assert_called_once_with('fake-urlpatterns')
 
-    @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
+    @patch('django_roles_access.management.commands.checkviewaccess.get_views_by_app')
     def test_get_views_by_app_is_called(
             self, mock_get_views_by_app, mock_settings, mock_import_module
     ):
@@ -109,7 +109,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         assert mock_get_views_by_app.called
 
-    @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
+    @patch('django_roles_access.management.commands.checkviewaccess.get_views_by_app')
     def test_get_views_by_app_is_called_once(
             self, mock_get_views_by_app, mock_settings, mock_import_module
     ):
@@ -117,8 +117,8 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         self.assertEqual(mock_get_views_by_app.call_count, 1)
 
-    @patch('django_roles.management.commands.checkviewaccess.walk_site_url')
-    @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
+    @patch('django_roles_access.management.commands.checkviewaccess.walk_site_url')
+    @patch('django_roles_access.management.commands.checkviewaccess.get_views_by_app')
     def test_get_views_by_app_is_called_once_with(
             self, mock_get_views_by_app, mock_walk_site_url, mock_settings,
             mock_import_module
@@ -141,7 +141,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
             self, mock_settings, mock_import_module
     ):
         mock_settings.MIDDLEWARE = ['fake-middleware',
-                                    'django_roles.middleware.RolesMiddleware',
+                                    'django_roles_access.middleware.RolesMiddleware',
                                     'other-fake-middleware']
         mock_settings.ROOT_URLCONF = self.root_urlconf
         out = StringIO()
@@ -160,7 +160,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text, out.getvalue())
 
-    @patch('django_roles.utils.settings')
+    @patch('django_roles_access.utils.settings')
     def test_write_at_start_of_each_application_analyze(
             self, mock_utils_settings, mock_settings, mock_import_module
     ):
@@ -173,7 +173,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
         self.assertIn(expected_text1, out.getvalue())
         self.assertIn(expected_text2, out.getvalue())
 
-    @patch('django_roles.utils.settings')
+    @patch('django_roles_access.utils.settings')
     def test_write_at_end_of_each_application_analyze(
             self, mock_utils_settings, mock_settings, mock_import_module
     ):
@@ -186,7 +186,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
         self.assertIn(expected_text1, out.getvalue())
         self.assertIn(expected_text2, out.getvalue())
 
-    @patch('django_roles.utils.settings')
+    @patch('django_roles_access.utils.settings')
     def test_detect_installed_application_is_not_configured(
             self, mock_utils_settings, mock_settings, mock_import_module
     ):
@@ -197,8 +197,8 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text, out.getvalue())
 
-    @patch('django_roles.management.commands.checkviewaccess.get_app_type')
-    @patch('django_roles.utils.settings')
+    @patch('django_roles_access.management.commands.checkviewaccess.get_app_type')
+    @patch('django_roles_access.utils.settings')
     def test_get_app_type_is_called(
             self, mock_utils_settings, mock_get_app_type, mock_settings,
             mock_import_module
@@ -208,8 +208,8 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         assert mock_get_app_type.called
 
-    @patch('django_roles.management.commands.checkviewaccess.get_app_type')
-    @patch('django_roles.utils.settings')
+    @patch('django_roles_access.management.commands.checkviewaccess.get_app_type')
+    @patch('django_roles_access.utils.settings')
     def test_get_app_type_is_called_for_each_installed_app_0(
             self, mock_utils_settings, mock_get_app_type, mock_settings,
             mock_import_module
@@ -219,8 +219,8 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         self.assertEqual(mock_get_app_type.call_count, 0)
 
-    @patch('django_roles.management.commands.checkviewaccess.get_app_type')
-    @patch('django_roles.utils.settings')
+    @patch('django_roles_access.management.commands.checkviewaccess.get_app_type')
+    @patch('django_roles_access.utils.settings')
     def test_get_app_type_is_called_for_each_installed_app_3(
             self, mock_utils_settings, mock_get_app_type, mock_settings,
             mock_import_module
@@ -230,8 +230,8 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         self.assertEqual(mock_get_app_type.call_count, 3)
 
-    @patch('django_roles.utils.settings')
-    @patch('django_roles.tools.settings')
+    @patch('django_roles_access.utils.settings')
+    @patch('django_roles_access.tools.settings')
     def test_detect_installed_application_is_configured_as_NOT_SECURED(
             self, mock_tools_settings, mock_utils_settings, mock_settings,
             mock_import_module
@@ -244,8 +244,8 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text, out.getvalue())
 
-    @patch('django_roles.utils.settings')
-    @patch('django_roles.tools.settings')
+    @patch('django_roles_access.utils.settings')
+    @patch('django_roles_access.tools.settings')
     def test_detect_installed_application_is_configured_as_PUBLIC(
             self, mock_tools_settings, mock_utils_settings, mock_settings,
             mock_import_module
@@ -258,8 +258,8 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text, out.getvalue())
 
-    @patch('django_roles.utils.settings')
-    @patch('django_roles.tools.settings')
+    @patch('django_roles_access.utils.settings')
+    @patch('django_roles_access.tools.settings')
     def test_detect_installed_application_is_configured_as_SECURED(
             self, mock_tools_settings, mock_utils_settings, mock_settings,
             mock_import_module
@@ -272,7 +272,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text, out.getvalue())
 
-    @patch('django_roles.management.commands.checkviewaccess.'
+    @patch('django_roles_access.management.commands.checkviewaccess.'
            'view_access_analyzer')
     def test_view_analyzer_is_called_0_times_when_app_have_no_views(
             self, mock_view_access_analyzer, mock_settings, mock_import_module
@@ -281,7 +281,7 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         self.assertEqual(mock_view_access_analyzer.call_count, 0)
 
-    @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
+    @patch('django_roles_access.management.commands.checkviewaccess.get_views_by_app')
     def test_when_app_have_no_views_it_is_reported(
             self, mock_get_views_by_app, mock_settings, mock_import_module
     ):
@@ -295,8 +295,8 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text, out.getvalue())
 
-    @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
-    @patch('django_roles.management.commands.checkviewaccess.'
+    @patch('django_roles_access.management.commands.checkviewaccess.get_views_by_app')
+    @patch('django_roles_access.management.commands.checkviewaccess.'
            'view_access_analyzer')
     def test_view_analyzer_is_called_3_times_when_app_have_3_views(
             self, mock_view_access_analyzer, mock_view_by_app, mock_settings,
@@ -314,10 +314,10 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         self.assertEqual(mock_view_access_analyzer.call_count, 3)
 
-    @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
-    @patch('django_roles.management.commands.checkviewaccess.'
+    @patch('django_roles_access.management.commands.checkviewaccess.get_views_by_app')
+    @patch('django_roles_access.management.commands.checkviewaccess.'
            'view_access_analyzer')
-    @patch('django_roles.management.commands.checkviewaccess.get_app_type')
+    @patch('django_roles_access.management.commands.checkviewaccess.get_app_type')
     def test_view_analyzer_is_called_1_times_with_params(
             self, mock_get_app_type, mock_view_access_analyzer,
             mock_view_by_app, mock_settings, mock_import_module
@@ -333,8 +333,8 @@ class UnitTestCheckViewAccess(UnitTestCase):
                                                      'fake-callback-1',
                                                      'fake-view-1', False)
 
-    @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
-    @patch('django_roles.management.commands.checkviewaccess.'
+    @patch('django_roles_access.management.commands.checkviewaccess.get_views_by_app')
+    @patch('django_roles_access.management.commands.checkviewaccess.'
            'view_access_analyzer')
     def test_view_name_is_reported(
             self, mock_view_access_analyzer, mock_view_by_app, mock_settings,
@@ -350,8 +350,8 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text, out.getvalue())
 
-    @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
-    @patch('django_roles.management.commands.checkviewaccess.'
+    @patch('django_roles_access.management.commands.checkviewaccess.get_views_by_app')
+    @patch('django_roles_access.management.commands.checkviewaccess.'
            'view_access_analyzer')
     def test_view_url_is_reported(
             self, mock_view_access_analyzer, mock_view_by_app, mock_settings,
@@ -367,10 +367,10 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text, out.getvalue())
 
-    @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
-    @patch('django_roles.management.commands.checkviewaccess.'
+    @patch('django_roles_access.management.commands.checkviewaccess.get_views_by_app')
+    @patch('django_roles_access.management.commands.checkviewaccess.'
            'view_access_analyzer')
-    @patch('django_roles.management.commands.checkviewaccess'
+    @patch('django_roles_access.management.commands.checkviewaccess'
            '.print_view_analysis')
     def test_print_view_analyzer_is_called_1_times(
             self, mock_print_view_analysis, mock_view_access_analyzer,
@@ -384,10 +384,10 @@ class UnitTestCheckViewAccess(UnitTestCase):
         call_command('checkviewaccess')
         self.assertEqual(mock_print_view_analysis.call_count, 1)
 
-    @patch('django_roles.management.commands.checkviewaccess.get_views_by_app')
-    @patch('django_roles.management.commands.checkviewaccess.'
+    @patch('django_roles_access.management.commands.checkviewaccess.get_views_by_app')
+    @patch('django_roles_access.management.commands.checkviewaccess.'
            'view_access_analyzer')
-    @patch('django_roles.management.commands.checkviewaccess'
+    @patch('django_roles_access.management.commands.checkviewaccess'
            '.print_view_analysis')
     def test_print_view_analyzer_is_called_1_times_with_param(
             self, mock_print_view_analysis,
@@ -662,7 +662,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         settings.__delattr__('SECURED')
 
     @modify_settings(MIDDLEWARE={
-        'append': 'django_roles.middleware.RolesMiddleware'
+        'append': 'django_roles_access.middleware.RolesMiddleware'
     })
     def test_site_active_no_view_access_object_app_type_None(self):
         expected_1 = u'\n\tAnalyzing django_roles:'
@@ -676,7 +676,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         self.assertIn(expected_2, out.getvalue())
 
     @modify_settings(MIDDLEWARE={
-        'append': 'django_roles.middleware.RolesMiddleware'
+        'append': 'django_roles_access.middleware.RolesMiddleware'
     })
     def test_site_active_no_view_access_object_app_type_NOT_SECURED(self):
         settings.__setattr__('NOT_SECURED', ['django_roles'])
@@ -692,7 +692,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         settings.__delattr__('NOT_SECURED')
 
     @modify_settings(MIDDLEWARE={
-        'append': 'django_roles.middleware.RolesMiddleware'
+        'append': 'django_roles_access.middleware.RolesMiddleware'
     })
     def test_site_active_no_view_access_object_app_type_SECURED(self):
         settings.__setattr__('SECURED', ['django_roles'])
@@ -708,7 +708,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         settings.__delattr__('SECURED')
 
     @modify_settings(MIDDLEWARE={
-        'append': 'django_roles.middleware.RolesMiddleware'
+        'append': 'django_roles_access.middleware.RolesMiddleware'
     })
     def test_site_active_no_view_access_object_app_type_PUBLIC(self):
         settings.__setattr__('PUBLIC', ['django_roles'])
@@ -724,7 +724,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         settings.__delattr__('PUBLIC')
 
     @modify_settings(MIDDLEWARE={
-        'append': 'django_roles.middleware.RolesMiddleware'
+        'append': 'django_roles_access.middleware.RolesMiddleware'
     })
     def test_site_active_view_access_object_app_type_None(self):
         expected_1 = u'\n\tAnalyzing django_roles:'
@@ -740,7 +740,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         self.assertIn(expected_2, out.getvalue())
 
     @modify_settings(MIDDLEWARE={
-        'append': 'django_roles.middleware.RolesMiddleware'
+        'append': 'django_roles_access.middleware.RolesMiddleware'
     })
     def test_site_active_view_access_object_app_type_NOT_SECURED(self):
         settings.__setattr__('NOT_SECURED', ['django_roles'])
@@ -758,7 +758,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         settings.__delattr__('NOT_SECURED')
 
     @modify_settings(MIDDLEWARE={
-        'append': 'django_roles.middleware.RolesMiddleware'
+        'append': 'django_roles_access.middleware.RolesMiddleware'
     })
     def test_site_active_view_access_object_app_type_SECURED(self):
         settings.__setattr__('SECURED', ['django_roles'])
@@ -783,7 +783,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         settings.__delattr__('SECURED')
 
     @modify_settings(MIDDLEWARE={
-        'append': 'django_roles.middleware.RolesMiddleware'
+        'append': 'django_roles_access.middleware.RolesMiddleware'
     })
     def test_site_active_view_access_object_app_type_PUBLIC(self):
         settings.__setattr__('PUBLIC', ['django_roles'])

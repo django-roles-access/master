@@ -11,12 +11,12 @@ except:
     from django.utils.translation import ugettext as _
 from django.conf import settings
 
-from django_roles.tools import get_app_type
-from django_roles.utils import (walk_site_url, get_views_by_app,
-                                view_access_analyzer, print_view_analysis)
+from django_roles_access.tools import get_app_type
+from django_roles_access.utils import (walk_site_url, get_views_by_app,
+                                       view_access_analyzer, print_view_analysis)
 
 
-DJANGO_ROLE_MIDDLEWARE = 'django_roles.middleware.RolesMiddleware'
+DJANGO_ROLE_MIDDLEWARE = 'django_roles_access.middleware.RolesMiddleware'
 
 
 class Command(BaseCommand):
