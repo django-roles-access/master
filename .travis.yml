@@ -6,5 +6,5 @@ matrix:
   - python: 3.7
     dist: xenial
 sudo: false
-install: ['pip install tox-travis, tox, mock, pytest, pytest-django, pytest-cov']
+install: ['pip install tox-travis tox mock pytest pytest-django pytest-cov']
 script: ['tox']
