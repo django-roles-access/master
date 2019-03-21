@@ -8,3 +8,9 @@ matrix:
 sudo: false
 install: ['pip install tox-travis tox mock pytest pytest-django pytest-cov']
 script: ['tox']
+addons:
+  apt:
+    sources:
+      - travis-ci/sqlite3
+    packages:
+      - sqlite3
