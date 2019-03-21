@@ -1,28 +1,10 @@
 
 language: python
-python: ['2.7', '3.5', '3.6']
+python: ['2.7']
 matrix:
   include:
-  - python: 3.7
+  - python: ['3.5', '3.6', '3.7']
     dist: xenial
-sudo: true
-cache: packages
-
-before_install:
-    - sudo apt-add-repository -y ppa:travis-ci/sqlite3
-    - sudo apt-get -y update
-    - sudo apt-get -y install sqlite3=3.8.3
-
+sudo: false
 install: ['pip install tox-travis tox mock pytest pytest-django pytest-cov']
 script: ['tox']
-addons:
-  apt:
-    #sources:
-    #  - travis-ci/sqlite3
-    packages:
-      - libzip-dev
-      - sqlite3
-      #- sqlite3
-      - libsqlite3-dev
-      - libsqlite3-0
-      - libspatialite-dev
