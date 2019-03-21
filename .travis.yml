@@ -1,13 +1,10 @@
+
 language: python
-python:
-- '2.7'
-- '3.5'
-- '3.6'
+python: ['2.7', '3.5', '3.6']
 matrix:
   include:
   - python: 3.7
     dist: xenial
-install:
-- pip install tox-travis, tox, mock, pytest, pytest-django, pytest-cov
-script:
-- tox
+sudo: false
+install: ['pip install tox-travis, tox, mock, pytest, pytest-django, pytest-cov']
+script: ['tox']
