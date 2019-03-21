@@ -11,14 +11,3 @@ install:
 - pip install tox-travis, tox, mock, pytest, pytest-django, pytest-cov
 script:
 - tox
-deploy:
-  provider: pypi
-  user: django-roles-access
-  distribution: sdist bdist_wheel
-  on:
-    tags: true
-    repo: django-roles-access
-env:
-  global:
-  - secure: [REDACTED]
-  - secure: [REDACTED]
