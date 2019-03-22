@@ -142,6 +142,29 @@ In case of classes based views use mixin:
    Pre existent security behavior can be modified if a ``django_role_access``
    configuration for the same view results in forbidden access.
 
+========================
+Test Django roles access
+========================
+
+1. Create a virtual environment.
+
+2. Get into and activate virtual environment.
+
+3. Clone Django roles access:
+::
+
+    git clone https://github.com/django-roles-access/master.git
+
+2. Install tox:
+::
+
+    pip install tox
+
+3. Run the tests:
+::
+
+    tox
+
 
 =============
 Related sites

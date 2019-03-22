@@ -10,7 +10,6 @@ victest.sh
 *.py[co]
 .tox/
 htmlcov/
-html_cov/
 __pycache__
 MANIFEST.in
 tox_make_migrations.ini
