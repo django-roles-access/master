@@ -1,5 +1,38 @@
 # Django roles Change Log
 
+## [0.8.3] - 2019-03-22
+
+### Changed
+
+- Delete docs directory from main code repository. Move documentation to new 
+repository at: gh-pages: https://django-roles-access.github.io/gh-pages/ 
+
+- README file for Pypi.org.
+
+- README.rst file for Github.com adding reference to Pypi.org and Travis
+
+### Added
+
+- Configuration and integration with Travis-CI.org.
+
+## [0.8.2] - 2019-03-21
+
+### Changed
+
+- License update to MIT LICENSE.
+
+## [0.8.1]  - 2019-03-19
+
+### Added
+
+- Updates in config file for updating to Pypi.org.
+
+## [0.8] - 2019-03-19
+
+### Changed
+- As the name is already used at Pypi.org (`django-roles`), it is changed to 
+the new name `django-roles-access`.
+
 ## [0.7] - 2019-03-15
 
 ### Added
