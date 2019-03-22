@@ -19,3 +19,4 @@ tox_shell.ini
 .pypirc
 dist/
 
+html_cov

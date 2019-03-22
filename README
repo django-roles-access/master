@@ -54,10 +54,10 @@ Installation and configuration
 
 2. Add 'django_roles_access' to your INSTALLED_APPS setting:
 
-   INSTALLED_APPS = [
-       ...
-       'django_roles_access',
-   ]
+INSTALLED_APPS = [
+   ...
+   'django_roles_access',
+]
 
 
 3. Run migrations to create the django_roles_access models:
@@ -79,7 +79,7 @@ Quick access configuration in two steps.
 Step 1
 
 
-In *Django admin* interface create a ``django_roles_access.models.ViewAccess``
+In *Django admin* interface create a "django_roles_access.models.ViewAccess"
 object and configure it:
 
 1. **view** attribute: type the name of the view you want to secure.
@@ -101,13 +101,12 @@ object and configure it:
 Step 2
 
 
-Use ``django_roles_access.decorators.access_by_role`` decorator or
-``django_roles_access.mixin.RolesMixin`` mixin in the view to be secured.
+Use "django_roles_access.decorators.access_by_role" decorator or
+"django_roles_access.mixin.RolesMixin" mixin in the view to be secured.
 
 For example:
 
 In case the view is a function:
-::
 
     from django_roles_access.decorators import access_by_role
 
@@ -117,7 +116,6 @@ In case the view is a function:
 
 
 In case of classes based views use mixin:
-::
 
     from django_roles_access.mixin import RolesMixin
 
@@ -125,12 +123,12 @@ In case of classes based views use mixin:
 
         ...
 
-.. note::
+Note:
 
-   When user has no access to a view, by default ``django_roles_access``
-   response with ``django.http.HttpResponseForbidden`1.
+   When user has no access to a view, by default "django_roles_access"
+   response with "django.http.HttpResponseForbidden".
 
-.. note::
+Note:
 
-   Pre existent security behavior can be modified if a ``django_role_access``
+   Pre existent security behavior can be modified if a "django_role_access"
    configuration for the same view results in forbidden access.
