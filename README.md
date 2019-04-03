@@ -1,4 +1,3 @@
-===================
 Django Roles Access
 ===================
 
@@ -29,7 +28,7 @@ Works with:
 
 * Docs: https://django-roles-access.github.io/gh-pages/
 
-============
+
 Requirements
 ============
 
@@ -41,50 +40,50 @@ So Django roles access is dependent of *Django admin site* and because of
 this it has the same requirements than it. This can be checked in the
 official documentation: https://docs.djangoproject.com/en/dev/ref/contrib/admin/
 
-.. _QuickStart:
 
-===========
 Quick start
 ===========
 
-------------------------------
+
 Installation and configuration
 ------------------------------
 
 1. Install ``django_roles_access`` from pypi:
 
-.. code_block:: python
 
-   pip install django-roles-access
+    pip install django-roles-access
+
 
 2. Add *'django_roles_access'* to your INSTALLED_APPS setting:
 
-::
 
-   INSTALLED_APPS = [
-       ...
-       'django_roles_access',
-   ]
+
+    INSTALLED_APPS = [
+        ...
+        'django_roles_access',
+    ]
 
 
 3. Run migrations to create the ``django_roles_access`` models:
-::
+
 
     python manage.py migrate
 
-.. note::
+
+Note
+----
 
    If nothing else is done, then Django site security keeps without
    modification.
 
---------------------
+
 Access configuration
 --------------------
 
 Quick access configuration in two steps.
 
 Step 1
-======
+
 
 In *Django admin* interface create a ``django_roles_access.models.ViewAccess``
 object and configure it:
@@ -106,7 +105,7 @@ object and configure it:
 
 
 Step 2
-======
+
 
 Use ``django_roles_access.decorators.access_by_role`` decorator or
 ``django_roles_access.mixin.RolesMixin`` mixin in the view to be secured.
@@ -114,7 +113,7 @@ Use ``django_roles_access.decorators.access_by_role`` decorator or
 For example:
 
 In case the view is a function:
-.. code-block:: python
+
 
     from django_roles_access.decorators import access_by_role
 
@@ -124,7 +123,7 @@ In case the view is a function:
 
 
 In case of classes based views use mixin:
-.. code-block:: python
+
 
     from django_roles_access.mixin import RolesMixin
 
@@ -132,17 +131,18 @@ In case of classes based views use mixin:
 
         ...
 
-.. note::
+
+Note 1:
 
    When user has no access to a view, by default ``django_roles_access``
    response with ``django.http.HttpResponseForbidden``.
 
-.. note::
+Note 2:
 
    Pre existent security behavior can be modified if a ``django_role_access``
    configuration for the same view results in forbidden access.
 
-========================
+
 Test Django roles access
 ========================
 
@@ -151,22 +151,23 @@ Test Django roles access
 2. Get into and activate virtual environment.
 
 3. Clone Django roles access:
-.. code-block:: python
+
 
     git clone https://github.com/django-roles-access/master.git
 
+
 2. Install tox:
-.. code-block:: python
+
 
     pip install tox
 
+
 3. Run the tests:
-.. code-block:: python
+
 
     tox
 
 
-=============
 Related sites
 =============
 
