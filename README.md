@@ -151,17 +151,17 @@ Test Django roles access
 2. Get into and activate virtual environment.
 
 3. Clone Django roles access:
-::
+.. code-block:: python
 
     git clone https://github.com/django-roles-access/master.git
 
 2. Install tox:
-::
+.. code-block:: python
 
     pip install tox
 
 3. Run the tests:
-::
+.. code-block:: python
 
     tox
 
