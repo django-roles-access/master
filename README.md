@@ -2,7 +2,7 @@
 Django Roles Access
 ===================
 
-Application for securing Django site view access by roles
+Application for securing access to views with roles
 (*Django contrib Groups*).
 
 ``django_roles_access`` is a Django app for securing access to views. It's
@@ -15,8 +15,8 @@ the app are:
   server (at run time).
 
 * Minimize the need of new code, or eliminate it at all (when using
-  ``django_roles_access`` middleware). Also free developers from view access
-  task/code.
+  ``django_roles_access`` middleware). Also free developers from the task 
+  of coding about view access.
 
 * ``django_roles_access`` also provides a security report by registering
   ``checkviewaccess`` action.
@@ -53,7 +53,7 @@ Installation and configuration
 
 1. Install ``django_roles_access`` from pypi:
 
-::
+.. code_block:: python
 
    pip install django-roles-access
 
@@ -114,7 +114,7 @@ Use ``django_roles_access.decorators.access_by_role`` decorator or
 For example:
 
 In case the view is a function:
-::
+.. code-block:: python
 
     from django_roles_access.decorators import access_by_role
 
@@ -124,7 +124,7 @@ In case the view is a function:
 
 
 In case of classes based views use mixin:
-::
+.. code-block:: python
 
     from django_roles_access.mixin import RolesMixin
 
@@ -170,7 +170,7 @@ Test Django roles access
 Related sites
 =============
 
-* Documentation: https://django-roles-access.github.io/gh-pages/
+* Documentation: https://django-roles-access.github.io
 
 * Package at pypi.org: https://pypi.org/project/django-roles-access/
 

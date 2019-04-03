@@ -1,7 +1,7 @@
 import os
 from setuptools import find_packages, setup
 
-with open(os.path.join(os.path.dirname(__file__), 'README')) as readme:
+with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     README = readme.read()
 
 # allow setup.py to be run from any path
@@ -9,13 +9,14 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django_roles_access',
-    version='0.8.3',
+    version='0.9',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',
     description='Django view access security by roles (groups).',
     long_description=README,
-    url='http://django-roles-access.github.io/master/',
+    long_description_content_type='text/markdown',
+    url='https://django-roles-access.github.io',
     author='Django roles access',
     author_email='django.roles.access@gmail.com',
     classifiers=[
