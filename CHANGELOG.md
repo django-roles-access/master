@@ -1,10 +1,6 @@
 # Django roles Change Log
 
-## [0.9] - 2019-03-28
-
-### Release
-
-- v0.9 As first stable release.
+## [0.8.4] - 2019-04-03
 
 ### Changed
 
