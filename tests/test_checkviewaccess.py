@@ -144,7 +144,7 @@ class UnitTestCheckViewAccessWithoutArguments(UnitTestCase):
                                     'other-fake-middleware']
         mock_settings.ROOT_URLCONF = self.root_urlconf
         out = StringIO()
-        expected_text = u'Django roles active for site: True.'
+        expected_text = u'Django roles access middleware is active: True.'
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text, out.getvalue())
 
@@ -155,7 +155,7 @@ class UnitTestCheckViewAccessWithoutArguments(UnitTestCase):
                                     'other-fake-middleware']
         mock_settings.ROOT_URLCONF = self.root_urlconf
         out = StringIO()
-        expected_text = u'Django roles active for site: False.'
+        expected_text = u'Django roles access middleware is active: False.'
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text, out.getvalue())
 
@@ -415,7 +415,50 @@ class UnitTestCheckViewAccessCSVOutput(UnitTestCase):
     ):
         call_command('checkviewaccess', '--output-format', 'csv')
 
-    def test_write_csv_columns_name_at_begining(
+    @patch('django_roles_access.management.commands.checkviewaccess.timezone')
+    def test_first_line_output_is_report_date(
+            self, mock_timezone, mock_settings, mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        mock_timezone.now.return_value = 'fake-date'
+        expected = u'Reported: fake-date'
+        call_command('checkviewaccess', '--output-format', 'csv',
+                     stdout=out)
+        result = out.getvalue()
+        expected_result = result.split('\n')[0]
+        self.assertIn(expected, expected_result)
+
+    def test_report_if_django_roles_access_middleware_is_active(
+            self, mock_settings, mock_import_module
+    ):
+        mock_settings.MIDDLEWARE = ['fake-middleware',
+                                    'django_roles_access.middleware.RolesMiddleware',
+                                    'other-fake-middleware']
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        expected = u'Django roles access middleware is active: True'
+        call_command('checkviewaccess', '--output-format', 'csv',
+                     stdout=out)
+        result = out.getvalue()
+        expected_result = result.split('\n')[1]
+        self.assertIn(expected, expected_result)
+
+    def test_report_if_django_roles_access_middleware_is_not_active(
+            self, mock_settings, mock_import_module
+    ):
+        mock_settings.MIDDLEWARE = ['fake-middleware',
+                                    'other-fake-middleware']
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        expected = u'Django roles access middleware is active: False'
+        call_command('checkviewaccess', '--output-format', 'csv',
+                     stdout=out)
+        result = out.getvalue()
+        expected_result = result.split('\n')[1]
+        self.assertIn(expected, expected_result)
+
+    def test_write_csv_columns_name(
             self, mock_settings, mock_import_module
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
@@ -423,7 +466,9 @@ class UnitTestCheckViewAccessCSVOutput(UnitTestCase):
         expected = u'App Name,Type,View Name,Url,Status,Status description'
         call_command('checkviewaccess', '--output-format', 'csv',
                      stdout=out)
-        self.assertIn(expected, out.getvalue())
+        result = out.getvalue()
+        expected_result = result.split('\n')[2]
+        self.assertIn(expected, expected_result)
 
 
 class IntegratedTestCheckViewAccess(TestCase):

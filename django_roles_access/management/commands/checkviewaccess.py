@@ -5,6 +5,7 @@ status.
 """
 from importlib import import_module
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 try:
     from django.utils.translation import gettext as _
 except:
@@ -16,7 +17,7 @@ from django_roles_access.utils import (walk_site_url, get_views_by_app,
                                        view_access_analyzer, print_view_analysis)
 
 
-DJANGO_ROLE_MIDDLEWARE = 'django_roles_access.middleware.RolesMiddleware'
+DJANGO_ROLE_ACCESS_MIDDLEWARE = 'django_roles_access.middleware.RolesMiddleware'
 
 
 class Command(BaseCommand):
@@ -36,25 +37,41 @@ class Command(BaseCommand):
         """
         This method implements checkviewaccess command behavior.
         """
-        self.stdout.write(self.style.SUCCESS(
-            _(u'Start checking views access.')))
+        self.with_format = False
+        if options['format']:
+            self.with_format = True
 
-        # 1. All views are collected and grouped by application
-        self.stdout.write(self.style.SUCCESS(
-            _(u'Start gathering information.')))
+        if self.with_format:
+            self.stdout.write(self.style.SUCCESS(
+                _(u'Reported: {}'.format(timezone.now()))))
+        else:
+            self.stdout.write(self.style.SUCCESS(
+                _(u'Start checking views access.')))
+
+            # 1. All views are collected and grouped by application
+            self.stdout.write(self.style.SUCCESS(
+                _(u'Start gathering information.')))
+
         url = import_module(settings.ROOT_URLCONF).urlpatterns
         views_by_app = get_views_by_app(walk_site_url(url))
-        self.stdout.write(self.style.SUCCESS(
-            _(u'Finish gathering information.')))
 
         # 2. Check if Django roles middleware is active or not
-        if DJANGO_ROLE_MIDDLEWARE in settings.MIDDLEWARE:
+        if DJANGO_ROLE_ACCESS_MIDDLEWARE in settings.MIDDLEWARE:
             site_active = True
         else:
             site_active = False
+
         self.stdout.write(
             self.style.SUCCESS(
-                _(u'Django roles active for site: {}.').format(site_active)))
+                _(u'Django roles access middleware is active: '
+                  u'{}.').format(site_active)))
+
+        if self.with_format:
+            self.stdout.write(self.style.SUCCESS(
+                _(u'App Name,Type,View Name,Url,Status,Status description')))
+        else:
+            self.stdout.write(self.style.SUCCESS(
+                _(u'Finish gathering information.')))
 
         # 3. Analysis is done by application
         for app_name, views_list in views_by_app.items():
@@ -99,3 +116,4 @@ class Command(BaseCommand):
         # 6. End of report
         self.stdout.write(self.style.SUCCESS(
             _(u'End checking view access.')))
+
