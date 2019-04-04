@@ -21,37 +21,10 @@ from django_roles_access.utils import (NONE_TYPE_DEFAULT, NOT_SECURED_DEFAULT,
 
 @patch('django_roles_access.management.commands.checkviewaccess.import_module')
 @patch('django_roles_access.management.commands.checkviewaccess.settings')
-class UnitTestCheckViewAccessWithoutArguments(UnitTestCase):
+class UnitTestCheckViewAccessCommon(UnitTestCase):
 
     def setUp(self):
         self.root_urlconf = Mock()
-
-    def test_write_at_beginning_of_command_execution(
-            self, mock_settings, mock_import_module
-    ):
-        mock_settings.ROOT_URLCONF = self.root_urlconf
-        out = StringIO()
-        expected_text = u'Start checking views access.'
-        call_command('checkviewaccess', stdout=out)
-        self.assertIn(expected_text, out.getvalue())
-
-    def test_write_when_finish_command_execution(
-            self, mock_settings, mock_import_module
-    ):
-        mock_settings.ROOT_URLCONF = self.root_urlconf
-        out = StringIO()
-        expected_text = u'End checking view access.'
-        call_command('checkviewaccess', stdout=out)
-        self.assertIn(expected_text, out.getvalue())
-
-    def test_write_at_beginning_of_gathering_information_phase(
-            self, mock_settings, mock_import_module
-    ):
-        mock_settings.ROOT_URLCONF = self.root_urlconf
-        out = StringIO()
-        expected_text = u'Start gathering information.'
-        call_command('checkviewaccess', stdout=out)
-        self.assertIn(expected_text, out.getvalue())
 
     def test_import_module_is_called(
             self, mock_settings, mock_import_module
@@ -126,6 +99,42 @@ class UnitTestCheckViewAccessWithoutArguments(UnitTestCase):
         mock_walk_site_url.return_value = 'fake-result'
         call_command('checkviewaccess')
         mock_get_views_by_app.assert_called_once_with('fake-result')
+
+
+
+@patch('django_roles_access.management.commands.checkviewaccess.import_module')
+@patch('django_roles_access.management.commands.checkviewaccess.settings')
+class UnitTestCheckViewAccessWithoutArguments(UnitTestCase):
+
+    def setUp(self):
+        self.root_urlconf = Mock()
+
+    def test_write_at_beginning_of_command_execution(
+            self, mock_settings, mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        expected_text = u'Start checking views access.'
+        call_command('checkviewaccess', stdout=out)
+        self.assertIn(expected_text, out.getvalue())
+
+    def test_write_when_finish_command_execution(
+            self, mock_settings, mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        expected_text = u'End checking view access.'
+        call_command('checkviewaccess', stdout=out)
+        self.assertIn(expected_text, out.getvalue())
+
+    def test_write_at_beginning_of_gathering_information_phase(
+            self, mock_settings, mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        expected_text = u'Start gathering information.'
+        call_command('checkviewaccess', stdout=out)
+        self.assertIn(expected_text, out.getvalue())
 
     def test_write_at_end_of_gathering_information_phase(
             self, mock_settings, mock_import_module
@@ -469,6 +478,80 @@ class UnitTestCheckViewAccessCSVOutput(UnitTestCase):
         result = out.getvalue()
         expected_result = result.split('\n')[2]
         self.assertIn(expected, expected_result)
+
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.get_views_by_app')
+    @patch('django_roles_access.management.commands.checkviewaccess.'
+           'view_access_analyzer')
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.get_app_type')
+    def test_write_rows(
+            self, mock_get_app_type, mock_view_access_analyzer,
+            mock_get_views_by_app, mock_settings,mock_import_module
+    ):
+        """
+        Normal case: There is app name, it has a type, there is also a view
+        name.
+        """
+        def view_analyze(app_type, callback, view_name, site_active):
+            if view_name is None:
+                return None
+            if view_name == 'fake-view-1':
+                return '1-analyze'
+            if view_name == 'fake-view-2':
+                return 'ERROR: 2-analyze'
+            if view_name == 'fake-view-3':
+                return 'WARNING: 3-analyze'
+
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        mock_get_views_by_app.return_value = {'fake-app':
+                                              [('/fake1/', 'fake-callback-1',
+                                                'fake-view-1'),
+                                               ('/fake2/', 'fake-callback-2',
+                                                'fake-view-2'),
+                                               ('/fake3/', 'fake-callback-3',
+                                                'fake-view-3')]
+                                              }
+        mock_view_access_analyzer.side_effect = view_analyze
+        mock_get_app_type.return_value = 'fake-type'
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv',
+                     stdout=out)
+        result = out.getvalue()
+        expected1 = 'fake-app,fake-type,fake-view-1,/fake1/,Normal,1-analyze'
+        expected2 = 'fake-app,fake-type,fake-view-2,/fake2/,Error,2-analyze'
+        expected3 = 'fake-app,fake-type,fake-view-3,/fake3/,Warning,3-analyze'
+        expected_result = result.split('\n')
+        self.assertEqual(expected_result[3], expected1)
+        self.assertEqual(expected_result[4], expected2)
+        self.assertEqual(expected_result[5], expected3)
+
+    def test_no_write_csv_ending_data(
+            self, mock_settings, mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        expected1 = u'django.contrib.admin,app has no type,,,,'
+        expected2 = u'django.contrib.auth,app has no type,,,,'
+        expected3 = u'django.contrib.contenttypes,app has no type,,,,'
+        expected4 = u'django.contrib.sessions,app has no type,,,,'
+        expected5 = u'django_roles_access,app has no type,,,,'
+        expected6 = u''
+        call_command('checkviewaccess', '--output-format', 'csv',
+                     stdout=out)
+        result = out.getvalue()
+        expected_result1 = result.split('\n')[3]
+        expected_result2 = result.split('\n')[4]
+        expected_result3 = result.split('\n')[5]
+        expected_result4 = result.split('\n')[6]
+        expected_result5 = result.split('\n')[7]
+        expected_result6 = result.split('\n')[8]
+        self.assertEquals(expected1, expected_result1)
+        self.assertEquals(expected2, expected_result2)
+        self.assertEquals(expected3, expected_result3)
+        self.assertEquals(expected4, expected_result4)
+        self.assertEquals(expected5, expected_result5)
+        self.assertEquals(expected6, expected_result6)
 
 
 class IntegratedTestCheckViewAccess(TestCase):

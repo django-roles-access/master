@@ -74,46 +74,84 @@ class Command(BaseCommand):
                 _(u'Finish gathering information.')))
 
         # 3. Analysis is done by application
+        row_app = ''
         for app_name, views_list in views_by_app.items():
-            self.stdout.write(
-                self.style.SUCCESS(
-                    _(u'\tAnalyzing {}:').format(app_name)))
+            if self.with_format:
+                row_app += app_name + ','
+            else:
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        _(u'\tAnalyzing {}:').format(app_name)))
             # Get application classification.
             app_type = get_app_type(app_name)
             if app_type:
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        _(u'\t\t{} is {} type.').format(app_name, app_type)))
+                if self.with_format:
+                    row_app += app_type
+                else:
+                    self.stdout.write(
+                        self.style.SUCCESS(
+                            _(u'\t\t{} is {} type.').format(app_name, app_type)))
             else:
-                self.stdout.write(
-                    self.style.WARNING(
-                        _(u'\t\t{} has no type.').format(app_name)))
+                if self.with_format:
+                    row_app += 'app has no type'
+                else:
+                    self.stdout.write(
+                        self.style.WARNING(
+                            _(u'\t\t{} has no type.').format(app_name)))
 
             # if application does not have views list:
             if len(views_list) == 0:
-                self.stdout.write(
-                    self.style.WARNING(
-                        _(u'\t\t{} does not have configured views.'.format(
-                            app_name))))
+                if self.with_format:
+                    self.stdout.write(row_app + ',,,,')
+                else:
+                    self.stdout.write(
+                        self.style.WARNING(
+                            _(u'\t\t{} does not have configured views.'.format(
+                                app_name))))
 
             # 4. For each view of the analyzed application
+            row_view = ''
             for url, callback, view_name in views_list:
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        _(u'\n\t\tAnalysis for view: {}'
-                          u'\n\t\tView url: {}'.format(view_name, url))))
+                if self.with_format:
+                    row_view += view_name + ',' + url + ','
+                else:
+                    self.stdout.write(
+                        self.style.SUCCESS(
+                            _(u'\n\t\tAnalysis for view: {}'
+                              u'\n\t\tView url: {}'.format(view_name, url))))
 
                 analysis = view_access_analyzer(app_type, callback, view_name,
                                                 site_active)
 
-                print_view_analysis(self.stdout, self.style, analysis)
+                if self.with_format:
+                    if 'ERROR:' in analysis:
+                        row_view += _(u'Error,{}'.format(
+                            analysis.split('ERROR: ')[1]
+                        ))
+                    elif 'WARNING:' in analysis:
+                        row_view += _(u'Warning,{}'.format(
+                            analysis.split('WARNING: ')[1]
+                        ))
+                    else:
+                        row_view += _(u'Normal,{}'.format(analysis))
+                else:
+                    print_view_analysis(self.stdout, self.style, analysis)
 
+                # End cycle for each app view
+                if self.with_format:
+                    self.stdout.write(row_app + ',' + row_view)
+                    row_view = ''
+            row_app = ''
             # 5. End for app_name in views_by_app:
-            self.stdout.write(
-                self.style.SUCCESS(
-                    _(u'\tFinish analyzing {}.').format(app_name)))
+            if not self.with_format:
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        _(u'\tFinish analyzing {}.').format(app_name)))
 
         # 6. End of report
-        self.stdout.write(self.style.SUCCESS(
-            _(u'End checking view access.')))
+        if self.with_format:
+            self.stdout.write('')
+        else:
+            self.stdout.write(self.style.SUCCESS(
+                _(u'End checking view access.')))
 
