@@ -1,5 +1,22 @@
 # Django roles Change Log
 
+## [0.9] - 2019-04-xx #### Release candidate
+
+### Added
+
+- Action checkviewaccess report output with csv format.
+
+### Changed
+
+- Roles attributes in ViewAccess is required only when "By role" type is 
+selected.
+
+## [0.8.5] - 2019-04-03
+
+### Changed
+
+- Better look & feel in README.md file.
+
 ## [0.8.4] - 2019-04-03
 
 ### Changed
