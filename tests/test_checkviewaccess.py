@@ -16,13 +16,12 @@ from unittest.case import TestCase as UnitTestCase
 from django.core.management import call_command
 from django.test import TestCase, modify_settings
 from django_roles_access.utils import (NONE_TYPE_DEFAULT, NOT_SECURED_DEFAULT,
-                                       SECURED_DEFAULT, PUBLIC_DEFAULT,
                                        APP_NAME_FOR_NONE)
 
 
 @patch('django_roles_access.management.commands.checkviewaccess.import_module')
 @patch('django_roles_access.management.commands.checkviewaccess.settings')
-class UnitTestCheckViewAccess(UnitTestCase):
+class UnitTestCheckViewAccessWithoutArguments(UnitTestCase):
 
     def setUp(self):
         self.root_urlconf = Mock()
@@ -404,6 +403,29 @@ class UnitTestCheckViewAccess(UnitTestCase):
                                                          u'fake-analysis')
 
 
+@patch('django_roles_access.management.commands.checkviewaccess.import_module')
+@patch('django_roles_access.management.commands.checkviewaccess.settings')
+class UnitTestCheckViewAccessCSVOutput(UnitTestCase):
+
+    def setUp(self):
+        self.root_urlconf = Mock()
+
+    def test_action_accept_output_argument(
+            self, mock_settings, mock_import_module
+    ):
+        call_command('checkviewaccess', '--output-format', 'csv')
+
+    def test_write_csv_columns_name_at_begining(
+            self, mock_settings, mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        out = StringIO()
+        expected = u'App Name,Type,View Name,Url,Status,Status description'
+        call_command('checkviewaccess', '--output-format', 'csv',
+                     stdout=out)
+        self.assertIn(expected, out.getvalue())
+
+
 class IntegratedTestCheckViewAccess(TestCase):
     """
     Cases:
@@ -430,10 +452,6 @@ class IntegratedTestCheckViewAccess(TestCase):
     NOT_SECURED_DEFAULT = u'WARNING: View has no security configured ' \
                           u'(ViewAccess) and application type is ' \
                           u'"NOT_SECURED". No access is checked at all.'
-
-    SECURED_DEFAULT = u''
-
-    PUBLIC_DEFAULT = u''
 
     def setUp(self):
         # Clean up
@@ -535,7 +553,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         expected_1 += u'\n\t\tdjango_roles is SECURED type.'
         expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
         expected_2 += u'\t\tView url: role-included2/view_by_role/'
-        expected_2 += u'\n\t\t' + SECURED_DEFAULT
+        expected_2 += u'\n\t\t'
         out = StringIO()
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_1, out.getvalue())
@@ -548,7 +566,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         expected_1 += u'\n\t\tdjango_roles is PUBLIC type.'
         expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
         expected_2 += u'\t\tView url: role-included2/view_by_role/'
-        expected_2 += u'\n\t\t' + PUBLIC_DEFAULT
+        expected_2 += u'\n\t\t'
         out = StringIO()
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_1, out.getvalue())
@@ -613,7 +631,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         expected_1 += u'\n\t\tdjango_roles is SECURED type.'
         expected_2 = u'Analysis for view: app-ns2:mixin_class_view\n'
         expected_2 += u'\t\tView url: role-included2/mixin_class_view/'
-        expected_2 += u'\n\t\t' + SECURED_DEFAULT
+        expected_2 += u'\n\t\t'
         out = StringIO()
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_1, out.getvalue())
@@ -626,7 +644,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         expected_1 += u'\n\t\tdjango_roles is PUBLIC type.'
         expected_2 = u'Analysis for view: app-ns2:mixin_class_view\n'
         expected_2 += u'\t\tView url: role-included2/mixin_class_view/'
-        expected_2 += u'\n\t\t' + PUBLIC_DEFAULT
+        expected_2 += u'\n\t\t'
         out = StringIO()
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_1, out.getvalue())
@@ -700,7 +718,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         expected_1 += u'\n\t\tdjango_roles is SECURED type.'
         expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
         expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
-        expected_2 += u'\n\t\t' + SECURED_DEFAULT
+        expected_2 += u'\n\t\t'
         out = StringIO()
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_1, out.getvalue())
@@ -716,7 +734,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         expected_1 += u'\n\t\tdjango_roles is PUBLIC type.'
         expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
         expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
-        expected_2 += u'\n\t\t' + PUBLIC_DEFAULT
+        expected_2 += u'\n\t\t'
         out = StringIO()
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_1, out.getvalue())

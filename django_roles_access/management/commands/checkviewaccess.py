@@ -21,23 +21,16 @@ DJANGO_ROLE_MIDDLEWARE = 'django_roles_access.middleware.RolesMiddleware'
 
 class Command(BaseCommand):
     """
-    **checkviewaccess** management command analyze *all site's views access*.
-
-    The list with *all site's views* is obtained from *urlpatterns* attribute of
-    the URLConf module configured in settings.ROOT_URLCONF.Each view access from
-    the list of *site's views* is subject of analyze.
-
-    Conclusion of analyze is reported by application as Django Roles let
-    classify installed applications.
+    **checkviewaccess** management command to analyze *site's views access*.
     """
     help = 'Manage command checkviewaccess'
 
-    # def add_arguments(self, parser):
-    #     """
-    #     The command can receive arguments. They have to be
-    #     declared in add_arguments method.
-    #     """
-    #     parser.add_argument('ids', nargs='+', type=int)
+    def add_arguments(self, parser):
+        # Add optional argument issue # 2
+        parser.add_argument(
+            '--output-format',
+            dest='format',
+            type=str)
 
     def handle(self, *args, **options):
         """

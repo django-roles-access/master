@@ -6,10 +6,6 @@
 
 - Action checkviewaccess report output with csv format.
 
-### Changed
-
-- Roles attributes in ViewAccess is required only when "By role" type is 
-selected.
 
 ## [0.8.5] - 2019-04-03
 
