@@ -4,7 +4,8 @@ This test module will search for all site's urls and analyze their security
 status.
 """
 from importlib import import_module
-from django.core.management.base import BaseCommand
+
+from django.core.management import BaseCommand
 from django.utils import timezone
 try:
     from django.utils.translation import gettext as _
@@ -14,7 +15,8 @@ from django.conf import settings
 
 from django_roles_access.tools import get_app_type
 from django_roles_access.utils import (walk_site_url, get_views_by_app,
-                                       view_access_analyzer, print_view_analysis)
+                                       view_access_analyzer,
+                                       print_view_analysis, OutputFormater)
 
 
 DJANGO_ROLE_ACCESS_MIDDLEWARE = 'django_roles_access.middleware.RolesMiddleware'
@@ -37,6 +39,7 @@ class Command(BaseCommand):
         """
         This method implements checkviewaccess command behavior.
         """
+        output = OutputFormater(self.stdout, self.style)
         self.with_format = False
         if options['format']:
             self.with_format = True
@@ -48,10 +51,10 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(
                 _(u'Start checking views access.')))
 
-            # 1. All views are collected and grouped by application
             self.stdout.write(self.style.SUCCESS(
                 _(u'Start gathering information.')))
 
+        # 1. Get information. All views are collected and grouped by application
         url = import_module(settings.ROOT_URLCONF).urlpatterns
         views_by_app = get_views_by_app(walk_site_url(url))
 

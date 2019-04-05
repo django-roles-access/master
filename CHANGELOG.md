@@ -6,6 +6,7 @@
 
 - Action checkviewaccess report output with csv format.
 
+- New documentation title: [Test coverage](https://django-roles-access.github.io/coverage.html)
 
 ## [0.8.5] - 2019-04-03
 
@@ -26,8 +27,7 @@
 
 ### Changed
 
-- Delete docs directory from main code repository. Move documentation to new 
-repository at: gh-pages: https://django-roles-access.github.io/gh-pages/ 
+- Documentation move it to: [Django roles access](https://django-roles-access.github.io)
 
 - README file for Pypi.org.
 

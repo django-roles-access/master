@@ -1,9 +1,9 @@
 from django.conf import settings
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 try:
-    from django.utils.translation import gettext as _
-except:
     from django.utils.translation import ugettex as _
+except:
+    from django.utils.translation import gettext as _
 from django.urls import resolve
 
 from django_roles_access.models import ViewAccess

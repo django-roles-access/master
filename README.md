@@ -1,5 +1,5 @@
-Django Roles Access
-===================
+# Django Roles Access
+Add logo and status icon
 
 Application for securing access to views with roles
 (*Django contrib Groups*).
@@ -29,8 +29,8 @@ Works with:
 * Docs: https://django-roles-access.github.io/gh-pages/
 
 
-Requirements
-============
+## Requirements
+
 
 Django roles access use *Django contrib Groups*, *Django contrib User*. Also
 *Django
@@ -41,48 +41,43 @@ this it has the same requirements than it. This can be checked in the
 official documentation: https://docs.djangoproject.com/en/dev/ref/contrib/admin/
 
 
-Quick start
-===========
+## Quick start
 
 
-Installation and configuration
-------------------------------
+### Installation and configuration
+
 
 1. Install ``django_roles_access`` from pypi:
 
 
     pip install django-roles-access
 
-
 2. Add *'django_roles_access'* to your INSTALLED_APPS setting:
-
-
-
+    
+    
     INSTALLED_APPS = [
         ...
         'django_roles_access',
     ]
-
-
+    
 3. Run migrations to create the ``django_roles_access`` models:
 
 
     python manage.py migrate
 
 
-Note
-----
+>Note:
+>
+>   If nothing else is done, then Django site security keeps without
+>   modification.
 
-   If nothing else is done, then Django site security keeps without
-   modification.
 
+### Access configuration
 
-Access configuration
---------------------
 
 Quick access configuration in two steps.
 
-Step 1
+#### Step 1
 
 
 In *Django admin* interface create a ``django_roles_access.models.ViewAccess``
@@ -97,14 +92,14 @@ object and configure it:
    * **Authorized**: Only authorized (logged) *Django contrib User* can access
      the view.
 
-   * **By roles**: Only *Django contrib User* belonging to
-     any added *Django contrib user* will access the view.
+   * **By roles**: Only *Django contrib User* belonging to any added *Django 
+   contrib user* will access the view.
 
 3. **roles** attribute: When *By roles* is selected as *access type*, this
    attribute hold any *Django contrib Group* whose members will access the view.
 
 
-Step 2
+#### Step 2
 
 
 Use ``django_roles_access.decorators.access_by_role`` decorator or
@@ -132,19 +127,19 @@ In case of classes based views use mixin:
         ...
 
 
-Note 1:
+>Note 1:
+>
+>   When user has no access to a view, by default ``django_roles_access``
+>   response with ``django.http.HttpResponseForbidden``.
 
-   When user has no access to a view, by default ``django_roles_access``
-   response with ``django.http.HttpResponseForbidden``.
-
-Note 2:
-
-   Pre existent security behavior can be modified if a ``django_role_access``
-   configuration for the same view results in forbidden access.
+>Note 2:
+>
+>   Pre existent security behavior can be modified if a ``django_role_access``
+>   configuration for the same view results in forbidden access.
 
 
-Test Django roles access
-========================
+## Test Django roles access
+
 
 1. Create a virtual environment.
 
@@ -168,11 +163,11 @@ Test Django roles access
     tox
 
 
-Related sites
-=============
+## Related sites
 
-* Documentation: https://django-roles-access.github.io
 
-* Package at pypi.org: https://pypi.org/project/django-roles-access/
+* [Documentation](https://django-roles-access.github.io)
 
-* Travis CI integration: https://travis-ci.org/django-roles-access/master
+* [Package at pypi.org](https://pypi.org/project/django-roles-access/)
+
+* [Travis CI integration](https://travis-ci.org/django-roles-access/master)

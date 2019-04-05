@@ -153,3 +153,21 @@ def print_view_analysis(stdout, style, report):
         stdout.write(style.WARNING('\t' + report))
     else:
         stdout.write(style.SUCCESS('\t' + report))
+
+
+class OutputFormater(object):
+
+    def __init__(self, stdout, style):
+        self.stdout = stdout
+        self.style = style
+        self.format = 'console'
+
+    def writeline(self, text):
+        if 'ERROR:' in text:
+            self.stdout.write(self.style.ERROR('\t' + text))
+        elif 'WARNING:' in text:
+            self.stdout.write(self.style.WARNING('\t' + text))
+        else:
+            self.stdout.write(self.style.SUCCESS(text))
+
+

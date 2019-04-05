@@ -4,9 +4,9 @@
 
 from django.db import models
 try:
-    from django.utils.translation import gettext_lazy as _
-except:
     from django.utils.translation import ugettex_lazy as _
+except:
+    from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import Group
 
 
