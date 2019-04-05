@@ -146,15 +146,6 @@ def view_access_analyzer(app_type, callback, view_name, site_active):
     return result
 
 
-def print_view_analysis(stdout, style, report):
-    if 'ERROR' in report:
-        stdout.write(style.ERROR('\t' + report))
-    elif 'WARNING' in report:
-        stdout.write(style.WARNING('\t' + report))
-    else:
-        stdout.write(style.SUCCESS('\t' + report))
-
-
 class OutputFormater(object):
 
     def __init__(self, stdout, style):
@@ -162,12 +153,12 @@ class OutputFormater(object):
         self.style = style
         self.format = 'console'
 
-    def writeline(self, text):
+    def write_view_access_analyzer(self, text):
         if 'ERROR:' in text:
             self.stdout.write(self.style.ERROR('\t' + text))
         elif 'WARNING:' in text:
             self.stdout.write(self.style.WARNING('\t' + text))
         else:
-            self.stdout.write(self.style.SUCCESS(text))
+            self.stdout.write(self.style.SUCCESS('\t' + text))
 
 

@@ -16,7 +16,7 @@ from django.conf import settings
 from django_roles_access.tools import get_app_type
 from django_roles_access.utils import (walk_site_url, get_views_by_app,
                                        view_access_analyzer,
-                                       print_view_analysis, OutputFormater)
+                                       OutputFormater)
 
 
 DJANGO_ROLE_ACCESS_MIDDLEWARE = 'django_roles_access.middleware.RolesMiddleware'
@@ -138,7 +138,8 @@ class Command(BaseCommand):
                     else:
                         row_view += _(u'Normal,{}'.format(analysis))
                 else:
-                    print_view_analysis(self.stdout, self.style, analysis)
+                    output.write_view_access_analyzer(analysis)
+                    # print_view_analysis(self.stdout, self.style, analysis)
 
                 # End cycle for each app view
                 if self.with_format:

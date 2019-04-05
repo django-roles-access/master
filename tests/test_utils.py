@@ -19,7 +19,6 @@ from django_roles_access.utils import (walk_site_url, get_views_by_app,
                                        view_access_analyzer,
                                        get_view_analyze_report,
                                        check_django_roles_is_used,
-                                       print_view_analysis,
                                        analyze_by_role, APP_NAME_FOR_NONE,
                                        NOT_SECURED_DEFAULT, SECURED_DEFAULT,
                                        PUBLIC_DEFAULT, NONE_TYPE_DEFAULT,
@@ -863,67 +862,6 @@ class IntegratedTestViewAnalyzezr(TestCase):
 
 @patch.object(BaseCommand(), 'style')
 @patch.object(BaseCommand(), 'stdout')
-class UnitTestPrintViewAnalysis(UnitTestCase):
-
-    def test_call_stdout(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'fake report')
-        assert mock_stdout.write.called
-
-    def test_call_stdout_once(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'fake report')
-        self.assertEqual(mock_stdout.write.call_count, 1)
-
-    def test_call_stdout_with_SUCCESS(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'fake report')
-        mock_stdout.write.assert_called_once_with(
-            mock_style.SUCCESS())
-
-    def test_call_SUCCESS_style(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'fake report')
-        assert mock_style.SUCCESS.called
-
-    def test_call_SUCCESS_style_with_report(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'fake report')
-        mock_style.SUCCESS.assert_called_once_with('\t' + 'fake report')
-
-    def test_call_ERROR_style_when_there_is_an_error_in_report(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'ERROR: fake report')
-        assert mock_style.ERROR.called
-
-    def test_call_ERROR_style_when_there_is_an_error_in_report_with_report(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'ERROR: fake report')
-        mock_style.ERROR.assert_called_once_with('\t' + 'ERROR: fake report')
-
-    def test_call_WARNING_style_when_there_is_a_warning_in_report(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'WARNING: fake report')
-        assert mock_style.WARNING.called
-
-    def test_call_WARNING_style_when_there_is_a_warning_in_report_with_report(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'WARNING: fake report')
-        mock_style.WARNING.assert_called_once_with(
-            '\t' + 'WARNING: fake report')
-
-
-@patch.object(BaseCommand(), 'style')
-@patch.object(BaseCommand(), 'stdout')
 class UnitTestOutputFormater(UnitTestCase):
 
     def test_initial_with_parameter(
@@ -949,21 +887,21 @@ class UnitTestOutputFormater(UnitTestCase):
             self, mock_stdout, mock_style
     ):
         command = OutputFormater(mock_stdout, mock_style)
-        command.writeline(u'some text')
+        command.write_view_access_analyzer(u'some text')
         assert mock_stdout.write.called
 
     def test_write_call_stdout_write_once_if_format_is_console(
             self, mock_stdout, mock_style
     ):
         command = OutputFormater(mock_stdout, mock_style)
-        command.writeline(u'some text')
+        command.write_view_access_analyzer(u'some text')
         self.assertEqual(mock_stdout.write.call_count, 1)
 
     def test_call_stdout_with_SUCCESS_if_format_is_console(
             self, mock_stdout, mock_style
     ):
         command = OutputFormater(mock_stdout, mock_style)
-        command.writeline(u'some text')
+        command.write_view_access_analyzer(u'some text')
         mock_stdout.write.assert_called_once_with(
             mock_style.SUCCESS())
 
@@ -971,41 +909,41 @@ class UnitTestOutputFormater(UnitTestCase):
             self, mock_stdout, mock_style
     ):
         command = OutputFormater(mock_stdout, mock_style)
-        command.writeline(u'some text')
+        command.write_view_access_analyzer(u'some text')
         assert mock_style.SUCCESS.called
 
     def test_call_SUCCESS_style_with_report_if_format_is_console(
             self, mock_stdout, mock_style
     ):
         command = OutputFormater(mock_stdout, mock_style)
-        command.writeline(u'some text')
-        mock_style.SUCCESS.assert_called_once_with(u'some text')
+        command.write_view_access_analyzer(u'some text')
+        mock_style.SUCCESS.assert_called_once_with(u'\tsome text')
 
     def test_call_ERROR_style_when_there_is_an_error_if_format_is_console(
             self, mock_stdout, mock_style
     ):
         command = OutputFormater(mock_stdout, mock_style)
-        command.writeline('ERROR: fake report')
+        command.write_view_access_analyzer('ERROR: fake report')
         assert mock_style.ERROR.called
 
     def test_call_ERROR_style_once_when_there_is_an_error_if_format_is_console(
             self, mock_stdout, mock_style
     ):
         command = OutputFormater(mock_stdout, mock_style)
-        command.writeline('ERROR: fake report')
+        command.write_view_access_analyzer('ERROR: fake report')
         mock_style.ERROR.assert_called_once_with('\t' + 'ERROR: fake report')
 
     def test_call_WARNING_style_when_there_is_a_warning_if_format_is_console(
             self, mock_stdout, mock_style
     ):
         command = OutputFormater(mock_stdout, mock_style)
-        command.writeline('WARNING: fake report')
+        command.write_view_access_analyzer('WARNING: fake report')
         assert mock_style.WARNING.called
 
     def test_call_WARNING_style_once_when_there_is_a_warning_if_format_is_console(
             self, mock_stdout, mock_style
     ):
         command = OutputFormater(mock_stdout, mock_style)
-        command.writeline('WARNING: fake report')
+        command.write_view_access_analyzer('WARNING: fake report')
         mock_style.WARNING.assert_called_once_with(
             '\t' + 'WARNING: fake report')

@@ -413,9 +413,9 @@ class UnitTestCheckViewAccessWithoutArguments(UnitTestCase):
     @patch('django_roles_access.management.commands.checkviewaccess.'
            'view_access_analyzer')
     @patch('django_roles_access.management.commands.checkviewaccess'
-           '.print_view_analysis')
-    def test_print_view_analyzer_is_called_1_times(
-            self, mock_print_view_analysis, mock_view_access_analyzer,
+           '.OutputFormater.write_view_access_analyzer')
+    def test_write_report_view_analyzer_is_called_1_times(
+            self, mock_write_report, mock_view_access_analyzer,
             mock_view_by_app, mock_settings, mock_import_module
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
@@ -424,15 +424,15 @@ class UnitTestCheckViewAccessWithoutArguments(UnitTestCase):
                                            'fake-view')]}
         mock_view_access_analyzer.return_value = u'fake-analysis'
         call_command('checkviewaccess')
-        self.assertEqual(mock_print_view_analysis.call_count, 1)
+        self.assertEqual(mock_write_report.call_count, 1)
 
     @patch('django_roles_access.management.commands.checkviewaccess.get_views_by_app')
     @patch('django_roles_access.management.commands.checkviewaccess.'
            'view_access_analyzer')
     @patch('django_roles_access.management.commands.checkviewaccess'
-           '.print_view_analysis')
-    def test_print_view_analyzer_is_called_1_times_with_param(
-            self, mock_print_view_analysis,
+           '.OutputFormater.write_view_access_analyzer')
+    def test_write_report_view_analyzer_is_called_1_times_with_param(
+            self, mock_write_report,
             mock_view_access_analyzer, mock_view_by_app, mock_settings,
             mock_import_module
     ):
@@ -442,8 +442,7 @@ class UnitTestCheckViewAccessWithoutArguments(UnitTestCase):
                                            'fake-view')]}
         mock_view_access_analyzer.return_value = u'fake-analysis'
         call_command('checkviewaccess')
-        mock_print_view_analysis.assert_called_once_with(ANY, ANY,
-                                                         u'fake-analysis')
+        mock_write_report.assert_called_once_with(u'fake-analysis')
 
 
 @patch('django_roles_access.management.commands.checkviewaccess.import_module')
