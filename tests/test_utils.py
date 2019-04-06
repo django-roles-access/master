@@ -883,14 +883,45 @@ class UnitTestOutputFormater(UnitTestCase):
         command = OutputFormater(mock_stdout, mock_style)
         assert command.format == 'console'
 
-    def test_write_call_stdout_write_if_format_is_console(
+
+    """
+    Next method are needed:
+    write: to stdout and SUCCESS
+    write_header: if format is console, call to write and print all information,
+                  if format is csv, call to write with simplify data.
+    write_app_data: if format is console, call to write, if format is csv 
+                    acumulate in line.
+    write_view_data: if format is console, call to write, if format is csv
+                     acumulate in line.
+    write_view_analyze: if format is console, call to write, if format is csv
+                        acumulate in line.
+    close_view: if format is console, nothing is done. If format is csv, 
+                acumulate line is written to stdout.
+    close_app: if format is console, write end of analysis for app, if format 
+               is csv do nothing.
+    write_foot: if format is
+    """
+
+    def test_write_header_call_stdout_write_if_format_is_console(
+            self, mock_stdout, mock_style
+    ):
+        pass
+
+    def test_write_header_call_stdout_write_simplify_if_format_is_csv(
+            self, mock_stdout, mock_style
+    ):
+        pass
+
+
+
+    def test_write_vaa_call_stdout_write_if_format_is_console(
             self, mock_stdout, mock_style
     ):
         command = OutputFormater(mock_stdout, mock_style)
         command.write_view_access_analyzer(u'some text')
         assert mock_stdout.write.called
 
-    def test_write_call_stdout_write_once_if_format_is_console(
+    def test_write_vaa_call_stdout_write_once_if_format_is_console(
             self, mock_stdout, mock_style
     ):
         command = OutputFormater(mock_stdout, mock_style)
@@ -947,3 +978,31 @@ class UnitTestOutputFormater(UnitTestCase):
         command.write_view_access_analyzer('WARNING: fake report')
         mock_style.WARNING.assert_called_once_with(
             '\t' + 'WARNING: fake report')
+
+    def test_write_vaa_send_data_to_string_if_format_is_csv(
+            self, mock_stdout, mock_style
+    ):
+        expected = u'Normal,fake-report'
+        command = OutputFormater(mock_stdout, mock_style)
+        command.format = 'csv'
+        command.write_view_access_analyzer(u'fake-report')
+        self.assertEqual(expected, command.view_analyze)
+
+    def test_write_view_access_analyzer_with_ERROR_if_format_is_csv(
+            self, mock_stdout, mock_style
+    ):
+        expected = u'Error,fake-report'
+        command = OutputFormater(mock_stdout, mock_style)
+        command.format = 'csv'
+        command.write_view_access_analyzer(u'ERROR: fake-report')
+        self.assertEqual(expected, command.view_analyze)
+
+    def test_write_view_access_analyzer_with_WARNING_if_format_is_csv(
+            self, mock_stdout, mock_style
+    ):
+        expected = u'Warning,fake-report'
+        command = OutputFormater(mock_stdout, mock_style)
+        command.format = 'csv'
+        command.write_view_access_analyzer(u'WARNING: fake-report')
+        self.assertEqual(expected, command.view_analyze)
+

@@ -1,5 +1,12 @@
-# Django Roles Access
-Add logo and status icon
+#![Django roles access](django-roles-access.png "Django roles access") Django Roles Access 
+[![Build Status](https://travis-ci.org/django-roles-access/master.svg?branch=master)](https://travis-ci.org/django-roles-access/master)
+[![codecov](https://codecov.io/gh/django-roles-access/master/branch/master/graph/badge.svg)](https://codecov.io/gh/django-roles-access/master)
+
+
+
+![](https://img.shields.io/badge/django--roles--access-v0.9.0-blue.svg)
+![](https://img.shields.io/badge/tests-✔%20302%20%7C%20✘%201-brightgreen.svg)
+![](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)
 
 Application for securing access to views with roles
 (*Django contrib Groups*).
@@ -171,3 +178,5 @@ In case of classes based views use mixin:
 * [Package at pypi.org](https://pypi.org/project/django-roles-access/)
 
 * [Travis CI integration](https://travis-ci.org/django-roles-access/master)
+
+* [Coverage](https://django-roles-access.github.io/coverage.html)

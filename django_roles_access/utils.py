@@ -152,13 +152,23 @@ class OutputFormater(object):
         self.stdout = stdout
         self.style = style
         self.format = 'console'
+        self.view_analyze = None
 
     def write_view_access_analyzer(self, text):
-        if 'ERROR:' in text:
-            self.stdout.write(self.style.ERROR('\t' + text))
-        elif 'WARNING:' in text:
-            self.stdout.write(self.style.WARNING('\t' + text))
-        else:
-            self.stdout.write(self.style.SUCCESS('\t' + text))
+        if self.format == 'console':
+            if 'ERROR:' in text:
+                self.stdout.write(self.style.ERROR('\t' + text))
+            elif 'WARNING:' in text:
+                self.stdout.write(self.style.WARNING('\t' + text))
+            else:
+                self.stdout.write(self.style.SUCCESS('\t' + text))
+        elif self.format == 'csv':
+            if 'ERROR:' in text:
+                self.view_analyze = u'Error,{}'.format(text.split('ERROR: ')[1])
+            elif 'WARNING:' in text:
+                self.view_analyze = u'Warning,{}'.format(
+                    text.split('WARNING: ')[1])
+            else:
+                self.view_analyze = u'Normal,{}'.format(text)
 
 
