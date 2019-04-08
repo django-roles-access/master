@@ -253,4 +253,4 @@ class OutputFormater(object):
             _output = _(u'End checking view access.')
             self.stdout.write(self.style.SUCCESS(_output))
         elif self._format == self.CSV:
-            self._row = u''
+            self._row = u'\n'
