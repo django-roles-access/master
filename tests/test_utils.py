@@ -860,227 +860,305 @@ class IntegratedTestViewAnalyzezr(TestCase):
         self.assertEqual(result, expected)
 
 
-@patch.object(BaseCommand(), 'style')
-@patch.object(BaseCommand(), 'stdout')
 class UnitTestOutputFormater(UnitTestCase):
 
-    def test_initial_with_parameter(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        assert command.stdout == mock_stdout
-        assert command.style == mock_style
+    def setUp(self):
+        self.patch_mock_stdout = patch.object(BaseCommand(), 'style')
+        self.patch_mock_style = patch.object(BaseCommand(), 'stdout')
+        self.mock_stdout = self.patch_mock_stdout.start()
+        self.mock_style = self.patch_mock_style.start()
+        self.command = OutputFormater(self.mock_stdout, self.mock_style)
 
-    def test_initial_without_parameter(
-            self, mock_stdout, mock_style
-    ):
+    def tearDown(self):
+        self.patch_mock_stdout.stop()
+        self.patch_mock_style.stop()
+
+    def test_initial_with_parameter(self):
+        assert self.command.stdout == self.mock_stdout
+        assert self.command.style == self.mock_style
+
+    def test_internal_attributes_are_initialize(self):
+        assert hasattr(self.command, '_row') and self.command._row == u''
+        assert hasattr(self.command, '_format') and self.command._format == \
+               'console'
+
+    def test_initial_without_parameter(self):
         with self.assertRaises(TypeError) as e:
             OutputFormater()
 
-    def test_default_output_format_is_correct_type(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        assert command._format == 'console'
+    def test_default_output_format_is_correct_type(self):
+        assert self.command._format == 'console'
 
-    def test_set_format(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        command.set_format('csv')
-        assert command._format == 'csv'
+    def test_set_format(self):
+        self.command.set_format('csv')
+        assert self.command._format == 'csv'
 
-    def test_write_method_write_to_stdout(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        command.write(u'some text')
-        assert mock_stdout.write.called
+    def test_add_to_row(self):
+        self.command.add_to_row('text')
+        self.assertIn('text', self.command._row)
 
-    def test_write_method_use_stdout_write_once(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        command.write(u'some text')
-        self.assertEqual(mock_stdout.write.call_count, 1)
+    def test_write_method_write_to_stdout(self):
+        self.command.write(u'some text')
+        assert self.mock_stdout.write.called
 
-    def test_write_method_use_SUCCESS_style_for_styling_output(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        command.write(u'some text')
-        mock_stdout.write.assert_called_once_with(
-            mock_style.SUCCESS())
+    def test_write_method_use_stdout_write_once(self):
+        self.command.write(u'some text')
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
 
-    def test_write_method_use_SUCCESS_style_for_output(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        command.write(u'some text')
-        assert mock_style.SUCCESS.called
+    def test_write_method_use_SUCCESS_style_for_styling_output(self):
+        self.command.write(u'some text')
+        self.mock_stdout.write.assert_called_once_with(
+            self.mock_style.SUCCESS())
 
-    def test_write_method_use_style_with_received_argument(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        command.write(u'some text')
-        mock_style.SUCCESS.assert_called_once_with(u'some text')
+    def test_write_method_use_SUCCESS_style_for_output(self):
+        self.command.write(u'some text')
+        assert self.mock_style.SUCCESS.called
 
-    # def test_console_format_write_correct_header_to_stdout_with_SUCCESS_style(
-    #         self, mock_stdout, mock_style
-    # ):
-    #
-    #     self.fail(u'Write console header to stdout')
-    #
-    # def test_cvs_format_write_correct_header(
-    #         self, mock_stdout, mock_style
-    # ):
-    #     pass
-    #
-    #
-    # def test_console_format_write_application_data_to_stdout_with_SUCCESS_style(
-    #         self, mock_stdout, mock_style
-    # ):
-    #     pass
-    #
-    # def test_cvs_format_write_application_data_to_string(
-    #         self, mock_stdout, mock_style
-    # ):
-    #     pass
-    #
-    #
-    # def test_console_format_write_view_data_to_stdout_with_SUCCESS_style(
-    #         self, mock_stdout, mock_style
-    # ):
-    #     pass
-    #
-    # def test_cvs_format_write_view_data_to_string(
-    #         self, mock_stdout, mock_style
-    # ):
-    #     pass
+    def test_write_method_use_style_with_received_argument(self):
+        self.command.write(u'some text')
+        self.mock_style.SUCCESS.assert_called_once_with(u'some text')
+
+    def test_console_format_write_correct_header_to_stdout_with_SUCCESS_style(
+            self
+    ):
+        expected = u'Start checking views access.\n'
+        expected += u'Start gathering information.'
+        self.command.write_header()
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    @patch('django_roles_access.utils.timezone')
+    def test_cvs_format_write_correct_header(
+            self, mock_timezone
+    ):
+        mock_timezone.now.return_value = 'fake-date'
+        self.command.set_format('csv')
+        self.command.write_header()
+        self.mock_style.SUCCESS.assert_called_once_with(u'Reported: fake-date')
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_console_format_write_correct_middleware_status_and_end_of_header(
+            self
+    ):
+        expected = u'Django roles access middleware is active: False.\n'
+        self.command.write_middleware_status(False)
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_console_format_write_correct_end_of_header(
+            self
+    ):
+        expected = u'Finish gathering information.'
+        self.command.write_end_of_head()
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_cvs_format_write_correct_correct_middleware_status(
+            self
+    ):
+        expected = u'Django roles access middleware is active: False.\n'
+        self.command.set_format('csv')
+        self.command.write_middleware_status(False)
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_cvs_format_write_correct_csv_columns(
+            self
+    ):
+        expected = u'App Name,Type,View Name,Url,Status,Status description'
+        self.command.set_format('csv')
+        self.command.write_end_of_head()
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_console_format_process_app_data_to_stdout_with_SUCCESS_style(self):
+        app_name = u'fake-app-name'
+        app_type = u'fake-app-type'
+        view_list = ['fake-view']
+        expected = u'\tAnalyzing: {}\n'.format(app_name)
+        expected += u'\t\t{} is {} type.'.format(app_name, app_type)
+        self.command.process_application_data(app_name, app_type, view_list)
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_console_format_process_app_data_without_type(self):
+        app_name = u'fake-app-name'
+        app_type = None
+        view_list = ['fake-view']
+        expected = u'\tAnalyzing: {}\n'.format(app_name)
+        expected += u'\t\t{} has no type.'.format(app_name)
+        self.command.process_application_data(app_name, app_type, view_list)
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_console_format_process_app_data_without_views(self):
+        app_name = u'fake-app-name'
+        app_type = u'fake-app-type'
+        view_list = []
+        expected = u'\tAnalyzing: {}\n'.format(app_name)
+        expected += u'\t\t{} is {} type.'.format(app_name, app_type)
+        expected += u'\t\t{} does not have configured views.'.format(app_name)
+        self.command.process_application_data(app_name, app_type, view_list)
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_cvs_format_process_application_data_to_string(self):
+        app_name = u'fake-app-name'
+        app_type = u'fake-app-type'
+        view_list = ['fake-view-list']
+        expected = u'{},{},'.format(app_name, app_type, view_list)
+        self.command.set_format('csv')
+        self.command.process_application_data(app_name, app_type, view_list)
+        self.assertEqual(expected, self.command._row)
+
+    def test_cvs_format_process_application_data_without_type_to_string(self):
+        app_name = u'fake-app-name'
+        app_type = None
+        view_list = ['fake-view-list']
+        expected = u'fake-app-name,no type,'.format(app_name)
+        self.command.set_format('csv')
+        self.command.process_application_data(app_name, app_type, view_list)
+        self.assertEqual(expected, self.command._row)
+
+    def test_cvs_format_process_application_data_without_views(self):
+        app_name = u'fake-app-name'
+        app_type = u'fake-app-type'
+        view_list = []
+        expected = u'fake-app-name,fake-app-type,,,,,'.format(app_name)
+        self.command.set_format('csv')
+        self.command.process_application_data(app_name, app_type, view_list)
+        self.assertEqual(expected, self.command._row)
+
+    def test_console_format_process_view_data_to_stdout_with_SUCCESS_style(
+            self
+    ):
+        view_name = u'fake-view-name'
+        url = '/fake-url/'
+        expected = u'\n\t\tAnalysis for view: {}'.format(view_name)
+        expected += u'\n\t\tView url: {}'.format(url)
+        self.command.process_view_data(view_name, url)
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_cvs_format_process_view_data(self):
+        view_name = u'fake-view-name'
+        url = '/fake-url/'
+        expected = u'{},{}'.format(view_name, url)
+        self.command.set_format('csv')
+        self.command.process_view_data(view_name, url)
+        self.assertIn(expected, self.command._row)
 
     # View_access_analyzer output.
-    def test_console_format_write_vaa_to_stdout(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        command.write_view_access_analyzer(u'some text')
-        assert mock_stdout.write.called
+    def test_console_format_write_vaa_to_stdout(self):
+        self.command.write_view_access_analyzer(u'some text')
+        assert self.mock_stdout.write.called
 
-    def test_console_format_use_stdout_write_once_with_vaa(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        command.write_view_access_analyzer(u'some text')
-        self.assertEqual(mock_stdout.write.call_count, 1)
+    def test_console_format_use_stdout_write_once_with_vaa(self):
+        self.command.write_view_access_analyzer(u'some text')
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
 
-    def test_console_format_use_SUCCESS_style_for_styling_output_of_vaa(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        command.write_view_access_analyzer(u'some text')
-        mock_stdout.write.assert_called_once_with(
-            mock_style.SUCCESS())
+    def test_console_format_use_SUCCESS_style_for_styling_output_of_vaa(self):
+        self.command.write_view_access_analyzer(u'some text')
+        self.mock_stdout.write.assert_called_once_with(
+            self.mock_style.SUCCESS())
 
-    def test_console_format_use_SUCCESS_style_for_output_of_vaa(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        command.write_view_access_analyzer(u'some text')
-        assert mock_style.SUCCESS.called
+    def test_console_format_use_SUCCESS_style_for_output_of_vaa(self):
+        self.command.write_view_access_analyzer(u'some text')
+        assert self.mock_style.SUCCESS.called
 
-    def test_console_format_use_style_with_vaa_result(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        command.write_view_access_analyzer(u'some text')
-        mock_style.SUCCESS.assert_called_once_with(u'\tsome text')
+    def test_console_format_use_style_with_vaa_result(self):
+        self.command.write_view_access_analyzer(u'some text')
+        self.mock_style.SUCCESS.assert_called_once_with(u'\tsome text')
 
-    def test_console_format_use_ERROR_style_for_output_if_error_in_vaa(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        command.write_view_access_analyzer('ERROR: fake report')
-        assert mock_style.ERROR.called
+    def test_console_format_use_ERROR_style_for_output_if_error_in_vaa(self):
+        self.command.write_view_access_analyzer('ERROR: fake report')
+        assert self.mock_style.ERROR.called
 
-    def test_console_format_use_ERROR_style_with_the_error_in_vaa(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        command.write_view_access_analyzer('ERROR: fake report')
-        mock_style.ERROR.assert_called_once_with('\t' + 'ERROR: fake report')
+    def test_console_format_use_ERROR_style_with_the_error_in_vaa(self):
+        self.command.write_view_access_analyzer('ERROR: fake report')
+        self.mock_style.ERROR.assert_called_once_with('\t' + 'ERROR: fake report')
 
-    def test_console_format_use_WARNING_style_for_output_if_warning_in_vaa(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        command.write_view_access_analyzer('WARNING: fake report')
-        assert mock_style.WARNING.called
+    def test_console_format_use_WARNING_style_for_output_if_warning_in_vaa(self):
+        self.command.write_view_access_analyzer('WARNING: fake report')
+        assert self.mock_style.WARNING.called
 
-    def test_console_format_use_WARNING_style_with_the_warning_in_vaa(
-            self, mock_stdout, mock_style
-    ):
-        command = OutputFormater(mock_stdout, mock_style)
-        command.write_view_access_analyzer('WARNING: fake report')
-        mock_style.WARNING.assert_called_once_with(
+    def test_console_format_use_WARNING_style_with_the_warning_in_vaa(self):
+        self.command.write_view_access_analyzer('WARNING: fake report')
+        self.mock_style.WARNING.assert_called_once_with(
             '\t' + 'WARNING: fake report')
 
-    def test_csv_format_write_vaa_send_data_to_string_if_format_is_csv(
-            self, mock_stdout, mock_style
+    def test_csv_format_write_view_access_analyzer_with_Normal_to_stdout(self):
+        self.command.add_to_row('fake-app,fake-type,fake-view,fake-url,')
+        self.command._format = 'csv'
+        self.command.write_view_access_analyzer(u'fake-report')
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_csv_format_write_view_access_analyzer_with_Normal_to_style(self):
+        self.command.add_to_row('fake-app,fake-type,fake-view,fake-url,')
+        expected = u'fake-app,fake-type,fake-view,fake-url,Normal,fake-report\n'
+        self.command._format = 'csv'
+        self.command.write_view_access_analyzer(u'fake-report')
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+
+    def test_csv_format_write_view_access_analyzer_with_WARNING_to_stdout(self):
+        self.command.add_to_row('fake-app,fake-type,fake-view,fake-url,')
+        self.command._format = 'csv'
+        self.command.write_view_access_analyzer('WARNING: fake-report')
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_csv_format_write_view_access_analyzer_with_WARNING_with_style(
+            self
     ):
-        expected = u'Normal,fake-report'
-        command = OutputFormater(mock_stdout, mock_style)
-        command._format = 'csv'
-        command.write_view_access_analyzer(u'fake-report')
-        self.assertEqual(expected, command.view_analyze)
+        self.command.add_to_row('fake-app,fake-type,fake-view,fake-url,')
+        expected = u'fake-app,fake-type,fake-view,fake-url,Warning,' \
+                   u'fake-report\n'
+        self.command._format = 'csv'
+        self.command.write_view_access_analyzer('WARNING: fake-report')
+        self.mock_style.WARNING.assert_called_once_with(expected)
 
-    def test_csv_format_write_view_access_analyzer_with_ERROR_if_format_is_csv(
-            self, mock_stdout, mock_style
+    def test_csv_format_write_view_access_analyzer_with_ERROR_to_stdout(self):
+        self.command.add_to_row('fake-app,fake-type,fake-view,fake-url,')
+        self.command._format = 'csv'
+        self.command.write_view_access_analyzer('ERROR: fake-report')
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_csv_format_write_view_access_analyzer_with_ERROR_with_style(self):
+        self.command.add_to_row('fake-app,fake-type,fake-view,fake-url,')
+        expected = u'fake-app,fake-type,fake-view,fake-url,Error,fake-report\n'
+        self.command._format = 'csv'
+        self.command.write_view_access_analyzer('ERROR: fake-report')
+        self.mock_style.ERROR.assert_called_once_with(expected)
+
+    def test_csv_format_write_view_access_analyzer_reset_OutputFormater_row(
+            self
     ):
-        expected = u'Error,fake-report'
-        command = OutputFormater(mock_stdout, mock_style)
-        command._format = 'csv'
-        command.write_view_access_analyzer(u'ERROR: fake-report')
-        self.assertEqual(expected, command.view_analyze)
+        self.command.add_to_row('fake-app,fake-type,fake-view,fake-url,')
+        self.command._format = 'csv'
+        self.command.write_view_access_analyzer('fake-report')
+        self.assertEqual(self.command._row, u'fake-app,fake-type,')
 
-    def test_csv_format_write_view_access_analyzer_with_WARNING(
-            self, mock_stdout, mock_style
+    def test_console_format_close_application_data_to_stdout_with_SUCCESS_style(
+            self
     ):
-        expected = u'Warning,fake-report'
-        command = OutputFormater(mock_stdout, mock_style)
-        command._format = 'csv'
-        command.write_view_access_analyzer(u'WARNING: fake-report')
-        self.assertEqual(expected, command.view_analyze)
+        expected = u'\tFinish analyzing fake-app-name.'
+        self.command.close_application_data('fake-app-name')
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
 
+    def test_cvs_format_close_application_data_to_string(self):
+        expected = u''
+        self.command.set_format('csv')
+        self.command.close_application_data('fake-app-name')
+        self.assertEqual(self.command._row, expected)
 
-    # def test_console_format_close_view_data_to_stdout_with_SUCCESS_style(
-    #         self, mock_stdout, mock_style
-    # ):
-    #     pass
-    #
-    # def test_cvs_format_close_view_data_to_string(
-    #         self, mock_stdout, mock_style
-    # ):
-    #     pass
-    #
-    #
-    # def test_console_format_close_application_data_to_stdout_with_SUCCESS_style(
-    #         self, mock_stdout, mock_style
-    # ):
-    #     pass
-    #
-    # def test_cvs_format_close_application_data_to_string(
-    #         self, mock_stdout, mock_style
-    # ):
-    #     pass
-    #
-    #
-    # def test_console_format_write_footer_to_stdout_with_SUCCESS_style(
-    #         self, mock_stdout, mock_style
-    # ):
-    #     pass
-    #
-    # def test_cvs_format_write_footer_to_string(
-    #         self, mock_stdout, mock_style
-    # ):
-    #     pass
+    def test_console_format_write_footer_to_stdout_with_SUCCESS_style(self):
+        expected = u'End checking view access.'
+        self.command.write_footer()
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_cvs_format_write_footer_to_string(self):
+        expected = u'\n'
+        self.command.set_format('csv')
+        self.command.write_footer()
+        self.assertEqual(self.command._row, expected)

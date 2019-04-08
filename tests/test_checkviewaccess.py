@@ -19,8 +19,6 @@ from django_roles_access.utils import (NONE_TYPE_DEFAULT, NOT_SECURED_DEFAULT,
                                        APP_NAME_FOR_NONE)
 
 
-@patch('django_roles_access.management.commands.checkviewaccess'
-       '.OutputFormater')
 @patch('django_roles_access.management.commands.checkviewaccess.import_module')
 @patch('django_roles_access.management.commands.checkviewaccess.settings')
 class UnitTestCheckViewAccessCommon(UnitTestCase):
@@ -28,27 +26,33 @@ class UnitTestCheckViewAccessCommon(UnitTestCase):
     def setUp(self):
         self.root_urlconf = Mock()
 
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.OutputFormater')
     def test_OutputFormater_is_called(
-            self, mock_settings, mock_import_module, mock_otuput_formater
+            self, mock_otuput_formater, mock_settings, mock_import_module,
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         call_command('checkviewaccess')
         assert mock_otuput_formater.called
 
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.OutputFormater')
     def test_OutputFormater_is_called_once(
-            self, mock_settings, mock_import_module, mock_otuput_formater
+            self, mock_otuput_formater, mock_settings, mock_import_module
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         call_command('checkviewaccess')
         self.assertEqual(mock_otuput_formater.call_count, 1)
 
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.OutputFormater')
     @patch('django_roles_access.management.commands.checkviewaccess.Command'
            '.style', create=True, new_callable=PropertyMock)
     @patch('django_roles_access.management.commands.checkviewaccess.Command'
            '.stdout', create=True, new_callable=PropertyMock)
     def test_OutputFormater_is_called_once_with(
-            self, mock_stdout, mock_style, mock_settings,
-            mock_import_module, mock_output_formater
+            self, mock_stdout, mock_style, mock_output_formater, mock_settings,
+            mock_import_module
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         stdout = mock_stdout.return_value
@@ -56,22 +60,32 @@ class UnitTestCheckViewAccessCommon(UnitTestCase):
         call_command('checkviewaccess')
         mock_output_formater.assert_called_once_with(stdout, style)
 
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.OutputFormater.write_header')
+    def test_write_header(
+            self, mock_write_header, mock_settings, mock_import_module,
+            # mock_output_formater
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        call_command('checkviewaccess')
+        mock_write_header.assert_called_once_with()
+
     def test_import_module_is_called(
-            self, mock_settings, mock_import_module, mock_otuput_formater
+            self, mock_settings, mock_import_module,
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         call_command('checkviewaccess')
         assert mock_import_module.called
 
     def test_import_module_is_called_once(
-            self, mock_settings, mock_import_module, mock_otuput_formater
+            self, mock_settings, mock_import_module,
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         call_command('checkviewaccess')
         self.assertEqual(mock_import_module.call_count, 1)
 
     def test_import_module_is_called_once_with(
-            self, mock_settings, mock_import_module, mock_otuput_formater
+            self, mock_settings, mock_import_module,
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         call_command('checkviewaccess')
@@ -80,7 +94,7 @@ class UnitTestCheckViewAccessCommon(UnitTestCase):
     @patch('django_roles_access.management.commands.checkviewaccess.walk_site_url')
     def test_walk_site_url_is_called(
             self, mock_walk_site_url, mock_settings, mock_import_module,
-            mock_otuput_formater
+
     ):
         mock_import_module.urlpatterns = 'fake-url-pattern'
         call_command('checkviewaccess')
@@ -89,7 +103,7 @@ class UnitTestCheckViewAccessCommon(UnitTestCase):
     @patch('django_roles_access.management.commands.checkviewaccess.walk_site_url')
     def test_walk_site_url_is_called_once(
             self, mock_walk_site_url, mock_settings, mock_import_module,
-            mock_otuput_formater
+
     ):
         mock_import_module.urlpatterns = 'fake-url-pattern'
         call_command('checkviewaccess')
@@ -98,7 +112,7 @@ class UnitTestCheckViewAccessCommon(UnitTestCase):
     @patch('django_roles_access.management.commands.checkviewaccess.walk_site_url')
     def test_walk_site_url_is_called_once_with(
             self, mock_walk_site_url, mock_settings, mock_import_module,
-            mock_otuput_formater
+
     ):
         urlpatterns = Mock()
         urlpatterns.urlpatterns = 'fake-urlpatterns'
@@ -109,7 +123,7 @@ class UnitTestCheckViewAccessCommon(UnitTestCase):
     @patch('django_roles_access.management.commands.checkviewaccess.get_views_by_app')
     def test_get_views_by_app_is_called(
             self, mock_get_views_by_app, mock_settings, mock_import_module,
-            mock_otuput_formater
+
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         call_command('checkviewaccess')
@@ -118,7 +132,7 @@ class UnitTestCheckViewAccessCommon(UnitTestCase):
     @patch('django_roles_access.management.commands.checkviewaccess.get_views_by_app')
     def test_get_views_by_app_is_called_once(
             self, mock_get_views_by_app, mock_settings, mock_import_module,
-            mock_otuput_formater
+
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         call_command('checkviewaccess')
@@ -128,13 +142,80 @@ class UnitTestCheckViewAccessCommon(UnitTestCase):
     @patch('django_roles_access.management.commands.checkviewaccess.get_views_by_app')
     def test_get_views_by_app_is_called_once_with(
             self, mock_get_views_by_app, mock_walk_site_url, mock_settings,
-            mock_import_module, mock_otuput_formater
+            mock_import_module,
     ):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         mock_walk_site_url.return_value = 'fake-result'
         call_command('checkviewaccess')
         mock_get_views_by_app.assert_called_once_with('fake-result')
 
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.OutputFormater.write_middleware_status')
+    def test_write_middleware_status(
+            self, mock_write_middleware_status, mock_settings,
+            mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        call_command('checkviewaccess')
+        self.assertEqual(mock_write_middleware_status.call_count, 1)
+
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.OutputFormater.write_end_of_head')
+    def test_write_end_of_head(
+            self, mock_write_end_of_head, mock_settings,
+            mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        call_command('checkviewaccess')
+        self.assertEqual(mock_write_end_of_head.call_count, 1)
+
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.OutputFormater.process_application_data')
+    def test_process_application_data(
+            self, mock_process_application_data, mock_settings,
+            mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        call_command('checkviewaccess')
+        assert mock_process_application_data.called
+
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.OutputFormater.process_view_data')
+    @patch('django_roles_access.management.commands.checkviewaccess.'
+           'view_access_analyzer')
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.get_views_by_app')
+    def test_process_view_data(
+            self, mock_get_views_by_app, mock_view_access_analyzer,
+            mock_process_view_data, mock_settings, mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        mock_get_views_by_app.return_value = {'fake-app':
+                                              [('/fake1/', 'fake-callback-1',
+                                               'fake-view')]}
+        mock_view_access_analyzer.return_value = 'fake-report'
+        call_command('checkviewaccess')
+        assert mock_process_view_data.called
+
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.OutputFormater.close_application_data')
+    def test_process_application_data(
+            self, mock_close_application_data, mock_settings,
+            mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        call_command('checkviewaccess')
+        assert mock_close_application_data.called
+
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.OutputFormater.write_footer')
+    def test_write_footer(
+            self, mock_write_footer, mock_settings,
+            mock_import_module
+    ):
+        mock_settings.ROOT_URLCONF = self.root_urlconf
+        call_command('checkviewaccess')
+        assert mock_write_footer.called
 
 @patch('django_roles_access.management.commands.checkviewaccess.import_module')
 @patch('django_roles_access.management.commands.checkviewaccess.settings')
@@ -218,8 +299,8 @@ class UnitTestCheckViewAccessWithoutArguments(UnitTestCase):
         mock_utils_settings.INSTALLED_APPS = ['fake-app-1', 'fake-app-2']
         mock_settings.ROOT_URLCONF = self.root_urlconf
         out = StringIO()
-        expected_text1 = u'Analyzing fake-app-1:'
-        expected_text2 = u'Analyzing fake-app-2:'
+        expected_text1 = u'Analyzing: fake-app-1'
+        expected_text2 = u'Analyzing: fake-app-2'
         call_command('checkviewaccess', stdout=out)
         self.assertIn(expected_text1, out.getvalue())
         self.assertIn(expected_text2, out.getvalue())
@@ -475,7 +556,7 @@ class UnitTestCheckViewAccessCSVOutput(UnitTestCase):
         call_command('checkviewaccess', '--output-format', 'csv')
         mock_set_format.assert_called_once_with('csv')
 
-    @patch('django_roles_access.management.commands.checkviewaccess.timezone')
+    @patch('django_roles_access.utils.timezone')
     def test_first_line_output_is_report_date(
             self, mock_timezone, mock_settings, mock_import_module
     ):
@@ -577,26 +658,43 @@ class UnitTestCheckViewAccessCSVOutput(UnitTestCase):
         self.assertEqual(expected_result[4], expected2)
         self.assertEqual(expected_result[5], expected3)
 
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.get_views_by_app')
+    @patch('django_roles_access.management.commands.checkviewaccess.'
+           'view_access_analyzer')
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.get_app_type')
     def test_no_write_csv_ending_data(
-            self, mock_settings, mock_import_module
+            self, mock_get_app_type, mock_view_access_analyzer,
+            mock_get_views_by_app, mock_settings, mock_import_module
     ):
+
         mock_settings.ROOT_URLCONF = self.root_urlconf
+        mock_get_views_by_app.return_value = {'fake-app':
+                                              [('/fake1/', 'fake-callback-1',
+                                                'fake-view-1'),
+                                               ('/fake2/', 'fake-callback-2',
+                                                'fake-view-2'),
+                                               ('/fake3/', 'fake-callback-3',
+                                                'fake-view-3')]
+                                              }
+        mock_view_access_analyzer.return_value = 'fake-report'
+        mock_get_app_type.return_value = 'fake-type'
         out = StringIO()
-        expected1 = u'django.contrib.admin,app has no type,,,,'
-        expected2 = u'django.contrib.auth,app has no type,,,,'
-        expected3 = u'django.contrib.contenttypes,app has no type,,,,'
-        expected4 = u'django.contrib.sessions,app has no type,,,,'
-        expected5 = u'django_roles_access,app has no type,,,,'
-        expected6 = u''
         call_command('checkviewaccess', '--output-format', 'csv',
                      stdout=out)
         result = out.getvalue()
-        self.assertIn(expected1, result)
-        self.assertIn(expected2, result)
-        self.assertIn(expected3, result)
-        self.assertIn(expected4, result)
-        self.assertIn(expected5, result)
-        self.assertEqual(expected6, result.split('\n')[8])
+        expected1 = 'fake-app,fake-type,fake-view-1,/fake1/,Normal,fake-report'
+        expected2 = 'fake-app,fake-type,fake-view-2,/fake2/,Normal,fake-report'
+        expected3 = 'fake-app,fake-type,fake-view-3,/fake3/,Normal,fake-report'
+        end = u''
+        expected_result = result.split('\n')
+        # import pdb
+        # pdb.set_trace()
+        self.assertEqual(expected_result[3], expected1)
+        self.assertEqual(expected_result[4], expected2)
+        self.assertEqual(expected_result[5], expected3)
+        self.assertEqual(end, result.split('\n')[6])
 
 
 class IntegratedTestCheckViewAccess(TestCase):
@@ -642,7 +740,7 @@ class IntegratedTestCheckViewAccess(TestCase):
             pass
 
     def test_no_django_roles_tools_used(self):
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles has no type.'
         # expected = self.GREEN + '\n\t\t'
         expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
@@ -658,7 +756,7 @@ class IntegratedTestCheckViewAccess(TestCase):
     def test_no_django_roles_used_no_view_access_object_no_application(
             self
     ):
-        expected_1 = u'\n\tAnalyzing {}:'.format(APP_NAME_FOR_NONE)
+        expected_1 = u'\n\tAnalyzing: {}'.format(APP_NAME_FOR_NONE)
         expected_2 = u'Analysis for view: direct_view\n'
         expected_2 += u'\t\tView url: direct_view/'
         expected_2 += u'\n\t\tNo Django roles tool used. Access to '
@@ -671,7 +769,7 @@ class IntegratedTestCheckViewAccess(TestCase):
     def test_no_django_roles_used_no_view_access_object_no_application_type(
             self
     ):
-        expected_1 = u'\n\tAnalyzing {}:'.format(APP_NAME_FOR_NONE)
+        expected_1 = u'\n\tAnalyzing: {}'.format(APP_NAME_FOR_NONE)
         expected_1 += u'\n\t\t{} has no type.'.format(APP_NAME_FOR_NONE)
         expected_2 = u'Analysis for view: direct_view\n'
         expected_2 += u'\t\tView url: direct_view/'
@@ -684,7 +782,7 @@ class IntegratedTestCheckViewAccess(TestCase):
 
     def test_no_django_roles_used_no_view_access_object_app_type_SECURED(self):
         settings.__setattr__('SECURED', ['django_roles'])
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles is SECURED type.'
         expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
         expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
@@ -697,7 +795,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         self.assertIn(expected_2, out.getvalue())
 
     def test_decorator_no_view_access_object_app_type_None(self):
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles has no type.'
         expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
         expected_2 += u'\t\tView url: role-included2/view_by_role/'
@@ -709,7 +807,7 @@ class IntegratedTestCheckViewAccess(TestCase):
 
     def test_decorator_no_view_access_object_app_type_NOT_SECURED(self):
         settings.__setattr__('NOT_SECURED', ['django_roles'])
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles is NOT_SECURED type.'
         expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
         expected_2 += u'\t\tView url: role-included2/view_by_role/'
@@ -722,7 +820,7 @@ class IntegratedTestCheckViewAccess(TestCase):
 
     def test_decorator_no_view_access_object_app_type_SECURED(self):
         settings.__setattr__('SECURED', ['django_roles'])
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles is SECURED type.'
         expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
         expected_2 += u'\t\tView url: role-included2/view_by_role/'
@@ -735,7 +833,7 @@ class IntegratedTestCheckViewAccess(TestCase):
 
     def test_decorator_no_view_access_object_app_type_PUBLIC(self):
         settings.__setattr__('PUBLIC', ['django_roles'])
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles is PUBLIC type.'
         expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
         expected_2 += u'\t\tView url: role-included2/view_by_role/'
@@ -747,7 +845,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         self.assertIn(expected_2, out.getvalue())
 
     def test_decorator_view_access_object_app_type_None(self):
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles has no type.'
         expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
         expected_2 += u'\t\tView url: role-included2/view_by_role/'
@@ -761,7 +859,7 @@ class IntegratedTestCheckViewAccess(TestCase):
 
     def test_decorator_view_access_object_app_type_SECURED(self):
         settings.__setattr__('SECURED', ['django_roles'])
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles is SECURED type.'
         expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
         expected_2 += u'\t\tView url: role-included2/view_by_role/'
@@ -775,7 +873,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         self.assertIn(expected_2, out.getvalue())
 
     def test_mixin_no_view_access_object_app_type_None(self):
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles has no type.'
         expected_2 = u'Analysis for view: app-ns2:mixin_class_view\n'
         expected_2 += u'\t\tView url: role-included2/mixin_class_view/'
@@ -787,7 +885,7 @@ class IntegratedTestCheckViewAccess(TestCase):
 
     def test_mixin_no_view_access_object_app_type_NOT_SECURED(self):
         settings.__setattr__('NOT_SECURED', ['django_roles'])
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles is NOT_SECURED type.'
         expected_2 = u'Analysis for view: app-ns2:mixin_class_view\n'
         expected_2 += u'\t\tView url: role-included2/mixin_class_view/'
@@ -800,7 +898,7 @@ class IntegratedTestCheckViewAccess(TestCase):
 
     def test_mixin_no_view_access_object_app_type_SECURED(self):
         settings.__setattr__('SECURED', ['django_roles'])
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles is SECURED type.'
         expected_2 = u'Analysis for view: app-ns2:mixin_class_view\n'
         expected_2 += u'\t\tView url: role-included2/mixin_class_view/'
@@ -813,7 +911,7 @@ class IntegratedTestCheckViewAccess(TestCase):
 
     def test_mixin_no_view_access_object_app_type_PUBLIC(self):
         settings.__setattr__('PUBLIC', ['django_roles'])
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles is PUBLIC type.'
         expected_2 = u'Analysis for view: app-ns2:mixin_class_view\n'
         expected_2 += u'\t\tView url: role-included2/mixin_class_view/'
@@ -825,7 +923,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         self.assertIn(expected_2, out.getvalue())
 
     def test_mixin_view_access_object_app_type_None(self):
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles has no type.'
         expected_2 = u'Analysis for view: app-ns2:mixin_class_view\n'
         expected_2 += u'\t\tView url: role-included2/mixin_class_view/'
@@ -839,7 +937,7 @@ class IntegratedTestCheckViewAccess(TestCase):
 
     def test_mixin_view_access_object_app_type_SECURED(self):
         settings.__setattr__('SECURED', ['django_roles'])
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles is SECURED type.'
         expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
         expected_2 += u'\t\tView url: role-included2/view_by_role/'
@@ -856,7 +954,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         'append': 'django_roles_access.middleware.RolesMiddleware'
     })
     def test_site_active_no_view_access_object_app_type_None(self):
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles has no type.'
         expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
         expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
@@ -871,7 +969,7 @@ class IntegratedTestCheckViewAccess(TestCase):
     })
     def test_site_active_no_view_access_object_app_type_NOT_SECURED(self):
         settings.__setattr__('NOT_SECURED', ['django_roles'])
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles is NOT_SECURED type.'
         expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
         expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
@@ -887,7 +985,7 @@ class IntegratedTestCheckViewAccess(TestCase):
     })
     def test_site_active_no_view_access_object_app_type_SECURED(self):
         settings.__setattr__('SECURED', ['django_roles'])
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles is SECURED type.'
         expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
         expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
@@ -903,7 +1001,7 @@ class IntegratedTestCheckViewAccess(TestCase):
     })
     def test_site_active_no_view_access_object_app_type_PUBLIC(self):
         settings.__setattr__('PUBLIC', ['django_roles'])
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles is PUBLIC type.'
         expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
         expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
@@ -918,7 +1016,7 @@ class IntegratedTestCheckViewAccess(TestCase):
         'append': 'django_roles_access.middleware.RolesMiddleware'
     })
     def test_site_active_view_access_object_app_type_None(self):
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles has no type.'
         expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
         expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
@@ -935,7 +1033,7 @@ class IntegratedTestCheckViewAccess(TestCase):
     })
     def test_site_active_view_access_object_app_type_NOT_SECURED(self):
         settings.__setattr__('NOT_SECURED', ['django_roles'])
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles is NOT_SECURED type.'
         expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
         expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
@@ -953,7 +1051,7 @@ class IntegratedTestCheckViewAccess(TestCase):
     })
     def test_site_active_view_access_object_app_type_SECURED(self):
         settings.__setattr__('SECURED', ['django_roles'])
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles is SECURED type.'
         expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
         expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
@@ -978,7 +1076,7 @@ class IntegratedTestCheckViewAccess(TestCase):
     })
     def test_site_active_view_access_object_app_type_PUBLIC(self):
         settings.__setattr__('PUBLIC', ['django_roles'])
-        expected_1 = u'\n\tAnalyzing django_roles:'
+        expected_1 = u'\n\tAnalyzing: django_roles'
         expected_1 += u'\n\t\tdjango_roles is PUBLIC type.'
         expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
         expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
@@ -990,4 +1088,5 @@ class IntegratedTestCheckViewAccess(TestCase):
         settings.__delattr__('PUBLIC')
         self.assertIn(expected_1, out.getvalue())
         self.assertIn(expected_2, out.getvalue())
+
 

@@ -44,16 +44,7 @@ class Command(BaseCommand):
         if options['format']:
             self.with_format = True
             output.set_format('csv')
-
-        if self.with_format:
-            self.stdout.write(self.style.SUCCESS(
-                _(u'Reported: {}'.format(timezone.now()))))
-        else:
-            self.stdout.write(self.style.SUCCESS(
-                _(u'Start checking views access.')))
-
-            self.stdout.write(self.style.SUCCESS(
-                _(u'Start gathering information.')))
+        output.write_header()
 
         # 1. Get information. All views are collected and grouped by application
         url = import_module(settings.ROOT_URLCONF).urlpatterns
@@ -64,99 +55,25 @@ class Command(BaseCommand):
             site_active = True
         else:
             site_active = False
+        output.write_middleware_status(site_active)
 
-        self.stdout.write(
-            self.style.SUCCESS(
-                _(u'Django roles access middleware is active: '
-                  u'{}.').format(site_active)))
-
-        if self.with_format:
-            self.stdout.write(self.style.SUCCESS(
-                _(u'App Name,Type,View Name,Url,Status,Status description')))
-        else:
-            self.stdout.write(self.style.SUCCESS(
-                _(u'Finish gathering information.')))
-
+        output.write_end_of_head()
         # 3. Analysis is done by application
-        row_app = ''
         for app_name, views_list in views_by_app.items():
-            if self.with_format:
-                row_app += app_name + ','
-            else:
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        _(u'\tAnalyzing {}:').format(app_name)))
             # Get application classification.
             app_type = get_app_type(app_name)
-            if app_type:
-                if self.with_format:
-                    row_app += app_type
-                else:
-                    self.stdout.write(
-                        self.style.SUCCESS(
-                            _(u'\t\t{} is {} type.').format(app_name, app_type)))
-            else:
-                if self.with_format:
-                    row_app += 'app has no type'
-                else:
-                    self.stdout.write(
-                        self.style.WARNING(
-                            _(u'\t\t{} has no type.').format(app_name)))
-
-            # if application does not have views list:
-            if len(views_list) == 0:
-                if self.with_format:
-                    self.stdout.write(row_app + ',,,,')
-                else:
-                    self.stdout.write(
-                        self.style.WARNING(
-                            _(u'\t\t{} does not have configured views.'.format(
-                                app_name))))
+            output.process_application_data(app_name, app_type, views_list)
 
             # 4. For each view of the analyzed application
-            row_view = ''
             for url, callback, view_name in views_list:
-                if self.with_format:
-                    row_view += view_name + ',' + url + ','
-                else:
-                    self.stdout.write(
-                        self.style.SUCCESS(
-                            _(u'\n\t\tAnalysis for view: {}'
-                              u'\n\t\tView url: {}'.format(view_name, url))))
+                output.process_view_data(view_name, url)
 
                 analysis = view_access_analyzer(app_type, callback, view_name,
                                                 site_active)
+                output.write_view_access_analyzer(analysis)
 
-                if self.with_format:
-                    if 'ERROR:' in analysis:
-                        row_view += _(u'Error,{}'.format(
-                            analysis.split('ERROR: ')[1]
-                        ))
-                    elif 'WARNING:' in analysis:
-                        row_view += _(u'Warning,{}'.format(
-                            analysis.split('WARNING: ')[1]
-                        ))
-                    else:
-                        row_view += _(u'Normal,{}'.format(analysis))
-                else:
-                    output.write_view_access_analyzer(analysis)
-                    # print_view_analysis(self.stdout, self.style, analysis)
-
-                # End cycle for each app view
-                if self.with_format:
-                    self.stdout.write(row_app + ',' + row_view)
-                    row_view = ''
-            row_app = ''
-            # 5. End for app_name in views_by_app:
-            if not self.with_format:
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        _(u'\tFinish analyzing {}.').format(app_name)))
+            output.close_application_data(app_name)
 
         # 6. End of report
-        if self.with_format:
-            self.stdout.write('')
-        else:
-            self.stdout.write(self.style.SUCCESS(
-                _(u'End checking view access.')))
+        output.write_footer()
 

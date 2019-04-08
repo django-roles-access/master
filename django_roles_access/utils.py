@@ -3,6 +3,7 @@ Code used by checkviewaccess management command
 """
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 try:
     from django.utils.translation import gettext as _
 except:
@@ -148,33 +149,108 @@ def view_access_analyzer(app_type, callback, view_name, site_active):
 
 class OutputFormater(object):
 
+    HEADER = _(u'Start checking views access.\nStart gathering information.')
+    MIDDLEWARE_STATUS = _('Django roles access middleware is active:')
+    END_HEADER = _(u'Finish gathering information.')
+    CONSOLE = 'console'
+    CSV = 'csv'
+    CSV_COLUMNS = _(u'App Name,Type,View Name,Url,Status,Status description')
+
     def __init__(self, stdout, style):
         self.stdout = stdout
         self.style = style
         self._format = 'console'
-        self.view_analyze = None
+        self._row = u''
 
     def set_format(self, _format):
         self._format = _format
 
+    def add_to_row(self, data):
+        self._row += data
+
     def write(self, text):
         self.stdout.write(self.style.SUCCESS(text))
 
+    def write_header(self):
+        if self._format == self.CONSOLE:
+            self.stdout.write(self.style.SUCCESS(self.HEADER))
+        elif self._format == self.CSV:
+            self.stdout.write(
+                self.style.SUCCESS(
+                    _(u'Reported: {}'.format(timezone.now())))
+            )
+
+    def write_middleware_status(self, status):
+        output = self.MIDDLEWARE_STATUS + ' {}.\n'.format(status)
+        self.stdout.write(self.style.SUCCESS(output))
+
+    def write_end_of_head(self):
+        if self._format == self.CONSOLE:
+            output = self.END_HEADER
+        else:  # self._format == self.CSV:
+            output = self.CSV_COLUMNS
+        self.stdout.write(self.style.SUCCESS(output))
+
+    def process_application_data(self, app_name, app_type, view_list):
+        output = _(u'\tAnalyzing: {}\n'.format(app_name))
+        _app_type = app_type
+        if app_type is None:
+            output += _(u'\t\t{} has no type.'.format(app_name, app_type))
+            _app_type = 'no type'
+        else:
+            output += _(u'\t\t{} is {} type.'.format(app_name, app_type))
+        if len(view_list) == 0:
+            output += _(u'\t\t{} does not have configured views.'.format(
+                app_name))
+            _app_type += ',,,,'
+        if self._format == self.CONSOLE:
+            self.stdout.write(self.style.SUCCESS(output))
+        elif self._format == self.CSV:
+            self.add_to_row('{},{},'.format(app_name, _app_type))
+
+    def process_view_data(self, view_name, url):
+        if self._format == self.CONSOLE:
+            _output = _(u'\n\t\tAnalysis for view: {}'.format(view_name))
+            _output += _(u'\n\t\tView url: {}'.format(url))
+            self.stdout.write(self.style.SUCCESS(_output))
+        elif self._format == self.CSV:
+            self.add_to_row('{},{},'.format(view_name, url))
+
     def write_view_access_analyzer(self, text):
-        if self._format == 'console':
+        if self._format == self.CONSOLE:
             if 'ERROR:' in text:
                 self.stdout.write(self.style.ERROR('\t' + text))
             elif 'WARNING:' in text:
                 self.stdout.write(self.style.WARNING('\t' + text))
             else:
                 self.stdout.write(self.style.SUCCESS('\t' + text))
-        elif self._format == 'csv':
+        elif self._format == self.CSV:
+            _row = self._row.split(',')
             if 'ERROR:' in text:
-                self.view_analyze = u'Error,{}'.format(text.split('ERROR: ')[1])
+                self.add_to_row(u'Error,{}\n'.format(text.split('ERROR: ')[1]))
+                _output = self.style.ERROR(self._row)
             elif 'WARNING:' in text:
-                self.view_analyze = u'Warning,{}'.format(
-                    text.split('WARNING: ')[1])
+                self.add_to_row(u'Warning,{}\n'.format(
+                    text.split('WARNING: ')[1]))
+                _output = self.style.WARNING(self._row)
             else:
-                self.view_analyze = u'Normal,{}'.format(text)
+                self.add_to_row(u'Normal,{}\n'.format(text))
+                _output = self.style.SUCCESS(self._row)
+            self.stdout.write(_output)
+            # Eliminate from _row all view information to start cycle again
+            # only app_name and app_type is left
+            self._row = _row[0] + ',' + _row[1] + ','
 
+    def close_application_data(self, app_name):
+        if self._format == self.CONSOLE:
+            _output = _(u'\tFinish analyzing {}.').format(app_name)
+            self.stdout.write(self.style.SUCCESS(_output))
+        elif self._format == self.CSV:
+            self._row = u''
 
+    def write_footer(self):
+        if self._format == self.CONSOLE:
+            _output = _(u'End checking view access.')
+            self.stdout.write(self.style.SUCCESS(_output))
+        elif self._format == self.CSV:
+            self._row = u''
