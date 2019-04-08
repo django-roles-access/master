@@ -43,6 +43,7 @@ class Command(BaseCommand):
         self.with_format = False
         if options['format']:
             self.with_format = True
+            output.set_format('csv')
 
         if self.with_format:
             self.stdout.write(self.style.SUCCESS(

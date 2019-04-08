@@ -143,6 +143,15 @@ class UnitTestCheckViewAccessWithoutArguments(UnitTestCase):
     def setUp(self):
         self.root_urlconf = Mock()
 
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.OutputFormater.set_format')
+    def test_format_attribute_is_not_set(
+            self, mock_set_format, mock_settings, mock_import_module
+    ):
+
+        call_command('checkviewaccess')
+        assert not mock_set_format.called
+
     def test_write_at_beginning_of_command_execution(
             self, mock_settings, mock_import_module
     ):
@@ -456,6 +465,15 @@ class UnitTestCheckViewAccessCSVOutput(UnitTestCase):
             self, mock_settings, mock_import_module
     ):
         call_command('checkviewaccess', '--output-format', 'csv')
+
+    @patch('django_roles_access.management.commands.checkviewaccess'
+           '.OutputFormater.set_format')
+    def test_format_attribute_is_set_to_csv(
+            self, mock_set_format, mock_settings, mock_import_module
+    ):
+
+        call_command('checkviewaccess', '--output-format', 'csv')
+        mock_set_format.assert_called_once_with('csv')
 
     @patch('django_roles_access.management.commands.checkviewaccess.timezone')
     def test_first_line_output_is_report_date(
