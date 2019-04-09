@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django_roles_access',
-    version='0.9.1',
+    version='0.9.2',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',
@@ -20,6 +20,7 @@ setup(
     author='Django roles access',
     author_email='django.roles.access@gmail.com',
     classifiers=[
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Framework :: Django :: 1.10',

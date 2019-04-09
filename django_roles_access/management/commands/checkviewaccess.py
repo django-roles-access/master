@@ -6,11 +6,6 @@ status.
 from importlib import import_module
 
 from django.core.management import BaseCommand
-from django.utils import timezone
-try:
-    from django.utils.translation import gettext as _
-except:
-    from django.utils.translation import ugettext as _
 from django.conf import settings
 
 from django_roles_access.tools import get_app_type

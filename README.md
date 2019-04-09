@@ -1,7 +1,7 @@
-![Django roles access](django-roles-access.png "Django roles access")  
+![Django roles access](https://django-roles-access.github.io/_images/django-roles-access.png "Django roles access")  
 # Django Roles Access
-![](https://img.shields.io/badge/release-v0.9.1-blue.svg)
-![](https://img.shields.io/badge/state-stable-brightgreen.svg)
+![](https://img.shields.io/badge/release-v0.9.2-blue.svg)
+![](https://img.shields.io/badge/state-beta-brightgreen.svg)
 [![Build Status](https://travis-ci.org/django-roles-access/master.svg?branch=master)](https://travis-ci.org/django-roles-access/master)
 [![codecov](https://codecov.io/gh/django-roles-access/master/branch/master/graph/badge.svg)](https://codecov.io/gh/django-roles-access/master)
 

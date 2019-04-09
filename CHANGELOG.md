@@ -1,5 +1,11 @@
 # Django roles Change Log
 
+## [0.9.2] - 2019-04-09
+
+### Added
+
+- Add classifiers for Development Status :: 4 - Beta
+
 ## [0.9.1] - 2019-04-09
 
 ### Changed
