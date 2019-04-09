@@ -16,7 +16,7 @@ from django.conf import settings
 from django_roles_access.tools import get_app_type
 from django_roles_access.utils import (walk_site_url, get_views_by_app,
                                        view_access_analyzer,
-                                       OutputFormater)
+                                       OutputReport)
 
 
 DJANGO_ROLE_ACCESS_MIDDLEWARE = 'django_roles_access.middleware.RolesMiddleware'
@@ -24,9 +24,9 @@ DJANGO_ROLE_ACCESS_MIDDLEWARE = 'django_roles_access.middleware.RolesMiddleware'
 
 class Command(BaseCommand):
     """
-    **checkviewaccess** management command to analyze *site's views access*.
+    **checkviewaccess** management _output to analyze *site's views access*.
     """
-    help = 'Manage command checkviewaccess'
+    help = 'Manage _output checkviewaccess'
 
     def add_arguments(self, parser):
         # Add optional argument issue # 2
@@ -37,9 +37,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """
-        This method implements checkviewaccess command behavior.
+        This method implements checkviewaccess _output behavior.
         """
-        output = OutputFormater(self.stdout, self.style)
+        output = OutputReport(self.stdout, self.style)
         self.with_format = False
         if options['format']:
             self.with_format = True

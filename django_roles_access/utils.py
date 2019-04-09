@@ -1,5 +1,5 @@
 """
-Code used by checkviewaccess management command
+Code used by checkviewaccess management _output
 """
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -119,13 +119,13 @@ def analyze_by_role(view_access):
 
 
 def view_access_analyzer(app_type, callback, view_name, site_active):
-    result = _(u'\tNo Django roles tool used. Access to view depends on '
+    result = _(u'No Django roles tool used. Access to view depends on '
                u'its implementation.')
     view_access = ViewAccess.objects.filter(view=view_name).first()
     if site_active:
         if view_access:
             view_access_type = dict(ViewAccess.ACCESS_TYPES)[view_access.type]
-            result = _(u'\tView access is of type {}.'.format(view_access_type))
+            result = _(u'View access is of type {}.'.format(view_access_type))
             result += analyze_by_role(view_access)
         else:
             result = get_view_analyze_report(app_type)
@@ -135,19 +135,19 @@ def view_access_analyzer(app_type, callback, view_name, site_active):
                 view_access_type = \
                     dict(ViewAccess.ACCESS_TYPES)[view_access.type]
                 result = _(
-                    u'\tView access is of type {}.'.format(view_access_type))
+                    u'View access is of type {}.'.format(view_access_type))
                 result += analyze_by_role(view_access)
             else:
                 result = get_view_analyze_report(app_type)
         else:
             if view_access:
-                result = _(u'\tERROR: View access object exist for the view, '
+                result = _(u'ERROR: View access object exist for the view, '
                            u'but no Django role tool is used: neither '
                            u'decorator, mixin, or middleware.')
     return result
 
 
-class OutputFormater(object):
+class OutputReport(object):
 
     HEADER = _(u'Start checking views access.\nStart gathering information.')
     MIDDLEWARE_STATUS = _('Django roles access middleware is active:')
@@ -216,11 +216,11 @@ class OutputFormater(object):
     def write_view_access_analyzer(self, text):
         if self._format == self.CONSOLE:
             if 'ERROR:' in text:
-                self.stdout.write(self.style.ERROR('\t' + text))
+                self.stdout.write(self.style.ERROR('\t\t' + text))
             elif 'WARNING:' in text:
-                self.stdout.write(self.style.WARNING('\t' + text))
+                self.stdout.write(self.style.WARNING('\t\t' + text))
             else:
-                self.write('\t' + text)
+                self.write('\t\t' + text)
         elif self._format == self.CSV:
             _row = self._row.split(',')
             if 'ERROR:' in text:
