@@ -16,11 +16,13 @@ from django_roles_access.mixin import RolesMixin
 from django_roles_access.models import ViewAccess
 from tests import views
 from django_roles_access.utils import (walk_site_url, get_views_by_app,
-                                       view_access_analyzer, get_view_analyze_report,
-                                       check_django_roles_is_used, print_view_analysis,
+                                       view_access_analyzer,
+                                       get_view_analyze_report,
+                                       check_django_roles_is_used,
                                        analyze_by_role, APP_NAME_FOR_NONE,
                                        NOT_SECURED_DEFAULT, SECURED_DEFAULT,
-                                       PUBLIC_DEFAULT, NONE_TYPE_DEFAULT)
+                                       PUBLIC_DEFAULT, NONE_TYPE_DEFAULT,
+                                       OutputReport)
 
 
 class MockRegex:
@@ -444,7 +446,7 @@ class UnitTestAnalyzeByRoleAccess(UnitTestCase):
     def test_detect_access_is_by_role(
             self, mock_view_access
     ):
-        expected = u'\n\t\t\tERROR: No roles configured to access de view.'
+        expected = u'ERROR: No roles configured to access de view.'
         mock_view_access.type = 'br'
         mock_view_access.roles.count.return_value = 0
         result = analyze_by_role(mock_view_access)
@@ -461,7 +463,7 @@ class UnitTestAnalyzeByRoleAccess(UnitTestCase):
     def test_detect_access_is_not_by_role_with_roles(
             self, mock_view_access
     ):
-        expected = u'\n\t\t\tRoles with access: role-1, role-2'
+        expected = u'Roles with access: role-1, role-2'
         mock_view_access.type = 'br'
         role_1 = Mock()
         role_1.name = u'role-1'
@@ -474,7 +476,7 @@ class UnitTestAnalyzeByRoleAccess(UnitTestCase):
     def test_detect_access_is_not_by_role_without_roles(
             self, mock_view_access
     ):
-        expected = u'\n\t\t\tERROR: No roles configured to access de view.'
+        expected = u'ERROR: No roles configured to access de view.'
         mock_view_access.type = 'br'
         mock_view_access.roles.count.return_value = 0
         result = analyze_by_role(mock_view_access)
@@ -484,7 +486,7 @@ class UnitTestAnalyzeByRoleAccess(UnitTestCase):
 class IntegratedTestAnalyzeByRoleAccess(TestCase):
 
     def test_detect_access_is_by_role(self):
-        expected = u'\n\t\t\tERROR: No roles configured to access de view.'
+        expected = u'ERROR: No roles configured to access de view.'
         view_access = ViewAccess.objects.create(view='any-name', type='br')
         result = analyze_by_role(view_access)
         self.assertEqual(result, expected)
@@ -496,7 +498,7 @@ class IntegratedTestAnalyzeByRoleAccess(TestCase):
         self.assertEqual(result, expected)
 
     def test_detect_access_is_by_role_with_roles(self):
-        expected = u'\n\t\t\tRoles with access: role-1, role-2'
+        expected = u'Roles with access: role-1, role-2'
         view_access = ViewAccess.objects.create(view='any-name', type='br')
         role_1, created = Group.objects.get_or_create(name='role-1')
         role_2, created = Group.objects.get_or_create(name='role-2')
@@ -507,7 +509,7 @@ class IntegratedTestAnalyzeByRoleAccess(TestCase):
         self.assertEqual(result, expected)
 
     def test_detect_access_is_not_by_role_without_roles(self):
-        expected = u'\n\t\t\tERROR: No roles configured to access de view.'
+        expected = u'ERROR: No roles configured to access de view.'
         view_access = ViewAccess.objects.create(view='any-name', type='br')
         result = analyze_by_role(view_access)
         self.assertEqual(result, expected)
@@ -566,7 +568,7 @@ class UnitTestViewAnalyzer(UnitTestCase):
     def test_view_access_type_when_site_active_and_exists_view_access(
             self, mock_objects
     ):
-        expected = u'\tView access is of type Public.'
+        expected = u'View access is of type Public.'
         view_access = Mock()
         view_access.type = 'pu'
         mock_objects.filter.return_value = mock_objects
@@ -654,7 +656,7 @@ class UnitTestViewAnalyzer(UnitTestCase):
     def test_middleware_not_used_view_access_object_exist_and_dr_tools_used(
             self, mock_objects
     ):
-        expected = u'\tView access is of type Public.'
+        expected = u'View access is of type Public.'
 
         @access_by_role
         def function():
@@ -670,9 +672,9 @@ class UnitTestViewAnalyzer(UnitTestCase):
     def test_middleware_not_used_view_access_object_exist_and_dr_tools_not_used(
             self, mock_objects
     ):
-        expected = u'\tERROR: View access object exist for the view, but no '
-        expected += u'Django role tool is used: neither decorator, mixin, or '
-        expected += u'middleware.'
+        expected = u'ERROR: View access object exist for the view, but no '
+        expected += u'Django role access tool is used: neither decorator, '
+        expected += u'mixin, or middleware.'
 
         def function():
             pass
@@ -702,8 +704,8 @@ class UnitTestViewAnalyzer(UnitTestCase):
     def test_no_django_roles_tools_used_no_application_type(
             self, mock_objects
     ):
-        expected = u'\tNo Django roles tool used. Access to view depends on '
-        expected += u'its implementation.'
+        expected = u'No Django roles access tool used. Access to view depends '
+        expected += u'on its implementation.'
 
         def function():
             pass
@@ -716,8 +718,8 @@ class UnitTestViewAnalyzer(UnitTestCase):
     def test_no_django_roles_tools_used_application_type(
             self, mock_objects
     ):
-        expected = u'\tNo Django roles tool used. Access to view depends on '
-        expected += u'its implementation.'
+        expected = u'No Django roles access tool used. Access to view depends '
+        expected += u'on its implementation.'
 
         def function():
             pass
@@ -738,8 +740,8 @@ class IntegratedTestViewAnalyzezr(TestCase):
         self.assertEqual(expected, result)
 
     def test_with_middleware_with_view_access_object(self):
-        expected = u'\tView access is of type By role.'
-        expected += u'\n\t\t\tERROR: No roles configured to access de view.'
+        expected = u'View access is of type By role.'
+        expected += u'ERROR: No roles configured to access de view.'
         ViewAccess.objects.create(view='django_roles:middleware_view_class',
                                   type='br')
         result = view_access_analyzer('SECURED', views.MiddlewareView.as_view,
@@ -748,8 +750,8 @@ class IntegratedTestViewAnalyzezr(TestCase):
         self.assertEqual(result, expected)
 
     def test_with_middleware_with_view_access_object_with_roles(self):
-        expected = u'\tView access is of type By role.'
-        expected += u'\n\t\t\tRoles with access: test1, test2'
+        expected = u'View access is of type By role.'
+        expected += u'Roles with access: test1, test2'
         g1, created = Group.objects.get_or_create(name='test1')
         g2, created = Group.objects.get_or_create(name='test2')
         view_access = ViewAccess.objects.create(
@@ -764,7 +766,7 @@ class IntegratedTestViewAnalyzezr(TestCase):
         self.assertEqual(result, expected)
 
     def test_with_middleware_with_view_access_object_authorized(self):
-        expected = u'\tView access is of type Authorized.'
+        expected = u'View access is of type Authorized.'
         ViewAccess.objects.create(view='django_roles:middleware_view_class',
                                   type='au')
         result = view_access_analyzer('SECURED', views.MiddlewareView.as_view,
@@ -773,7 +775,7 @@ class IntegratedTestViewAnalyzezr(TestCase):
         self.assertEqual(result, expected)
 
     def test_with_middleware_with_view_access_object_public(self):
-        expected = u'\tView access is of type Public.'
+        expected = u'View access is of type Public.'
         ViewAccess.objects.create(view='django_roles:middleware_view_class',
                                   type='pu')
         result = view_access_analyzer('SECURED', views.MiddlewareView.as_view,
@@ -782,8 +784,8 @@ class IntegratedTestViewAnalyzezr(TestCase):
         self.assertEqual(result, expected)
 
     def test_without_middleware_with_view_access_object(self):
-        expected = u'\tView access is of type By role.'
-        expected += u'\n\t\t\tERROR: No roles configured to access de view.'
+        expected = u'View access is of type By role.'
+        expected += u'ERROR: No roles configured to access de view.'
         ViewAccess.objects.create(view='django_roles:view_protected_by_role',
                                   type='br')
         result = view_access_analyzer('SECURED', views.protected_view_by_role,
@@ -792,8 +794,8 @@ class IntegratedTestViewAnalyzezr(TestCase):
         self.assertEqual(result, expected)
 
     def test_without_middleware_with_view_access_object_with_roles(self):
-        expected = u'\tView access is of type By role.'
-        expected += u'\n\t\t\tRoles with access: test1, test2'
+        expected = u'View access is of type By role.'
+        expected += u'Roles with access: test1, test2'
         g1, created = Group.objects.get_or_create(name='test1')
         g2, created = Group.objects.get_or_create(name='test2')
         view_access = ViewAccess.objects.create(
@@ -808,7 +810,7 @@ class IntegratedTestViewAnalyzezr(TestCase):
         self.assertEqual(result, expected)
 
     def test_without_middleware_with_view_access_object_authorized(self):
-        expected = u'\tView access is of type Authorized.'
+        expected = u'View access is of type Authorized.'
         ViewAccess.objects.create(view='django_roles:view_protected_by_role',
                                   type='au')
         result = view_access_analyzer('SECURED', views.protected_view_by_role,
@@ -817,7 +819,7 @@ class IntegratedTestViewAnalyzezr(TestCase):
         self.assertEqual(result, expected)
 
     def test_without_middleware_with_view_access_object_public(self):
-        expected = u'\tView access is of type Public.'
+        expected = u'View access is of type Public.'
         ViewAccess.objects.create(view='django_roles:view_protected_by_role',
                                   type='pu')
         result = view_access_analyzer('SECURED', views.protected_view_by_role,
@@ -847,8 +849,8 @@ class IntegratedTestViewAnalyzezr(TestCase):
     def test_without_middleware_with_view_access_object_and_view_not_protected(
             self
     ):
-        expected = u'\tERROR: View access object exist for the view, '
-        expected += 'but no Django role tool is used: neither '
+        expected = u'ERROR: View access object exist for the view, '
+        expected += 'but no Django role access tool is used: neither '
         expected += 'decorator, mixin, or middleware.'
         ViewAccess.objects.create(view='django_roles:middleware_view_func',
                                   type='pu')
@@ -858,64 +860,308 @@ class IntegratedTestViewAnalyzezr(TestCase):
         self.assertEqual(result, expected)
 
 
-@patch.object(BaseCommand(), 'style')
-@patch.object(BaseCommand(), 'stdout')
-class UnitTestPrintViewAnalysis(UnitTestCase):
+class UnitTestOutputReport(UnitTestCase):
 
-    def test_call_stdout(
-            self, mock_stdout, mock_style
-    ):
-        # output = StringIO()
-        # sys.stdout = output
-        print_view_analysis(mock_stdout, mock_style, 'fake report')
-        assert mock_stdout.write.called
+    def setUp(self):
+        self.patch_mock_stdout = patch.object(BaseCommand(), 'style')
+        self.patch_mock_style = patch.object(BaseCommand(), 'stdout')
+        self.mock_stdout = self.patch_mock_stdout.start()
+        self.mock_style = self.patch_mock_style.start()
+        self._output = OutputReport(self.mock_stdout, self.mock_style)
 
-    def test_call_stdout_once(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'fake report')
-        self.assertEqual(mock_stdout.write.call_count, 1)
+    def tearDown(self):
+        self.patch_mock_stdout.stop()
+        self.patch_mock_style.stop()
 
-    def test_call_stdout_with_SUCCESS(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'fake report')
-        mock_stdout.write.assert_called_once_with(
-            mock_style.SUCCESS())
+    def test_initial_with_parameter(self):
+        assert self._output.stdout == self.mock_stdout
+        assert self._output.style == self.mock_style
 
-    def test_call_SUCCESS_style(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'fake report')
-        assert mock_style.SUCCESS.called
+    def test_internal_attributes_are_initialize(self):
+        assert hasattr(self._output, '_row') and self._output._row == u''
+        assert hasattr(self._output, '_format') and self._output._format == \
+               'console'
 
-    def test_call_SUCCESS_style_with_report(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'fake report')
-        mock_style.SUCCESS.assert_called_once_with('\t' + 'fake report')
+    def test_initial_without_parameter(self):
+        with self.assertRaises(TypeError) as e:
+            OutputReport()
 
-    def test_call_ERROR_style_when_there_is_an_error_in_report(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'ERROR: fake report')
-        assert mock_style.ERROR.called
+    def test_default_output_format_is_correct_type(self):
+        assert self._output._format == 'console'
 
-    def test_call_ERROR_style_when_there_is_an_error_in_report_with_report(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'ERROR: fake report')
-        mock_style.ERROR.assert_called_once_with('\t' + 'ERROR: fake report')
+    def test_set_format(self):
+        self._output.set_format('csv')
+        assert self._output._format == 'csv'
 
-    def test_call_WARNING_style_when_there_is_a_warning_in_report(
-            self, mock_stdout, mock_style
-    ):
-        print_view_analysis(mock_stdout, mock_style, 'WARNING: fake report')
-        assert mock_style.WARNING.called
+    def test_add_to_row(self):
+        self._output.add_to_row('text')
+        self._output.add_to_row('other')
+        self.assertIn('text', self._output._row)
+        self.assertIn('other', self._output._row)
 
-    def test_call_WARNING_style_when_there_is_a_warning_in_report_with_report(
-            self, mock_stdout, mock_style
+    def test_write_method_write_to_stdout(self):
+        self._output.write(u'some text')
+        assert self.mock_stdout.write.called
+
+    def test_write_method_use_stdout_write_once(self):
+        self._output.write(u'some text')
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_write_method_use_SUCCESS_style_for_styling_output(self):
+        self._output.write(u'some text')
+        self.mock_stdout.write.assert_called_once_with(
+            self.mock_style.SUCCESS())
+
+    def test_write_method_use_SUCCESS_style_for_output(self):
+        self._output.write(u'some text')
+        assert self.mock_style.SUCCESS.called
+
+    def test_write_method_use_style_with_received_argument(self):
+        self._output.write(u'some text')
+        self.mock_style.SUCCESS.assert_called_once_with(u'some text')
+
+    def test_console_format_write_correct_header_to_stdout_with_SUCCESS_style(
+            self
     ):
-        print_view_analysis(mock_stdout, mock_style, 'WARNING: fake report')
-        mock_style.WARNING.assert_called_once_with(
-            '\t' + 'WARNING: fake report')
+        expected = u'Start checking views access.\n'
+        expected += u'Start gathering information.'
+        self._output.write_header()
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    @patch('django_roles_access.utils.timezone')
+    def test_cvs_format_write_correct_header(
+            self, mock_timezone
+    ):
+        mock_timezone.now.return_value = 'fake-date'
+        self._output.set_format('csv')
+        self._output.write_header()
+        self.mock_style.SUCCESS.assert_called_once_with(u'Reported: fake-date')
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_console_format_write_correct_middleware_status_and_end_of_header(
+            self
+    ):
+        expected = u'Django roles access middleware is active: False.\n'
+        self._output.write_middleware_status(False)
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_console_format_write_correct_end_of_header(
+            self
+    ):
+        expected = u'Finish gathering information.'
+        self._output.write_end_of_head()
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_cvs_format_write_correct_correct_middleware_status(
+            self
+    ):
+        expected = u'Django roles access middleware is active: False.\n'
+        self._output.set_format('csv')
+        self._output.write_middleware_status(False)
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_cvs_format_write_correct_csv_columns(
+            self
+    ):
+        expected = u'App Name,Type,View Name,Url,Status,Status description'
+        self._output.set_format('csv')
+        self._output.write_end_of_head()
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_console_format_process_app_data_to_stdout_with_SUCCESS_style(self):
+        app_name = u'fake-app-name'
+        app_type = u'fake-app-type'
+        view_list = ['fake-view']
+        expected = u'\tAnalyzing: {}\n'.format(app_name)
+        expected += u'\t\t{} is {} type.'.format(app_name, app_type)
+        self._output.process_application_data(app_name, app_type, view_list)
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_console_format_process_app_data_without_type(self):
+        app_name = u'fake-app-name'
+        app_type = None
+        view_list = ['fake-view']
+        expected = u'\tAnalyzing: {}\n'.format(app_name)
+        expected += u'\t\t{} has no type.'.format(app_name)
+        self._output.process_application_data(app_name, app_type, view_list)
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_console_format_process_app_data_without_views(self):
+        app_name = u'fake-app-name'
+        app_type = u'fake-app-type'
+        view_list = []
+        expected = u'\tAnalyzing: {}\n'.format(app_name)
+        expected += u'\t\t{} is {} type.'.format(app_name, app_type)
+        expected += u'\t\t{} does not have configured views.'.format(app_name)
+        self._output.process_application_data(app_name, app_type, view_list)
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_cvs_format_process_application_data_to_string(self):
+        app_name = u'fake-app-name'
+        app_type = u'fake-app-type'
+        view_list = ['fake-view-list']
+        expected = u'{},{},'.format(app_name, app_type, view_list)
+        self._output.set_format('csv')
+        self._output.process_application_data(app_name, app_type, view_list)
+        self.assertEqual(expected, self._output._row)
+
+    def test_cvs_format_process_application_data_without_type_to_string(self):
+        app_name = u'fake-app-name'
+        app_type = None
+        view_list = ['fake-view-list']
+        expected = u'fake-app-name,no type,'.format(app_name)
+        self._output.set_format('csv')
+        self._output.process_application_data(app_name, app_type, view_list)
+        self.assertEqual(expected, self._output._row)
+
+    def test_cvs_format_process_application_data_without_views(self):
+        app_name = u'fake-app-name'
+        app_type = u'fake-app-type'
+        view_list = []
+        expected = u'fake-app-name,fake-app-type,,,,,'.format(app_name)
+        self._output.set_format('csv')
+        self._output.process_application_data(app_name, app_type, view_list)
+        self.assertEqual(expected, self._output._row)
+
+    def test_console_format_process_view_data_to_stdout_with_SUCCESS_style(
+            self
+    ):
+        view_name = u'fake-view-name'
+        url = '/fake-url/'
+        expected = u'\n\t\tAnalysis for view: {}'.format(view_name)
+        expected += u'\n\t\tView url: {}'.format(url)
+        self._output.process_view_data(view_name, url)
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_cvs_format_process_view_data(self):
+        view_name = u'fake-view-name'
+        url = '/fake-url/'
+        expected = u'{},{}'.format(view_name, url)
+        self._output.set_format('csv')
+        self._output.process_view_data(view_name, url)
+        self.assertIn(expected, self._output._row)
+
+    # View_access_analyzer output.
+    def test_console_format_write_vaa_to_stdout(self):
+        self._output.write_view_access_analyzer(u'some text')
+        assert self.mock_stdout.write.called
+
+    def test_console_format_use_stdout_write_once_with_vaa(self):
+        self._output.write_view_access_analyzer(u'some text')
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_console_format_use_SUCCESS_style_for_styling_output_of_vaa(self):
+        self._output.write_view_access_analyzer(u'some text')
+        self.mock_stdout.write.assert_called_once_with(
+            self.mock_style.SUCCESS())
+
+    def test_console_format_use_SUCCESS_style_for_output_of_vaa(self):
+        self._output.write_view_access_analyzer(u'some text')
+        assert self.mock_style.SUCCESS.called
+
+    def test_console_format_use_style_with_vaa_result(self):
+        self._output.write_view_access_analyzer(u'some text')
+        self.mock_style.SUCCESS.assert_called_once_with(u'\t\tsome text')
+
+    def test_console_format_use_ERROR_style_for_output_if_error_in_vaa(self):
+        self._output.write_view_access_analyzer('ERROR: fake report')
+        assert self.mock_style.ERROR.called
+
+    def test_console_format_use_ERROR_style_with_the_error_in_vaa(self):
+        self._output.write_view_access_analyzer('ERROR: fake report')
+        self.mock_style.ERROR.assert_called_once_with('\t\t' +
+                                                      'ERROR: fake report')
+
+    def test_console_format_use_WARNING_style_for_output_if_warning_in_vaa(self):
+        self._output.write_view_access_analyzer('WARNING: fake report')
+        assert self.mock_style.WARNING.called
+
+    def test_console_format_use_WARNING_style_with_the_warning_in_vaa(self):
+        self._output.write_view_access_analyzer('WARNING: fake report')
+        self.mock_style.WARNING.assert_called_once_with(
+            '\t\t' + 'WARNING: fake report')
+
+    def test_csv_format_write_view_access_analyzer_with_Normal_to_stdout(self):
+        self._output.add_to_row('fake-app,fake-type,fake-view,fake-url,')
+        self._output._format = 'csv'
+        self._output.write_view_access_analyzer(u'fake-report')
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_csv_format_write_view_access_analyzer_with_Normal_to_style(self):
+        self._output.add_to_row('fake-app,fake-type,fake-view,fake-url,')
+        expected = u'fake-app,fake-type,fake-view,fake-url,Normal,fake-report\n'
+        self._output._format = 'csv'
+        self._output.write_view_access_analyzer(u'fake-report')
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+
+    def test_csv_format_write_view_access_analyzer_with_WARNING_to_stdout(self):
+        self._output.add_to_row('fake-app,fake-type,fake-view,fake-url,')
+        self._output._format = 'csv'
+        self._output.write_view_access_analyzer('WARNING: fake-report')
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_csv_format_write_view_access_analyzer_with_WARNING_with_style(
+            self
+    ):
+        self._output.add_to_row('fake-app,fake-type,fake-view,fake-url,')
+        expected = u'fake-app,fake-type,fake-view,fake-url,Warning,' \
+                   u'fake-report\n'
+        self._output._format = 'csv'
+        self._output.write_view_access_analyzer('WARNING: fake-report')
+        self.mock_style.WARNING.assert_called_once_with(expected)
+
+    def test_csv_format_write_view_access_analyzer_with_ERROR_to_stdout(self):
+        self._output.add_to_row('fake-app,fake-type,fake-view,fake-url,')
+        self._output._format = 'csv'
+        self._output.write_view_access_analyzer('ERROR: fake-report')
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_csv_format_write_view_access_analyzer_with_ERROR_with_style(self):
+        self._output.add_to_row('fake-app,fake-type,fake-view,fake-url,')
+        expected = u'fake-app,fake-type,fake-view,fake-url,Error,fake-report\n'
+        self._output._format = 'csv'
+        self._output.write_view_access_analyzer('ERROR: fake-report')
+        self.mock_style.ERROR.assert_called_once_with(expected)
+
+    def test_csv_format_write_view_access_analyzer_reset_OutputFormater_row(
+            self
+    ):
+        self._output.add_to_row('fake-app,fake-type,fake-view,fake-url,')
+        self._output._format = 'csv'
+        self._output.write_view_access_analyzer('fake-report')
+        self.assertEqual(self._output._row, u'fake-app,fake-type,')
+
+    def test_console_format_close_application_data_to_stdout_with_SUCCESS_style(
+            self
+    ):
+        expected = u'\tFinish analyzing fake-app-name.'
+        self._output.close_application_data('fake-app-name')
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_cvs_format_close_application_data_to_string(self):
+        expected = u''
+        self._output.set_format('csv')
+        self._output.close_application_data('fake-app-name')
+        self.assertEqual(self._output._row, expected)
+
+    def test_console_format_write_footer_to_stdout_with_SUCCESS_style(self):
+        expected = u'End checking view access.'
+        self._output.write_footer()
+        self.mock_style.SUCCESS.assert_called_once_with(expected)
+        self.assertEqual(self.mock_stdout.write.call_count, 1)
+
+    def test_cvs_format_write_footer_to_string(self):
+        expected = u'\n'
+        self._output.set_format('csv')
+        self._output.write_footer()
+        self.assertEqual(self._output._row, expected)

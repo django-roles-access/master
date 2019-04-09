@@ -1,15 +1,12 @@
 # Django roles Change Log
 
-## [0.9] - 2019-04-xx #### Release candidate
+## [0.8.6] - 2019-04-09 Release candidate
 
 ### Added
 
 - Action checkviewaccess report output with csv format.
 
-### Changed
-
-- Roles attributes in ViewAccess is required only when "By role" type is 
-selected.
+- New documentation title: [Test coverage](https://django-roles-access.github.io/coverage.html)
 
 ## [0.8.5] - 2019-04-03
 
@@ -30,8 +27,7 @@ selected.
 
 ### Changed
 
-- Delete docs directory from main code repository. Move documentation to new 
-repository at: gh-pages: https://django-roles-access.github.io/gh-pages/ 
+- Documentation move it to: [Django roles access](https://django-roles-access.github.io)
 
 - README file for Pypi.org.
 
