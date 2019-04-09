@@ -1,6 +1,6 @@
 # Django roles Change Log
 
-## [0.9] - 2019-04-xx #### Release candidate
+## [0.8.6] - 2019-04-09 Release candidate
 
 ### Added
 
