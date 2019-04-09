@@ -26,8 +26,8 @@ PUBLIC_DEFAULT = _(u'No security configured for the view (ViewAccess object)'
                    u' and application type is "PUBLIC". Anonymous user can'
                    u' access the view.')
 
-NONE_TYPE_DEFAULT = _(u'ERROR: Django roles middleware is active; or view'
-                      u' is protected with Django roles decorator or mixin,'
+NONE_TYPE_DEFAULT = _(u'ERROR: Django roles access middleware is active; or '
+                      u'view is protected with Django roles decorator or mixin,'
                       u' and has no application or application has no type. '
                       u'There are no View Access object for the view. Is not '
                       u'possible to determine behavior for access view. Access'
@@ -119,7 +119,7 @@ def analyze_by_role(view_access):
 
 
 def view_access_analyzer(app_type, callback, view_name, site_active):
-    result = _(u'No Django roles tool used. Access to view depends on '
+    result = _(u'No Django roles access tool used. Access to view depends on '
                u'its implementation.')
     view_access = ViewAccess.objects.filter(view=view_name).first()
     if site_active:
@@ -142,7 +142,7 @@ def view_access_analyzer(app_type, callback, view_name, site_active):
         else:
             if view_access:
                 result = _(u'ERROR: View access object exist for the view, '
-                           u'but no Django role tool is used: neither '
+                           u'but no Django role access tool is used: neither '
                            u'decorator, mixin, or middleware.')
     return result
 
@@ -193,7 +193,7 @@ class OutputReport(object):
         _app_type = app_type
         if app_type is None:
             output += _(u'\t\t{} has no type.'.format(app_name, app_type))
-            _app_type = 'no type'
+            _app_type = _('no type')
         else:
             output += _(u'\t\t{} is {} type.'.format(app_name, app_type))
         if len(view_list) == 0:
