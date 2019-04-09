@@ -173,12 +173,9 @@ class OutputFormater(object):
 
     def write_header(self):
         if self._format == self.CONSOLE:
-            self.stdout.write(self.style.SUCCESS(self.HEADER))
+            self.write(self.HEADER)
         elif self._format == self.CSV:
-            self.stdout.write(
-                self.style.SUCCESS(
-                    _(u'Reported: {}'.format(timezone.now())))
-            )
+            self.write(_(u'Reported: {}'.format(timezone.now())))
 
     def write_middleware_status(self, status):
         output = self.MIDDLEWARE_STATUS + ' {}.\n'.format(status)
@@ -189,7 +186,7 @@ class OutputFormater(object):
             output = self.END_HEADER
         else:  # self._format == self.CSV:
             output = self.CSV_COLUMNS
-        self.stdout.write(self.style.SUCCESS(output))
+        self.write(output)
 
     def process_application_data(self, app_name, app_type, view_list):
         output = _(u'\tAnalyzing: {}\n'.format(app_name))
@@ -204,7 +201,7 @@ class OutputFormater(object):
                 app_name))
             _app_type += ',,,,'
         if self._format == self.CONSOLE:
-            self.stdout.write(self.style.SUCCESS(output))
+            self.write(output)
         elif self._format == self.CSV:
             self.add_to_row('{},{},'.format(app_name, _app_type))
 
@@ -212,7 +209,7 @@ class OutputFormater(object):
         if self._format == self.CONSOLE:
             _output = _(u'\n\t\tAnalysis for view: {}'.format(view_name))
             _output += _(u'\n\t\tView url: {}'.format(url))
-            self.stdout.write(self.style.SUCCESS(_output))
+            self.write(_output)
         elif self._format == self.CSV:
             self.add_to_row('{},{},'.format(view_name, url))
 
@@ -223,7 +220,7 @@ class OutputFormater(object):
             elif 'WARNING:' in text:
                 self.stdout.write(self.style.WARNING('\t' + text))
             else:
-                self.stdout.write(self.style.SUCCESS('\t' + text))
+                self.write('\t' + text)
         elif self._format == self.CSV:
             _row = self._row.split(',')
             if 'ERROR:' in text:
@@ -237,20 +234,20 @@ class OutputFormater(object):
                 self.add_to_row(u'Normal,{}\n'.format(text))
                 _output = self.style.SUCCESS(self._row)
             self.stdout.write(_output)
-            # Eliminate from _row all view information to start cycle again
-            # only app_name and app_type is left
+            # Delete view information to start cycle again.
+            # only app_name and app_type are left.
             self._row = _row[0] + ',' + _row[1] + ','
 
     def close_application_data(self, app_name):
         if self._format == self.CONSOLE:
             _output = _(u'\tFinish analyzing {}.').format(app_name)
-            self.stdout.write(self.style.SUCCESS(_output))
+            self.write(_output)
         elif self._format == self.CSV:
             self._row = u''
 
     def write_footer(self):
         if self._format == self.CONSOLE:
             _output = _(u'End checking view access.')
-            self.stdout.write(self.style.SUCCESS(_output))
+            self.write(_output)
         elif self._format == self.CSV:
             self._row = u'\n'
