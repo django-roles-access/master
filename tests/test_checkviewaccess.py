@@ -768,7 +768,7 @@ class IntegratedTestCheckViewAccessWithoutArgument(TestCase):
         expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
         expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
         # expected += self.ATTRIBUTES_OFF + '\n' + self.GREEN
-        expected_2 += u'\n\t\tNo Django roles tool used. Access to '
+        expected_2 += u'\n\t\tNo Django roles access tool used. Access to '
         expected_2 += u'view depends on its implementation.'
         out = StringIO()
         call_command('checkviewaccess', stdout=out)
@@ -781,7 +781,7 @@ class IntegratedTestCheckViewAccessWithoutArgument(TestCase):
         expected_1 = u'\n\tAnalyzing: {}'.format(APP_NAME_FOR_NONE)
         expected_2 = u'Analysis for view: direct_view\n'
         expected_2 += u'\t\tView url: direct_view/'
-        expected_2 += u'\n\t\tNo Django roles tool used. Access to '
+        expected_2 += u'\n\t\tNo Django roles access tool used. Access to '
         expected_2 += u'view depends on its implementation.'
         out = StringIO()
         call_command('checkviewaccess', stdout=out)
@@ -795,7 +795,7 @@ class IntegratedTestCheckViewAccessWithoutArgument(TestCase):
         expected_1 += u'\n\t\t{} has no type.'.format(APP_NAME_FOR_NONE)
         expected_2 = u'Analysis for view: direct_view\n'
         expected_2 += u'\t\tView url: direct_view/'
-        expected_2 += u'\n\t\tNo Django roles tool used. Access to '
+        expected_2 += u'\n\t\tNo Django roles access tool used. Access to '
         expected_2 += u'view depends on its implementation.'
         out = StringIO()
         call_command('checkviewaccess', stdout=out)
@@ -808,7 +808,7 @@ class IntegratedTestCheckViewAccessWithoutArgument(TestCase):
         expected_1 += u'\n\t\tdjango_roles is SECURED type.'
         expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
         expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
-        expected_2 += u'\n\t\tNo Django roles tool used. Access to '
+        expected_2 += u'\n\t\tNo Django roles access tool used. Access to '
         expected_2 += u'view depends on its implementation.'
         out = StringIO()
         call_command('checkviewaccess', stdout=out)
@@ -1158,7 +1158,7 @@ class IntegratedTestCheckViewAccessOutputCSVFormat(TestCase):
     def test_no_django_roles_tools_used(self):
         expected = u'django_roles,no type,app-ns2:middleware_view_func,'
         expected += u'role-included2/middleware_view_func/,Normal,'
-        expected += u'No Django roles tool used. Access to view depends '
+        expected += u'No Django roles access tool used. Access to view depends '
         expected += u'on its implementation.'
         out = StringIO()
         call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
@@ -1169,7 +1169,7 @@ class IntegratedTestCheckViewAccessOutputCSVFormat(TestCase):
     ):
         expected = u'{},'.format(APP_NAME_FOR_NONE)
         expected += u'no type,direct_view,direct_view/,Normal,'
-        expected += u'No Django roles tool used. Access to '
+        expected += u'No Django roles access tool used. Access to '
         expected += u'view depends on its implementation.'
         out = StringIO()
         call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
@@ -1179,7 +1179,7 @@ class IntegratedTestCheckViewAccessOutputCSVFormat(TestCase):
         settings.__setattr__('SECURED', ['django_roles'])
         expected = u'django_roles,SECURED,app-ns2:middleware_view_func,'
         expected += u'role-included2/middleware_view_func/,Normal,'
-        expected += u'No Django roles tool used. Access to '
+        expected += u'No Django roles access tool used. Access to '
         expected += u'view depends on its implementation.'
         out = StringIO()
         call_command('checkviewaccess', '--output-format', 'csv', stdout=out)

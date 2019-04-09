@@ -673,8 +673,8 @@ class UnitTestViewAnalyzer(UnitTestCase):
             self, mock_objects
     ):
         expected = u'ERROR: View access object exist for the view, but no '
-        expected += u'Django role tool is used: neither decorator, mixin, or '
-        expected += u'middleware.'
+        expected += u'Django role access tool is used: neither decorator, '
+        expected += u'mixin, or middleware.'
 
         def function():
             pass
@@ -704,8 +704,8 @@ class UnitTestViewAnalyzer(UnitTestCase):
     def test_no_django_roles_tools_used_no_application_type(
             self, mock_objects
     ):
-        expected = u'No Django roles tool used. Access to view depends on '
-        expected += u'its implementation.'
+        expected = u'No Django roles access tool used. Access to view depends '
+        expected += u'on its implementation.'
 
         def function():
             pass
@@ -718,8 +718,8 @@ class UnitTestViewAnalyzer(UnitTestCase):
     def test_no_django_roles_tools_used_application_type(
             self, mock_objects
     ):
-        expected = u'No Django roles tool used. Access to view depends on '
-        expected += u'its implementation.'
+        expected = u'No Django roles access tool used. Access to view depends '
+        expected += u'on its implementation.'
 
         def function():
             pass
@@ -850,7 +850,7 @@ class IntegratedTestViewAnalyzezr(TestCase):
             self
     ):
         expected = u'ERROR: View access object exist for the view, '
-        expected += 'but no Django role tool is used: neither '
+        expected += 'but no Django role access tool is used: neither '
         expected += 'decorator, mixin, or middleware.'
         ViewAccess.objects.create(view='django_roles:middleware_view_func',
                                   type='pu')
