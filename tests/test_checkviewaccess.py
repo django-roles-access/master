@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.utils import timezone
-
 try:
     from django.utils.six import StringIO
 except:
@@ -238,6 +237,7 @@ class UnitTestCheckViewAccessCommon(UnitTestCase):
         mock_settings.ROOT_URLCONF = self.root_urlconf
         call_command('checkviewaccess')
         mock_write_footer.assert_called_once_with()
+
 
 @patch('django_roles_access.management.commands.checkviewaccess.import_module')
 @patch('django_roles_access.management.commands.checkviewaccess.settings')
@@ -849,9 +849,9 @@ class IntegratedTestCheckViewAccessWithoutArgument(TestCase):
         expected_2 += u'\n\t\t'
         out = StringIO()
         call_command('checkviewaccess', stdout=out)
+        settings.__delattr__('SECURED')
         self.assertIn(expected_1, out.getvalue())
         self.assertIn(expected_2, out.getvalue())
-        settings.__delattr__('SECURED')
 
     def test_decorator_no_view_access_object_app_type_PUBLIC(self):
         settings.__setattr__('PUBLIC', ['django_roles'])
@@ -1078,7 +1078,7 @@ class IntegratedTestCheckViewAccessWithoutArgument(TestCase):
         expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
         expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
         expected_2 += u'\n\t\tView access is of type By role.'
-        expected_2 += u'\n\t\t\tRoles with access: role-1, role-2'
+        expected_2 += u'Roles with access: role-1, role-2'
         role_1, created = Group.objects.get_or_create(name='role-1')
         role_2, created = Group.objects.get_or_create(name='role-2')
         view_access = ViewAccess.objects.create(
@@ -1163,339 +1163,254 @@ class IntegratedTestCheckViewAccessOutputCSVFormat(TestCase):
         out = StringIO()
         call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
         self.assertIn(expected, out.getvalue())
-    #
-    # def test_no_django_roles_used_no_view_access_object_no_application(
-    #         self
-    # ):
-    #     expected_1 = u'\n\tAnalyzing: {}'.format(APP_NAME_FOR_NONE)
-    #     expected_2 = u'Analysis for view: direct_view\n'
-    #     expected_2 += u'\t\tView url: direct_view/'
-    #     expected_2 += u'\n\t\tNo Django roles tool used. Access to '
-    #     expected_2 += u'view depends on its implementation.'
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # def test_no_django_roles_used_no_view_access_object_no_application_type(
-    #         self
-    # ):
-    #     expected_1 = u'\n\tAnalyzing: {}'.format(APP_NAME_FOR_NONE)
-    #     expected_1 += u'\n\t\t{} has no type.'.format(APP_NAME_FOR_NONE)
-    #     expected_2 = u'Analysis for view: direct_view\n'
-    #     expected_2 += u'\t\tView url: direct_view/'
-    #     expected_2 += u'\n\t\tNo Django roles tool used. Access to '
-    #     expected_2 += u'view depends on its implementation.'
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # def test_no_django_roles_used_no_view_access_object_app_type_SECURED(self):
-    #     settings.__setattr__('SECURED', ['django_roles'])
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles is SECURED type.'
-    #     expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
-    #     expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
-    #     expected_2 += u'\n\t\tNo Django roles tool used. Access to '
-    #     expected_2 += u'view depends on its implementation.'
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     settings.__delattr__('SECURED')
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # def test_decorator_no_view_access_object_app_type_None(self):
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles has no type.'
-    #     expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
-    #     expected_2 += u'\t\tView url: role-included2/view_by_role/'
-    #     expected_2 += u'\n\t\t' + NONE_TYPE_DEFAULT
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # def test_decorator_no_view_access_object_app_type_NOT_SECURED(self):
-    #     settings.__setattr__('NOT_SECURED', ['django_roles'])
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles is NOT_SECURED type.'
-    #     expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
-    #     expected_2 += u'\t\tView url: role-included2/view_by_role/'
-    #     expected_2 += u'\n\t\t' + NOT_SECURED_DEFAULT
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     settings.__delattr__('NOT_SECURED')
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # def test_decorator_no_view_access_object_app_type_SECURED(self):
-    #     settings.__setattr__('SECURED', ['django_roles'])
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles is SECURED type.'
-    #     expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
-    #     expected_2 += u'\t\tView url: role-included2/view_by_role/'
-    #     expected_2 += u'\n\t\t'
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #     settings.__delattr__('SECURED')
-    #
-    # def test_decorator_no_view_access_object_app_type_PUBLIC(self):
-    #     settings.__setattr__('PUBLIC', ['django_roles'])
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles is PUBLIC type.'
-    #     expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
-    #     expected_2 += u'\t\tView url: role-included2/view_by_role/'
-    #     expected_2 += u'\n\t\t'
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     settings.__delattr__('PUBLIC')
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # def test_decorator_view_access_object_app_type_None(self):
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles has no type.'
-    #     expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
-    #     expected_2 += u'\t\tView url: role-included2/view_by_role/'
-    #     expected_2 += u'\n\t\tView access is of type Public.'
-    #     ViewAccess.objects.create(view='app-ns2:view_protected_by_role',
-    #                               type='pu')
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # def test_decorator_view_access_object_app_type_SECURED(self):
-    #     settings.__setattr__('SECURED', ['django_roles'])
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles is SECURED type.'
-    #     expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
-    #     expected_2 += u'\t\tView url: role-included2/view_by_role/'
-    #     expected_2 += u'\n\t\tView access is of type Public.'
-    #     ViewAccess.objects.create(view='app-ns2:view_protected_by_role',
-    #                               type='pu')
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     settings.__delattr__('SECURED')
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # def test_mixin_no_view_access_object_app_type_None(self):
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles has no type.'
-    #     expected_2 = u'Analysis for view: app-ns2:mixin_class_view\n'
-    #     expected_2 += u'\t\tView url: role-included2/mixin_class_view/'
-    #     expected_2 += u'\n\t\t' + NONE_TYPE_DEFAULT
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # def test_mixin_no_view_access_object_app_type_NOT_SECURED(self):
-    #     settings.__setattr__('NOT_SECURED', ['django_roles'])
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles is NOT_SECURED type.'
-    #     expected_2 = u'Analysis for view: app-ns2:mixin_class_view\n'
-    #     expected_2 += u'\t\tView url: role-included2/mixin_class_view/'
-    #     expected_2 += u'\n\t\t' + NOT_SECURED_DEFAULT
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     settings.__delattr__('NOT_SECURED')
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # def test_mixin_no_view_access_object_app_type_SECURED(self):
-    #     settings.__setattr__('SECURED', ['django_roles'])
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles is SECURED type.'
-    #     expected_2 = u'Analysis for view: app-ns2:mixin_class_view\n'
-    #     expected_2 += u'\t\tView url: role-included2/mixin_class_view/'
-    #     expected_2 += u'\n\t\t'
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     settings.__delattr__('SECURED')
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # def test_mixin_no_view_access_object_app_type_PUBLIC(self):
-    #     settings.__setattr__('PUBLIC', ['django_roles'])
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles is PUBLIC type.'
-    #     expected_2 = u'Analysis for view: app-ns2:mixin_class_view\n'
-    #     expected_2 += u'\t\tView url: role-included2/mixin_class_view/'
-    #     expected_2 += u'\n\t\t'
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     settings.__delattr__('PUBLIC')
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # def test_mixin_view_access_object_app_type_None(self):
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles has no type.'
-    #     expected_2 = u'Analysis for view: app-ns2:mixin_class_view\n'
-    #     expected_2 += u'\t\tView url: role-included2/mixin_class_view/'
-    #     expected_2 += u'\n\t\tView access is of type Public.'
-    #     ViewAccess.objects.create(view='app-ns2:mixin_class_view',
-    #                               type='pu')
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # def test_mixin_view_access_object_app_type_SECURED(self):
-    #     settings.__setattr__('SECURED', ['django_roles'])
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles is SECURED type.'
-    #     expected_2 = u'Analysis for view: app-ns2:view_protected_by_role\n'
-    #     expected_2 += u'\t\tView url: role-included2/view_by_role/'
-    #     expected_2 += u'\n\t\tView access is of type Public.'
-    #     ViewAccess.objects.create(view='app-ns2:view_protected_by_role',
-    #                               type='pu')
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     settings.__delattr__('SECURED')
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # @modify_settings(MIDDLEWARE={
-    #     'append': 'django_roles_access.middleware.RolesMiddleware'
-    # })
-    # def test_site_active_no_view_access_object_app_type_None(self):
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles has no type.'
-    #     expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
-    #     expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
-    #     expected_2 += u'\n\t\t' + NONE_TYPE_DEFAULT
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # @modify_settings(MIDDLEWARE={
-    #     'append': 'django_roles_access.middleware.RolesMiddleware'
-    # })
-    # def test_site_active_no_view_access_object_app_type_NOT_SECURED(self):
-    #     settings.__setattr__('NOT_SECURED', ['django_roles'])
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles is NOT_SECURED type.'
-    #     expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
-    #     expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
-    #     expected_2 += u'\n\t\t' + NOT_SECURED_DEFAULT
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     settings.__delattr__('NOT_SECURED')
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # @modify_settings(MIDDLEWARE={
-    #     'append': 'django_roles_access.middleware.RolesMiddleware'
-    # })
-    # def test_site_active_no_view_access_object_app_type_SECURED(self):
-    #     settings.__setattr__('SECURED', ['django_roles'])
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles is SECURED type.'
-    #     expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
-    #     expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
-    #     expected_2 += u'\n\t\t'
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     settings.__delattr__('SECURED')
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # @modify_settings(MIDDLEWARE={
-    #     'append': 'django_roles_access.middleware.RolesMiddleware'
-    # })
-    # def test_site_active_no_view_access_object_app_type_PUBLIC(self):
-    #     settings.__setattr__('PUBLIC', ['django_roles'])
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles is PUBLIC type.'
-    #     expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
-    #     expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
-    #     expected_2 += u'\n\t\t'
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     settings.__delattr__('PUBLIC')
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # @modify_settings(MIDDLEWARE={
-    #     'append': 'django_roles_access.middleware.RolesMiddleware'
-    # })
-    # def test_site_active_view_access_object_app_type_None(self):
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles has no type.'
-    #     expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
-    #     expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
-    #     expected_2 += u'\n\t\tView access is of type Public.'
-    #     ViewAccess.objects.create(view='app-ns2:middleware_view_func',
-    #                               type='pu')
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # @modify_settings(MIDDLEWARE={
-    #     'append': 'django_roles_access.middleware.RolesMiddleware'
-    # })
-    # def test_site_active_view_access_object_app_type_NOT_SECURED(self):
-    #     settings.__setattr__('NOT_SECURED', ['django_roles'])
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles is NOT_SECURED type.'
-    #     expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
-    #     expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
-    #     expected_2 += u'\n\t\tView access is of type Public.'
-    #     ViewAccess.objects.create(view='app-ns2:middleware_view_func',
-    #                               type='pu')
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     settings.__delattr__('NOT_SECURED')
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # @modify_settings(MIDDLEWARE={
-    #     'append': 'django_roles_access.middleware.RolesMiddleware'
-    # })
-    # def test_site_active_view_access_object_app_type_SECURED(self):
-    #     settings.__setattr__('SECURED', ['django_roles'])
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles is SECURED type.'
-    #     expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
-    #     expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
-    #     expected_2 += u'\n\t\tView access is of type By role.'
-    #     expected_2 += u'\n\t\t\tRoles with access: role-1, role-2'
-    #     role_1, created = Group.objects.get_or_create(name='role-1')
-    #     role_2, created = Group.objects.get_or_create(name='role-2')
-    #     view_access = ViewAccess.objects.create(
-    #         view='app-ns2:middleware_view_func',
-    #         type='br')
-    #     view_access.roles.add(role_1)
-    #     view_access.roles.add(role_2)
-    #     view_access.save()
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     settings.__delattr__('SECURED')
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
-    #
-    # @modify_settings(MIDDLEWARE={
-    #     'append': 'django_roles_access.middleware.RolesMiddleware'
-    # })
-    # def test_site_active_view_access_object_app_type_PUBLIC(self):
-    #     settings.__setattr__('PUBLIC', ['django_roles'])
-    #     expected_1 = u'\n\tAnalyzing: django_roles'
-    #     expected_1 += u'\n\t\tdjango_roles is PUBLIC type.'
-    #     expected_2 = u'Analysis for view: app-ns2:middleware_view_func\n'
-    #     expected_2 += u'\t\tView url: role-included2/middleware_view_func/'
-    #     expected_2 += u'\n\t\tView access is of type Authorized.'
-    #     ViewAccess.objects.create(view='app-ns2:middleware_view_func',
-    #                               type='au')
-    #     out = StringIO()
-    #     call_command('checkviewaccess', stdout=out)
-    #     settings.__delattr__('PUBLIC')
-    #     self.assertIn(expected_1, out.getvalue())
-    #     self.assertIn(expected_2, out.getvalue())
+
+    def test_no_django_roles_used_no_view_access_object_no_application(
+            self
+    ):
+        expected = u'{},'.format(APP_NAME_FOR_NONE)
+        expected += u'no type,direct_view,direct_view/,Normal,'
+        expected += u'No Django roles tool used. Access to '
+        expected += u'view depends on its implementation.'
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        self.assertIn(expected, out.getvalue())
+
+    def test_no_django_roles_used_no_view_access_object_app_type_SECURED(self):
+        settings.__setattr__('SECURED', ['django_roles'])
+        expected = u'django_roles,SECURED,app-ns2:middleware_view_func,'
+        expected += u'role-included2/middleware_view_func/,Normal,'
+        expected += u'No Django roles tool used. Access to '
+        expected += u'view depends on its implementation.'
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        settings.__delattr__('SECURED')
+        self.assertIn(expected, out.getvalue())
+
+    def test_decorator_no_view_access_object_app_type_None(self):
+        expected = u'django_roles,no type,app-ns2:view_protected_by_role,'
+        expected += u'role-included2/view_by_role/,Error'
+        expected += u',' + NONE_TYPE_DEFAULT.split('ERROR: ')[1]
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        self.assertIn(expected, out.getvalue())
+
+    def test_decorator_no_view_access_object_app_type_NOT_SECURED(self):
+        settings.__setattr__('NOT_SECURED', ['django_roles'])
+        expected = u'django_roles,NOT_SECURED,app-ns2:view_protected_by_role,'
+        expected += u'role-included2/view_by_role/,Warning'
+        expected += u',' + NOT_SECURED_DEFAULT.split('WARNING: ')[1]
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        settings.__delattr__('NOT_SECURED')
+        self.assertIn(expected, out.getvalue())
+
+    def test_decorator_no_view_access_object_app_type_SECURED(self):
+        settings.__setattr__('SECURED', ['django_roles'])
+        expected = u'django_roles,SECURED,app-ns2:view_protected_by_role,'
+        expected += u'role-included2/view_by_role/,Normal,'
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        settings.__delattr__('SECURED')
+        self.assertIn(expected, out.getvalue())
+
+    def test_decorator_no_view_access_object_app_type_PUBLIC(self):
+        settings.__setattr__('PUBLIC', ['django_roles'])
+        expected = u'django_roles,PUBLIC,app-ns2:view_protected_by_role,'
+        expected += u'role-included2/view_by_role/,Normal,'
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        settings.__delattr__('PUBLIC')
+        self.assertIn(expected, out.getvalue())
+
+    def test_decorator_view_access_object_app_type_None(self):
+        expected = u'django_roles,no type,app-ns2:view_protected_by_role,'
+        expected += u'role-included2/view_by_role/,Normal,'
+        expected += u'View access is of type Public.'
+        ViewAccess.objects.create(view='app-ns2:view_protected_by_role',
+                                  type='pu')
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        self.assertIn(expected, out.getvalue())
+
+    def test_decorator_view_access_object_app_type_SECURED(self):
+        settings.__setattr__('SECURED', ['django_roles'])
+        expected = u'django_roles,SECURED,app-ns2:view_protected_by_role,'
+        expected += u'role-included2/view_by_role/,Normal,'
+        expected += u'View access is of type Public.'
+        ViewAccess.objects.create(view='app-ns2:view_protected_by_role',
+                                  type='pu')
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        settings.__delattr__('SECURED')
+        self.assertIn(expected, out.getvalue())
+
+    def test_mixin_no_view_access_object_app_type_None(self):
+        expected = u'django_roles,no type,app-ns2:mixin_class_view,'
+        expected += u'role-included2/mixin_class_view/,Error'
+        expected += u',' + NONE_TYPE_DEFAULT.split('ERROR: ')[1]
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        self.assertIn(expected, out.getvalue())
+
+    def test_mixin_no_view_access_object_app_type_NOT_SECURED(self):
+        settings.__setattr__('NOT_SECURED', ['django_roles'])
+        expected = u'django_roles,NOT_SECURED,app-ns2:mixin_class_view,'
+        expected += u'role-included2/mixin_class_view/,Warning'
+        expected += u',' + NOT_SECURED_DEFAULT.split('WARNING: ')[1]
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        settings.__delattr__('NOT_SECURED')
+        self.assertIn(expected, out.getvalue())
+
+    def test_mixin_no_view_access_object_app_type_SECURED(self):
+        settings.__setattr__('SECURED', ['django_roles'])
+        expected = u'django_roles,SECURED,app-ns2:mixin_class_view,'
+        expected += u'role-included2/mixin_class_view/,Normal,'
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        settings.__delattr__('SECURED')
+        self.assertIn(expected, out.getvalue())
+
+    def test_mixin_no_view_access_object_app_type_PUBLIC(self):
+        settings.__setattr__('PUBLIC', ['django_roles'])
+        expected = u'django_roles,PUBLIC,app-ns2:mixin_class_view,'
+        expected += u'role-included2/mixin_class_view/,Normal,'
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        settings.__delattr__('PUBLIC')
+        self.assertIn(expected, out.getvalue())
+
+    def test_mixin_view_access_object_app_type_None(self):
+        expected = u'django_roles,no type,app-ns2:mixin_class_view,'
+        expected += u'role-included2/mixin_class_view/,Normal,'
+        expected += u'View access is of type Public.'
+        ViewAccess.objects.create(view='app-ns2:mixin_class_view',
+                                  type='pu')
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        self.assertIn(expected, out.getvalue())
+
+    def test_mixin_view_access_object_app_type_SECURED(self):
+        settings.__setattr__('SECURED', ['django_roles'])
+        expected = u'django_roles,SECURED,app-ns2:view_protected_by_role,'
+        expected += u'role-included2/view_by_role/,Normal,'
+        expected += u'View access is of type Public.'
+        ViewAccess.objects.create(view='app-ns2:view_protected_by_role',
+                                  type='pu')
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        settings.__delattr__('SECURED')
+        self.assertIn(expected, out.getvalue())
+
+    @modify_settings(MIDDLEWARE={
+        'append': 'django_roles_access.middleware.RolesMiddleware'
+    })
+    def test_site_active_no_view_access_object_app_type_None(self):
+        expected = u'django_roles,no type,app-ns2:middleware_view_func,'
+        expected += u'role-included2/middleware_view_func/,Error'
+        expected += u',' + NONE_TYPE_DEFAULT.split('ERROR: ')[1]
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        self.assertIn(expected, out.getvalue())
+
+    @modify_settings(MIDDLEWARE={
+        'append': 'django_roles_access.middleware.RolesMiddleware'
+    })
+    def test_site_active_no_view_access_object_app_type_NOT_SECURED(self):
+        settings.__setattr__('NOT_SECURED', ['django_roles'])
+        expected = u'django_roles,NOT_SECURED,app-ns2:middleware_view_func,'
+        expected += u'role-included2/middleware_view_func/,Warning'
+        expected += u',' + NOT_SECURED_DEFAULT.split('WARNING: ')[1]
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        settings.__delattr__('NOT_SECURED')
+        self.assertIn(expected, out.getvalue())
+
+    @modify_settings(MIDDLEWARE={
+        'append': 'django_roles_access.middleware.RolesMiddleware'
+    })
+    def test_site_active_no_view_access_object_app_type_SECURED(self):
+        settings.__setattr__('SECURED', ['django_roles'])
+        expected = u'django_roles,SECURED,app-ns2:middleware_view_func,'
+        expected += u'role-included2/middleware_view_func/,Normal,'
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        settings.__delattr__('SECURED')
+        self.assertIn(expected, out.getvalue())
+
+    @modify_settings(MIDDLEWARE={
+        'append': 'django_roles_access.middleware.RolesMiddleware'
+    })
+    def test_site_active_no_view_access_object_app_type_PUBLIC(self):
+        settings.__setattr__('PUBLIC', ['django_roles'])
+        expected = u'django_roles,PUBLIC,app-ns2:middleware_view_func,'
+        expected += u'role-included2/middleware_view_func/,Normal,'
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        settings.__delattr__('PUBLIC')
+        self.assertIn(expected, out.getvalue())
+
+    @modify_settings(MIDDLEWARE={
+        'append': 'django_roles_access.middleware.RolesMiddleware'
+    })
+    def test_site_active_view_access_object_app_type_None(self):
+        expected = u'django_roles,no type,app-ns2:middleware_view_func,'
+        expected += u'role-included2/middleware_view_func/,Normal,'
+        expected += u'View access is of type Public.'
+        ViewAccess.objects.create(view='app-ns2:middleware_view_func',
+                                  type='pu')
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        self.assertIn(expected, out.getvalue())
+
+    @modify_settings(MIDDLEWARE={
+        'append': 'django_roles_access.middleware.RolesMiddleware'
+    })
+    def test_site_active_view_access_object_app_type_NOT_SECURED(self):
+        settings.__setattr__('NOT_SECURED', ['django_roles'])
+        expected = u'django_roles,NOT_SECURED,app-ns2:middleware_view_func,'
+        expected += u'role-included2/middleware_view_func/,Normal,'
+        expected += u'View access is of type Public.'
+        ViewAccess.objects.create(view='app-ns2:middleware_view_func',
+                                  type='pu')
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        settings.__delattr__('NOT_SECURED')
+        self.assertIn(expected, out.getvalue())
+
+    @modify_settings(MIDDLEWARE={
+        'append': 'django_roles_access.middleware.RolesMiddleware'
+    })
+    def test_site_active_view_access_object_app_type_SECURED(self):
+        settings.__setattr__('SECURED', ['django_roles'])
+        expected = u'django_roles,SECURED,app-ns2:middleware_view_func,'
+        expected += u'role-included2/middleware_view_func/,Normal,'
+        expected += u'View access is of type By role.'
+        expected += u'Roles with access: role-1, role-2'
+        role_1, created = Group.objects.get_or_create(name='role-1')
+        role_2, created = Group.objects.get_or_create(name='role-2')
+        view_access = ViewAccess.objects.create(
+            view='app-ns2:middleware_view_func',
+            type='br')
+        view_access.roles.add(role_1)
+        view_access.roles.add(role_2)
+        view_access.save()
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        settings.__delattr__('SECURED')
+        self.assertIn(expected, out.getvalue())
+
+    @modify_settings(MIDDLEWARE={
+        'append': 'django_roles_access.middleware.RolesMiddleware'
+    })
+    def test_site_active_view_access_object_app_type_PUBLIC(self):
+        settings.__setattr__('PUBLIC', ['django_roles'])
+        expected = u'django_roles,PUBLIC,app-ns2:middleware_view_func,'
+        expected += u'role-included2/middleware_view_func/,Normal,'
+        expected += u'View access is of type Authorized.'
+        ViewAccess.objects.create(view='app-ns2:middleware_view_func',
+                                  type='au')
+        out = StringIO()
+        call_command('checkviewaccess', '--output-format', 'csv', stdout=out)
+        settings.__delattr__('PUBLIC')
+        self.assertIn(expected, out.getvalue())

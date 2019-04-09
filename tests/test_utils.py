@@ -446,7 +446,7 @@ class UnitTestAnalyzeByRoleAccess(UnitTestCase):
     def test_detect_access_is_by_role(
             self, mock_view_access
     ):
-        expected = u'\n\t\t\tERROR: No roles configured to access de view.'
+        expected = u'ERROR: No roles configured to access de view.'
         mock_view_access.type = 'br'
         mock_view_access.roles.count.return_value = 0
         result = analyze_by_role(mock_view_access)
@@ -463,7 +463,7 @@ class UnitTestAnalyzeByRoleAccess(UnitTestCase):
     def test_detect_access_is_not_by_role_with_roles(
             self, mock_view_access
     ):
-        expected = u'\n\t\t\tRoles with access: role-1, role-2'
+        expected = u'Roles with access: role-1, role-2'
         mock_view_access.type = 'br'
         role_1 = Mock()
         role_1.name = u'role-1'
@@ -476,7 +476,7 @@ class UnitTestAnalyzeByRoleAccess(UnitTestCase):
     def test_detect_access_is_not_by_role_without_roles(
             self, mock_view_access
     ):
-        expected = u'\n\t\t\tERROR: No roles configured to access de view.'
+        expected = u'ERROR: No roles configured to access de view.'
         mock_view_access.type = 'br'
         mock_view_access.roles.count.return_value = 0
         result = analyze_by_role(mock_view_access)
@@ -486,7 +486,7 @@ class UnitTestAnalyzeByRoleAccess(UnitTestCase):
 class IntegratedTestAnalyzeByRoleAccess(TestCase):
 
     def test_detect_access_is_by_role(self):
-        expected = u'\n\t\t\tERROR: No roles configured to access de view.'
+        expected = u'ERROR: No roles configured to access de view.'
         view_access = ViewAccess.objects.create(view='any-name', type='br')
         result = analyze_by_role(view_access)
         self.assertEqual(result, expected)
@@ -498,7 +498,7 @@ class IntegratedTestAnalyzeByRoleAccess(TestCase):
         self.assertEqual(result, expected)
 
     def test_detect_access_is_by_role_with_roles(self):
-        expected = u'\n\t\t\tRoles with access: role-1, role-2'
+        expected = u'Roles with access: role-1, role-2'
         view_access = ViewAccess.objects.create(view='any-name', type='br')
         role_1, created = Group.objects.get_or_create(name='role-1')
         role_2, created = Group.objects.get_or_create(name='role-2')
@@ -509,7 +509,7 @@ class IntegratedTestAnalyzeByRoleAccess(TestCase):
         self.assertEqual(result, expected)
 
     def test_detect_access_is_not_by_role_without_roles(self):
-        expected = u'\n\t\t\tERROR: No roles configured to access de view.'
+        expected = u'ERROR: No roles configured to access de view.'
         view_access = ViewAccess.objects.create(view='any-name', type='br')
         result = analyze_by_role(view_access)
         self.assertEqual(result, expected)
@@ -741,7 +741,7 @@ class IntegratedTestViewAnalyzezr(TestCase):
 
     def test_with_middleware_with_view_access_object(self):
         expected = u'View access is of type By role.'
-        expected += u'\n\t\t\tERROR: No roles configured to access de view.'
+        expected += u'ERROR: No roles configured to access de view.'
         ViewAccess.objects.create(view='django_roles:middleware_view_class',
                                   type='br')
         result = view_access_analyzer('SECURED', views.MiddlewareView.as_view,
@@ -751,7 +751,7 @@ class IntegratedTestViewAnalyzezr(TestCase):
 
     def test_with_middleware_with_view_access_object_with_roles(self):
         expected = u'View access is of type By role.'
-        expected += u'\n\t\t\tRoles with access: test1, test2'
+        expected += u'Roles with access: test1, test2'
         g1, created = Group.objects.get_or_create(name='test1')
         g2, created = Group.objects.get_or_create(name='test2')
         view_access = ViewAccess.objects.create(
@@ -785,7 +785,7 @@ class IntegratedTestViewAnalyzezr(TestCase):
 
     def test_without_middleware_with_view_access_object(self):
         expected = u'View access is of type By role.'
-        expected += u'\n\t\t\tERROR: No roles configured to access de view.'
+        expected += u'ERROR: No roles configured to access de view.'
         ViewAccess.objects.create(view='django_roles:view_protected_by_role',
                                   type='br')
         result = view_access_analyzer('SECURED', views.protected_view_by_role,
@@ -795,7 +795,7 @@ class IntegratedTestViewAnalyzezr(TestCase):
 
     def test_without_middleware_with_view_access_object_with_roles(self):
         expected = u'View access is of type By role.'
-        expected += u'\n\t\t\tRoles with access: test1, test2'
+        expected += u'Roles with access: test1, test2'
         g1, created = Group.objects.get_or_create(name='test1')
         g2, created = Group.objects.get_or_create(name='test2')
         view_access = ViewAccess.objects.create(

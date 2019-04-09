@@ -109,12 +109,12 @@ def analyze_by_role(view_access):
     result = u''
     if view_access.type == 'br':
         if view_access.roles.count() != 0:
-            result = _(u'\n\t\t\tRoles with access: ')
+            result = _(u'Roles with access: ')
             for role in view_access.roles.all():
                 result += role.name + u', '
             result = result[:-2]
         else:
-            result = _(u'\n\t\t\tERROR: No roles configured to access de view.')
+            result = _(u'ERROR: No roles configured to access de view.')
     return result
 
 
