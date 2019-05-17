@@ -5,12 +5,11 @@
 [![Build Status](https://travis-ci.org/django-roles-access/master.svg?branch=master)](https://travis-ci.org/django-roles-access/master)
 [![codecov](https://codecov.io/gh/django-roles-access/master/branch/master/graph/badge.svg)](https://codecov.io/gh/django-roles-access/master)
 
+Application for securing access to views with roles 
+(*Django contrib Groups*). 
 
-Application for securing access to views with roles
-(*Django contrib Groups*).
-
-**django_roles_access** is a Django app for securing access to views. It's
-built on top of *Django contrib Groups* interpreted as role. The objective of
+**django_roles_access** is a Django app for securing access to views. It's 
+built on top of Django contrib Groups interpreted as role. The objective of
 the app are:
 
 * Provide secure access to views.
