@@ -6,10 +6,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.9\n"
+"Project-Id-Version: 0.9.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-09 09:45-0500\n"
-"PO-Revision-Date: 2019-04-09 11:49-0500\n"
+"POT-Creation-Date: 2019-05-22 09:20-0500\n"
+"PO-Revision-Date: 2019-05-22 11:20-0500\n"
 "Last-Translator: Vicente Ramos García (vramosga@gmail.com)\n"
 "Language-Team: N/A\n"
 "Language: Spanish\n"
@@ -60,7 +60,7 @@ msgstr "Acceso a vista"
 
 #: django_roles_access/models.py:57
 msgid "Views access"
-msgstr "Accessos a vistas"
+msgstr "Accesos a vistas"
 
 #: django_roles_access/models.py:74 tests/test_models.py:93
 msgid ""
@@ -99,13 +99,17 @@ msgstr "Aplicación sin definir"
 
 #: django_roles_access/utils.py:17
 msgid ""
-"WARNING: View has no security configured (ViewAccess) and application type "
-"is \"NOT_SECURED\". No access is checked at all."
+"WARNING: View belongs to an application of type \"NOT_SECURED\". No access "
+"is checked at all."
 msgstr ""
-"ALERTA: La vista no tiene objeto de seguridad configurado (ViewAccess) y el "
-"tipo de aplicación es \"NOT_SECURED\". No se verifica ningún acceso."
+"ALERTA: La vista pertenece a una aplicación de tipo \"NOT_SECURED\". Ningún "
+"acceso será verificado."
 
-#: django_roles_access/utils.py:21
+#: django_roles_access/utils.py:20
+msgid "WARNING: Application is DISABLED. All access are forbidden"
+msgstr ""
+
+#: django_roles_access/utils.py:23
 msgid ""
 "No security configured for the view (ViewAccess object) and application type "
 "is \"SECURED\". User is required to be authenticated to access the view."
@@ -114,7 +118,7 @@ msgstr ""
 "aplicación es \"SECURED\". Será requerido que el usuario esté autenticado "
 "para acceder a la vista"
 
-#: django_roles_access/utils.py:25
+#: django_roles_access/utils.py:27
 msgid ""
 "No security configured for the view (ViewAccess object) and application type "
 "is \"PUBLIC\". Anonymous user can access the view."
@@ -122,7 +126,7 @@ msgstr ""
 "No hay seguridad configurada para la vista (objeto ViewAccess) y el tipo de "
 "aplicación es \"PUBLIC\". Usuarios anónimos tendrán acceso a la vista."
 
-#: django_roles_access/utils.py:29
+#: django_roles_access/utils.py:31
 msgid ""
 "ERROR: Django roles access middleware is active; or view is protected with "
 "Django roles decorator or mixin, and has no application or application has "
@@ -136,27 +140,27 @@ msgstr ""
 "vista. No es posible determinar el comportamiento para el acceso a la vista. "
 "El acceso a la vista está determinado por su implementación."
 
-#: django_roles_access/utils.py:112
+#: django_roles_access/utils.py:116
 msgid "Roles with access: "
 msgstr "Roles con acceso: "
 
-#: django_roles_access/utils.py:117
+#: django_roles_access/utils.py:121
 msgid "ERROR: No roles configured to access de view."
 msgstr "ERROR: No hay roles configurados para acceder a la vista."
 
-#: django_roles_access/utils.py:122
+#: django_roles_access/utils.py:126
 msgid ""
 "No Django roles access tool used. Access to view depends on its "
 "implementation."
 msgstr ""
-"No se han utilizado herramientas de Django roles access. El acceso a la vista "
-"dependerá de su implementación"
+"No se han utilizado herramientas de Django roles access. El acceso a la "
+"vista dependerá de su implementación"
 
-#: django_roles_access/utils.py:128 django_roles_access/utils.py:138
+#: django_roles_access/utils.py:134 django_roles_access/utils.py:144
 msgid "View access is of type {}."
 msgstr "El acceso a la vista es de tipo {}."
 
-#: django_roles_access/utils.py:144
+#: django_roles_access/utils.py:150
 msgid ""
 "ERROR: View access object exist for the view, but no Django role access tool "
 "is used: neither decorator, mixin, or middleware."
@@ -164,7 +168,7 @@ msgstr ""
 "ERROR: Existe un objeto ViewAccess para la vista pero ninguna herramienta "
 "(decorador, mixin, o middleware) de Django roles access está siendo usada."
 
-#: django_roles_access/utils.py:152
+#: django_roles_access/utils.py:158
 msgid ""
 "Start checking views access.\n"
 "Start gathering information."
@@ -172,43 +176,43 @@ msgstr ""
 "Comienzo de chequeo de accesos a vistas.\n"
 "Comienzo de recuperación de información."
 
-#: django_roles_access/utils.py:153
+#: django_roles_access/utils.py:159
 msgid "Django roles access middleware is active:"
 msgstr "El middleware de Django roles access está activo para el sitio:"
 
-#: django_roles_access/utils.py:154
+#: django_roles_access/utils.py:160
 msgid "Finish gathering information."
 msgstr "Terminada etapa para recopilar información."
 
-#: django_roles_access/utils.py:157
+#: django_roles_access/utils.py:163
 msgid "App Name,Type,View Name,Url,Status,Status description"
 msgstr "Nombre de apl.,Tipo,Nombre de Vista,Url,Estado,Descripción de estado"
 
-#: django_roles_access/utils.py:178
+#: django_roles_access/utils.py:184
 msgid "Reported: {}"
 msgstr "Informado: {}"
 
-#: django_roles_access/utils.py:192
+#: django_roles_access/utils.py:198
 msgid "\tAnalyzing: {}\n"
 msgstr "\tAnalizando: {}\n"
 
-#: django_roles_access/utils.py:195
+#: django_roles_access/utils.py:201
 msgid "\t\t{} has no type."
 msgstr "\t\t{} no tiene tipo."
 
-#: django_roles_access/utils.py:196
+#: django_roles_access/utils.py:202
 msgid "no type"
 msgstr ""
 
-#: django_roles_access/utils.py:198
+#: django_roles_access/utils.py:204
 msgid "\t\t{} is {} type."
 msgstr "\t\t{} es de tipo {}."
 
-#: django_roles_access/utils.py:200
+#: django_roles_access/utils.py:206
 msgid "\t\t{} does not have configured views."
 msgstr "\t\t{} no tiene vistas configuradas."
 
-#: django_roles_access/utils.py:210
+#: django_roles_access/utils.py:216
 msgid ""
 "\n"
 "\t\tAnalysis for view: {}"
@@ -216,7 +220,7 @@ msgstr ""
 "\n"
 "\t\tAnálisis para la vista: {}"
 
-#: django_roles_access/utils.py:211
+#: django_roles_access/utils.py:217
 msgid ""
 "\n"
 "\t\tView url: {}"
@@ -224,10 +228,10 @@ msgstr ""
 "\n"
 "\t\tUrl de la vista: {}"
 
-#: django_roles_access/utils.py:243
+#: django_roles_access/utils.py:249
 msgid "\tFinish analyzing {}."
 msgstr "\tFinalizado el análisis de {}"
 
-#: django_roles_access/utils.py:250
+#: django_roles_access/utils.py:256
 msgid "End checking view access."
 msgstr "Fin de la verificación del acceso a vistas."

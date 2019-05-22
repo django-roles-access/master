@@ -1,5 +1,16 @@
 # Django roles Change Log
 
+## [0.9.4] - 2019-05-22
+
+### Changed
+
+- Locale corrections.
+
+- Readme version update.
+
+- CHANGELOG update.
+
+
 ## [0.9.3] - 2019-05-22
 
 ### Added
