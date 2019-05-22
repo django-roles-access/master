@@ -1,10 +1,24 @@
 # Django roles Change Log
 
+## [0.9.3] - 2019-05-22
+
+### Added
+
+- DISABLED as new application type.
+
+- Add classifiers for Development Status :: 4 - Beta.
+
+### Changed
+
+- Documentation review.
+
+- Corrections to checkviewaccess report.
+
 ## [0.9.2] - 2019-04-09
 
 ### Added
 
-- Add classifiers for Development Status :: 4 - Beta
+- Minor changes.
 
 ## [0.9.1] - 2019-04-09
 

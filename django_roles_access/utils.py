@@ -14,9 +14,11 @@ from django_roles_access.models import ViewAccess
 User = get_user_model()
 APP_NAME_FOR_NONE = _(u'Undefined app')
 
-NOT_SECURED_DEFAULT = _(u'WARNING: View has no security configured '
-                        u'(ViewAccess) and application type is "NOT_SECURED".'
-                        u' No access is checked at all.')
+NOT_SECURED_DEFAULT = _(u'WARNING: View belongs to an application of type '
+                        u'"NOT_SECURED". No access is checked at all.')
+
+DISABLED_DEFAULT = _(u'WARNING: Application is DISABLED. All access are '
+                     u'forbidden')
 
 SECURED_DEFAULT = _(u'No security configured for the view (ViewAccess '
                     u'object) and application type is "SECURED". User is '
@@ -88,6 +90,8 @@ def get_views_by_app(site_urls):
 def get_view_analyze_report(app_type):
     if app_type == 'NOT_SECURED':
         return u'\t' + NOT_SECURED_DEFAULT
+    elif app_type == 'DISABLED':
+        return u'\t' + DISABLED_DEFAULT
     elif app_type == 'SECURED':
         return u'\t' + SECURED_DEFAULT
     elif app_type == 'PUBLIC':
@@ -121,6 +125,8 @@ def analyze_by_role(view_access):
 def view_access_analyzer(app_type, callback, view_name, site_active):
     result = _(u'No Django roles access tool used. Access to view depends on '
                u'its implementation.')
+    if app_type in ['NOT_SECURED', 'DISABLED']:
+        return get_view_analyze_report(app_type)
     view_access = ViewAccess.objects.filter(view=view_name).first()
     if site_active:
         if view_access:

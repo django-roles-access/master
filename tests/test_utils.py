@@ -22,7 +22,7 @@ from django_roles_access.utils import (walk_site_url, get_views_by_app,
                                        analyze_by_role, APP_NAME_FOR_NONE,
                                        NOT_SECURED_DEFAULT, SECURED_DEFAULT,
                                        PUBLIC_DEFAULT, NONE_TYPE_DEFAULT,
-                                       OutputReport)
+                                       DISABLED_DEFAULT, OutputReport)
 
 
 class MockRegex:
@@ -244,8 +244,8 @@ class IntegratedTestWalkSiteURL(TestCase):
     def test_found_included_view_without_namespace(self):
         expected_result = ('role-included[135]/view_by_role/',
                            views.protected_view_by_role,
-                           'django_roles:view_protected_by_role',
-                           'django_roles')
+                           'django_roles_access:view_protected_by_role',
+                           'django_roles_access')
         result = walk_site_url(self.url)
         self.assertIn(expected_result, result)
 
@@ -253,7 +253,7 @@ class IntegratedTestWalkSiteURL(TestCase):
         expected_result = ('role-included2/view_by_role/',
                            views.protected_view_by_role,
                            'app-ns2:view_protected_by_role',
-                           'django_roles')
+                           'django_roles_access')
         result = walk_site_url(self.url)
         self.assertIn(expected_result, result)
 
@@ -373,16 +373,16 @@ class IntegratedTestGetViewsByApp(TestCase):
     def test_views_without_namespace_are_added_with_app_name_in_view_name(self):
         expected_result = ('role-included[135]/view_by_role/',
                            views.protected_view_by_role,
-                           'django_roles:view_protected_by_role')
+                           'django_roles_access:view_protected_by_role')
         result = get_views_by_app(walk_site_url(self.url))
-        self.assertIn(expected_result, result['django_roles'])
+        self.assertIn(expected_result, result['django_roles_access'])
 
     def test_view_with_namespace_are_added_with_correct_app_name(self):
         expected_result = ('role-included2/view_by_role/',
                            views.protected_view_by_role,
                            'app-ns2:view_protected_by_role')
         result = get_views_by_app(walk_site_url(self.url))
-        self.assertIn(expected_result, result['django_roles'])
+        self.assertIn(expected_result, result['django_roles_access'])
 
     def test_nested_namespace_are_added_with_correct_app_name(self):
         expected_result = ('nest1/nest2/view_by_role/',
@@ -393,7 +393,7 @@ class IntegratedTestGetViewsByApp(TestCase):
         self.assertIn(expected_result, result['roles-app-name'])
 
 
-class TestViewAnalyzeReport(UnitTestCase):
+class TestGetViewAnalyzeReport(UnitTestCase):
 
     def test_report_for_no_application_type(self):
         expected = u'\t' + NONE_TYPE_DEFAULT
@@ -403,6 +403,12 @@ class TestViewAnalyzeReport(UnitTestCase):
     def test_report_for_application_type_NOT_SECURED(self):
         expected = u'\t' + NOT_SECURED_DEFAULT
         result = get_view_analyze_report('NOT_SECURED')
+        self.assertEqual(result, expected)
+        self.assertEqual(result, expected)
+
+    def test_report_for_application_type_DISABLED(self):
+        expected = u'\t' + DISABLED_DEFAULT
+        result = get_view_analyze_report('DISABLED')
         self.assertEqual(result, expected)
 
     def test_report_for_application_type_SECURED(self):
@@ -599,7 +605,7 @@ class UnitTestViewAnalyzer(UnitTestCase):
         mock_objects.first.return_value = view_access
         view_access_analyzer('fake-app-type', 'fake-callback',
                              'fake-view-name', True)
-        self.assertEqual(mock_analyze_by_role.call_count ,1)
+        self.assertEqual(mock_analyze_by_role.call_count, 1)
 
     @patch('django_roles_access.utils.analyze_by_role')
     def test_view_access_type_by_role_call_analyze_by_role_with_view_access(
@@ -630,6 +636,16 @@ class UnitTestViewAnalyzer(UnitTestCase):
         mock_objects.filter.return_value = mock_objects
         mock_objects.first.return_value = None
         result = view_access_analyzer('NOT_SECURED', 'fake-callback',
+                                      'fake-view-name', True)
+        self.assertEqual(result, expected)
+
+    def test_no_view_access_object_and_site_active_app_type_DISABLED(
+            self, mock_objects
+    ):
+        expected = u'\t' + DISABLED_DEFAULT
+        mock_objects.filter.return_value = mock_objects
+        mock_objects.first.return_value = None
+        result = view_access_analyzer('DISABLED', 'fake-callback',
                                       'fake-view-name', True)
         self.assertEqual(result, expected)
 
@@ -734,19 +750,42 @@ class IntegratedTestViewAnalyzezr(TestCase):
 
     def test_with_middleware_SECURED_without_view_access_object(self):
         expected = u'\t' + SECURED_DEFAULT
-        result = view_access_analyzer('SECURED', views.MiddlewareView.as_view,
-                                      'django_roles:middleware_view_class',
-                                      True)
+        result = view_access_analyzer(
+            'SECURED', views.MiddlewareView.as_view,
+            'django_roles_access:middleware_view_class',
+            True)
         self.assertEqual(expected, result)
+
+    def test_with_middleware_NOT_SECURED_with_view_access_object(self):
+        ViewAccess.objects.create(
+            view='django_roles_access:middleware_view_class',
+            type='br')
+        result = view_access_analyzer(
+            'NOT_SECURED', views.MiddlewareView.as_view,
+            'django_roles_access:middleware_view_class',
+            True)
+        self.assertEqual(result, u'\t' + NOT_SECURED_DEFAULT)
+
+    def test_with_middleware_DISABLED_with_view_access_object(self):
+        ViewAccess.objects.create(
+            view='django_roles_access:middleware_view_class',
+            type='pu')
+        result = view_access_analyzer(
+            'DISABLED', views.MiddlewareView.as_view,
+            'django_roles_access:middleware_view_class',
+            True)
+        self.assertEqual(result, u'\t' + DISABLED_DEFAULT)
 
     def test_with_middleware_with_view_access_object(self):
         expected = u'View access is of type By role.'
         expected += u'ERROR: No roles configured to access de view.'
-        ViewAccess.objects.create(view='django_roles:middleware_view_class',
-                                  type='br')
-        result = view_access_analyzer('SECURED', views.MiddlewareView.as_view,
-                                      'django_roles:middleware_view_class',
-                                      True)
+        ViewAccess.objects.create(
+            view='django_roles_access:middleware_view_class',
+            type='br')
+        result = view_access_analyzer(
+            'SECURED', views.MiddlewareView.as_view,
+            'django_roles_access:middleware_view_class',
+            True)
         self.assertEqual(result, expected)
 
     def test_with_middleware_with_view_access_object_with_roles(self):
@@ -755,42 +794,49 @@ class IntegratedTestViewAnalyzezr(TestCase):
         g1, created = Group.objects.get_or_create(name='test1')
         g2, created = Group.objects.get_or_create(name='test2')
         view_access = ViewAccess.objects.create(
-            view='django_roles:middleware_view_class',
+            view='django_roles_access:middleware_view_class',
             type='br')
         view_access.roles.add(g1)
         view_access.roles.add(g2)
         view_access.save()
-        result = view_access_analyzer('SECURED', views.MiddlewareView.as_view,
-                                      'django_roles:middleware_view_class',
-                                      True)
+        result = view_access_analyzer(
+            'SECURED', views.MiddlewareView.as_view,
+            'django_roles_access:middleware_view_class',
+            True)
         self.assertEqual(result, expected)
 
     def test_with_middleware_with_view_access_object_authorized(self):
         expected = u'View access is of type Authorized.'
-        ViewAccess.objects.create(view='django_roles:middleware_view_class',
-                                  type='au')
-        result = view_access_analyzer('SECURED', views.MiddlewareView.as_view,
-                                      'django_roles:middleware_view_class',
-                                      True)
+        ViewAccess.objects.create(
+            view='django_roles_access:middleware_view_class',
+            type='au')
+        result = view_access_analyzer(
+            'SECURED', views.MiddlewareView.as_view,
+            'django_roles_access:middleware_view_class',
+            True)
         self.assertEqual(result, expected)
 
     def test_with_middleware_with_view_access_object_public(self):
         expected = u'View access is of type Public.'
-        ViewAccess.objects.create(view='django_roles:middleware_view_class',
-                                  type='pu')
-        result = view_access_analyzer('SECURED', views.MiddlewareView.as_view,
-                                      'django_roles:middleware_view_class',
-                                      True)
+        ViewAccess.objects.create(
+            view='django_roles_access:middleware_view_class',
+            type='pu')
+        result = view_access_analyzer(
+            'SECURED', views.MiddlewareView.as_view,
+            'django_roles_access:middleware_view_class',
+            True)
         self.assertEqual(result, expected)
 
     def test_without_middleware_with_view_access_object(self):
         expected = u'View access is of type By role.'
         expected += u'ERROR: No roles configured to access de view.'
-        ViewAccess.objects.create(view='django_roles:view_protected_by_role',
-                                  type='br')
-        result = view_access_analyzer('SECURED', views.protected_view_by_role,
-                                      'django_roles:view_protected_by_role',
-                                      False)
+        ViewAccess.objects.create(
+            view='django_roles_access:view_protected_by_role',
+            type='br')
+        result = view_access_analyzer(
+            'SECURED', views.protected_view_by_role,
+            'django_roles_access:view_protected_by_role',
+            False)
         self.assertEqual(result, expected)
 
     def test_without_middleware_with_view_access_object_with_roles(self):
@@ -799,41 +845,47 @@ class IntegratedTestViewAnalyzezr(TestCase):
         g1, created = Group.objects.get_or_create(name='test1')
         g2, created = Group.objects.get_or_create(name='test2')
         view_access = ViewAccess.objects.create(
-            view='django_roles:view_protected_by_role',
+            view='django_roles_access:view_protected_by_role',
             type='br')
         view_access.roles.add(g1)
         view_access.roles.add(g2)
         view_access.save()
-        result = view_access_analyzer('SECURED', views.protected_view_by_role,
-                                      'django_roles:view_protected_by_role',
-                                      False)
+        result = view_access_analyzer(
+            'SECURED', views.protected_view_by_role,
+            'django_roles_access:view_protected_by_role',
+            False)
         self.assertEqual(result, expected)
 
     def test_without_middleware_with_view_access_object_authorized(self):
         expected = u'View access is of type Authorized.'
-        ViewAccess.objects.create(view='django_roles:view_protected_by_role',
-                                  type='au')
-        result = view_access_analyzer('SECURED', views.protected_view_by_role,
-                                      'django_roles:view_protected_by_role',
-                                      False)
+        ViewAccess.objects.create(
+            view='django_roles_access:view_protected_by_role',
+            type='au')
+        result = view_access_analyzer(
+            'SECURED', views.protected_view_by_role,
+            'django_roles_access:view_protected_by_role',
+            False)
         self.assertEqual(result, expected)
 
     def test_without_middleware_with_view_access_object_public(self):
         expected = u'View access is of type Public.'
-        ViewAccess.objects.create(view='django_roles:view_protected_by_role',
-                                  type='pu')
-        result = view_access_analyzer('SECURED', views.protected_view_by_role,
-                                      'django_roles:view_protected_by_role',
-                                      False)
+        ViewAccess.objects.create(
+            view='django_roles_access:view_protected_by_role',
+            type='pu')
+        result = view_access_analyzer(
+            'SECURED', views.protected_view_by_role,
+            'django_roles_access:view_protected_by_role',
+            False)
         self.assertEqual(result, expected)
 
     def test_without_middleware_without_view_access_object_and_view_protected(
             self
     ):
         expected = u'\t' + SECURED_DEFAULT
-        result = view_access_analyzer('SECURED', views.protected_view_by_role,
-                                      'django_roles:view_protected_by_role',
-                                      False)
+        result = view_access_analyzer(
+            'SECURED', views.protected_view_by_role,
+            'django_roles_access:view_protected_by_role',
+            False)
         self.assertEqual(result, expected)
 
     def test_without_middleware_no_view_access_object_and_view_protected_without_app(
@@ -841,9 +893,10 @@ class IntegratedTestViewAnalyzezr(TestCase):
     ):
         expected = u'\t' + NONE_TYPE_DEFAULT
 
-        result = view_access_analyzer(None, views.protected_view_by_role,
-                                      'django_roles:view_protected_by_role',
-                                      False)
+        result = view_access_analyzer(
+            None, views.protected_view_by_role,
+            'django_roles_access:view_protected_by_role',
+            False)
         self.assertEqual(result, expected)
 
     def test_without_middleware_with_view_access_object_and_view_not_protected(
@@ -852,11 +905,13 @@ class IntegratedTestViewAnalyzezr(TestCase):
         expected = u'ERROR: View access object exist for the view, '
         expected += 'but no Django role access tool is used: neither '
         expected += 'decorator, mixin, or middleware.'
-        ViewAccess.objects.create(view='django_roles:middleware_view_func',
-                                  type='pu')
-        result = view_access_analyzer(None, views.middleware_view,
-                                      'django_roles:middleware_view_func',
-                                      False)
+        ViewAccess.objects.create(
+            view='django_roles_access:middleware_view_func',
+            type='pu')
+        result = view_access_analyzer(
+            None, views.middleware_view,
+            'django_roles_access:middleware_view_func',
+            False)
         self.assertEqual(result, expected)
 
 

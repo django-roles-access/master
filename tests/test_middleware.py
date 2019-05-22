@@ -109,7 +109,7 @@ class MiddlewareUnitTest(unittest.TestCase):
 class MiddlewareIntegratedTestSecuredApp(TestCase):
 
     def setUp(self):
-        settings.__setattr__('SECURED', ['django_roles'])
+        settings.__setattr__('SECURED', ['django_roles_access'])
         # User
         self.u1, created = User.objects.get_or_create(username='test-1')
 
@@ -145,7 +145,7 @@ class MiddlewareIntegratedTestSecuredApp(TestCase):
         self.client.logout()
         response = self.client.get(
             '/role-included2/middleware_view_func/')
-        settings.__setattr__('SECURED', ['django_roles'])
+        settings.__setattr__('SECURED', ['django_roles_access'])
         self.assertEqual(response.status_code, 200)
 
     def test_forbidden_behavior_without_configuration(self):

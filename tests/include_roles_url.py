@@ -10,7 +10,7 @@ except:
 from . import views
 
 
-app_name = 'django_roles'
+app_name = 'django_roles_access'
 if with_path:
     urlpatterns = [
         path('view_by_role/', views.protected_view_by_role,

@@ -131,7 +131,7 @@ class TestGetViewAccess(UnitTestCase):
 
         # ViewAccess
         self.view_access, created = ViewAccess.objects.get_or_create(
-            view='django_roles:view_protected_by_role',
+            view='django_roles_access:view_protected_by_role',
             type='pu'
         )
 
@@ -316,6 +316,7 @@ class TestGetDictionarySettings(UnitTestCase):
             'NOT_SECURED': [],
             'PUBLIC': [],
             'SECURED': [],
+            'DISABLED': [],
         }
         settings_dictionary = get_setting_dictionary()
         self.assertEqual(expected_dictionary, settings_dictionary)
@@ -328,6 +329,7 @@ class TestGetDictionarySettings(UnitTestCase):
             'NOT_SECURED': [],
             'PUBLIC': [],
             'SECURED': ['one_application'],
+            'DISABLED': [],
         }
         settings_dictionary = get_setting_dictionary()
         # Clear mock value to not interfere with other tests
@@ -342,6 +344,7 @@ class TestGetDictionarySettings(UnitTestCase):
             'NOT_SECURED': ['two_application'],
             'PUBLIC': [],
             'SECURED': [],
+            'DISABLED': [],
         }
         settings_dictionary = get_setting_dictionary()
         # Clear mock value to not interfere with other tests
@@ -356,10 +359,26 @@ class TestGetDictionarySettings(UnitTestCase):
             'NOT_SECURED': [],
             'PUBLIC': ['last_application'],
             'SECURED': [],
+            'DISABLED': [],
         }
         settings_dictionary = get_setting_dictionary()
         # Clear mock value to not interfere with other tests
         settings.__delattr__('PUBLIC')
+        self.assertEqual(expected_dictionary, settings_dictionary)
+
+    def test_get_dictionary_with_settings_variables_DISABLED(self):
+        """
+        """
+        settings.__setattr__('DISABLED', ['disabled_application'])
+        expected_dictionary = {
+            'NOT_SECURED': [],
+            'PUBLIC': [],
+            'SECURED': [],
+            'DISABLED': ['disabled_application'],
+        }
+        settings_dictionary = get_setting_dictionary()
+        # Clear mock value to not interfere with other tests
+        settings.__delattr__('DISABLED')
         self.assertEqual(expected_dictionary, settings_dictionary)
 
     def test_get_dictionary_with_settings_variables_with_combination(self):
@@ -367,15 +386,18 @@ class TestGetDictionarySettings(UnitTestCase):
         """
         settings.__setattr__('PUBLIC', ['last_application'])
         settings.__setattr__('SECURED', ['one_application'])
+        settings.__setattr__('DISABLED', ['disabled_application'])
         expected_dictionary = {
             'NOT_SECURED': [],
             'PUBLIC': ['last_application'],
             'SECURED': ['one_application'],
+            'DISABLED': ['disabled_application'],
         }
         settings_dictionary = get_setting_dictionary()
         # Clear mock value to not interfere with other tests
         settings.__delattr__('PUBLIC')
         settings.__delattr__('SECURED')
+        settings.__delattr__('DISABLED')
         self.assertEqual(expected_dictionary, settings_dictionary)
 
 
@@ -461,7 +483,8 @@ class UnitTestCheckAccessByRole(UnitTestCase):
         mock_get_setting_dictionary.return_value = {
             'NOT_SECURED': [],
             'PUBLIC': [],
-            'SECURED': ['fake-app-name']
+            'SECURED': ['fake-app-name'],
+            'DISABLED': []
         }
         mock_get_view_access.return_value = True
         self.request.user.is_authenticated = False
@@ -478,6 +501,8 @@ class UnitTestCheckAccessByRole(UnitTestCase):
         mock_get_setting_dictionary.return_value = {
             'NOT_SECURED': [],
             'PUBLIC': ['fake-app-name'],
+            'SECURED': [],
+            'DISABLED': []
         }
         mock_get_view_access.return_value = None
         assert check_access_by_role(self.request)
@@ -493,7 +518,8 @@ class UnitTestCheckAccessByRole(UnitTestCase):
         mock_get_setting_dictionary.return_value = {
             'NOT_SECURED': [],
             'PUBLIC': [],
-            'SECURED': ['fake-app-name']
+            'SECURED': ['fake-app-name'],
+            'DISABLED': []
         }
         mock_get_view_access.return_value = False
         self.request.user.is_authenticated = False
@@ -510,11 +536,29 @@ class UnitTestCheckAccessByRole(UnitTestCase):
         mock_get_setting_dictionary.return_value = {
             'NOT_SECURED': [],
             'PUBLIC': [],
-            'SECURED': ['fake-app-name']
+            'SECURED': ['fake-app-name'],
+            'DISABLED': []
         }
         mock_get_view_access.return_value = None
         self.request.user.is_authenticated = True
         assert check_access_by_role(self.request)
+
+    @patch('django_roles_access.tools.get_setting_dictionary')
+    def test_default_DISABLED_behavior(
+            self, mock_get_setting_dictionary, mock_get_view_access,
+            mock_resolve
+    ):
+        used_url = Mock()
+        used_url.app_name = 'fake-app-name'
+        mock_resolve.return_value = used_url
+        mock_get_setting_dictionary.return_value = {
+            'NOT_SECURED': [],
+            'PUBLIC': [],
+            'SECURED': [],
+            'DISABLED': ['fake-app-name']
+        }
+        mock_get_view_access.return_value = None
+        assert not check_access_by_role(self.request)
 
     @patch('django_roles_access.tools.get_setting_dictionary')
     def test_check_access_by_role_return_True_if_any_happen(
@@ -532,7 +576,8 @@ class UnitTestCheckAccessByRole(UnitTestCase):
         mock_get_setting_dictionary.return_value = {
             'NOT_SECURED': [],
             'PUBLIC': [],
-            'SECURED': []
+            'SECURED': [],
+            'DISABLED': []
         }
         mock_get_view_access.return_value = None
         self.request.user.is_authenticated = False
@@ -543,7 +588,7 @@ class UnitTestCheckAccessByRole(UnitTestCase):
 class TestCheckAccessByRoleWithSecuredApplications(TestCase):
 
     def setUp(self):
-        settings.__setattr__('SECURED', ['django_roles'])
+        settings.__setattr__('SECURED', ['django_roles_access'])
         # User
         self.u1, created = User.objects.get_or_create(username='test-1')
 
@@ -580,7 +625,7 @@ class TestCheckAccessByRoleWithSecuredApplications(TestCase):
 class TestCheckAccessByRoleWithPublicApplications(TestCase):
 
     def setUp(self):
-        settings.__setattr__('PUBLIC', ['django_roles'])
+        settings.__setattr__('PUBLIC', ['django_role_access'])
         # User and group
         self.u1, created = User.objects.get_or_create(username='test-1')
         self.g1, created = Group.objects.get_or_create(name='test-group-1')
@@ -618,7 +663,7 @@ class TestCheckAccessByRoleWithNotSecuredApplications(TestCase):
     """
 
     def setUp(self):
-        settings.__setattr__('NOT_SECURED', ['django_roles'])
+        settings.__setattr__('NOT_SECURED', ['django_roles_access'])
         # User and group
         self.u1, created = User.objects.get_or_create(username='test-1')
         self.g1, created = Group.objects.get_or_create(name='test-group-1')
@@ -651,17 +696,68 @@ class TestCheckAccessByRoleWithNotSecuredApplications(TestCase):
         login(self.req1, self.u1)
         assert check_access_by_role(self.req1)
 
-    def test_not_secured_app_views_have_no_precedence_against_ViewAccess(self):
+    def test_not_secured_app_views_have_precedence_against_ViewAccess(self):
         """
         Despite NOT SECURED applications should be applications without any view
         the test will verify that if exist a ViewAccess for the view being
         request by the user, this will be ignored.
         """
         ViewAccess.objects.get_or_create(
-            view='django_roles:view_protected_by_role',
+            view='django_roles_access:view_protected_by_role',
             type='au')
         logout(self.req1)
         assert check_access_by_role(self.req1)
+
+
+class TestCheckAccessByRoleWithDisabledApplications(TestCase):
+    """
+    NOT_SECURED applications should not be taken in consideration.
+    """
+
+    def setUp(self):
+        settings.__setattr__('DISABLED', ['django_roles_access'])
+        # User and group
+        self.u1, created = User.objects.get_or_create(username='test-1')
+        self.g1, created = Group.objects.get_or_create(name='test-group-1')
+
+        # Request
+        self.req1 = RequestFactory().get('/role-included1/view_by_role/')
+        self.req1.user = self.u1
+
+        # Session
+        middleware = SessionMiddleware()
+        middleware.process_request(self.req1)
+        self.req1.session.save()
+
+    def tearDown(self):
+        settings.__delattr__('DISABLED')
+
+    def test_disabled_app_views_are_forbidden_without_authentication(self):
+        """
+        Despite NOT SECURED applications should be applications without any view
+        the test will verify NOT SECURED application are really ignored.
+        """
+        logout(self.req1)
+        assert not check_access_by_role(self.req1)
+
+    def test_disabled_app_views_are_forbidden_with_authentication(self):
+        """
+        Despite NOT SECURED applications should be applications without any view
+        the test will verify NOT SECURED application are really ignored.
+        """
+        login(self.req1, self.u1)
+        assert not check_access_by_role(self.req1)
+
+    def test_disabled_app_views_have_precedence_against_ViewAccess(self):
+        """
+        Despite NOT SECURED applications should be applications without any view
+        the test will verify that if exist a ViewAccess for the view being
+        request by the user, this will be ignored.
+        """
+        ViewAccess.objects.get_or_create(
+            view='django_roles_access:view_protected_by_role',
+            type='pu')
+        assert not check_access_by_role(self.req1)
 
 
 class TestCheckAccessByRoleWithoutAnySettings(TestCase):
@@ -690,14 +786,14 @@ class TestCheckAccessByRoleWithoutAnySettings(TestCase):
 
     def test_ViewAccess_take_precedence_over_no_configuration_no_login(self):
         ViewAccess.objects.get_or_create(
-            view='django_roles:view_protected_by_role',
+            view='django_roles_access:view_protected_by_role',
             type='au')
         logout(self.req1)
         assert not check_access_by_role(self.req1)
 
     def test_ViewAccess_take_precedence_over_no_configuration_with_login(self):
         ViewAccess.objects.get_or_create(
-            view='django_roles:view_protected_by_role',
+            view='django_roles_access:view_protected_by_role',
             type='au')
         login(self.req1, self.u1)
         # import pdb
@@ -706,7 +802,7 @@ class TestCheckAccessByRoleWithoutAnySettings(TestCase):
 
     def test_ViewAccess_denied_access_if_no_role(self):
         view_access, created = ViewAccess.objects.get_or_create(
-            view='django_roles:view_protected_by_role',
+            view='django_roles_access:view_protected_by_role',
             type='br')
         view_access.roles.add(self.g1)
 
@@ -715,7 +811,7 @@ class TestCheckAccessByRoleWithoutAnySettings(TestCase):
 
     def test_ViewAccess_grant_access_if_role(self):
         view_access, created = ViewAccess.objects.get_or_create(
-            view='django_roles:view_protected_by_role',
+            view='django_roles_access:view_protected_by_role',
             type='br')
         view_access.roles.add(self.g1)
         view_access.save()

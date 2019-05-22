@@ -79,6 +79,11 @@ def get_setting_dictionary():
     except AttributeError:
         settings_dictionary['SECURED'] = []
 
+    try:
+        settings_dictionary['DISABLED'] = settings.DISABLED
+    except AttributeError:
+        settings_dictionary['DISABLED'] = []
+
     return settings_dictionary
 
 
@@ -97,6 +102,9 @@ def check_access_by_role(request):
     # NOT_SECURED applications are ignored
     if app_name in setting_dictionary['NOT_SECURED']:
         return True
+    # DISABLED applications are denied
+    if app_name in setting_dictionary['DISABLED']:
+        return False
     # If view has an access configuration, this takes precedence over
     # the classification of the application
     view_access = get_view_access(request)
